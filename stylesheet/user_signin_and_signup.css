@@ -1,0 +1,151 @@
+body {
+  margin: 0;
+}
+
+.split-section {
+  display: flex;
+  height: 100vh;
+}
+
+.split-left {
+  width: 40%; 
+  background-color: #fff;
+  overflow: hidden;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.split-left h1 {
+  text-align: center;
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 39px;
+  color: #FF4200;
+}
+
+.split-left p {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.split-left .field .email_field, .split-left .field .password_field {
+  box-sizing: border-box;
+  width: 373px;
+  height: 50px;
+  left: 141px;
+  top: 463px;
+  color: #000;
+  font-size: 14px;
+  font-family: sans-serif;
+  padding: 10px;
+  margin-bottom: 15px;
+  /* outline: none; */
+  border: 1px solid #828282;
+  box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+}
+
+
+.split-left .remember_me label {
+  font: 600 normal 10px sans-serif; text-transform: uppercase;
+  letter-spacing: 1.2px;
+  line-height: 9px;
+  color: #FF4200;
+}
+
+.split-left .remember_me input[type="checkbox"], .split-left .remember_me label {
+  cursor: pointer;
+}
+
+.split-left .field .password_validation {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  line-height: 12px;
+}
+
+.split-left .actions_devise button {
+  width: 373px;
+  height: 46px;
+  left: 141px;
+  top: 585px;
+  margin: 5px 0px 20px 0px;
+  background: linear-gradient(180deg, #FF4200 0%, rgba(255, 66, 0, 0.67) 100%);
+  border: 1px solid #F2F2F2;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #fff;
+  font: 400 normal 15px sans-serif;
+  letter-spacing: 1.4px;
+  line-height: 14px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.split-left .actions_devise button:hover {
+  background: #fff;
+  color: #000;
+  border: 1px solid #FF4200;
+}
+
+.split-left .forgot_password a {
+  text-transform: uppercase;
+  font-family: sans-serif;
+  font-style: normal;
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #FF4200;
+  padding-bottom: 4px;
+  letter-spacing: 1.2px;
+  line-height: 14px;
+  border-bottom: 1px solid #FF4200;
+}
+
+.split-left .back_btn {
+  text-transform: uppercase;
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #FF4200;
+  padding-bottom: 4.47px;
+  letter-spacing: 1.2px;
+  line-height: 14px;
+  border-bottom: 1px solid #FF4200;
+}
+
+.split-right {
+  width: 60%;
+  background-color: #FF4200;
+  overflow: hidden;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.split-right .img {
+  max-height: 80%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.split-right h1 {
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 70px;
+  line-height: 30px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.split-right span {
+  color: black;
+}
