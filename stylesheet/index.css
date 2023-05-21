@@ -1,0 +1,87 @@
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: black;
+}
+
+input {
+  border-color: black !important;
+}
+
+.h-custom {
+  height: calc(100% - 73px);
+}
+
+.fbIcon, .twitterIcon, .linkedIn {
+  background-color: #592530;
+  color: #fff;
+}
+
+.fbIcon:hover, .twitterIcon:hover, .linkedIn:hover {
+  background-color: #fff;
+  color: #592530;
+  border: 1px solid #592530;
+  font-size: large;
+}
+
+label {
+  color: #241E19;
+}
+
+input {
+  border: 1px solid #241E19;
+}
+
+input:focus {
+  border-color: #592530;
+  outline: none !important;
+}
+
+.rememberMe, .forgotPass, .register {
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 9px;
+  color: #241E19;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.register {
+  font-size: 12px;
+}
+
+.registerLink {
+  color: #592530 !important;
+}
+
+.btnLogin {
+  width: 100%;
+  background: #592530;
+  border-color: #592530;
+  color: #fff;
+  border-width: 1px;
+  letter-spacing: 1.4px;
+  padding: 14px 25px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+  border-radius: 0;
+  text-transform: uppercase;
+}
+
+.btnLogin:hover {
+  background-color: white;
+  border: 1px solid #592530;
+  color: #592530;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
+}

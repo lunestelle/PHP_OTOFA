@@ -1,0 +1,43 @@
+.error {
+  color: #721c24;
+  font-size: 12px;
+  letter-spacing: 1px;
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.25);
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  z-index: 999;
+}
+
+.success {
+  color: #155724;
+  background-color: #d4edda;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.25);
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  z-index: 999;
+}
+
+.default {
+  background-color: #3498DB;
+  color: #fff; 
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.25);
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  z-index: 999;
+}
