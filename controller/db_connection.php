@@ -2,7 +2,7 @@
   $host = "localhost";
   $user = "root";
   $password = "";
-  $database = "sample_system";
+  $database = "sakaycle";
 
   $conn = mysqli_connect($host, $user, $password, $database);
   if (!$conn) {
