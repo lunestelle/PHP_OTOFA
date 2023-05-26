@@ -39,7 +39,7 @@
       </div>
       <div class="split-right d-flex">
         <div class="text-center">
-          <img src="../images/logo.png" alt="Sakaycle Logo">
+          <img src="..\assets\images\logo.png" alt="Sakaycle Logo">
           <h1>Sakay<span>cle.</span></h1>
         </div>
       </div>

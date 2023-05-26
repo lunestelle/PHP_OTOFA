@@ -1,5 +1,5 @@
 <?php
-  include "../controller/db_connection.php";
+  include "..\controller\db_connection.php";
   session_start();
 ?>
 <!DOCTYPE html>
@@ -12,18 +12,19 @@
   <!-- Online -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
-  <link rel="stylesheet" href="stylesheet/index.css" type="text/css">
-  <link rel="stylesheet" type="text/css" href="stylesheet/index.css">
-  <link rel="stylesheet" href="stylesheet/flash_messages.css">
+  <link rel="stylesheet" href="..\stylesheet\index.css" type="text/css">
+  <link rel="stylesheet" href="..\stylesheet\flash_messages.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="js/flash_messages.js"></script>
+  <script src="..\flash_messages.js"></script>
 </head>
 <body>
   <header>
     <div class="d-flex">
       <a href="#home" class="d-flex text-decoration-none">
-        <img class="logo" src="assets/images/logo.png" alt="">
+        <img class="logo" src="..\assets\images\logo.png" alt="">
         <p>Sakay<span>cle</span></p>
       </a>
     </div>
@@ -36,7 +37,7 @@
 
   <section class="home" id="home">
     <div class="background container">
-      <img src="assets/images/oc_logo.png" alt="Ormoc Logo">
+      <img src="..\assets\images\oc_logo.png" alt="Ormoc Logo">
       <div class="text-container"> <!-- Added a class to the parent div -->
         <h1>ORMOC CITY <span></span></h1>
         <h1>LOCAL GOVERNMENT UNIT <span></span></h1>
@@ -54,28 +55,28 @@
       <div class="about-bottom">
         <div class="about-cta">
           <div class="about-item">
-            <img src="assets/images/registration.png" alt="">  
+            <img src="..\assets\images\registration.png" alt="">  
             <div class="item-title">          
               <h2>Registration</h2>
               <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
             </div>
           </div>
           <div class="about-item">
-            <img src="assets/images/renewal.png" alt=""> 
+            <img src="..\assets\images\renewal.png" alt=""> 
             <div class="item-title">
               <h2>Renewal</h2>
               <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
             </div>
           </div>
           <div class="about-item">
-            <img src="assets/images/appointment.png" alt="">
+            <img src="..\assets\images\appointment.png" alt="">
             <div class="item-title">
               <h2>Appointment</h2>
               <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
             </div>
           </div>
           <div class="about-item">
-            <img src="assets/images/management.png" alt="">
+            <img src="..\assets\images\management.png" alt="">
             <div class="item-title">
               <h2>Management</h2>
               <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
