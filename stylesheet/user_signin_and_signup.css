@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: sans-serif;
 }
 
 .split-section {
@@ -8,7 +9,7 @@ body {
 }
 
 .split-left {
-  width: 40%; 
+  width: 40%;
   background-color: #fff;
   overflow: hidden;
   height: 100vh;
@@ -18,12 +19,11 @@ body {
 
 .split-left h1 {
   text-align: center;
-  font-family: sans-serif;
-  font-style: normal;
   font-weight: 700;
   font-size: 32px;
-  line-height: 39px;
+  line-height: 1.2;
   color: #FF4200;
+  margin-bottom: 20px;
 }
 
 .split-left p {
@@ -32,33 +32,19 @@ body {
   margin-bottom: 20px;
 }
 
-.split-left .field .email_field, .split-left .field .password_field {
+.split-left .field input[type="email"],
+.split-left .field input[type="password"],
+.split-left .field input[type="text"] {
   box-sizing: border-box;
-  width: 373px;
+  width: 100%;
   height: 50px;
-  left: 141px;
-  top: 463px;
   color: #000;
   font-size: 14px;
-  font-family: sans-serif;
   padding: 8px;
   margin-bottom: 15px;
-  /* outline: none; */
   border: 1px solid #828282;
   box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 12px;
-}
-
-
-.split-left .remember_me label {
-  font: 600 normal 10px sans-serif; text-transform: uppercase;
-  letter-spacing: 1.2px;
-  line-height: 9px;
-  color: #FF4200;
-}
-
-.split-left .remember_me input[type="checkbox"], .split-left .remember_me label {
-  cursor: pointer;
 }
 
 .split-left .field .password_validation {
@@ -70,17 +56,16 @@ body {
 }
 
 .split-left .actions_devise button {
-  width: 373px;
+  width: 100%;
   height: 46px;
-  left: 141px;
-  top: 585px;
   margin: 5px 0px 20px 0px;
   background: linear-gradient(180deg, #FF4200 0%, rgba(255, 66, 0, 0.67) 100%);
-  border: 1px solid #F2F2F2;
+  border: none;
   border-radius: 12px;
   cursor: pointer;
   color: #fff;
-  font: 400 normal 15px sans-serif;
+  font-weight: 400;
+  font-size: 15px;
   letter-spacing: 1.4px;
   line-height: 14px;
   text-align: center;
@@ -96,10 +81,9 @@ body {
   border: 1px solid #FF4200;
 }
 
-.split-left .forgot_password a {
+.split-left .forgot_password a,
+.split-left .back_btn {
   text-transform: uppercase;
-  font-family: sans-serif;
-  font-style: normal;
   font-size: 10px;
   text-decoration: none;
   font-weight: bold;
@@ -110,23 +94,12 @@ body {
   border-bottom: 1px solid #FF4200;
 }
 
-.split-left .back_btn {
-  text-transform: uppercase;
-  font-size: 12px;
-  text-decoration: none;
-  font-weight: bold;
-  color: #FF4200;
-  padding-bottom: 4.47px;
-  letter-spacing: 1.2px;
-  line-height: 14px;
-  border-bottom: 1px solid #FF4200;
-}
-
 .split-right {
   width: 60%;
   background-color: #FF4200;
   overflow: hidden;
   height: 100vh;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -139,13 +112,52 @@ body {
 
 .split-right h1 {
   color: #fff;
-  font-family: sans-serif;
   font-size: 70px;
-  line-height: 30px;
+  line-height: 1.2;
   font-weight: 700;
   text-align: center;
 }
 
 .split-right span {
   color: black;
+}
+
+.password-toggle {
+  position: relative;
+}
+
+.password-toggle .toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-100%);
+  cursor: pointer;
+  display: none;
+}
+
+.password-toggle input:valid + .toggle-icon {
+  display: block;
+}
+
+@media (max-width: 992px) {
+  .split-section {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .split-left,
+  .split-right {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Additional CSS for smaller screens */
+@media (max-width: 576px) {
+  .split-left .field input[type="email"],
+  .split-left .field input[type="password"],
+  .split-left .field input[type="text"] {
+    font-size: 12px; /* Decrease font size for smaller screens */
+    height: 40px; /* Adjust the height as needed */
+  }
 }

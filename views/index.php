@@ -42,7 +42,7 @@
         <h1>ORMOC CITY <span></span></h1>
         <h1>LOCAL GOVERNMENT UNIT <span></span></h1>
       </div>
-      <a href="#" type="button" class="cta">LOGIN</a>
+      <a href="..\views\sign_in.php" type="button" class="cta">LOGIN</a>
     </div>
   </section>
 
