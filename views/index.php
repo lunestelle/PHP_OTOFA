@@ -29,9 +29,14 @@
       </a>
     </div>
     <nav class="navbar">
-        <a href="#home">HOME</a>
-        <a href="#about">ABOUT</a>
-        <a href="#contact">CONTACT</a>
+      <?php
+        if (!isset($_SESSION['user'])) {
+          echo '<a href="..\views\sample.php" type="button" class="cta">DASHBOARD</a>';
+        }
+      ?>
+      <a href="#home">HOME</a>
+      <a href="#about">ABOUT</a>
+      <a href="#contact">CONTACT</a>
     </nav>
   </header>
 
@@ -42,7 +47,11 @@
         <h1>ORMOC CITY <span></span></h1>
         <h1>LOCAL GOVERNMENT UNIT <span></span></h1>
       </div>
-      <a href="..\views\sign_in.php" type="button" class="cta">LOGIN</a>
+      <?php
+        if (isset($_SESSION['user'])) {
+          echo '<a href="..\views\sign_in.php" type="button" class="cta">SIGN IN</a>';
+        }
+      ?>
     </div>
   </section>
 
