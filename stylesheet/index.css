@@ -62,6 +62,16 @@ header #toggler{
   display: none;
 }
 
+/* --- DROPDOWN ---  */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu a.dropdown-item {
+  color: black;
+}
 /* --- HOME --- */
 
 .home .logo {

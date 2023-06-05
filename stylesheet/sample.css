@@ -50,6 +50,7 @@ img {
 .sidebar-nav li {
     text-indent: 20px;
     line-height: 40px;
+    font-size: 14px;
 }
 
 .sidebar-nav li a {
@@ -57,6 +58,7 @@ img {
     display: block;
     text-decoration: none;
     color: white;
+    text-transform: uppercase;
 }
 
 .sidebar-nav li a:hover {
@@ -72,6 +74,63 @@ img {
 
 .title-head {
     border-bottom: #ABAAAA 2px solid;
+}
+
+.register {
+    padding: 7px 15px;
+    color: white;
+    background-color: #FF4200;
+    border: #FF4200 1px solid;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    float: right;
+}
+/* PAGE CONTENT */
+
+.register:hover {
+    background-color: white;
+    border: #FF4200 1px solid;
+    color: #FF4200;
+}
+
+.tablerounededCorner {
+    border: 1px solid #7a7b7b;
+    background-color: #ddd;
+    border-radius: 1.2em;
+}
+
+.roundedTable {
+    border-collapse: collapse;
+    border-radius: 1.2em;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+}
+
+.roundedTable th,
+.roundedTable td {
+    padding: .6em;
+    background: #ddd;
+    border-bottom: 1px solid white;
+}
+
+.roundedTable th {
+    text-align: left;
+}
+
+.roundedTable tr:last-child td {
+    border-bottom: none;
+}
+
+/* table */
+table {
+    font-size: 12px;
+}
+
+.thead-custom {
+    background-color: rgba(255, 66, 0, 0.4);
 }
 
 @media(min-width:768px) {

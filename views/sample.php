@@ -17,10 +17,10 @@
 
 <!-- Sidebar -->
 <div class="row">
-  <div class="col-3">
+  <div class="col-2">
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav text-white">
-        <a href="#">
+        <a href="..\views\index.php">
             <img src="../assets/images/logo-dashboard.png" alt="">
         </a>
         <li class="text-uppercase text-white text-center fs-5 mt-3 mb-3">
@@ -50,23 +50,110 @@
       </ul>
     </div>
   </div>
-  <div class="col-9">
-      <!-- Page Content -->
+  <div class="col-10">
     <div id="page-content-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                  <div class="title-head text-uppercase">
-                    <h4>Tricycles</h4>
-                  </div>
-                    
-                </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="title-head text-uppercase">
+              <h6>Dashboard</h6>
             </div>
+            <div class="mt-3">
+                <a href="" class="text-uppercase register">Register</a>
+            </div>
+            <div class="container table-responsive pt-4"> 
+              <table class="table table-bordered table-hover">
+                <thead class="thead-custom">
+                  <tr class="text-center text-uppercase">
+                    <th scope="col">#</th>
+                    <th scope="col">Plate No.</th>
+                    <th scope="col">Color Code</th>
+                    <th scope="col">Driver's Name</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>123</td>
+                    <td>Red</td>
+                    <td>Juan Dela Cruz</td>
+                    <td>Actions</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>456</td>
+                    <td>Green</td>
+                    <td>Pedro Kalungsod</td>
+                    <td>Actions</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>789</td>
+                    <td>Yellow</td>
+                    <td>Mario Bugsay</td>
+                    <td>Actions</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>012</td>
+                    <td>Blue</td>
+                    <td>Lito Gaspi</td>
+                    <td>Actions</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="title-head text-uppercase mt-3">
+              <h6>Renewal of tricycle permits</h6>
+            </div>
+             <div class="container table-responsive pt-4"> 
+              <table class="table table-bordered table-hover">
+                <thead class="thead-custom">
+                  <tr class="text-center text-uppercase">
+                    <th scope="col">#</th>
+                    <th scope="col">Plate No.</th>
+                    <th scope="col">Color Code</th>
+                    <th scope="col">Driver's Name</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>123</td>
+                    <td>Red</td>
+                    <td>Juan Dela Cruz</td>
+                    <td>Actions</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>456</td>
+                    <td>Green</td>
+                    <td>Pedro Kalungsod</td>
+                    <td>Actions</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>789</td>
+                    <td>Yellow</td>
+                    <td>Mario Bugsay</td>
+                    <td>Actions</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>012</td>
+                    <td>Blue</td>
+                    <td>Lito Gaspi</td>
+                    <td>Actions</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-    <!-- /#page-content-wrapper -->
-    </div>
-    <!-- /#wrapper -->
   </div>
 </div>
 </body>
