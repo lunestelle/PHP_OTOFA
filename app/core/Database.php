@@ -2,19 +2,17 @@
 
 Trait Database
 {
-
 	private function connect()
 	{
-		$string = "mysql:hostname=".DBHOST.";dbname=".DBNAME;
-		$con = new PDO($string,DBUSER,DBPASS);
-		return $con;
+		$string = "mysql:hostname=".DB_HOST.";dbname=".DB_NAME;
+		$conn = new PDO($string,DB_USER,DB_PASS);
+		return $conn;
 	}
 
 	public function query($query, $data = [])
 	{
-
-		$con = $this->connect();
-		$stm = $con->prepare($query);
+		$conn = $this->connect();
+		$stm = $conn->prepare($query);
 
 		$check = $stm->execute($data);
 		if($check)
@@ -25,15 +23,13 @@ Trait Database
 				return $result;
 			}
 		}
-
 		return false;
 	}
 
 	public function get_row($query, $data = [])
 	{
-
-		$con = $this->connect();
-		$stm = $con->prepare($query);
+		$conn = $this->connect();
+		$stm = $conn->prepare($query);
 
 		$check = $stm->execute($data);
 		if($check)
@@ -44,10 +40,6 @@ Trait Database
 				return $result[0];
 			}
 		}
-
 		return false;
 	}
-	
 }
-
-

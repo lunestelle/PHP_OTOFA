@@ -1,22 +1,15 @@
-<?php 
-
+<?php
 
 Trait Controller
 {
-
-	public function view($name, $data = [])
+	public function view($viewName)
 	{
-		if(!empty($data))
-			extract($data);
-		
-		$filename = "../app/views/".$name.".view.php";
-		if(file_exists($filename))
-		{
-			require $filename;
-		}else{
-
-			$filename = "../app/views/404.view.php";
-			require $filename;
+		$filePath = "../app/views/" . $viewName . ".php";
+		if (file_exists($filePath)) {
+			require $filePath;
+		} else {
+			$notFoundFilePath = "../app/views/404.php";
+			require $notFoundFilePath;
 		}
 	}
 }
