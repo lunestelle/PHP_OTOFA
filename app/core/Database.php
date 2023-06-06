@@ -4,7 +4,7 @@ Trait Database
 {
 	private function connect()
 	{
-		$string = "mysql:hostname=".DB_HOST.";dbname=".DB_NAME;
+		$string = DB_DRIVER . ':host=' . DB_HOST . ';dbname=' . DB_NAME;
 		$conn = new PDO($string,DB_USER,DB_PASS);
 		return $conn;
 	}
@@ -15,11 +15,9 @@ Trait Database
 		$stm = $conn->prepare($query);
 
 		$check = $stm->execute($data);
-		if($check)
-		{
+		if($check){
 			$result = $stm->fetchAll(PDO::FETCH_OBJ);
-			if(is_array($result) && count($result))
-			{
+			if(is_array($result) && count($result)){
 				return $result;
 			}
 		}
@@ -32,11 +30,9 @@ Trait Database
 		$stm = $conn->prepare($query);
 
 		$check = $stm->execute($data);
-		if($check)
-		{
+		if($check){
 			$result = $stm->fetchAll(PDO::FETCH_OBJ);
-			if(is_array($result) && count($result))
-			{
+			if(is_array($result) && count($result)){
 				return $result[0];
 			}
 		}

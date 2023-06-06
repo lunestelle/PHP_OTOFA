@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function show($stuff)
 {
@@ -21,6 +21,45 @@ function redirect($path)
 function sanitize_text($text)
 {
 	$text = nl2br($text);
-	$text = escape_html($text);
+	$text = escape_html_tags($text);
 	return $text;
+}
+
+function is_authenticated()
+{
+	return isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true;
+}
+
+function set_flash_message($message, $type = 'default')
+{
+	$_SESSION['flash_message'] = [
+		'message' => $message,
+		'type' => $type,
+	];
+}
+
+function display_flash_message()
+{
+	if (isset($_SESSION['flash_message'])) {
+		$message_type = $_SESSION['flash_message']['type'] ?? 'default';
+		$css_class = '';
+
+		switch ($message_type) {
+			case 'success':
+				$css_class = 'success';
+				break;
+			case 'error':
+				$css_class = 'error';
+				break;
+			default:
+				$css_class = 'default';
+				break;
+		}
+
+		echo "<p class=\"flash-message $css_class\" id=\"flash-message\">";
+		echo $_SESSION['flash_message']['message'];
+		echo "</p>";
+
+		unset($_SESSION['flash_message']);
+	}
 }

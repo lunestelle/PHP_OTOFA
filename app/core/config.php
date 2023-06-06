@@ -6,7 +6,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');
 	define('DB_PASS', '');
-	define('DB_DRIVER', '');
+	define('DB_DRIVER', 'mysql');
 
 	define('ROOT', 'http://localhost/PHP_Sakaycle/public');
 } else {
@@ -15,7 +15,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');
 	define('DB_PASS', '');
-	define('DB_DRIVER', '');
+	define('DB_DRIVER', 'mysql');
 
 	define('ROOT', 'https://www.yourwebsite.com');
 }

@@ -1,42 +1,34 @@
 <header>
   <div class="d-flex">
     <a href="#home" class="d-flex text-decoration-none">
-      <img class="logo" src="<?=ROOT?>/assets/images/logo.png" alt="">
+      <img class="logo" src="..\assets\images\logo.png" alt="">
       <p>Sakay<span>cle</span></p>
     </a>
   </div>
-  <nav class="navbar navbar-expand">
-    <?php if (is_authenticated()): ?>
-      <a href="<?= ROOT ?>/dashboard" class="nav-link">DASHBOARD</a>
-    <?php endif; ?>
-    <a href="#home" class="nav-link">HOME</a>
-    <a href="#about" class="nav-link">ABOUT</a>
-    <a href="#contact" class="nav-link">CONTACT</a>
-    <?php if (is_authenticated()): ?>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><?php echo $_SESSION['user_first_name']; ?> &nbsp;</button>
-        <li>
-          <a class="dropdown-item" href="../sign_out?token=<?= generateToken() ?>"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-        </a>
-      </li>
-
-
-        </ul>
-      </div> &nbsp;
-    <?php endif; ?>
+  <nav class="navbar">
+    <?php
+      if (!isset($_SESSION['user'])) {
+        echo '<a href="..\views\sample.php" type="button" class="cta">DASHBOARD</a>';
+      }
+    ?>
+    <a href="#home">HOME</a>
+    <a href="#about">ABOUT</a>
+    <a href="#contact">CONTACT</a>
   </nav>
 </header>
 
 <section class="home" id="home">
   <div class="background container">
-    <img src="<?=ROOT?>/assets/images/oc_logo.png" alt="Ormoc Logo">
-    <div class="text-container">
+    <img src="..\assets\images\oc_logo.png" alt="Ormoc Logo">
+    <div class="text-container"> <!-- Added a class to the parent div -->
       <h1>ORMOC CITY <span></span></h1>
       <h1>LOCAL GOVERNMENT UNIT <span></span></h1>
     </div>
-    <?php if (!is_authenticated()): ?>
-      <a href="<?= ROOT ?>/sign_in" type="button" class="cta">SIGN IN</a>
-    <?php endif; ?>
+    <?php
+      if (isset($_SESSION['user'])) {
+        echo '<a href="..\views\sign_in.php" type="button" class="cta">SIGN IN</a>';
+      }
+    ?>
   </div>
 </section>
 
@@ -49,28 +41,28 @@
     <div class="about-bottom">
       <div class="about-cta">
         <div class="about-item">
-          <img src="<?=ROOT?>/assets/images/registration.png" alt="">  
+          <img src="..\assets\images\registration.png" alt="">  
           <div class="item-title">          
             <h2>Registration</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
           </div>
         </div>
         <div class="about-item">
-          <img src="<?=ROOT?>/assets/images/renewal.png" alt=""> 
+          <img src="..\assets\images\renewal.png" alt=""> 
           <div class="item-title">
             <h2>Renewal</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
           </div>
         </div>
         <div class="about-item">
-          <img src="<?=ROOT?>/assets/images/appointment.png" alt="">
+          <img src="..\assets\images\appointment.png" alt="">
           <div class="item-title">
             <h2>Appointment</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
           </div>
         </div>
         <div class="about-item">
-          <img src="<?=ROOT?>/assets/images/management.png" alt="">
+          <img src="..\assets\images\management.png" alt="">
           <div class="item-title">
             <h2>Management</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
