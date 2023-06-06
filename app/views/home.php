@@ -15,12 +15,10 @@
     <?php if (is_authenticated()): ?>
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><?php echo $_SESSION['user_first_name']; ?> &nbsp;</button>
-        <li>
-          <a class="dropdown-item" href="../sign_out?token=<?= generateToken() ?>"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-        </a>
-      </li>
 
-
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i>  Manage Account</a></li>
+          <li><a class="dropdown-item" href="<?=ROOT?>/sign_out"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
         </ul>
       </div> &nbsp;
     <?php endif; ?>
