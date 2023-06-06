@@ -17,7 +17,7 @@
 
 <!-- Sidebar -->
 <div class="row">
-  <div class="col-2">
+  <div class="col-md-2">
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav text-white">
         <a href="..\views\index.php">
@@ -27,31 +27,31 @@
           operator
         </li>
         <li>
-            <a href="#"><i class="fa-solid fa-person"></i>Dashboard</a>
+          <a href="#"><i class="fa-solid fa-list"></i>Dashboard</a>
         </li>
         <li>
-            <a href="#">Tricycles</a>
+          <a href="#"><i class="fa-solid fa-truck-pickup"></i>Tricycles</a>
         </li>
         <li>
-            <a href="#">Drivers</a>
+            <a href="#"><i class="fa-regular fa-id-card"></i>Drivers</a>
         </li>
         <li>
-            <a href="#">Documents</a>
+          <a href="#"><i class="fa-solid fa-folder"></i>Documents</a>
         </li>
         <li>
-            <a href="#">Appointment</a>
+          <a href="#"> <i class="fa-solid fa-calendar-days"></i>Appointment</a>
         </li>
         <li>
-            <a href="#">Maintenance Log</a>
+          <a href="#"><i class="fa-solid fa-screwdriver-wrench"></i>Maintenance Log</a>
         </li>
         <li>
-            <a href="#">Logout</a>
+          <a href="#"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
         </li>
       </ul>
     </div>
   </div>
-  <div class="col-10">
-    <div id="page-content-wrapper">
+  <div class="col-md-10">
+    <div class="page-content-wrapper">
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
