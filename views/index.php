@@ -13,7 +13,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../stylesheet/index.css" type="text/css">
   <link rel="stylesheet" href="../stylesheet/flash_messages.css">
   <script src="../flash_messages.js"></script>
@@ -38,11 +38,11 @@
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
           Juan &nbsp;
-          <i class="fa-solid fa-circle-caret-down"></i>
+          <i class="fa-solid fa-caret-down"></i>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#"></i>Account</a></li>
-          <li><a class="dropdown-item" href="..\views\sign_in.php">Logout</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i>Account</a></li>
+          <li><a class="dropdown-item" href="..\views\sign_in.php"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
         </ul>
       </div> &nbsp;
     </nav>

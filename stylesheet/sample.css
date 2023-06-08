@@ -106,6 +106,12 @@ img {
 .dropdown-menu a.dropdown-item {
     color: black;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+  
+.dropdown-menu a.dropdown-item i {
+    margin-right: 10px;
 }
 
 .dropdown-menu a.dropdown-item:hover {

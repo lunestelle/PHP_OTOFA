@@ -82,7 +82,8 @@ header #toggler{
 /* --- DROPDOWN MENU --- */
 
 .dropdown-menu {
-  transform: translate3d(-82px, -3px, 0px)
+  transform: translate3d(-71px, -3px, 0px);
+  text-align: center;
 }
 
 .dropdown-menu a.dropdown-item {

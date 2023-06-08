@@ -46,7 +46,7 @@
       <div class="dropdown">
         <button class="btn color dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
           Juan &nbsp;
-          <i class="fa-solid fa-up-right-from-square"></i>
+          <i class="fa-solid fa-caret-up"></i>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i>Account</a></li>
