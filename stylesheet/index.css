@@ -66,12 +66,42 @@ header #toggler{
 
 .dropdown {
   position: relative;
-  display: inline-block;
+  margin-right: 10px;
+}
+
+.dropdown .color {
+  background-color: #FF4200;
+  color: white;
+  font-weight: bold;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+/* --- DROPDOWN MENU --- */
+
+.dropdown-menu {
+  transform: translate3d(-82px, -3px, 0px)
 }
 
 .dropdown-menu a.dropdown-item {
   color: black;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
 }
+
+.dropdown-menu a.dropdown-item i {
+  margin-right: 10px;
+}
+
+.dropdown-menu a.dropdown-item:hover {
+  color: #fff;
+  background: #FF4200;
+  text-decoration: none;
+}
+
 /* --- HOME --- */
 
 .home .logo {
