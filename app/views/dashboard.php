@@ -8,27 +8,34 @@
           </a>
           <div class="mt-5">
             <li>
-              <a href="#"><i class="fa-solid fa-list mr-2"></i>Dashboard</a>
+              <a href="#"><i class="fa-solid fa-list"></i>Dashboard</a>
             </li>
             <li>
-              <a href="#"><i class="fa-solid fa-truck-pickup mr-2"></i>Tricycles</a>
+              <a href="#"><i class="fa-solid fa-truck-pickup"></i>Tricycles</a>
             </li>
             <li>
-              <a href="#"><i class="fa-regular fa-id-card mr-2"></i>Drivers</a>
+              <a href="#"><i class="fa-regular fa-id-card"></i>Drivers</a>
             </li>
             <li>
-              <a href="#"><i class="fa-solid fa-folder mr-2"></i>Documents</a>
+              <a href="#"><i class="fa-solid fa-folder"></i>Documents</a>
             </li>
             <li>
-              <a href="#"> <i class="fa-solid fa-calendar-days mr-2"></i>Appointment</a>
+              <a href="#"> <i class="fa-solid fa-calendar-days"></i>Appointment</a>
             </li>
             <li>
               <a href="#"><i class="fa-solid fa-screwdriver-wrench"></i>Maintenance Log</a>
             </li>
-            <li>
-              <a href="#"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
-            </li>
           </div>
+        </div>
+        <div class="dropdown">
+          <button class="btn color dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php echo $_SESSION['user_first_name']; ?> &nbsp;
+            <i class="fa-solid fa-caret-up"></i>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i>Account</a></li>
+            <li><a class="dropdown-item" href="<?=ROOT?>/sign_out"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+          </ul>
         </div>
       </div>
       <div class="col-xl-10 col-lg-9 p-2">

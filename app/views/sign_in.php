@@ -1,9 +1,9 @@
 <div class="split-section">
   <div class="split-left d-flex">
     <div>
-      <h1>Login</h1>
+      <h1>Log in</h1>
       <p>Don't have an account? <a href="<?= ROOT ?>/sign_up">Sign up</a></p>
-      <form method="POST">
+      <form method="POST" class="sign_in">
         <div class="field">
           <input type="email" id="email" autofocus name="email" placeholder="EMAIL" class="email_field" required value="<?php echo isset($rememberEmail) ? $rememberEmail : ''; ?>">
         </div>
@@ -20,6 +20,7 @@
         </div>
         <div class="forgot_password pb-2 text-center">
           <a href="<?= ROOT ?>/forgot_password">Forgot Your Password?</a>
+          <p class="text-center mt-2"><a href="<?= ROOT ?>" class="back_btn">< Back</a></p>
         </div>
       </form>
     </div>

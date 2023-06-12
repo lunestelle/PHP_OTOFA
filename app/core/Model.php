@@ -1,5 +1,5 @@
 <?php 
-
+// Database operations such as findAll(), where(), first(), insert(), update(), and delete(). 
 Trait Model
 {
 	use Database;
@@ -19,25 +19,25 @@ Trait Model
 
 	public function where($data, $data_not = [])
 	{
-		$keys = array_keys($data);
-		$keys_not = array_keys($data_not);
-		$query = "SELECT * FROM {$this->table} WHERE ";
+    $keys = array_keys($data);
+    $keys_not = array_keys($data_not);
+    $query = "SELECT * FROM {$this->table} WHERE ";
 
-		foreach ($keys as $key) {
-			$query .= $key . " = :". $key . " && ";
-		}
+    foreach ($keys as $key) {
+        $query .= $key . " = :". $key . " && ";
+    }
 
-		foreach ($keys_not as $key) {
-			$query .= $key . " != :". $key . " && ";
-		}
+    foreach ($keys_not as $key) {
+        $query .= $key . " != :". $key . " && ";
+    }
 
-		$query = trim($query, " && ");
+    $query = trim($query, " && ");
 
-		$query .= " ORDER BY {$this->order_column} {$this->order_type} LIMIT {$this->limit} OFFSET {$this->offset}";
-		$data = array_merge($data, $data_not);
+    $data = array_merge($data, $data_not);
 
-		return $this->query($query, $data);
+    return $this->query($query, $data);
 	}
+
 
 	public function first($data, $data_not = [])
 	{

@@ -47,6 +47,14 @@ body {
   border-radius: 12px;
 }
 
+.form-check-input.me-2:checked {
+  background-color: #FF4200;
+  border-color: #FF4200;
+}
+.split-left .sign_in .field input[type="email"], .split-left .sign_in .field input[type="password"] {
+  width: 370px !important;
+}
+
 .split-left .field .password_validation {
   text-align: center;
   text-transform: uppercase;

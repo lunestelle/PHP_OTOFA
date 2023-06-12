@@ -32,7 +32,7 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		if ($page === 'sign_in' || $page === 'sign_up') {
+		if ($page === 'sign_in' || $page === 'sign_up' || $page === 'forgot_password' || $page === 'reset_password') {
 			return 'authentication.css';
 		} else {
 			$cssFile = $page . '.css';

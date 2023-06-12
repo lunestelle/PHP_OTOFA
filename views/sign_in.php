@@ -50,7 +50,7 @@
         background-color: #FF4200;
         border-color: #FF4200;
       }
-      .split-left .field input[type="email"], .split-left .field input[type="password"] {
+      .split-left .sign_in .field input[type="email"], .split-left .sign_in .field input[type="password"] {
         width: 370px;
       }
     </style>

@@ -1,7 +1,7 @@
 <header>
   <div class="d-flex">
     <a href="#home" class="d-flex text-decoration-none">
-      <img class="logo" src="<?=ROOT?>/assets/images/logo.png" alt="">
+      <img class="logo" src="<?=ROOT?>/assets/images/logo.png" alt="Sakaycle Logo">
       <p>Sakay<span>cle</span></p>
     </a>
   </div>
@@ -14,11 +14,13 @@
     <a href="#contact" class="nav-link">CONTACT</a>
     <?php if (is_authenticated()): ?>
       <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><?php echo $_SESSION['user_first_name']; ?> &nbsp;</button>
-
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i>  Manage Account</a></li>
-          <li><a class="dropdown-item" href="<?=ROOT?>/sign_out"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+        <button class="btn btn-secondary dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        <?php echo $_SESSION['user_first_name']; ?> &nbsp;
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i>Account</a></li>
+          <li><a class="dropdown-item" href="<?=ROOT?>/sign_out"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
         </ul>
       </div> &nbsp;
     <?php endif; ?>
@@ -47,28 +49,28 @@
     <div class="about-bottom">
       <div class="about-cta">
         <div class="about-item">
-          <img src="<?=ROOT?>/assets/images/registration.png" alt="">  
+          <img src="<?=ROOT?>/assets/images/registration.png" alt="Registration Icon">  
           <div class="item-title">          
             <h2>Registration</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
           </div>
         </div>
         <div class="about-item">
-          <img src="<?=ROOT?>/assets/images/renewal.png" alt=""> 
+          <img src="<?=ROOT?>/assets/images/renewal.png" alt="Renewal Icon"> 
           <div class="item-title">
             <h2>Renewal</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
           </div>
         </div>
         <div class="about-item">
-          <img src="<?=ROOT?>/assets/images/appointment.png" alt="">
+          <img src="<?=ROOT?>/assets/images/appointment.png" alt="Appointment Icon">
           <div class="item-title">
             <h2>Appointment</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
           </div>
         </div>
         <div class="about-item">
-          <img src="<?=ROOT?>/assets/images/management.png" alt="">
+          <img src="<?=ROOT?>/assets/images/management.png" alt="Management Icon">
           <div class="item-title">
             <h2>Management</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quis voluptate veritatis sint quisquam quo eum doloribus dolores rem,</p>
