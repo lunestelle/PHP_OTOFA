@@ -11,7 +11,10 @@
   <link rel="stylesheet" href="<?=ROOT?>/assets/css/{{css}}">
 </head>
 <body>
-  <?php display_flash_message(); ?>
+  <?php
+    checkInactivityTimeout();
+    display_flash_message();
+  ?>
 
   {{content}}
   

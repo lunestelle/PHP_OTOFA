@@ -63,3 +63,22 @@ function display_flash_message()
 		unset($_SESSION['flash_message']);
 	}
 }
+
+
+function checkInactivityTimeout()
+{
+	$timeoutDuration = 900; // 15 minutes in seconds
+
+	if (is_authenticated()) {
+		if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeoutDuration) {
+			unset($_SESSION['USER']);
+			unset($_SESSION['authenticated']);
+			unset($_SESSION['last_activity']);
+			set_flash_message("You have been logged out <br>due to inactivity.", "default");
+			redirect('');
+			exit();
+		}
+
+			$_SESSION['last_activity'] = time(); // Update the last activity time
+	}
+}

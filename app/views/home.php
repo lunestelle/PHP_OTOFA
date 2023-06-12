@@ -20,7 +20,14 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i>Account</a></li>
-          <li><a class="dropdown-item" href="<?=ROOT?>/sign_out"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+          <li>
+            <form action="<?= ROOT ?>/sign_out" method="post" id="sign-out-form">
+              <input type="hidden" name="sign_out" value="1">
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('sign-out-form').submit();">
+                <i class="fa-solid fa-right-from-bracket"></i>Logout
+              </a>
+            </form>
+          </li>
         </ul>
       </div> &nbsp;
     <?php endif; ?>
