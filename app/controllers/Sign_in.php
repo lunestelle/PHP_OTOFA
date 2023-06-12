@@ -6,9 +6,7 @@ class Sign_in
 
   public function index()
   {
-    $data = [
-      'rememberEmail' => '',
-    ];
+    $data = [];
 
     if (is_authenticated()) {
       redirect('');
@@ -25,10 +23,16 @@ class Sign_in
         $_SESSION['authenticated'] = true;
         $_SESSION['user_first_name'] = $row->first_name;
 
-        if (isset($_POST['rememberMe']) && $_POST['rememberMe'] === 'on') {
-          setcookie('remember_email', $row->email, time() + (86400 * 30), '/');
-        } elseif (isset($_COOKIE['remember_email'])) {
-          setcookie('remember_email', '', time() - 3600, '/');
+        if (isset($_POST['rememberMe'])) {
+          setcookie('email', $email, time() + (86400 * 30), '/'); // cookie is set to expire in 30 days
+          setcookie('password', $password, time() + (86400 * 30), '/'); 
+        } else {
+          if (isset($_COOKIE['email'])){
+            setcookie('email', '', time() - 3600, '/');
+          }
+          if (isset($_COOKIE['password'])){
+            setcookie('password', '', time() - 3600, '/');
+          }
         }
 
         set_flash_message("Successfully signed in!", "success");
@@ -37,10 +41,6 @@ class Sign_in
         set_flash_message('Invalid credentials. Please try again.', 'error');
         redirect('sign_in');
       }
-
-      $data['rememberEmail'] = $email;
-    } elseif (isset($_COOKIE['remember_email'])) {
-      $data['rememberEmail'] = $_COOKIE['remember_email'];
     }
 
     echo $this->renderView('sign_in', $data);

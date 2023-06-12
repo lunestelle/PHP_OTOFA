@@ -49,7 +49,7 @@ body {
 
 .form-check-input.me-2:checked {
   background-color: #FF4200;
-  border-color: #FF4200;
+  border-color: #FF4200 !important;
 }
 .split-left .sign_in .field input[type="email"], .split-left .sign_in .field input[type="password"] {
   width: 370px !important;

@@ -5,14 +5,14 @@
       <p>Don't have an account? <a href="<?= ROOT ?>/sign_up">Sign up</a></p>
       <form method="POST" class="sign_in">
         <div class="field">
-          <input type="email" id="email" autofocus name="email" placeholder="EMAIL" class="email_field" required value="<?php echo isset($rememberEmail) ? $rememberEmail : ''; ?>">
+          <input type="email" id="email" autofocus name="email" placeholder="EMAIL" class="email_field" required value="<?php if(isset($_COOKIE['email'])){echo $_COOKIE['email'];}?>">
         </div>
         <div class="field password-toggle">
-          <input type="password" id="password" autofocus name="password" placeholder="PASSWORD" autocomplete="password" class="password_field" required>
+          <input type="password" id="password" autofocus name="password" value="<?php if(isset($_COOKIE['password'])){echo $_COOKIE['password'];}?>" placeholder="PASSWORD" autocomplete="password" class="password_field" required>
           <i id="password-toggle-icon" class="toggle-icon fas fa-eye-slash" onclick="togglePassword('password')"></i>
         </div>
         <div class="form-check">
-          <input class="form-check-input me-2" style="border: 1px solid #828282" type="checkbox" value="" id="rememberMe" <?php if (isset($_COOKIE['remember_email'])) { echo 'checked'; } ?>/>
+          <input class="form-check-input me-2" style="border: 1px solid #828282" type="checkbox" value="" id="rememberMe" name="rememberMe"<?php if(isset($_COOKIE['email'])){echo 'checked';}?>/>
           <label class="form-check-label rememberMe p-0 mb-1" for="rememberMe" style="font-size: 12px; font-weight: 400;">REMEMBER ME</label>
         </div>
         <div class="actions_devise">
