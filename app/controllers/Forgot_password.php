@@ -28,12 +28,12 @@ class Forgot_password
       if ($user->emailExists($email)) {
         $token = $passwordReset->generateToken();
 
-        $expirationTime = time() + (30 * 60); // Token expiration time (30 minutes from now)
-        $passwordReset->saveResetToken($email, $token, $expirationTime);
+        $expiration_time = time() + (30 * 60); // Token expiration time (30 minutes from now)
+        $passwordReset->saveResetToken($email, $token, $expiration_time);
 
         $this->sendPasswordResetEmail($email, $token);
       } else {
-        set_flash_message("Email not found in the system.", "error");
+        set_flash_message("Email does not exist.", "error");
         redirect('forgot_password');
       }
     }

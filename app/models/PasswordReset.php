@@ -5,27 +5,40 @@ class PasswordReset
   use Model;
 
   protected $table = 'password_resets';
-  protected $allowedColumns = ['email', 'token', 'expiration_time'];
+  protected $allowedColumns = ['password_reset_id', 'email', 'token', 'expiration_time'];
+  protected $order_column = 'password_reset_id';
 
   public function generateToken()
   {
     return bin2hex(random_bytes(32));
   }
 
-  public function saveResetToken($email, $token, $expirationTime)
+  public function saveResetToken($email, $token, $expiration_time)
   {
     $data = [
       'email' => $email,
       'token' => $token,
-      'expiration_time' => date('Y-m-d H:i:s', $expirationTime)
+      'expiration_time' => date('Y-m-d H:i:s', $expiration_time),
     ];
 
-    $this->insert($data);
+    $existingToken = $this->getResetToken($email);
+
+    if ($existingToken) {
+      $this->update($email, $data, 'email');
+    } else {
+      $this->insert($data);
+    }
   }
 
-  public function deleteExistingToken($email)
+  public function getResetToken($email)
   {
-    return $this->where(['email' => $email])->delete();
+    $data = [
+      'email' => $email,
+    ];
+
+    $result = $this->first($data);
+
+    return $result ? $result->token : null;
   }
 
   public function findEmailByToken($token)
@@ -36,23 +49,23 @@ class PasswordReset
     }
     return null;
   }
+  
+  public function validateToken($email, $token, $expiration_time)
+  {
+    $data = [
+      'email' => $email,
+      'token' => $token
+    ];
 
-  public function validateToken($email, $token)
-{
-    $result = $this->where(['email' => $email, 'token' => $token]);
+    $result = $this->first($data);
 
-    if (!empty($result)) {
-        $expirationTime = strtotime($result[0]->expiration_time);
-
-        if ($expirationTime > time()) {
-            return true;
-        }
+    if ($result !== false) {
+      $expiration_timeToken = strtotime($result->expiration_time);
+      if ($expiration_timeToken >= $expiration_time) {
+        return true; // Token is valid and not expired
+      }
     }
 
-    return false;
-}
-
-
-
-
+    return false; // Token is invalid or expired
+  }
 }

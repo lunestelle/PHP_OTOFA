@@ -3,7 +3,9 @@
     <div>
       <h1>Reset your password</h1>
       <p>Enter your new password.</p>
-      <form method="post" action="reset_password">
+      <form method="post" action="">
+        <input type="hidden" name="email" value="<?php echo htmlspecialchars($_GET['email']); ?>">
+        <input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET['token']); ?>">
         <div class="field password-toggle">
           <input type="password" id="new_password" autofocus name="new_password" placeholder="New Password" autocomplete="new-password" class="password_field" required>
           <i id="password-toggle-icon" class="toggle-icon fas fa-eye-slash" onclick="togglePassword('new_password')"></i>

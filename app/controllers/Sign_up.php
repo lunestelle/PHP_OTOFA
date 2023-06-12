@@ -37,7 +37,7 @@ class Sign_up
 			} else {
 				$data['errors'] = $user->getErrors();
 				$errorMessages = implode('<br>', $data['errors']);
-				set_flash_message("Please fix the errors below:<br>{$errorMessages}", "error");
+				set_flash_message("{$errorMessages}", "error");
 				redirect('sign_up');
 			}
 		}

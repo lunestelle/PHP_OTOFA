@@ -2,8 +2,6 @@ function togglePassword(id) {
   let passwordField = document.getElementById(id);
   let toggleIcon = document.getElementById(id + '-toggle-icon');
 
-  console.log(passwordField.type)
-
   if (passwordField.type === 'password') {
     passwordField.type = 'text';
     toggleIcon.classList.toggle("fa-eye")
