@@ -8,10 +8,10 @@
           </a>
           <div class="mt-5">
             <li>
-              <a href="#"><i class="fa-solid fa-list"></i>Dashboard</a>
+              <a href="..\public\dashboard"><i class="fa-solid fa-list"></i>Dashboard</a>
             </li>
             <li>
-              <a href="#"><i class="fa-solid fa-truck-pickup"></i>Tricycles</a>
+              <a href="..\public\tricycle"><i class="fa-solid fa-truck-pickup"></i>Tricycles</a>
             </li>
             <li>
               <a href="#"><i class="fa-regular fa-id-card"></i>Drivers</a>
@@ -47,99 +47,70 @@
       </div>
       <div class="col-xl-10 col-lg-9 p-2">
         <div class="title-head text-uppercase">
-          <h6>Dashboard</h6>
+          <h6>Tricycles</h6>
         </div>
         <div class="mt-3">
-          <a href="" class="text-uppercase register">Register</a>
+          <a href="#" class="text-uppercase register">Export</a>
         </div>
-        <div class="container table-responsive pt-4"> 
-          <table class="table-bordered table-hover">
-            <thead class="thead-custom">
-              <tr class="text-center text-uppercase">
-                <th scope="col">#</th>
-                <th scope="col">Plate No.</th>
-                <th scope="col">Color Code</th>
-                <th scope="col">Driver's Name</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>123</td>
-                <td>Red</td>
-                <td>Juan Dela Cruz</td>
-                <td>Actions</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>456</td>
-                <td>Green</td>
-                <td>Pedro Kalungsod</td>
-                <td>Actions</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>789</td>
-                <td>Yellow</td>
-                <td>Mario Bugsay</td>
-                <td>Actions</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>012</td>
-                <td>Blue</td>
-                <td>Lito Gaspi</td>
-                <td>Actions</td>
-              </tr>
-            </tbody>
-          </table>
+
+        <div class="container gap-5 px-5 mb-4 pb-3">
+          <div class="overview-container mt-3">
+          <img src="assets/images/tricycle.png" alt="">
+            <h5>10</h5>
+            <p>Tricycles</p>
+          </div>
+          <div class="overview-container mt-3">
+          <img src="assets/images/Driver.png" alt="">
+          <h5>10</h5>
+            <p>Drivers</p>
+          </div>
+          <div class="overview-container mt-3">
+            <img src="assets/images/Cash.png" alt="">
+            <h5>555</h5>
+            <p>Boundaries</p>
+          </div>
         </div>
+       
         <div class="title-head text-uppercase mt-3">
-          <h6>Renewal of tricycle permits</h6>
+          <h6>Tricycle's Code</h6>
         </div>
-          <div class="container table-responsive pt-4"> 
-          <table class="table-bordered table-hover">
-            <thead class="thead-custom">
-              <tr class="text-center text-uppercase">
-                <th scope="col">#</th>
-                <th scope="col">Plate No.</th>
-                <th scope="col">Color Code</th>
-                <th scope="col">Driver's Name</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>123</td>
-                <td>Red</td>
-                <td>Juan Dela Cruz</td>
-                <td>Actions</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>456</td>
-                <td>Green</td>
-                <td>Pedro Kalungsod</td>
-                <td>Actions</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>789</td>
-                <td>Yellow</td>
-                <td>Mario Bugsay</td>
-                <td>Actions</td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td>012</td>
-                <td>Blue</td>
-                <td>Lito Gaspi</td>
-                <td>Actions</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="container-code mt-3 mx-4">
+          <div class="color-code-blue d-flex">
+            <div>
+              <img src="assets/images/blue-trike.png" alt="">
+              <p>Blue Trike</p>
+            </div>
+            <div class="description">
+              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam voluptatum sunt ipsam, laborum, tenetur exercitationem at illum odit expedita nemo, quasi soluta id in quaerat numquam molestias eum nihil placeat.</p>
+            </div>
+          </div>
+          <div class="color-code-green d-flex">
+            <div>
+              <img src="assets/images/green-trike.png" alt="">
+              <p>Green Trike</p>
+            </div>
+            <div class="description">
+              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam voluptatum sunt ipsam, laborum, tenetur exercitationem at illum odit expedita nemo, quasi soluta id in quaerat numquam molestias eum nihil placeat.</p>
+            </div>
+          </div>
+          <div class="color-code-red d-flex">
+            <div>
+              <img src="assets/images/red-trike.png" alt="">
+              <p>Red Trike</p>
+            </div>
+            <div class="description">
+              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam voluptatum sunt ipsam, laborum, tenetur exercitationem at illum odit expedita nemo, quasi soluta id in quaerat numquam molestias eum nihil placeat.</p>
+            </div>
+          </div>
+          <div class="color-code-yellow d-flex">
+            <div>
+              <img src="assets/images/yellow-trike.png" alt="">
+              <p>YellowTrike</p>
+            </div>
+            <div class="description">
+              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam voluptatum sunt ipsam, adipisicing elit. Magnam voluptatum sunt ipsam, laborum, tenetur exercitationem at illum odit expedita nemo, quasi soluta id in quaerat numquam molestias eum nihil placeat.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

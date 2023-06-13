@@ -30,9 +30,9 @@ img {
 /* Sidebar Styles */
 
 .side-bar {
-  background-color: #090C1B;
-  min-height: 100vh;
-  overflow-y: auto;
+ background-color: #090C1B;
+ min-height: 100vh;
+ overflow-y: auto;
 }
 
 .sidebar-nav {
@@ -149,106 +149,43 @@ img {
   color: #FF4200;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
+.tableroundedCorner {
+  border: 1px solid #7a7b7b;
+  background-color: #ddd;
+  border-radius: 1.2em;
 }
 
-.overview-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  position: relative;
-  width: 280px;
-  height: 100px;
-  background: linear-gradient(255.15deg, rgba(255, 66, 0, 0.675) 5.82%, rgba(255, 66, 0, 0.1125) 119.86%);
-  border-radius: 10px;
-  transition: box-shadow 0.3s ease;
-  padding: 10px;
-}
-
-.overview-container:hover {
-  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.534), 0px 8px 10px rgba(0, 0, 0, 0.1);
-}
-
-.overview-container img {
-  position: absolute;
-  top: 0;
-  right: 10px;
-  height: 50px;
-  width: 50px;
-}
-
-.overview-container h5 {
-  position: absolute;
-  bottom: 25px;
-  left: 10px;
+.roundedTable {
+  border-collapse: collapse;
+  border-radius: 1.2em;
+  overflow: hidden;
+  width: 100%;
   margin: 0;
-  font-weight: 700;
-  font-size: 30px;
 }
 
-.overview-container p {
-  position: absolute;
-  bottom: 5px;
-  left: 12px;
-  margin: 0;
-  font-weight: 400;
-  font-size: 16px;
+.roundedTable th,
+.roundedTable td {
+  padding: .6em;
+  background: #ddd;
+  border-bottom: 1px solid white;
 }
 
-/* -- Tricycle's code -- */
-
-.container-code {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
-  justify-content: space-between;
+.roundedTable th {
+  text-align: left;
 }
 
-.color-code-blue,
-.color-code-green,
-.color-code-red,
-.color-code-yellow {
-  width: 520px;
-  height: 150px;
-  background: rgba(15, 136, 255, 0.75);
-  box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
+.roundedTable tr:last-child td {
+  border-bottom: none;
 }
 
-.color-code-green {
-  background: rgba(0, 170, 48, 0.75);
-}
+/* table */
+/* table {
+  font-size: 12px;
+} */
 
-.color-code-red {
-  background: rgb(255, 82, 82);
+.thead-custom {
+  background-color: rgba(255, 66, 0, 0.4);
 }
-
-.color-code-yellow {
-  background: #EBB803;
-}
-
-.container-code img {
-  width: 100px;
-}
-
-.container-code p {
-  color: white;
-  font-weight: 700;
-  text-align: center;
-}
-
-.container-code .description p {
-  text-align: justify;
-  color: white;
-  font-weight: 400;
-  font-size: 14px;
-  padding: 20px;
-}
-
-/* -- MEDIA QUERY -- */
 
 @media (min-width: 800px) and (max-width: 1080px){
   img {
