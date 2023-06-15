@@ -68,4 +68,13 @@ class PasswordReset
 
     return false; // Token is invalid or expired
   }
+
+  public function deleteToken($email)
+  {
+    $data = [
+      'email' => $email,
+    ];
+
+    $this->delete($data, 'email');
+  }
 }

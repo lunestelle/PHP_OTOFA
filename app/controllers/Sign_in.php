@@ -9,6 +9,13 @@ class Sign_in
     $data = [];
 
     if (is_authenticated()) {
+      set_flash_message("You are already signed in.", "error");
+      redirect('');
+    }
+
+    // checks if the request is an AJAX call by checking the 'HTTP_X_REQUESTED_WITH'
+    if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+      set_flash_message("Invalid request method.", "error");
       redirect('');
     }
 
@@ -35,14 +42,15 @@ class Sign_in
           }
         }
 
-        set_flash_message("Successfully signed in!", "success");
-        redirect('');
+        $response = ['status' => 'success', 'msg' => 'Successfully signed in!', 'redirect_url' => ''];
+        echo json_encode($response);
+        exit;
       } else {
-        set_flash_message('Invalid credentials. Please try again.', 'error');
-        redirect('sign_in');
+        echo json_encode(['status' => 'error', 'msg' => 'Invalid credentials. Please try again.']);
+        exit;
       }
     }
 
-    echo $this->renderView('sign_in', $data);
+    echo $this->renderView('sign_in', false, $data);
   }
 }
