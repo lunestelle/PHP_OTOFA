@@ -8,10 +8,12 @@ class Reset_password
   {
     $data = [];
 
-    if (is_authenticated()) {
+    // checks if the request is an AJAX call by checking the 'HTTP_X_REQUESTED_WITH'
+    if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest' || is_authenticated()) {
+      set_flash_message("Invalid request method.", "error");
       redirect('');
     }
-
+    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $email = $_POST['email'];
       $token = $_POST['token'];
@@ -25,22 +27,31 @@ class Reset_password
       if ($passwordReset->validateToken($email, $token, $expiration_time)) {
         if ($user->validatePassword($password, $password_confirmation)) {
           $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-          $user->update(['email' => $email], ['password' => $hashedPassword], 'user_id'); 
+          $user->update(['email' => $email], ['password' => $hashedPassword], 'email');
 
-          set_flash_message("Password reset successfully. <br>You can now log in with your new password.", "success");
-          redirect('sign_in');
+          // Automatically remove the email and token from the password_resets table
+          $passwordReset->deleteToken($email);
+
+          $response = ['status' => 'success', 'msg' => 'Password reset successfully. You can now log in with your new password.', 'redirect_url' => ROOT];
+          echo json_encode($response);
+          exit;
         } else {
           $data['errors'] = $user->getErrors();
-          $errorMessages = implode('<br>', $data['errors']);
-          set_flash_message("{$errorMessages}", "error");
-          redirect("reset_password?email=$email&token=$token");
+          $errorCount = count($data['errors']);
+          $errorMessages = implode(($errorCount > 1 ? ', ' : ''), $data['errors']);
+          if ($errorCount > 1) {
+            $errorMessages = str_replace('.', '', $errorMessages);
+          }
+          $errorMessages = str_replace('<br>', '', $errorMessages);
+          echo json_encode(['status' => 'error', 'msg' => $errorMessages]);
+          exit;
         }
       } else {
-        set_flash_message("Invalid or expired token.", "error");
-        redirect('');
+        echo json_encode(['status' => 'error', 'msg' => 'Invalid or expired token.']);
+        exit;
       }
     }
 
-    echo $this->renderView('reset_password', $data);
+    echo $this->renderView('reset_password', false, $data);
   }
 }

@@ -1,171 +1,215 @@
-body {
-  margin: 0;
-  font-family: sans-serif;
-}
-
-.split-section {
-  display: flex;
-  height: 100vh;
-}
-
-.split-left {
-  width: 40%;
+.modal-content {
   background-color: #fff;
-  overflow: hidden;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
 }
 
-.split-left h1 {
-  text-align: center;
-  font-weight: 700;
-  font-size: 32px;
-  line-height: 1.2;
-  color: #FF4200;
-  margin-bottom: 20px;
+.authentication-modal .modal-header {
+  padding-top: 10px;
 }
 
-.split-left p {
-  text-align: center;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.split-left .field input[type="email"],
-.split-left .field input[type="password"],
-.split-left .field input[type="text"] {
-  box-sizing: border-box;
-  width: 100%;
-  height: 50px;
+.authentication-modal .modal-header .close {
+  padding: 1rem;
+  margin: -1rem -1rem -1rem auto;
+  background-color: transparent;
+  border: 0;
+  font-family: sans-serif;
+  letter-spacing: 0px;
+  font-size: 21px;
+  font-weight: 100;
   color: #000;
-  font-size: 14px;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: 1px solid #828282;
-  box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 12px;
+  opacity: 1;
+  top: 12px !important;
+  right: 17px !important;
+  line-height: 25px;
 }
 
-.form-check-input.me-2:checked {
-  background-color: #FF4200;
-  border-color: #FF4200 !important;
-}
-.split-left .sign_in .field input[type="email"], .split-left .sign_in .field input[type="password"] {
-  width: 370px !important;
-}
-
-.split-left .field .password_validation {
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 8px;
-  letter-spacing: 0.8px;
-  line-height: 12px;
-}
-
-.split-left .actions_devise button {
-  width: 100%;
-  height: 46px;
-  margin: 5px 0px 20px 0px;
-  background: linear-gradient(180deg, #FF4200 0%, rgba(255, 66, 0, 0.67) 100%);
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  color: #fff;
-  font-weight: 400;
-  font-size: 15px;
-  letter-spacing: 1.4px;
-  line-height: 14px;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  user-select: none;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.split-left .actions_devise button:hover {
-  background: #fff;
+.authentication-modal .modal-header .close:hover, .close:focus {
   color: #000;
-  border: 1px solid #FF4200;
-}
-
-.split-left .forgot_password a,
-.split-left .back_btn {
-  text-transform: uppercase;
-  font-size: 10px;
   text-decoration: none;
-  font-weight: bold;
-  color: #FF4200;
-  padding-bottom: 4px;
-  letter-spacing: 1.2px;
-  line-height: 14px;
-  border-bottom: 1px solid #FF4200;
+  opacity: .75;
 }
 
-.split-right {
-  width: 60%;
-  background-color: #FF4200;
-  overflow: hidden;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.authentication-modal .row {
+  margin-right: -20px !important;
+  margin-left: -20px !important;
 }
 
-.split-right .img {
-  max-height: 80%;
-  max-width: 100%;
-  object-fit: contain;
+.modal-body .authenticate .auth-modal-title {
+  color: #000 !important;
+  font-size: 32px;
+  line-height: 39px;
+  font-family: sans-serif;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  padding-bottom: 18px;
 }
 
-.split-right h1 {
-  color: #fff;
-  font-size: 70px;
-  line-height: 1.2;
-  font-weight: 700;
-  text-align: center;
+.modal-body .authenticate .auth-modal-title > a {
+  color: inherit;
+  text-decoration: none !important;
+  font-size: 26px;
+  line-height: 26px;
 }
 
-.split-right span {
-  color: black;
+.authentication-title-active {
+  color: #FF4200 !important;
+  border-bottom: 2px solid #FF4200;
 }
 
-.password-toggle {
+.authentication-modal .default-form .form-group {
   position: relative;
 }
 
-.password-toggle .toggle-icon {
+.authentication-modal .default-form .form-group .form-control {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  border: 1px solid #828282;
+  box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px !important;
+  letter-spacing: 1px;
+  transition: all 0.5s;
+  display: block;
+  width: 100%;
+  height: 48px;
+  left: 141px;
+  top: 374px;
+  box-sizing: border-box;
+  padding: 0.375rem 0.75rem;
+  background-color: #fff;
+  background-clip: padding-box;
+}
+
+.authentication-modal .default-form .form-group .form-control:focus {
+  border: 1px solid #FF4200;
+}
+
+.authentication-modal .password-toggle {
+  position: relative;
+}
+
+.authentication-modal .password-toggle .toggle-icon {
   position: absolute;
-  top: 50%;
-  right: 10px;
+  top: 65%;
+  right: 15px;
   transform: translateY(-100%);
   cursor: pointer;
   display: none;
 }
 
-.password-toggle input:valid + .toggle-icon {
+.authentication-modal .password-toggle input:valid + .toggle-icon {
+  display: block;
+} 
+
+.authentication-modal .form-group .remember-me {
+  line-height: 10px !important;
+  position: relative;
   display: block;
 }
 
-@media (max-width: 992px) {
-  .split-section {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .split-left,
-  .split-right {
-    width: 100%;
-    height: auto;
-  }
+.authentication-modal .form-group .form-check-label {
+  cursor: pointer;
+  font-size: 10px !important;
+  line-height: 9px !important;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #FF4200;
 }
 
-/* Additional CSS for smaller screens */
-@media (max-width: 576px) {
-  .split-left .field input[type="email"],
-  .split-left .field input[type="password"],
-  .split-left .field input[type="text"] {
-    font-size: 12px; /* Decrease font size for smaller screens */
-    height: 40px; /* Adjust the height as needed */
-  }
+.authentication-modal .form-group .form-check-input {
+  margin-right: 8px;
+  vertical-align: middle;
+  position: relative;
+  bottom: 3px;
+  height: 10px;
+  visibility: hidden;
+}
+
+.authentication-modal .form-group .form-check-input:before {
+  content: ' ';
+  top: 1px;
+  position: absolute;
+  margin-top: 0px;
+  margin-right: 10px;
+  border: 1px solid #828282;
+  box-shadow: -1px 3px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 2px !important;
+  cursor: pointer;
+  width: 11px;
+  height: 10px;
+  float: left;
+  background-color: #fff;
+  z-index: 1;
+  visibility: visible;
+}
+
+.authentication-modal .form-group .form-check-input:checked:before {
+  content: '\2713';
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 9px;
+  color: #fff;
+  text-align: center;
+  background-color: #FF4200;
+  border-color: #FF4200;
+}
+
+.authentication-modal .default-form .auth-btn {
+  background: #FF4200 !important;
+  border: 1px solid #FF4200;
+  border-radius: 20px !important;
+  color: #fff !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 14px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  display: block;
+  width: 100%;
+  height: 45px;
+  left: 141px;
+  top: 585px;
+}
+
+.authentication-modal .default-form .auth-btn:hover {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.authentication-modal a.footer-link {
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: 500;
+  color: #FF4200;
+  padding-bottom: 4.47px;
+  letter-spacing: 1.2px;
+  line-height: 14px;
+  border-bottom: 1px solid #FF4200;
+}
+
+.authentication-modal .pass-validation {
+  font-size: 8px;
+  letter-spacing: 0.9px !important;
+  line-height: 12px;
+  color: #FF4200;
+}
+
+/* Forgot Password */
+#modalContent .modal-title {
+  color: #FF4200;
+  font-size: 32px;
+  line-height: 39px;
+  font-family: 'Havenbrook 2 Demibold', sans-serif;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  padding-bottom: 18px;
+}
+
+#modalContent .directions {
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 0.8px;
+  color: #FF4200;
 }

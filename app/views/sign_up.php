@@ -1,45 +1,41 @@
-<div class="split-section">
-  <div class="split-left d-flex">
-    <div>
-      <h1>Sign up</h1>
-      <p>Already signed up? <a href="<?= ROOT ?>/sign_in">Log in</a></p>
-      <form method="POST" action="">
-        <div class="field">
-          <input type="email" id="email" autofocus name="email" placeholder="EMAIL" autocomplete="email" class="email_field" required>
+<div class="col-lg-12">
+  <form class="default-form custom-form" id="sign-up-form" method="POST" action="">
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group mb-3">
+          <input class="form-control" autocomplete="email" type="email" name="email" id="email" placeholder="EMAIL" autofocus required>
         </div>
-        <div class="row">
-          <div class="col">
-            <div class="field">
-              <input type="text" id="first_name" autofocus name="first_name" placeholder="FIRST NAME" autocomplete="given-name" class="name_field" required>
-            </div>
-          </div>
-          <div class="col">
-            <div class="field">
-              <input type="text" id="last_name" autofocus name="last_name" placeholder="LAST NAME" autocomplete="family-name" class="name_field" required>
-            </div>
-          </div>
+      </div>
+      <div class="col-6 mb-3">
+        <div class="form-group">
+          <input type="text" id="first_name"  name="first_name" placeholder="FIRST NAME" autocomplete="first_name" class="form-control" autofocus required/>
         </div>
-        <div class="field password-toggle">
-          <input type="password" id="password" autofocus name="password" placeholder="PASSWORD" autocomplete="password" class="password_field" required>
+      </div>
+      <div class="col-6 mb-3">
+        <div class="form-group">
+          <input type="text" id="last_name"  name="last_name" placeholder="LAST NAME" autocomplete="last_name" class="form-control" autofocus required/>
+        </div>
+      </div>
+      <div class="col-12 mb-3">
+        <div class="form-group password-toggle">
+          <input class="form-control" autocomplete="off" type="password" name="password" id="password" placeholder="PASSWORD" autofocus required>
           <i id="password-toggle-icon" class="toggle-icon fas fa-eye-slash" onclick="togglePassword('password')"></i>
         </div>
-        <div class="field password-toggle">
-          <input type="password" id="password_confirmation" autofocus name="password_confirmation" placeholder="PASSWORD CONFIRMATION" class="password_field" required>
-          <i id="password_confirmation-toggle-icon" class="toggle-icon fas fa-eye-slash" onclick="togglePassword('password_confirmation')"></i>
+      </div>
+      <div class="col-12 mb-3">
+        <div class="form-group password-toggle">
+          <input class="form-control" autocomplete="off" type="password" name="password_confirmation" id="password_confirmation" placeholder="PASSWORD CONFIRMATION" autofocus required>
+          <i id="password-toggle-icon" class="toggle-icon fas fa-eye-slash" onclick="togglePassword('password_confirmation')"></i>
         </div>
-        <div class="field">
-          <p class="password_validation">Your password must be over 8 characters long and include at least <br> 1 upper-case letter, 1 lower-case letter, 1 number and 1 special <br> character.</small>
-        </div>
-        <div class="actions_devise">
-          <button type="submit" class="btn btn-block">SIGN UP</button>
-        </div>
-      </form>
+      </div>
+      <div class="col-12 mb-1">
+        <p class="text-center text-uppercase pass-validation">
+          Your password must be over 8 characters long and include at least 1 upper-case letter, 1 lower-case letter, 1 number and 1 special character.
+        </p>
+      </div>
+      <div class="col-12">
+        <button class="btn auth-btn" type="submit" id="submit">SIGN UP</button>
+      </div>
     </div>
-  </div>
-  <div class="split-right d-flex">
-    <div class="text-center">
-      <img src="<?=ROOT?>/assets/images/logo.png" alt="Sakaycle Logo">
-      <h1>Sakay<span>cle.</span></h1>
-    </div>
-  </div>
-</div>
+  </form>
+</div>  

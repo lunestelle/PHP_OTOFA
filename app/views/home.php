@@ -42,7 +42,7 @@
       <h1>LOCAL GOVERNMENT UNIT <span></span></h1>
     </div>
     <?php if (!is_authenticated()): ?>
-      <a href="<?= ROOT ?>/sign_in" type="button" class="cta">SIGN IN</a>
+      <a href="javascript:void(0)" id="sign_in_btn" class="cta">SIGN IN</a>
     <?php endif; ?>
   </div>
 </section>
