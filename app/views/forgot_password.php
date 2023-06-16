@@ -1,23 +1,25 @@
-<div class="split-section">
-  <div class="split-left d-flex">
-    <div>
-      <h1>Forgot your password?</h1>
-      <p>Enter your email address and we'll send a link to reset your password.</p>
-      <form method="post" action="">
-        <div class="field">
-          <input type="email" id="email" autofocus name="email" placeholder="EMAIL" autocomplete="email" class="email_field" required>
-        </div>
-        <div class="actions_devise">
-          <button type="submit" class="btn btn-block" name="reset_password">RESET PASSWORD</button>
-        </div>
-        <p class="text-center"><a href="<?=ROOT?>/sign_in" class="back_btn">< Back</a></p>
-      </form>
-    </div>
+<div class="row">
+  <div class="col-12">
+    <h5 class="modal-title text-center text-uppercase">
+      Forgot your password?
+    </h5>
   </div>
-  <div class="split-right d-flex">
-    <div class="text-center">
-      <img src="<?=ROOT?>/assets/images/logo.png" alt="Sakaycle Logo">
-      <h1>Sakay<span>cle.</span></h1>
-    </div>
+  <div class="col-12 text-end">
+    <p class="text-center directions px-2 mb-4">
+      Enter your email address and we'll send a link to reset your password.
+    </p>
+  </div>
+  <div class="col-lg-12">
+    <form class="default-form custom-form" id="forgot-password-form" method="POST">
+      <div class="form-group">
+        <input class="form-control mb-4" autocomplete="email" type="email" name="email" id="email" placeholder="EMAIL" autofocus required>
+      </div>
+      <div class="form-group">
+        <button class="btn auth-btn" type="submit" id="submit">RESET MY PASSWORD</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-12 text-uppercase text-center mt-3">
+    <a href="javascript:void(0)" id="back_link" class="footer-link">< Back</a>
   </div>
 </div>
