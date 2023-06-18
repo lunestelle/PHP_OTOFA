@@ -23,6 +23,7 @@
   <script src="<?=ROOT?>/assets/js/password_toggle.js"></script>
   <script src="<?=ROOT?>/assets/js/modal.js"></script>
   <script src="<?=ROOT?>/assets/js/modal_submission.js"></script>
+  <script src="<?=ROOT?>/assets/js/active_links.js"></script>
 </head>
 <style>
   .pop_msg {

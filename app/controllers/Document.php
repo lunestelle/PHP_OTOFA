@@ -1,6 +1,6 @@
 <?php 
 
-class Dashboard
+class Document
 {
 	use Controller;
 
@@ -11,6 +11,6 @@ class Dashboard
 			redirect('');
 		}
 
-		echo $this->renderView('dashboard');
+		echo $this->renderView('document');
 	}
 }
