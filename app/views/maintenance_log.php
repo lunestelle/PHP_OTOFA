@@ -3,6 +3,9 @@
 <!-- Kani na page dapat naa ni siyay filter by: driver and date -->
 <div class="content">
   <div class="row">
+    <div class="col-12 title-head text-uppercase">
+      <h6>maintenance logs</h6>
+    </div>
     <div class="col-lg-12">
       <div class="row">
         <div class="col-12">

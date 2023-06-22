@@ -1,7 +1,11 @@
 {{sidebar}}
 
+
 <div class="content">
   <div class="row">
+    <div class="col-12 title-head text-uppercase">
+      <h6>dashboard</h6>
+    </div>
     <div class="col-lg-12">
       <div class="row">
         <div class="col-12">
