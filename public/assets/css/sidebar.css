@@ -1,0 +1,364 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  background-color: #090C1B;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container a {
+  text-decoration: none;
+}
+
+.logo-image {
+  width: 50px;
+}
+
+.logo-text {
+  margin-top: 10px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  color: #FF4200;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+.logo-text span {
+  color: #fff;
+}
+
+hr {
+ color: #dee2e6;
+}
+
+/* --- NAV-ITEMS ---  */
+
+.nav-item {
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.nav-item a:hover, .nav-link-active {
+  background: #FF4200;
+  text-decoration: none;
+  color: #fff;
+}
+
+/* --- DROPDOWN ---  */
+
+.dropdown {
+  position: absolute;
+  bottom: 0;
+  left: 5;
+  margin-bottom: 10px;
+}
+
+.dropdown .color {
+  background-color: #FF4200;
+  color: white;
+  font-weight: bold;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+/* --- DROPDOWN MENU --- */
+
+.dropdown-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin: 0;
+  transform: translate3d(-1px, -98px, 0px);
+}
+
+.dropdown-menu a.dropdown-item {
+  color: black;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu a.dropdown-item i {
+  margin-right: 10px;
+}
+
+.dropdown-menu a.dropdown-item:hover {
+  color: #fff;
+  background: #FF4200;
+  text-decoration: none;
+}
+
+/* --- SIDEBAR CONTENT AREA --- */
+
+.content {
+  margin-left: 250px; /* same width as the sidebar */
+  padding: 15px;
+}
+
+.title-head {
+  border-bottom: #ABAAAA 2px solid;
+}
+
+.sidebar-btnContent {
+  padding: 7px 15px;
+  color: white;
+  background-color: #FF4200;
+  border: #FF4200 1px solid;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  float: right;
+}
+
+.sidebar-btnContent:hover {
+  background-color: white;
+  border: #FF4200 1px solid;
+  color: #FF4200;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+/*--- DASHBOARD PAGE OVERVIEW CONTAINER ---*/
+
+.overview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  width: 280px;
+  height: 100px;
+  background: linear-gradient(255.15deg, rgba(255, 66, 0, 0.675) 5.82%, rgba(255, 66, 0, 0.1125) 119.86%);
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+  padding: 10px;
+}
+
+.overview-container:hover {
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.534), 0px 8px 10px rgba(0, 0, 0, 0.1);
+}
+
+.overview-container img {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  height: 50px;
+  width: 50px;
+}
+
+.overview-container h5 {
+  position: absolute;
+  bottom: 25px;
+  left: 10px;
+  margin: 0;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.overview-container p {
+  position: absolute;
+  bottom: 5px;
+  left: 12px;
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+/*--- DASHBOARD PAGE TRICYCLE'S CODE ---*/
+
+.container-code {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  max-width: 100%;
+}
+
+.color-code-blue,
+.color-code-green,
+.color-code-red,
+.color-code-yellow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+  background: rgba(15, 136, 255, 0.75);
+  box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.color-code-blue,
+.color-code-green,
+.color-code-red,
+.color-code-yellow .center {
+  text-align: center;
+  padding: 10px;
+}
+
+.color-code-green {
+  background: rgba(0, 170, 48, 0.75);
+}
+
+.color-code-red {
+  background: rgb(255, 82, 82);
+}
+
+.color-code-yellow {
+  background: #EBB803;
+}
+
+.container-code img {
+  width: 100px;
+  margin: 0 auto;
+}
+
+.container-code p {
+  color: white;
+  font-weight: 700;
+  text-align: center;
+}
+
+.container-code .description p {
+  text-align: justify;
+  color: white;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 20px;
+}
+
+.container-code .description p.truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: calc(25px * 5);
+}
+
+/* -- TABLE'S CSS (use in Tricycle & Driver Page)-- */
+
+table {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  text-indent: initial;
+  border-spacing: 2px;
+  border-collapse: collapse;
+  font-size: 12px;
+  border: 1px #dee2e6 solid !important;
+}
+
+.thead-custom {
+  background-color: rgba(255, 66, 0, 0.4);
+}
+
+table > :not(caption) > * > * {
+  padding: 0.5rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+  border-bottom-style: solid;
+}
+
+table > :not(caption) > * > * > :first-child {
+  margin-top: 0;
+}
+
+table > :not(caption) > * > * > :last-child {
+  margin-bottom: 0;
+}
+
+.table-sm > :not(caption) > * > * {
+  padding: 0.25rem;
+}
+
+.table-borderless > :not(caption) > * > * {
+  border-bottom-width: 0;
+  box-shadow: none;
+}
+
+.table-striped > :not(caption) > * > *:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+.table-active > :not(caption) > * > * {
+  color: var(--bs-table-active-color);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.view-data-btn, .edit-data-btn, .delete-data-btn {
+  color: #fff !important;
+  font-size: 12px !important;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 4px !important;
+}
+
+@media (max-width: 575.98px) {
+  .table-responsive-sm {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .table-responsive-md {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .table-responsive-lg {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .table-responsive-xl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 1399.98px) {
+  .table-responsive-xxl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

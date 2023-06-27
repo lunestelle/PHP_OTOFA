@@ -1,6 +1,6 @@
 <?php 
 
-class Dashboard
+class Tricycle
 {
 	use Controller;
 
@@ -10,7 +10,7 @@ class Dashboard
 			set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
 			redirect('');
 		}
-
-		echo $this->renderView('dashboard');
+		
+		echo $this->renderView('tricycle');
 	}
 }

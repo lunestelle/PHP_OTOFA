@@ -1,6 +1,6 @@
 <?php 
 
-class Dashboard
+class Driver
 {
 	use Controller;
 
@@ -11,6 +11,6 @@ class Dashboard
 			redirect('');
 		}
 
-		echo $this->renderView('dashboard');
+		echo $this->renderView('driver');
 	}
 }
