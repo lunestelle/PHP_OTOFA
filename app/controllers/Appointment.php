@@ -11,6 +11,6 @@ class Appointment
 			redirect('');
 		}
 
-		echo $this->renderView('appointment');
+		echo $this->renderView('appointment', true);
 	}
 }

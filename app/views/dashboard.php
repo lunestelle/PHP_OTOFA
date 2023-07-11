@@ -1,6 +1,5 @@
 {{sidebar}}
 
-
 <div class="content">
   <div class="row">
     <div class="col-12 title-head text-uppercase">
@@ -13,25 +12,53 @@
             <a href="#" class="text-uppercase sidebar-btnContent">Export</a>
           </div>
         </div>
-        <div class="col-12">
-          <div class="container gap-5 px-5 mb-4 pb-3">
-            <div class="overview-container mt-3">
-              <img src="assets/images/tricycle.png" alt="Tricycle Image" class="mt-2">
-              <h5>10</h5>
-              <p>Tricycles</p>
-            </div>
-            <div class="overview-container mt-3">
-              <img src="assets/images/Driver.png" alt="Driver Image" class="mt-2">
-              <h5>10</h5>
-              <p>Drivers</p>
-            </div>
-            <div class="overview-container mt-3">
-              <img src="assets/images/Cash.png" alt="Boundary Image" class="mt-2">
-              <h5>555</h5>
-              <p>Boundaries</p>
+
+        <?php if ($user_role === 'operator') { ?>
+          <div class="col-12">
+            <div class="container gap-5 px-5 mb-4 pb-3">
+              <div class="overview-container mt-3">
+                <img src="assets/images/tricycle.png" alt="Tricycle Image" class="mt-2">
+                <h5>10</h5>
+                <p>Tricycles</p>
+              </div>
+              <div class="overview-container mt-3">
+                <img src="assets/images/Driver.png" alt="Driver Image" class="mt-2">
+                <h5>10</h5>
+                <p>Drivers</p>
+              </div>
+              <div class="overview-container mt-3">
+                <img src="assets/images/Cash.png" alt="Boundary Image" class="mt-2">
+                <h5>555</h5>
+                <p>Boundaries</p>
+              </div>
             </div>
           </div>
-        </div>
+        <?php } elseif ($user_role === 'admin') { ?>
+          <div class="col-12">
+            <div class="container gap-5 px-5 mb-4 pb-3">
+              <div class="overview-container mt-3">
+                <img src="assets/images/tricycle.png" alt="Tricycle Image" class="mt-2">
+                <h5>10</h5>
+                <p>Tricycles</p>
+              </div>
+              <div class="overview-container mt-3">
+                <img src="assets/images/Driver.png" alt="Driver Image" class="mt-2">
+                <h5>10</h5>
+                <p>Drivers</p>
+              </div>
+              <div class="overview-container mt-3">
+                <img src="assets/images/approval.png" alt="Registration Image" class="mt-2">
+                <h5>25</h5>
+                <p>Registration Approval</p>
+              </div>
+              <div class="overview-container mt-3">
+                <img src="assets/images/calendar.png" alt="Appointment Image" class="mt-2">
+                <h5>20</h5>
+                <p>Appointment Approval</p>
+              </div>
+            </div>
+          </div>
+        <?php } ?>
       </div>
     </div>
     <div class="col-12 title-head text-uppercase">

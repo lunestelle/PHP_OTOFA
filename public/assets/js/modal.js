@@ -10,7 +10,7 @@ window.uni_modal = function($title = '', $url = '', $size = "") {
         $('#uni_modal .modal-title').html($title)
         $('#uni_modal #modalContent').html(resp)
 
-        if ($url === 'forgot_password' || $url.includes('reset_password')) {
+        if ($url === 'forgot_password' || $url === 'account' || $url.includes('reset_password')) {
           $('#uni_modal .auth-sign-in').addClass('d-none');
           $('#uni_modal .auth-sign-up').addClass('d-none');
         } else if ($url === 'sign_in' || $url === 'sign_up')  {
@@ -60,6 +60,10 @@ $(document).ready(function() {
 
   $(document).on('click', '#back_link', function(){
     uni_modal('Sign In', 'sign_in', 'modal-md');
+  });
+
+  $(document).on('click', '#manage_account_link', function(){
+    uni_modal('Manage Account', 'account', 'modal-md');
   });
 });
 
