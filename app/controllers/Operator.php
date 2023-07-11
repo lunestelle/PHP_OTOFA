@@ -1,6 +1,6 @@
 <?php 
 
-class Dashboard
+class Operator
 {
 	use Controller;
 
@@ -11,6 +11,6 @@ class Dashboard
 			redirect('');
 		}
 
-		echo $this->renderView('dashboard', true);
+		echo $this->renderView('operator');
 	}
 }

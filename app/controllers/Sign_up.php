@@ -37,8 +37,6 @@ class Sign_up
 				$user->insert($userData);
 				$_SESSION['USER'] = $user->first(['email' => $email]);
 				$_SESSION['authenticated'] = true;
-				$_SESSION['user_email'] = $_POST['email'];
-				$_SESSION['user_first_name'] = $_POST['first_name'];
 
 				$response = ['status' => 'success', 'msg' => 'Account created successfully!', 'redirect_url' => ''];
         echo json_encode($response);

@@ -6,7 +6,6 @@ class Sign_in
 
   public function index()
   {
-    $data = [];
 
     if (is_authenticated()) {
       set_flash_message("You are already signed in.", "error");
@@ -28,7 +27,6 @@ class Sign_in
       if ($row && password_verify($password, $row->password)) {
         $_SESSION['USER'] = $row;
         $_SESSION['authenticated'] = true;
-        $_SESSION['user_first_name'] = $row->first_name;
 
         if (isset($_POST['rememberMe'])) {
           setcookie('email', $email, time() + (86400 * 30), '/'); // cookie is set to expire in 30 days
@@ -51,6 +49,6 @@ class Sign_in
       }
     }
 
-    echo $this->renderView('sign_in', false, $data);
+    echo $this->renderView('sign_in', false);
   }
 }

@@ -1,6 +1,6 @@
 <?php 
 
-class Dashboard
+class Registration_approval
 {
 	use Controller;
 
@@ -11,6 +11,6 @@ class Dashboard
 			redirect('');
 		}
 
-		echo $this->renderView('dashboard', true);
+		echo $this->renderView('registration_approval');
 	}
 }

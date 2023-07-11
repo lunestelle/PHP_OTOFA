@@ -6,6 +6,6 @@ class Home
 
 	public function index()
 	{
-		echo $this->renderView('home');
+		echo $this->renderView('home', true);
 	}
 }
