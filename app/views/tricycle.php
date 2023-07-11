@@ -9,12 +9,12 @@
       <div class="row">
         <div class="col-12">
           <div class="mt-3">
-            <a href="#" class="text-uppercase sidebar-btnContent">New</a>
+            <a href="manage_tricycle" class="text-uppercase sidebar-btnContent">New</a>
           </div>
         </div>
         <div class="col-12">
-          <div class="container table-responsive pt-4"> 
-            <table class="table-bordered table-hover">
+          <div class="container table-responsive pt-4">  
+            <table class="table-bordered table-hover" id="systemTable">
               <thead class="thead-custom">
                 <tr class="text-center text-uppercase">
                   <th scope="col">#</th>

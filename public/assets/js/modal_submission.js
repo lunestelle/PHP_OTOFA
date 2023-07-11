@@ -12,11 +12,13 @@ function modal_submission() {
     _el.addClass('pop_msg');
     $('#uni_modal button').attr('disabled', true);
     
-
     var formId = _this.attr('id');
     var url;
 
-    if (formId === 'sign-in-form') {
+    if (formId === 'manage-account-form') {
+      url = 'account';
+      $('#uni_modal button[type="submit"]').text('Updating...');
+    } else if (formId === 'sign-in-form') {
       url = 'sign_in';
       $('#uni_modal button[type="submit"]').text('Signing in...');
     } else if (formId === 'sign-up-form') {

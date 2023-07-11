@@ -1,6 +1,6 @@
 <?php 
 
-class Dashboard
+class Manage_driver
 {
 	use Controller;
 
@@ -10,7 +10,7 @@ class Dashboard
 			set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
 			redirect('');
 		}
-
-		echo $this->renderView('dashboard', true);
+		
+		echo $this->renderView('manage_driver');
 	}
 }

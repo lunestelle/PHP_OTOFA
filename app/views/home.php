@@ -15,11 +15,11 @@
     <?php if (is_authenticated()): ?>
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <?php echo $_SESSION['user_first_name']; ?> &nbsp;
+        <?= $first_name ?> &nbsp;
           <i class="fa-solid fa-caret-down"></i>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i>Account</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0)" id="manage_account_link"><i class="fa-solid fa-gear"></i>Account</a></li>
           <li>
             <form action="<?= ROOT ?>/sign_out" method="post" id="sign-out-form">
               <input type="hidden" name="sign_out" value="1">

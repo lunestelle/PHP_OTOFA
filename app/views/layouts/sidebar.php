@@ -16,6 +16,8 @@
       <li class="nav-item">
         <a href="dashboard" class="nav-link"><i class="fa-solid fa-list"></i><span class="ms-3">Dashboard</span></a>
       </li>
+      
+      <?php if ($user_role === 'operator') { ?>
       <li class="nav-item">
         <a class="nav-link" href="tricycle"><i class="fa-solid fa-truck-pickup"></i><span class="ms-3">Tricycles</span></a>
       </li>
@@ -31,16 +33,34 @@
       <li class="nav-item">
         <a class="nav-link" href="maintenance_log"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-3">Maintenance Logs</span></a>
       </li>
+
+      <?php } elseif ($user_role === 'admin') { ?>
+      <li class="nav-item">
+        <a class="nav-link" href="operator"><i class="fa-regular fa-id-card"></i><span class="ms-3">Operators</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="tricycle"><i class="fa-solid fa-truck-pickup"></i><span class="ms-3">Tricycles</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="registration_approval"><i class="fa-solid fa-person-circle-check"></i><span class="ms-3">Registration Applications</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="appointment"><i class="fa-solid fa-calendar-days"></i><span class="ms-3">Appointment Approval</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="maintenance_log"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-3">Maintenance Log Monitoring</span></a>
+      </li>
+      <?php } ?>
     </ul>
 
     <div class="mt-auto">
       <div class="dropdown">
         <button class="btn color dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          <?php echo $_SESSION['user_first_name']; ?> &nbsp;
+          <?= $first_name ?> &nbsp;
           <i class="fa-solid fa-caret-up"></i>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i>Account</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0)" id="manage_account_link"><i class="fa-solid fa-gear"></i>Account</a></li>
           <li>
             <form action="<?= ROOT ?>/sign_out" method="post" id="sign-out-form">
               <input type="hidden" name="sign_out" value="1">
