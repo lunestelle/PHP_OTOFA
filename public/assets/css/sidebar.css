@@ -328,28 +328,8 @@ table > :not(caption) > * > * > :last-child {
   padding: 4px !important;
 }
 
-@media (max-width: 575.98px) {
-  .table-responsive-sm {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
 
-@media (max-width: 767.98px) {
-  .table-responsive-md {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-@media (max-width: 991.98px) {
-  .table-responsive-lg {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-@media (max-width: 1199.98px) {
+@media (max-width: 1024.98px) {
   .table-responsive-xl {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -361,4 +341,73 @@ table > :not(caption) > * > * > :last-child {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+}
+
+/* -- MANAGE TRICYCLES (NEW PAGE)  */
+
+.btn-submit {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+}
+
+.content-container {
+  border-radius: 20px;
+  border: 1px solid #d8d8d8c9;
+  background: #FFF;
+  box-shadow: -1px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.form-label {
+  font-size: 13px;
+}
+
+.form-control {
+  width: 240px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  border-color: rgba(168, 166, 166, 1);
+  border-width: 1px;
+  border-style: solid;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+input[type=file] {
+  font-size: 13px;
+  width: 300px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 2px dashed #f3906c;
+  background: rgba(240, 95, 43, 0.171);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+input[type=file]:hover {
+  border: 2px dashed #da4914ad;
+  background: rgba(255, 68, 0, 0.226);
+
+}
+
+input[type=file]:focus {
+  border: 2px dashed #FF713F;
+  background: rgba(255, 66, 0, 0.20);
+  box-shadow: 0px 2px 4px 0px rgba(173, 66, 4, 0.486);
+}
+
+input[type=file]::file-selector-button {
+  margin: 10px;
+  background-color: #FF4200;
+  margin-right: 20px;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #ffffff;
+  color: #FF4200;
 }
