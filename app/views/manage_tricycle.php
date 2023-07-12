@@ -60,35 +60,35 @@
 
                 <h6 class="pl-2 pt-3">DOCUMENTS</h6>
                 <div class="row px-3">
-                  <div class="col-8 d-flex justify-content-between">
-                    <div>
+                  <div class="col-lg-10 col-xl-8 d-flex justify-content-between">
+                    <div class="col-md-5">
                       <label for="tricycleOperatorPermit" class="form-label">Tricycle Operator Permit</label>
                       <input type="file" class="form-control form-documents" id="tricycleOperatorPermit" name="tricycleOpetatorPermit" required>
                     </div>
 
-                    <div>
+                    <div class="col-md-5">
                       <label for="tricycleImages" class="form-label">Tricycle Images (Front, Back, & Sides)</label>
                       <input type="file" class="form-control form-documents" id="tricycleImages" name="tricycleImages" required>
                     </div>
                   </div>
                 </div>
 
-                <div class="row px-3 pt-4">
-                  <div class="col-8 d-flex justify-content-between">
-                    <div>
+                <div class="row px-3 pt-5">
+                  <div class="col-lg-10 col-xl-8 d-flex justify-content-between">
+                    <div class="col-md-4">
                       <label for="certificateOfRegistration" class="form-label">Certificate of Registration (CR)</label>
                       <input type="file" class="form-control form-documents" id="officialReceipt" name="or" required>
                     </div> 
                   
-                    <div>
+                    <div class="col-md-5">
                       <label for="officialReceipt" class="form-label">Official Receipt (OR)</label>
                       <input type="file" class="form-control form-documents" id="officialReceipt" name="or" required>
                     </div>
                   </div>
                 </div>
 
-                <div class="btn-submit text-end">
-                  <button type="submit" class="sidebar-btnContent">Add Tricycle</button>
+                <div class="btn-submit">
+                  <button type="submit" class="sidebar-btnContent mb-5">Add Tricycle</button>
                 </div>
               </div>
             </form>

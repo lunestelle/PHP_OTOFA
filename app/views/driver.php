@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="col-12">
-          <div class="container table-responsive pt-4"> 
+          <div class="table-responsive pt-4">
             <table class="table-bordered table-hover" id="systemTable">
               <thead class="thead-custom">
                 <tr class="text-center text-uppercase">
