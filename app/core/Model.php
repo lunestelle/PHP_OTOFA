@@ -78,9 +78,14 @@ Trait Model
 
     $keys = array_keys($data);
     $query = "INSERT INTO {$this->table} (" . implode(",", $keys) . ") VALUES (:" . implode(",:", $keys) . ")";
-    $this->query($query, $data);
 
-    return false;
+    try {
+      $this->query($query, $data);
+      return true; // Data insertion was successful
+    } catch (Exception $e) {
+      // Handle the exception or log the error
+      return false; // Data insertion failed
+    }
   }
 
   public function update($conditions, $data)

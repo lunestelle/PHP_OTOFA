@@ -22,25 +22,26 @@ trait Controller
 	}
 	
 	protected function renderView($viewName, $useLayout = true, $data = [])
-	{
-		$this->setCurrentPage($viewName);
+{
+    $this->setCurrentPage($viewName);
 
-		if ($useLayout) {
-			$layoutContent = $this->getLayoutContent();
-			$viewContent = $this->getViewContent($viewName, $data);
+    if ($useLayout) {
+        $layoutContent = $this->getLayoutContent();
+        $viewContent = $this->getViewContent($viewName, $data);
 
-			if ($this->current_page === 'dashboard' || $this->current_page === 'tricycle' || $this->current_page === 'driver' || $this->current_page === 'document' || $this->current_page === 'appointment' || $this->current_page === 'maintenance_log' || $this->current_page === 'operator' || $this->current_page === 'registration_approval' || $this->current_page === 'manage_tricycle' || $this->current_page === 'manage_driver') {
-				$sidebarContent = $this->getSidebarContent();
-				$viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
-			}
+        if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'manage_tricycle', 'manage_driver'])) {
+            $sidebarContent = $this->getSidebarContent();
+            $viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
+        }
 
-			$cssFile = $this->getCSSFile($this->current_page);
-			$layoutContent = str_replace('{{css}}', $cssFile, $layoutContent);
-			return str_replace('{{content}}', $viewContent, $layoutContent);
-		} else {
-			return $this->getViewContent($viewName, $data);
-		}
-	}
+        $cssFile = $this->getCSSFile($this->current_page);
+        $layoutContent = str_replace('{{css}}', $cssFile, $layoutContent);
+        return str_replace('{{content}}', $viewContent, $layoutContent);
+    } else {
+        return $this->getViewContent($viewName, $data);
+    }
+}
+
 
 	protected function getLayoutContent()
 	{
@@ -78,11 +79,14 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		if ($page === 'dashboard' || $page === 'tricycle' || $page === 'driver' || $page === 'document' || $page === 'appointment' || $page === 'maintenance_log' || $page === 'operator' || $page === 'registration_approval' || $page === 'manage_tricycle' || $page === 'manage_driver') {
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'manage_tricycle', 'manage_driver'];
+
+		if (in_array($page, $sidebarPages)) {
 			return 'sidebar.css';
 		} else {
 			$cssFile = $page . '.css';
 			$cssFilePath = "../public/assets/css/{$cssFile}";
+			
 			if (file_exists($cssFilePath)) {
 				return $cssFile;
 			} else {
@@ -90,4 +94,5 @@ trait Controller
 			}
 		}
 	}
+
 }

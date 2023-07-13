@@ -10,58 +10,65 @@
         <div class="col-12">
           <div class="container pt-4">
             <div id="newDriverForm">
-              <form>
+            <form class="default-form" method="POST" action="">
                 <div class="content-container mt-2 p-3">
                 <h6 class="pl-2 text-uppercase">Driver information</h6>
                   <div class="row px-3">
                     <div class="col-12 d-flex justify-content-between">
                       <div>
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo isset($first_name) ? $first_name : ''; ?>" required>
                       </div>
 
                       <div>
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo isset($last_name) ? $last_name : ''; ?>" required>
                       </div>
 
                       <div>
-                        <label for="middleName" class="form-label">Middle Name</label>
-                        <input type="text" class="form-control" id="middleName" name="middleName" required>
+                        <label for="middle_name" class="form-label">Middle Name</label>
+                        <input type="text" class="form-control" id="middle_name" name="middle_name" value="<?php echo isset($middle_name) ? $middle_name : ''; ?>" required>
                       </div>
                     </div>
 
                     <div class="col-12 d-flex justify-content-between mt-3">
                       <div>
                         <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" required>
+                        <input type="text" class="form-control" id="address" name="address" value="<?php echo isset($address) ? $address : ''; ?>" required>
                       </div>
 
                       <div>
-                        <label for="phoneNo" class="form-label">Phone No.</label>
-                        <input type="text" class="form-control" id="phoneNo" name="phoneNo" required>
+                        <label for="phone_no" class="form-label">Phone No.</label>
+                        <input type="text" class="form-control" id="phone_no" name="phone_no" value="<?php echo isset($phone_no) ? $phone_no : ''; ?>" required>
                       </div>
 
                       <div>
-                        <label for="birthdate" class="form-label">Birth Date</label>
-                        <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                        <label for="birth_date" class="form-label">Birth Date</label>
+                        <input type="date" class="form-control" id="birth_date" name="birth_date" value="<?php echo isset($birth_date) ? $birth_date : ''; ?>" required>
                       </div>
                     </div> 
 
                     <div class="col-12 d-flex justify-content-between mt-3">
                       <div>
-                        <label for="licenseNo" class="form-label">License No.</label>
-                        <input type="text" class="form-control" id="licenseNo" name="licenseNo" required>
+                        <label for="license_no" class="form-label">License No.</label>
+                        <input type="text" class="form-control" id="license_no" name="license_no" value="<?php echo isset($license_no) ? $license_no : ''; ?>" required>
                       </div>
 
                       <div>
-                        <label for="licenseValidity" class="form-label">License Validity</label>
-                        <input type="text" class="form-control" id="licenseValidity" name="licenseValidity" required>
+                        <label for="license_validity" class="form-label">License Validity</label>
+                        <input type="text" class="form-control" id="license_validity" name="license_validity" value="<?php echo isset($license_validity) ? $license_validity : ''; ?>" required>
                       </div>
 
                       <div>
-                        <label for="plateNo" class="form-label">Plate No.</label>
-                        <input type="text" class="form-control" id="plateNo" name="plateNo" required>
+                        <label for="tricycle_id" class="form-label">Plate No.</label>
+                        <select class="form-control" id="tricycle_id" name="tricycle_id" required>
+                          <option <?php echo (!isset($tricycle_id)) ? 'selected' : ''; ?> disabled>Please Select Here</option>
+                          <?php foreach ($tricycles as $tricycle): ?>
+                            <option value="<?php echo $tricycle['tricycle_id']; ?>" <?php echo (isset($tricycle_id) && $tricycle_id == $tricycle['tricycle_id']) ? 'selected' : ''; ?>>
+                              <?php echo $tricycle['plate_no']; ?>
+                            </option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
                     </div>
 
