@@ -5,7 +5,11 @@ $(document).ready(function() {
   navLinks.each(function() {
     let linkUrl = $(this).attr('href');
 
-    if (currentUrl.endsWith(linkUrl)) {
+    if (currentUrl.includes('manage_tricycle') && linkUrl.includes('tricycles')) {
+      $(this).addClass('nav-link-active');
+    } else if (currentUrl.includes('manage_driver') && linkUrl.includes('drivers')) {
+      $(this).addClass('nav-link-active');
+    } else if (currentUrl.endsWith(linkUrl)) {
       $(this).addClass('nav-link-active');
     } else {
       $(this).removeClass('nav-link-active');

@@ -19,13 +19,13 @@
       
       <?php if ($user_role === 'operator') { ?>
       <li class="nav-item">
-        <a class="nav-link" href="tricycle"><i class="fa-solid fa-truck-pickup"></i><span class="ms-3">Tricycles</span></a>
+        <a class="nav-link" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-3">Tricycles</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="driver"><i class="fa-regular fa-id-card"></i><span class="ms-3">Drivers</span></a>
+        <a class="nav-link" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-3">Drivers</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="document"><i class="fa-solid fa-folder"></i><span class="ms-3">Documents</span></a>
+        <a class="nav-link" href="documents"><i class="fa-solid fa-folder"></i><span class="ms-3">Documents</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="appointment"><i class="fa-solid fa-calendar-days"></i><span class="ms-3">Appointments</span></a>
@@ -39,7 +39,7 @@
         <a class="nav-link" href="operator"><i class="fa-regular fa-id-card"></i><span class="ms-3">Operators</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="tricycle"><i class="fa-solid fa-truck-pickup"></i><span class="ms-3">Tricycles</span></a>
+        <a class="nav-link" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-3">Tricycles</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="registration_approval"><i class="fa-solid fa-person-circle-check"></i><span class="ms-3">Registration Applications</span></a>

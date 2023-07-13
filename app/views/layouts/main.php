@@ -43,6 +43,15 @@
     margin-bottom: 10px !important;
     text-align: left;
   }
+
+  .pdf-scrollable {
+    overflow-y: auto;
+    max-height: 80vh;
+  }
+
+  .error-field {
+    border-color: red;
+  }
 </style>
 <body>
   <?php

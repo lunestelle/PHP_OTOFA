@@ -10,6 +10,12 @@ class Account
       set_flash_message("Oops! You need to be logged in to view this page.", "error");
       redirect('');
     }
+    
+     // checks if the request is an AJAX call by checking the 'HTTP_X_REQUESTED_WITH'
+     if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+      set_flash_message("Invalid request method.", "error");
+      redirect('');
+    }
 
     $user = new User();
     $userData = $user->first(['user_id' => $_SESSION['USER']->user_id]);

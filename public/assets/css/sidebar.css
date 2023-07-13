@@ -328,10 +328,10 @@ table > :not(caption) > * > * > :last-child {
 
 .view-data-btn, .edit-data-btn, .delete-data-btn {
   color: #fff !important;
-  font-size: 12px !important;
+  font-size: 10px !important;
   letter-spacing: 2px;
   text-decoration: none;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 4px !important;
 }
 
