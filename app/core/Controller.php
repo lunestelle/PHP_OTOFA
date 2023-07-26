@@ -32,17 +32,17 @@ trait Controller
 			if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'])) {
 				$sidebarContent = $this->getSidebarContent();
 				$viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
-        }
+			}
 
-        $cssFiles = $this->getCSSFile($this->current_page);
+			$cssFiles = $this->getCSSFile($this->current_page);
 
-        $cssFileTags = '';
-        foreach ($cssFiles as $cssFile) {
-					$cssFileTags = $cssFile;
-        }
+			$cssFileTags = '';
+			foreach ($cssFiles as $cssFile) {
+				$cssFileTags .= '<link rel="stylesheet" type="text/css" href="../public/assets/css/' . $cssFile . '">';
+			}
 
-        $layoutContent = str_replace('{{css}}', $cssFileTags, $layoutContent);
-        return str_replace('{{content}}', $viewContent, $layoutContent);
+			$layoutContent = str_replace('{{css}}', $cssFileTags, $layoutContent);
+			return str_replace('{{content}}', $viewContent, $layoutContent);
     } else {
 			return $this->getViewContent($viewName, $data);
     }

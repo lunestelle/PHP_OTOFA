@@ -16,8 +16,7 @@
   <link rel="stylesheet" href="<?=ROOT?>/assets/DataTables/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="<?=ROOT?>/assets/css/flash_messages.css">
   <link rel="stylesheet" href="<?=ROOT?>/assets/css/authentication.css">
-  <link rel="stylesheet" href="<?=ROOT?>/assets/css/{{css}}">
-  
+  {{css}}
 
   <!-- OFFLINE -->
   <script src="<?=ROOT?>/assets/bootstrap/js/jquery.min.js"></script>
