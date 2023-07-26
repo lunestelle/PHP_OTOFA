@@ -19,7 +19,7 @@ class Sign_out
 			redirect('');
 		} else {
 			set_flash_message("Invalid request method.", "error");
-			redirect('');
+			redirect('dashboard');
 		}
 	}
 }

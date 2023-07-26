@@ -119,7 +119,13 @@ Trait Model
     $mergedData = array_merge($conditions, $data);
     $this->query($query, $mergedData);
 
-    return false;
+    try {
+      $this->query($query, $mergedData);
+      return true; // Data update was successful
+    } catch (Exception $e) {
+      // Handle the exception or log the error
+      return false; // Data update failed
+  }
   }
 
   public function delete($conditions)

@@ -1,6 +1,6 @@
 <?php
 
-class Manage_tricycle
+class New_tricycle
 {
   use Controller;
 
@@ -90,10 +90,10 @@ class Manage_tricycle
         $data['or_no'] = $_POST['or_no'];
         $data['or_date'] = $_POST['or_date'];
 
-        echo $this->renderView('manage_tricycle', true, $data);
+        echo $this->renderView('new_tricycle', true, $data);
       }
     } else {
-      echo $this->renderView('manage_tricycle', true, $data);
+      echo $this->renderView('new_tricycle', true, $data);
     }
   }
 }

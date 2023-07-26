@@ -38,7 +38,7 @@ class Sign_up
 				$_SESSION['USER'] = $user->first(['email' => $email]);
 				$_SESSION['authenticated'] = true;
 
-				$response = ['status' => 'success', 'msg' => 'Account created successfully!', 'redirect_url' => ''];
+				$response = ['status' => 'success', 'msg' => 'Account created successfully!', 'redirect_url' => 'dashboard'];
         echo json_encode($response);
         exit;
 			} else {

@@ -16,7 +16,7 @@ trait Controller
 		if (isset($_SESSION['USER'])) {
 			$this->sharedData = [
 				'user_role' => $_SESSION['USER']->role,
-				'first_name' => $_SESSION['USER']->first_name,
+				'firstName' => $_SESSION['USER']->first_name,
 			];
 		}
 	}
@@ -29,7 +29,7 @@ trait Controller
         $layoutContent = $this->getLayoutContent();
         $viewContent = $this->getViewContent($viewName, $data);
 
-        if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'manage_tricycle', 'manage_driver'])) {
+        if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'])) {
             $sidebarContent = $this->getSidebarContent();
             $viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
         }
@@ -79,7 +79,7 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'manage_tricycle', 'manage_driver'];
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'];
 
 		if (in_array($page, $sidebarPages)) {
 			return 'sidebar.css';

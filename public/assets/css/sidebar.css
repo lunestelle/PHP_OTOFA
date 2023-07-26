@@ -1,12 +1,47 @@
 .sidebar {
-  position: fixed;
+  min-height: 100vh;
+  position: sticky;
   top: 0;
-  left: 0;
-  height: 100%;
-  width: 280px;
+  z-index: 100;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
   background-color: #090C1B;
-  padding: 20px;
-  overflow-y: auto;
+}
+
+.sidebar .nav-link {
+  padding: 10px;
+}
+
+.sidebar .dropdown-menu {
+  position: static;
+}
+
+.sidebar .dropdown-toggle::after {
+  display: none;
+}
+
+.sidebar .collapse {
+  display: none;
+}
+
+.sidebar .show {
+  display: block;
+}
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding-top: 20px;
+  }
+  .sidebar .collapse {
+    display: block;
+  }
 }
 
 .logo-container {
@@ -115,9 +150,8 @@ hr {
 }
 
 /* --- SIDEBAR CONTENT AREA --- */
-
-.content {
-  margin-left: 280px; /* same width as the sidebar */
+.main-content {
+  flex: 1;
   padding: 15px;
 }
 
@@ -336,6 +370,10 @@ table > :not(caption) > * > * > :last-child {
 }
 
 /* -- MANAGE TRICYCLES (NEW PAGE)  */
+.form-control {
+  font-size: 13px !important;
+  text-align: center;
+}
 
 .btn-submit {
   position: relative;
