@@ -43,7 +43,7 @@
                         <td><?php echo $tricycle['route_area']; ?></td>
                         <td><?php echo $tricycle['or_no']; ?></td>
                         <td><?php echo $tricycle['or_date']; ?></td>
-                        <td><?php echo $tricycle['tricycle_status']; ?></td>
+                        <td class="status btn me-1"><?php echo $tricycle['tricycle_status']; ?></td>
                         <!-- <td>
                           Actions
                         </td> -->

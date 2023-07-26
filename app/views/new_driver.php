@@ -44,12 +44,15 @@
                                 </div>
 
                                 <div class="col-4">
-                                  <label for="phone_no" class="form-label">Phone No.</label>
-                                  <div class="input-group">
-                                    <span class="input-group-text">+63</span>
-                                    <input type="text" class="form-control" id="phone_no" name="phone_no" placeholder="e.g., 9123456789" value="<?php echo isset($phone_no) ? $phone_no : ''; ?>"  required>
+                                  <div class="form-group">
+                                    <label for="phone_no" class="form-label">Phone No.</label>
+                                    <div class="input-group">
+                                      <span class="input-group-text">+63</span>
+                                      <input type="text" class="form-control phone-no" id="phone_no" name="phone_no" placeholder="e.g., 9123456789" value="<?php echo isset($phone_no) ? $phone_no : ''; ?>" required>
+                                    </div>
                                   </div>
                                 </div>
+
 
                                 <div class="col-4">
                                   <label for="birth_date" class="form-label">Birth Date</label>
