@@ -42,7 +42,7 @@
 
                 <div class="row mt-4">
                   <div class="col-6">
-                    <label for="discountedRate">Senior Citizen, PWD & Student:</label>
+                    <label for="discountedRate">Senior Citizen, PWD & Student Rate:</label>
                     <input type="text" id="discountedRate" name="discounted_rate" class="form-control" value="<?php echo isset($taripa->discounted_rate) ? $taripa->discounted_rate : ''; ?>"> <!-- Use object notation -> instead of ['discounted_rate'] -->
                   </div>
                   <div class="col-6">

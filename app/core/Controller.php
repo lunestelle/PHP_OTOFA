@@ -22,26 +22,31 @@ trait Controller
 	}
 	
 	protected function renderView($viewName, $useLayout = true, $data = [])
-{
+	{
     $this->setCurrentPage($viewName);
 
     if ($useLayout) {
-        $layoutContent = $this->getLayoutContent();
-        $viewContent = $this->getViewContent($viewName, $data);
+			$layoutContent = $this->getLayoutContent();
+			$viewContent = $this->getViewContent($viewName, $data);
 
-        if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'])) {
-            $sidebarContent = $this->getSidebarContent();
-            $viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
+			if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'])) {
+				$sidebarContent = $this->getSidebarContent();
+				$viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
         }
 
-        $cssFile = $this->getCSSFile($this->current_page);
-        $layoutContent = str_replace('{{css}}', $cssFile, $layoutContent);
+        $cssFiles = $this->getCSSFile($this->current_page);
+
+        $cssFileTags = '';
+        foreach ($cssFiles as $cssFile) {
+					$cssFileTags = $cssFile;
+        }
+
+        $layoutContent = str_replace('{{css}}', $cssFileTags, $layoutContent);
         return str_replace('{{content}}', $viewContent, $layoutContent);
     } else {
-        return $this->getViewContent($viewName, $data);
+			return $this->getViewContent($viewName, $data);
     }
-}
-
+	}
 
 	protected function getLayoutContent()
 	{
@@ -81,18 +86,23 @@ trait Controller
 	{
 		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'];
 
-		if (in_array($page, $sidebarPages)) {
-			return 'sidebar.css';
-		} else {
-			$cssFile = $page . '.css';
-			$cssFilePath = "../public/assets/css/{$cssFile}";
-			
-			if (file_exists($cssFilePath)) {
-				return $cssFile;
-			} else {
-				return 'home.css';
-			}
-		}
+		$cssFile = $page . '.css';
+    $cssFilePath = "../public/assets/css/{$cssFile}";
+    $cssFiles = [];
+
+    if (file_exists($cssFilePath)) {
+			$cssFiles[] = $cssFile;
+    }
+
+    if (in_array($page, $sidebarPages)) {
+			$cssFiles[] = 'sidebar.css';
+    }
+
+    if (empty($cssFiles)) {
+			$cssFiles[] = 'home.css';
+    }
+
+    return $cssFiles;
 	}
 
 }
