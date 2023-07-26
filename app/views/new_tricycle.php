@@ -120,6 +120,10 @@
                     </div>
                   </div>
 
+                  <div id="taripaTableContainer" >
+                    <!-- show here the taripa of the selected route area -->
+                  </div>
+
                   <div class="text-end my-3">
                     <button type="submit" class="sidebar-btnContent">Add Tricycle</button>
                   </div>
@@ -132,3 +136,45 @@
     </main>
   </div>
 </div>
+
+<script>
+  function updateTaripaTable(routeArea) {
+    if (!routeArea) {
+      $("#taripaTableContainer").empty();
+      return;
+    }
+
+    $.ajax({
+      url: "new_tricycle",
+      method: "POST",
+      data: { route_area: routeArea },
+      dataType: "json",
+      success: function (response) {
+        let tableHtml = '<div id="taripaTableContainer" class="content-container mt-2 p-3">';
+        tableHtml += '<h6>' + routeArea + ' Taripa</h6>';
+        tableHtml += '<table class="table table-bordered table-hover text-center" id="systemTable">';
+        tableHtml += '<thead><tr><th>Barangay</th><th>Regular Rate</th><th>Discounted Rate</th></tr></thead><tbody>';
+
+        // Loop through the taripa data to generate table rows
+        for (let i = 0; i < response.length; i++) {
+          tableHtml += '<tr><td>' + response[i].barangay + '</td><td>' + response[i].regular_rate + '</td><td>' + response[i].discounted_rate + '</td></tr>';
+        }
+
+        tableHtml += '</tbody></table>';
+        tableHtml += '</div>';
+
+        $("#taripaTableContainer").html(tableHtml);
+      },
+      error: function () {
+        alert("Failed to fetch taripa data. Please try again.");
+      },
+    });
+  }
+
+ $(document).ready(function () {
+    $("#route_area").change(function () {
+      let selectedRouteArea = $(this).val();
+      updateTaripaTable(selectedRouteArea);
+    });
+  });
+</script>

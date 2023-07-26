@@ -22,6 +22,15 @@ class New_tricycle
       ];
     }
 
+    if (isset($_POST['route_area'])) {
+      $taripasModel = new Taripas();
+      $routeArea = $_POST['route_area'];
+      $taripaData = $taripasModel->where(['route_area' => $routeArea]);
+    
+      echo json_encode($taripaData);
+      exit;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $tricycleModel = new Tricycle();
       $documentModel = new Document();
