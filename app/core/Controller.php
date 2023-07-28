@@ -84,7 +84,13 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'];
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa'];
+
+		$sidebarViewPages = ['view_tricycle'];
+
+		$sidebarEditPages = ['edit_tricycle'];
+
+		$sidebarNewPages = ['new_driver', 'new_taripa', 'new_tricycle'];
 
 		$cssFile = $page . '.css';
 		$cssFilePath = "../public/assets/css/{$cssFile}";
@@ -96,7 +102,15 @@ trait Controller
 
     if (in_array($page, $sidebarPages)) {
 			$cssFiles[] = 'sidebar.css';
-    }		
+    }
+		
+		if (in_array($page, $sidebarViewPages)) {
+			$cssFiles[] = 'view_page.css';
+    } else if (in_array($page, $sidebarEditPages)) {
+			$cssFiles[] ='edit_page.css';
+		} else if (in_array($page, $sidebarNewPages)) {
+			$cssFiles[] = 'new_page.css';
+		}
 
     if (empty($cssFiles)) {
 			$cssFiles[] = 'home.css';
