@@ -15,7 +15,7 @@
             </div>
             <div class="col-12">
               <div class="table-responsive pt-4">
-                <table class="table-bordered table-hover" id="systemTable">
+                <table class="table table-hover" id="systemTable">
                   <thead class="thead-custom">
                     <tr class="text-uppercase">
                       <th scope="col" class="text-center">#</th>
@@ -25,6 +25,7 @@
                       <th scope="col" class="text-center">Phone No.</th>
                       <th scope="col" class="text-center">License No.</th>
                       <th scope="col">License Validity</th>
+                      <th scope="col" class="text-center">Actions</th>
                       <!-- <th scope="col">Actions</th> -->
                     </tr>
                   </thead>
@@ -38,7 +39,10 @@
                         <td><?php echo $driver['phone_no']; ?></td>
                         <td><?php echo $driver['license_no']; ?></td>
                         <td><?php echo $driver['license_validity']; ?></td>
-                        <!-- <td>Actions</td> -->
+                        <td>
+                          <a href="./view_driver" class="view_data px-1 me-1" style="color:#26CC00;" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                          <a href="./edit_driver" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Product Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>
+                        </td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>

@@ -152,8 +152,8 @@
       success: function (response) {
         let tableHtml = '<div id="taripaTableContainer" class="content-container mt-2 p-3">';
         tableHtml += '<h6>' + routeArea + ' Taripa</h6>';
-        tableHtml += '<table class="table table-bordered table-hover text-center" id="systemTable">';
-        tableHtml += '<thead><tr><th>Barangay</th><th>Regular Rate</th><th>Discounted Rate</th></tr></thead><tbody>';
+        tableHtml += '<table class="table table-hover text-center" id="systemTable">';
+        tableHtml += '<thead style="background-color:#090C1B;"><tr><th class="text-white">Barangay</th><th class="text-white">Regular Rate</th><th class="text-white">Discounted Rate</th></tr></thead><tbody>';
 
         // Loop through the taripa data to generate table rows
         for (let i = 0; i < response.length; i++) {

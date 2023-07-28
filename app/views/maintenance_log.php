@@ -17,7 +17,7 @@
             </div>
             <div class="col-12">
               <div class="container table-responsive pt-4"> 
-                <table class="table-bordered table-hover">
+                <table class="table table-hover">
                   <thead class="thead-custom">
                     <tr class="text-center text-uppercase">
                       <th scope="col">#</th>
@@ -41,8 +41,8 @@
                       <td><img src="<?=ROOT?>/assets/images/receipt-icon.png" alt="Receipt Image" width="40"></td>
                       <td>
                         <div class="col-auto d-flex justify-content-center">
-                          <span href="#" class="view_data py-0 px-1 me-1" style="color:darkgoldenrod" title="View Product Details"><i class="fas fa-file-alt"></i></span>
-                          <a href="#" class="edit_data text-primary py-0 px-1 me-1" title="Edit Product Details"><i class="fa fa-edit"></i></a>
+                        <span href="#" class="view_data px-1 me-1" style="color:#26CC00" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></span>
+                          <a href="#" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Product Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>                        </div>
                         </div>
                       </td>
                     </tr>
@@ -56,9 +56,8 @@
                       <td><img src="<?=ROOT?>/assets/images/receipt-icon.png" alt="Receipt Image" width="40"></td>
                       <td>
                         <div class="col-auto d-flex justify-content-center">
-                          <span href="#" class="view_data py-0 px-1 me-1" style="color:darkgoldenrod" title="View Product Details"><i class="fas fa-file-alt"></i></span>
-                          <a href="#" class="edit_data text-primary py-0 px-1 me-1" title="Edit Product Details"><i class="fa fa-edit"></i></a>
-                        </div>
+                          <span href="#" class="view_data px-1 me-1" style="color:#26CC00" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></span>
+                          <a href="#" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Product Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>                        </div>
                       </td>
                     </tr>
                   </tbody>

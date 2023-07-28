@@ -15,7 +15,7 @@
             </div>
             <div class="col-12">
               <div class="container table-responsive pt-4"> 
-                <table class="table-bordered table-hover">
+                <table class="table table-hover">
                   <thead class="thead-custom">
                     <tr class="text-center text-uppercase">
                       <th scope="col">#</th>

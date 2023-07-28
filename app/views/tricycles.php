@@ -15,7 +15,7 @@
             </div>
             <div class="col-12">
               <div class="table-responsive pt-4">
-                <table class="table-bordered table-hover" id="systemTable">
+                <table class="table table-hover" id="systemTable">
                   <thead class="thead-custom">
                     <tr class="text-uppercase">
                       <th scope="col" class="text-center">#</th>
@@ -44,13 +44,9 @@
                           <span class="badge status-badge"><?php echo $tricycle['tricycle_status']; ?></span>
                         </td>
                         <td>
-                          <a class="view-tricycle" href="./view_tricycle">View</a>
-                          <a class="text-decoration-none" href="./edit_tricycle.php" >Edit</a>
+                          <a href="./view_tricycle" class="view_data px-1 me-1" style="color:#26CC00;" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                          <a href="./edit_tricycle" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Product Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>
                         </td>
-
-                        <!-- <td>
-                          Actions
-                        </td> -->
                       </tr>
                     <?php endforeach; ?>
                   </tbody>

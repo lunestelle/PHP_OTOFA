@@ -29,7 +29,7 @@ trait Controller
 			$layoutContent = $this->getLayoutContent();
 			$viewContent = $this->getViewContent($viewName, $data);
 
-			if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'])) {
+			if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'view_driver', 'edit_driver', 'new_taripa', 'edit_taripa'])) {
 				$sidebarContent = $this->getSidebarContent();
 				$viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
 			}
@@ -84,11 +84,11 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'];
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'view_driver', 'edit_driver', 'new_taripa', 'edit_taripa'];
 		
-		$sidebarViewPages = ['view_tricycle'];
+		$sidebarViewPages = ['view_tricycle', 'view_driver'];
 
-		$sidebarEditPages = ['edit_tricycle'];
+		$sidebarEditPages = ['edit_tricycle', 'edit_driver'];
 
 		$sidebarNewPages = ['new_driver', 'new_taripa', 'new_tricycle'];
 

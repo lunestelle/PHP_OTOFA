@@ -28,7 +28,7 @@
                         <div>
                           <label for="color_code" class="form-label">Color Code</label>
                           <select disabled class="form-control" id="color_code" name="color_code" required>
-                            <option selected disabled>Please Select Here</option>
+                            <option selected>Please Select Here</option>
                             <option value="Red" <?php echo isset($_POST['color_code']) && $_POST['color_code'] === 'Red' ? 'selected' : ''; ?>>Red</option>
                             <option value="Green" <?php echo isset($_POST['color_code']) && $_POST['color_code'] === 'Green' ? 'selected' : ''; ?>>Green</option>
                             <option value="Yellow" <?php echo isset($_POST['color_code']) && $_POST['color_code'] === 'Yellow' ? 'selected' : ''; ?>>Yellow</option>
@@ -38,8 +38,8 @@
 
                         <div>
                           <label for="route_area" class="form-label">Route Area</label>
-                          <select disabled class="form-control" id="route_area" name="route_area" required>
-                            <option selected disabled>Please Select Here</option>
+                          <select class="form-control" id="route_area" name="route_area" required>
+                            <option selected>Please Select Here</option>
                             <option value="Freezone & Zone 1" <?php echo isset($_POST['route_area']) && $_POST['route_area'] === 'Freezone & Zone 1' ? 'selected' : ''; ?>>Freezone & Zone 1</option>
                             <option value="Freezone & Zone 2" <?php echo isset($_POST['route_area']) && $_POST['route_area'] === 'Freezone & Zone 2' ? 'selected' : ''; ?>>Freezone & Zone 2</option>
                             <option value="Freezone & Zone 3" <?php echo isset($_POST['route_area']) && $_POST['route_area'] === 'Freezone & Zone 3' ? 'selected' : ''; ?>>Freezone & Zone 3</option>
@@ -57,8 +57,8 @@
 
                         <div>
                           <label for="driver_id" class="form-label">Driver's Name</label>
-                          <select disabled class="form-control" id="driver_id" name="driver_id" required>
-                            <option <?php echo (!isset($_POST['driver_id'])) ? 'selected' : ''; ?> disabled>Please Select Here</option>
+                          <select class="form-control" id="driver_id" name="driver_id" required>
+                            <option <?php echo (!isset($_POST['driver_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
                             <?php foreach ($drivers as $driver): ?>
                             <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($_POST['driver_id']) && $_POST['driver_id'] == $driver['driver_id']) ? 'selected' : ''; ?>>
                               <?php echo $driver['name']; ?>
@@ -79,7 +79,7 @@
 
                         <!-- <div>
                           <label for="tricycle_status" class="form-label">Tricycle Status</label>
-                          <select disabled class="form-control" id="tricycle_status" name="tricycle_status" readonly>
+                          <select class="form-control" id="tricycle_status" name="tricycle_status" readonly>
                             <option value="Registration Pending" selected>Registration Pending</option>
                             <option value="Available">Available</option>
                             <option value="Renewal Required">Renewal Requi red</option>
@@ -123,11 +123,10 @@
                   <div id="taripaTableContainer" >
                     <!-- show here the taripa of the selected route area -->
                   </div>
-
-                  <div class="text-end my-3">
-                    <a href="./tricycles.php"><button type="submit" class="sidebar-btnContent">Back</button></a>
-                  </div>
                 </form>
+                <div class="text-end my-3">
+                  <a href="./tricycles"><button class="sidebar-btnContent">Back</button></a>
+                </div>
               </div>
             </div>
           </div>
