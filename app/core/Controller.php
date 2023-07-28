@@ -84,8 +84,8 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa'];
-
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'new_taripa', 'edit_taripa'];
+		
 		$sidebarViewPages = ['view_tricycle'];
 
 		$sidebarEditPages = ['edit_tricycle'];

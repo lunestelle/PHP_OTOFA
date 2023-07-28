@@ -4,7 +4,7 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
       <div class="row">
         <div class="col-12 title-head text-uppercase">
-        <h6 class="add">View Tricycle <?php  echo isset($_GET['plate_no'])  ?></h6>
+        <h6 class="add newColor">View Tricycle <?php  echo isset($_GET['plate_no'])  ?></h6>
         </div>
         <div class="col-lg-12">
           <div class="row">
