@@ -24,10 +24,9 @@
                       <th scope="col" class="text-center">Make / Model</th>
                       <th scope="col" class="text-center">Year Acquired</th>
                       <th scope="col" class="text-center">Color Code</th>
-                      <th scope="col" class="text-center">Route Area</th>
-                      <th scope="col" class="text-center">OR No.</th>
-                      <th scope="col" class="text-center">OR Date</th>
+                      <th scope="col" class="text-center">Route Area</td>
                       <th scope="col" class="text-center">Status</th>
+                      <th scope="col" class="text-center">Actions</th>
                       <!-- <th scope="col" class="text-center">Actions</th> -->
                     </tr>
                   </thead>
@@ -41,9 +40,14 @@
                         <td><?php echo $tricycle['year_acquired']; ?></td>
                         <td><?php echo $tricycle['color_code']; ?></td>
                         <td><?php echo $tricycle['route_area']; ?></td>
-                        <td><?php echo $tricycle['or_no']; ?></td>
-                        <td><?php echo $tricycle['or_date']; ?></td>
-                        <td class="status btn me-1"><?php echo $tricycle['tricycle_status']; ?></td>
+                        <td>
+                          <span class="badge status-badge"><?php echo $tricycle['tricycle_status']; ?></span>
+                        </td>
+                        <td>
+                          <a class="view-tricycle" href="./view_tricycle">View</a>
+                          <a class="text-decoration-none" href="./edit_tricycle.php" >Edit</a>
+                        </td>
+
                         <!-- <td>
                           Actions
                         </td> -->
