@@ -4,60 +4,139 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
       <div class="row">
         <div class="col-12 title-head text-uppercase">
-          <h6><?php echo isset($taripa->taripa_id) ? 'Edit Taripa' : 'New Taripa'; ?></h6> <!-- Use object notation -> instead of ['id'] -->
+          <h6>New Taripa</h6>
         </div>
         <div class="col-lg-12">
-          <div class="row">
-            <div class="col-12">
-              <form method="POST" action=""> <!-- Use object notation -> instead of ['id'] -->
-                <?php if (isset($taripa->taripa_id)): ?> <!-- Use object notation -> instead of ['id'] -->
-                  <input type="hidden" name="id" value="<?php echo $taripa->taripa_id; ?>"> <!-- Use object notation -> instead of ['id'] -->
-                <?php endif; ?>
-
-                <div class="row mt-2">
-                <div class="col-6">
-                  <label for="routeAreaFilter">Select Route Area:</label>
-                  <select id="routeAreaFilter" name="route_area" class="form-select">
-                    <option value="All" <?php echo isset($taripa->route_area) && $taripa->route_area === 'All' ? 'selected' : ''; ?>>All</option>
-                    <option value="Freezone & Zone 1" <?php echo isset($taripa->route_area) && $taripa->route_area === 'Freezone & Zone 1' ? 'selected' : ''; ?>>Freezone & Zone 1</option>
-                    <option value="Freezone & Zone 2" <?php echo isset($taripa->route_area) && $taripa->route_area === 'Freezone & Zone 2' ? 'selected' : ''; ?>>Freezone & Zone 2</option>
-                    <option value="Freezone & Zone 3" <?php echo isset($taripa->route_area) && $taripa->route_area === 'Freezone & Zone 3' ? 'selected' : ''; ?>>Freezone & Zone 3</option>
-                    <option value="Freezone & Zone 4" <?php echo isset($taripa->route_area) && $taripa->route_area === 'Freezone & Zone 4' ? 'selected' : ''; ?>>Freezone & Zone 4</option>
-                    <option value="Freezone" <?php echo isset($taripa->route_area) && $taripa->route_area === 'Freezone' ? 'selected' : ''; ?>>Freezone</option>
-                  </select>
-                </div>
-                </div>
-
-                <div class="row mt-4">
-                  <div class="col-6">
-                    <label for="barangay">Barangay:</label>
-                    <input type="text" id="barangay" name="barangay" class="form-control" value="<?php echo isset($taripa->barangay) ? $taripa->barangay : ''; ?>"> <!-- Use object notation -> instead of ['barangay'] -->
-                  </div>
-
-                  <div class="col-6">
-                    <label for="regularRate">Regular Rate:</label>
-                    <input type="text" id="regularRate" name="regular_rate" class="form-control" value="<?php echo isset($taripa->regular_rate) ? $taripa->regular_rate : ''; ?>"> <!-- Use object notation -> instead of ['regular_rate'] -->
-                  </div>
-                </div>
-
-                <div class="row mt-4">
-                  <div class="col-6">
-                    <label for="discountedRate">Senior Citizen, PWD & Student Rate:</label>
-                    <input type="text" id="discountedRate" name="discounted_rate" class="form-control" value="<?php echo isset($taripa->discounted_rate) ? $taripa->discounted_rate : ''; ?>"> <!-- Use object notation -> instead of ['discounted_rate'] -->
-                  </div>
-                  <div class="col-6">
-                    <div class="mt-3">
-                      <button type="submit" class="text-uppercase sidebar-btnContent">
-                        <?php echo isset($taripa->taripa_id) ? 'Update' : 'Save'; ?>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
+          <form method="post" id="taripaForm">
+            <div class="row mt-2">
+              <div class="col-6">
+                <label for="rateAction">Select Rate Action:</label>
+                <select id="rateAction" name="rate_action" class="form-select">
+                  <option value="increase" <?= isset($rate_action) && $rate_action === 'increase' ? 'selected' : '' ?>>Increase</option>
+                  <option value="decrease" <?= isset($rate_action) && $rate_action === 'decrease' ? 'selected' : '' ?>>Decrease</option>
+                </select>
+              </div>
+              <div class="col-6">
+                <label for="year">Enter Year:</label>
+                <input type="number" id="year" name="year" class="form-control" min="<?= $minYear ?>" max="<?= $currentYear ?>" value="<?= $year ?? '' ?>" required>
+              </div>
+              <div class="col-6">
+                <label for="percentage">Enter Percentage:</label>
+                <input type="number" id="percentage" name="percentage" class="form-control" min="1" max="100" step="1" value="<?= $percentage ?? '' ?>" required>
+              </div>
+              <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-primary">Calculate</button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
+
+      <!-- Display the calculated rates -->
+      <?php if (isset($calculatedRates) && !empty($calculatedRates)): ?>
+        <div class="col-12 mt-4">
+          <h6 class="mb-4"><?php echo $year; ?> Calculated Rates: <?php echo $rate_action === 'increase' ? $percentage . '% Increase' : $percentage . '% Decrease'; ?> from the <?php echo $recentYear; ?> Taripa</h6>
+          <table class="table-bordered table-hover text-center" id="systemTable">
+            <thead class="thead-custom">
+              <tr class="text-uppercase">
+                <th scope="col" class="text-center">Route Area</th>
+                <th scope="col" class="text-center">Barangay</th>
+                <th scope="col" class="text-center">Previous Regular Rate</th>
+                <th scope="col" class="text-center">Previous Discounted Rate</th>
+                <th scope="col" class="text-center">New Regular Rate</th>
+                <th scope="col" class="text-center">New Discounted Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($calculatedRates as $rate): ?>
+                <tr>
+                  <td><?php echo $rate['route_area']; ?></td>
+                  <td><?php echo $rate['barangay']; ?></td>
+                  <td><?php echo '₱' . number_format($rate['previous_regular_rate'], 2); ?></td>
+                  <td><?php echo '₱' . number_format($rate['previous_discounted_rate'], 2); ?></td>
+                  <td><?php echo '₱' . number_format($rate['new_regular_rate'], 2); ?></td>
+                  <td><?php echo '₱' . number_format($rate['new_discounted_rate'], 2); ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-12 mt-3">
+          <form method="post" action="<?=ROOT?>/save_rate_adjustment" id="saveForm">
+            <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
+            <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+          </form>
+        </div>
+      <?php endif; ?>
     </main>
   </div>
 </div>
+
+<script>
+  const formYearInput = document.getElementById('year');
+  const formRateActionSelect = document.getElementById('rateAction');
+  const formPercentageInput = document.getElementById('percentage');
+  const taripaForm = document.getElementById('taripaForm');
+
+  // On page load, check if there are calculated rates in the session and hide the form if needed
+  const calculatedRates = <?php echo isset($calculatedRates) ? json_encode($calculatedRates) : 'null'; ?>;
+
+  if (calculatedRates) {
+    taripaForm.style.display = 'none';
+  }
+  
+  // Clear the session data when the page is clicked (refreshed)
+  window.addEventListener('beforeunload', function () {
+    <?php unset($_SESSION['calculatedRates']); ?>
+    <?php unset($_SESSION['formInput']); ?>
+  });
+
+  // Save the form data to session storage before form submission
+  taripaForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const formData = {
+      year: formYearInput.value,
+      rate_action: formRateActionSelect.value,
+      percentage: formPercentageInput.value,
+    };
+    sessionStorage.setItem('formInput', JSON.stringify(formData));
+    this.submit();
+  });
+
+  saveForm.addEventListener('submit', function () {
+    // Check if there is any form data in sessionStorage and populate the first form
+    const formData = sessionStorage.getItem('formInput');
+    if (formData) {
+      const { year, rate_action, percentage } = JSON.parse(formData);
+      formYearInput.value = year;
+      formRateActionSelect.value = rate_action;
+      formPercentageInput.value = percentage;
+
+      const recentYear = <?php echo isset($_SESSION['recentYear']) ? json_encode($_SESSION['recentYear']) : 'null'; ?>;
+    
+      const rateActionInput = document.createElement('input');
+      rateActionInput.type = 'hidden';
+      rateActionInput.name = 'rate_action';
+      rateActionInput.value = rate_action;
+      saveForm.appendChild(rateActionInput);
+
+      const percentageInput = document.createElement('input');
+      percentageInput.type = 'hidden';
+      percentageInput.name = 'percentage';
+      percentageInput.value = percentage;
+      saveForm.appendChild(percentageInput);
+
+      const yearInput = document.createElement('input');
+      yearInput.type = 'hidden';
+      yearInput.name = 'year';
+      yearInput.value = year;
+      saveForm.appendChild(yearInput);
+
+      const previousYearInput = document.createElement('input');
+      previousYearInput.type = 'hidden';
+      previousYearInput.name = 'previous_year';
+      previousYearInput.value = recentYear;
+      saveForm.appendChild(previousYearInput);
+    }
+  });
+</script>
