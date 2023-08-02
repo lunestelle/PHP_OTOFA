@@ -157,7 +157,10 @@
 
         // Loop through the taripa data to generate table rows
         for (let i = 0; i < response.length; i++) {
-          tableHtml += '<tr><td>' + response[i].barangay + '</td><td>' + response[i].regular_rate + '</td><td>' + response[i].discounted_rate + '</td></tr>';
+          const regularRate = '₱' + parseFloat(response[i].regular_rate).toFixed(2);
+          const discountedRate = '₱' + parseFloat(response[i].discounted_rate).toFixed(2);
+          
+          tableHtml += '<tr><td>' + response[i].barangay + '</td><td>' + regularRate + '</td><td>' + discountedRate + '</td></tr>';
         }
 
         tableHtml += '</tbody></table>';

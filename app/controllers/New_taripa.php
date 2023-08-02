@@ -145,14 +145,6 @@ class New_taripa
           'new_regular_rate' => $new_regular_rate ?? null,
           'new_discounted_rate' => $new_discounted_rate ?? null,
         ];
-
-        if (!$route_area || $route_area === 'All') {
-          $taripasData = $taripaModel->findAll();
-          $selectedFilter = 'All';
-        } else {
-          $taripasData = $taripaModel->where(['route_area' => $route_area]);
-          $selectedFilter = $route_area;
-        }
       }
       $_SESSION['calculatedRates'] = $calculatedRates;
       $_SESSION['recentYear'] = $recentYear;
