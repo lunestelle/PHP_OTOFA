@@ -106,8 +106,6 @@ class New_tricycle
       exit;
     }
 
-
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $tricycleModel = new Tricycle();
       $documentModel = new Document();
