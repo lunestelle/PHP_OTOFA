@@ -6,26 +6,28 @@
         <div class="col-12 title-head text-uppercase">
           <h6>New Taripa</h6>
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12 mx-auto mt-3 p-3 content-container">
           <form method="post" id="taripaForm">
-            <div class="row mt-2">
-              <div class="col-6">
-                <label for="rateAction">Select Rate Action:</label>
-                <select id="rateAction" name="rate_action" class="form-select">
-                  <option value="increase" <?= isset($rate_action) && $rate_action === 'increase' ? 'selected' : '' ?>>Increase</option>
-                  <option value="decrease" <?= isset($rate_action) && $rate_action === 'decrease' ? 'selected' : '' ?>>Decrease</option>
-                </select>
+            <div class="row mx-auto">
+              <div class="col-12 d-flex justify-content-between">
+                <div class="col-4">
+                  <label for="rateAction">Select Rate Action:</label>
+                  <select id="rateAction" name="rate_action" class="form-select">
+                    <option value="increase" <?= isset($rate_action) && $rate_action === 'increase' ? 'selected' : '' ?>>Increase</option>
+                    <option value="decrease" <?= isset($rate_action) && $rate_action === 'decrease' ? 'selected' : '' ?>>Decrease</option>
+                  </select>
+                </div>
+                <div class="col-4">
+                  <label for="year">Enter Year:</label>
+                  <input type="number" id="year" name="year" class="form-control" min="<?= $minYear ?>" max="<?= $currentYear ?>" value="<?= $year ?? '' ?>" required>
+                </div>
+                <div class="col-4">
+                  <label for="percentage">Enter Percentage:</label>
+                  <input type="number" id="percentage" name="percentage" class="form-control" min="1" max="100" step="1" value="<?= $percentage ?? '' ?>" required>
+                </div>
               </div>
-              <div class="col-6">
-                <label for="year">Enter Year:</label>
-                <input type="number" id="year" name="year" class="form-control" min="<?= $minYear ?>" max="<?= $currentYear ?>" value="<?= $year ?? '' ?>" required>
-              </div>
-              <div class="col-6">
-                <label for="percentage">Enter Percentage:</label>
-                <input type="number" id="percentage" name="percentage" class="form-control" min="1" max="100" step="1" value="<?= $percentage ?? '' ?>" required>
-              </div>
-              <div class="col-12 mt-3">
-                <button type="submit" class="btn btn-primary">Calculate</button>
+              <div class="col-12 mt-5">
+                <button type="submit" class="sidebar-btnContent me-5">Calculate</button>
               </div>
             </div>
           </form>
