@@ -15,9 +15,25 @@
                     <h6 class="pl-2">MOTOR UNIT</h6>
                     <div class="row px-3">
                       <div class="col-12 d-flex justify-content-between">
-                        <div>
-                          <label for="make_model" class="form-label">Model</label>
-                          <input type="text" class="form-control" id="make_model" name="make_model" value="<?php echo isset($_POST['make_model']) ? $_POST['make_model'] : ''; ?>" required>
+                      <div>
+                        <label for="make_model" class="form-label">Model</label>
+                        <select class="form-control" id="make_model" name="make_model" required>
+                            <option selected disabled>Please Select Here</option>
+                            <option value="Kymco Kargador 150" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Kymco Kargador 150' ? 'selected' : ''; ?>>Kymco Kargador 150</option>
+                            <option value="Honda TMX 125 Alpha" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Honda TMX 125 Alpha' ? 'selected' : ''; ?>>Honda TMX 125 Alpha</option>
+                            <option value="Honda TMX Supremo" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Honda TMX Supremo' ? 'selected' : ''; ?>>Honda TMX Supremo</option>
+                            <option value="Honda XRM 125 Dual Sport" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Honda XRM 125 Dual Sport' ? 'selected' : ''; ?>>Honda XRM 125 Dual Sport</option>
+                            <option value="Bajaj CT 150 BA" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Bajaj CT 150 BA' ? 'selected' : ''; ?>>Bajaj CT 150 BA</option>
+                            <option value="Bajaj CT 125" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Bajaj CT 125' ? 'selected' : ''; ?>>Bajaj CT 125</option>
+                            <option value="Bajaj CT 150 BA" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Bajaj CT 150 BA' ? 'selected' : ''; ?>>Bajaj CT 150 BA</option>
+                            <option value="Kawasaki CT 100" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Kawasaki CT 100' ? 'selected' : ''; ?>>Kawasaki CT 100</option>
+                            <option value="Kawasaki Barako 175 (KICK)" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Kawasaki Barako 175 (KICK)' ? 'selected' : ''; ?>>Kawasaki Barako 175 (KICK)</option>
+                            <option value="Kawasaki Barako 175 (ELECTRIC)" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Kawasaki Barako 175 (ELECTRIC)' ? 'selected' : ''; ?>>Kawasaki Barako 175 (ELECTRIC)</option>
+                            <option value="Yamaha YTX 125" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Yamaha YTX 125' ? 'selected' : ''; ?>>Yamaha YTX 125</option>
+                            <option value="Yamaha Sight 115" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Yamaha Sight 115' ? 'selected' : ''; ?>>Yamaha Sight 115</option>
+                            <option value="TVS Max 4R" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'TVS Max 4R' ? 'selected' : ''; ?>>TVS Max 4R</option>
+                            <option value="Other" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Other' ? 'selected' : ''; ?>>Others</option>
+                          </select>
                         </div>
 
                         <div>
@@ -29,23 +45,16 @@
                           <label for="color_code" class="form-label">Color Code</label>
                           <select class="form-control" id="color_code" name="color_code" required>
                             <option selected disabled>Please Select Here</option>
-                            <option value="Red" <?php echo isset($_POST['color_code']) && $_POST['color_code'] === 'Red' ? 'selected' : ''; ?>>Red</option>
-                            <option value="Green" <?php echo isset($_POST['color_code']) && $_POST['color_code'] === 'Green' ? 'selected' : ''; ?>>Green</option>
-                            <option value="Yellow" <?php echo isset($_POST['color_code']) && $_POST['color_code'] === 'Yellow' ? 'selected' : ''; ?>>Yellow</option>
-                            <option value="Blue" <?php echo isset($_POST['color_code']) && $_POST['color_code'] === 'Blue' ? 'selected' : ''; ?>>Blue</option>
+                            <option value="Red" data-route-area="Free Zone / Zone 1">Red</option>
+                            <option value="Green" data-route-area="Free Zone & Zone 2">Green</option>
+                            <option value="Yellow" data-route-area="Free Zone & Zone 3">Yellow</option>
+                            <option value="Blue" data-route-area="Free Zone & Zone 4">Blue</option>
                           </select>
                         </div>
 
                         <div>
                           <label for="route_area" class="form-label">Route Area</label>
-                          <select class="form-control" id="route_area" name="route_area" required>
-                            <option selected disabled>Please Select Here</option>
-                            <option value="Freezone & Zone 1" <?php echo isset($_POST['route_area']) && $_POST['route_area'] === 'Freezone & Zone 1' ? 'selected' : ''; ?>>Freezone & Zone 1</option>
-                            <option value="Freezone & Zone 2" <?php echo isset($_POST['route_area']) && $_POST['route_area'] === 'Freezone & Zone 2' ? 'selected' : ''; ?>>Freezone & Zone 2</option>
-                            <option value="Freezone & Zone 3" <?php echo isset($_POST['route_area']) && $_POST['route_area'] === 'Freezone & Zone 3' ? 'selected' : ''; ?>>Freezone & Zone 3</option>
-                            <option value="Freezone & Zone 4" <?php echo isset($_POST['route_area']) && $_POST['route_area'] === 'Freezone & Zone 4' ? 'selected' : ''; ?>>Freezone & Zone 4</option>
-                            <option value="Freezone" <?php echo isset($_POST['route_area']) && $_POST['route_area'] === 'Freezone' ? 'selected' : ''; ?>>Freezone</option>
-                          </select>
+                          <input type="text" class="form-control" id="route_area" name="route_area" placeholder="Please select a color code" readonly required>
                         </div>
                       </div>
 
@@ -125,7 +134,7 @@
                   </div>
 
                   <div class="text-end my-3">
-                    <button type="submit" class="sidebar-btnContent">Add Tricycle</button>
+                    <button type="submit" class="sidebar-btnContent" name="add_tricycle">Add Tricycle</button>
                   </div>
                 </form>
               </div>
@@ -151,7 +160,7 @@
       dataType: "json",
       success: function (response) {
         let tableHtml = '<div id="taripaTableContainer" class="content-container mt-2 p-3">';
-        tableHtml += '<h6>' + routeArea + ' Taripa</h6>';
+        tableHtml += '<h6>Tricycle Taripa for ' + routeArea + '</h6>';
         tableHtml += '<table class="table table-hover text-center" id="systemTable">';
         tableHtml += '<thead style="background-color:#090C1B;"><tr><th class="text-white">Barangay</th><th class="text-white">Regular Rate</th><th class="text-white">Discounted Rate</th></tr></thead><tbody>';
 
@@ -174,9 +183,19 @@
     });
   }
 
- $(document).ready(function () {
-    $("#route_area").change(function () {
-      let selectedRouteArea = $(this).val();
+  $(document).ready(function () {
+    $("#make_model").change(function () {
+      const selectedModel = $(this).val();
+      if (selectedModel === "Other") {
+        const inputElement = '<input type="text" class="form-control" id="make_model" name="make_model" required>';
+        $(this).replaceWith(inputElement);
+      }
+    });
+
+    $("#color_code").change(function () {
+      let selectedColorCode = $(this).val();
+      let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
+      $("#route_area").val(selectedRouteArea);
       updateTaripaTable(selectedRouteArea);
     });
   });

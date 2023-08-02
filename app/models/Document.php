@@ -9,7 +9,7 @@ class Document
         'tricycle_id',
         'document_type',
         'filename',
-        'file_path'
+        'file_path',
     ];
     protected $order_column = 'document_id';
 
