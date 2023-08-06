@@ -162,7 +162,7 @@
         let tableHtml = '<div id="taripaTableContainer" class="content-container mt-2 p-3">';
         tableHtml += '<h6 class="text-center m-2">Tricycle Taripa for ' + routeArea + '</h6>';
         tableHtml += '<table class="table-bordered table-hover text-center" id="systemTable">';
-        tableHtml += '<thead style="background-color:#090C1B;"><tr><th class="text-white text-center">Barangay</th><th class="text-white text-center">Regular Rate</th><th class="text-white text-center">Student Rate</th><th class="text-white text-center">Senior Citizen & PWD Rate</th></tr></thead><tbody>';
+        tableHtml += '<thead><tr><th class="text-white text-center" style="background-color:#090C1B !important;">Barangay</th><th class="text-white text-center" style="background-color:#090C1B !important;">Regular Rate</th><th class="text-white text-center" style="background-color:#090C1B !important;">Student Rate</th><th class="text-white text-center" style="background-color:#090C1B !important;">Senior Citizen & PWD Rate</th></tr></thead><tbody>';
 
         // Loop through the taripa data to generate table rows
         for (let i = 0; i < response.length; i++) {

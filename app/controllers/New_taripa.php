@@ -30,12 +30,20 @@ class New_taripa
         $rateAdjustmentsData = $rateAdjustmentModel->findAll();
         $rate_adjustments_years = array_unique(array_column($rateAdjustmentsData, 'effective_year'));
         $recentRateAdjustmentYear = max($rate_adjustments_years);
-        $recentYear = max($recentTaripaYear, $recentRateAdjustmentYear);
         $data['minYear'] = min(array_merge($taripa_years, $rate_adjustments_years));
+        $recent = max($recentTaripaYear, $recentRateAdjustmentYear);
+      
+        if ($recent < $year) {
+          $recentYear = max($recentTaripaYear, $recentRateAdjustmentYear);
+        } else if ($recent > $year) {
+          $recentYear = min($recentTaripaYear, $recentRateAdjustmentYear);
+        }
       } else {
         $recentYear = $recentTaripaYear;
         $data['minYear'] = min($taripa_years);
       }
+
+      
 
       $data['currentYear'] = date('Y');
 
