@@ -6,8 +6,8 @@
         <div class="col-12 title-head text-uppercase">
           <h6>New Taripa</h6>
         </div>
-        <div class="col-lg-12 mx-auto mt-3 p-3 content-container">
-          <form method="post" id="taripaForm">
+        <form method="post" id="taripaForm">
+          <div class="col-lg-12 mx-auto mt-3 p-3 content-container">
             <div class="row mx-auto">
               <div class="col-12 d-flex justify-content-between">
                 <div class="col-4">
@@ -30,8 +30,8 @@
                 <button type="submit" class="sidebar-btnContent me-5">Calculate</button>
               </div>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
 
       <!-- Display the calculated rates -->

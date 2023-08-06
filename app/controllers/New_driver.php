@@ -37,10 +37,10 @@ class New_driver
 				$formData['phone_no'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
 
 				if ($driverModel->insert($formData)) {
-						set_flash_message("Driver added successfully.", "success");
-						redirect('drivers');
+					set_flash_message("Driver added successfully.", "success");
+					redirect('drivers');
 				} else {
-						set_flash_message("Failed to add driver.", "error");
+					set_flash_message("Failed to add driver.", "error");
 				}
 			}
 		}

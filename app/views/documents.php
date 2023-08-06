@@ -20,15 +20,15 @@
               </div>
             </div>
             <div class="col-12">
-              <div class="container table-responsive pt-4">
-                <table class="table table-hover">
+              <div class="table-responsive pt-4 pb-3">
+                <table class="table table-hover" id="systemTable">
                   <thead class="thead-custom">
                     <tr class="text-center text-uppercase">
-                      <th scope="col">#</th>
-                      <th scope="col">Document Name</th>
-                      <th scope="col">Document Type</th>
-                      <th scope="col">Upload Date</th>
-                      <th scope="col">Actions</th>
+                      <th scope="col" class="text-center">#</th>
+                      <th scope="col" class="text-center">Document Name</th>
+                      <th scope="col" class="text-center">Document Type</th>
+                      <th scope="col" class="text-center">Upload Date</th>
+                      <th scope="col" class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody class="text-center">

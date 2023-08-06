@@ -26,7 +26,7 @@ $current_page_is_maintenance = strpos($current_page, 'taripa') !== false || strp
         <a class="nav-link" href="documents"><i class="fa-solid fa-folder"></i><span class="ms-2">Documents</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="appointment"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
+        <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="maintenance_log"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
@@ -42,7 +42,7 @@ $current_page_is_maintenance = strpos($current_page, 'taripa') !== false || strp
         <a class="nav-link" href="registration_approval"><i class="fa-solid fa-person-circle-check"></i><span class="ms-2">Registration Applications</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="appointment"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
+        <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span></a>
