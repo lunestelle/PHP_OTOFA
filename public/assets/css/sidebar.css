@@ -211,8 +211,8 @@ table {
   border: 1px #dee2e6 solid !important;
 }
 
-.thead-custom {
-  background-color: rgba(255, 66, 0, 0.4);
+table.dataTable thead>tr>th {
+  background-color: rgba(255, 66, 0, 0.4) !important;
 }
 
 table > :not(caption) > * > * {

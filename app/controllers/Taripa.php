@@ -16,7 +16,6 @@ class Taripa
     $route_area = $_GET['route_area'] ?? null;
     $year = $_GET['year'] ?? null;
     $data['taripas'] = [];
-    $data['index'] = 1;
 
     $rate_adjustments_years = [];
 
@@ -48,6 +47,12 @@ class Taripa
     if (!$route_area || $route_area === 'All') {
       $taripasData = $taripaModel->findAll();
       $selectedFilter = 'All';
+    } else if ($route_area === 'Zone 2') {
+      $taripasData = $taripaModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 2']);
+    } else if ($route_area === 'Zone 3') {
+      $taripasData = $taripaModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 3']);
+    } else if ($route_area === 'Zone 4') {
+      $taripasData = $taripaModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 4']);
     } else {
       $taripasData = $taripaModel->where(['route_area' => $route_area]);
       $selectedFilter = $route_area;
@@ -62,13 +67,13 @@ class Taripa
     if ($year) {
       $filteredData = [];
 
-      // Loop through each taripa record to calculate regular_rate and discounted_rate
+      // Loop through each taripa record to calculate regular_rate, student_rate, and senior_and_pwd_rate
       foreach ($taripasData as $taripa) {
         // Check if the selected year is in the rate adjustments table
         $selected_year_index = array_search($year, $rate_adjustments_years);
 
         if ($selected_year_index !== false) {
-          // Calculate regular_rate and discounted_rate for the selected year from rate adjustment data
+          // Calculate regular_rate, student_rate, and senior_and_pwd_rate for the selected year from rate adjustment data
           $rate_adjustment = $rateAdjustmentModel->first(['effective_year' => $year]);
           $rate_action = $rate_adjustment->rate_action;
           $percentage = $rate_adjustment->percentage;
@@ -82,35 +87,42 @@ class Taripa
 
             // Calculate the rates for the previous year
             $previous_regular_rate = $taripa->regular_rate;
-            $previous_discounted_rate = $taripa->discounted_rate;
+            $previous_student_rate = $taripa->student_rate;
+            $previous_senior_and_pwd_rate = $taripa->senior_and_pwd_rate;
 
             if ($previous_rate_action === 'increase') {
               $previous_regular_rate += $previous_regular_rate * $previous_percentage / 100;
-              $previous_discounted_rate += $previous_discounted_rate * $previous_percentage / 100;
+              $previous_student_rate += $previous_student_rate * $previous_percentage / 100;
+              $previous_senior_and_pwd_rate += $previous_senior_and_pwd_rate * $previous_percentage / 100;
             } elseif ($previous_rate_action === 'decrease') {
               $previous_regular_rate -= $previous_regular_rate * $previous_percentage / 100;
-              $previous_discounted_rate -= $previous_discounted_rate * $previous_percentage / 100;
+              $previous_student_rate -= $previous_student_rate * $previous_percentage / 100;
+              $previous_senior_and_pwd_rate -= $previous_senior_and_pwd_rate * $previous_percentage / 100;
             }
           } else {
             // If the previous year is not in the rate adjustments table,
-            // fetch regular_rate and discounted_rate directly from the taripa table
+            // fetch regular_rate, student_rate, and senior_and_pwd_rate directly from the taripa table
             $previous_regular_rate = $taripa->regular_rate;
-            $previous_discounted_rate = $taripa->discounted_rate;
+            $previous_student_rate = $taripa->student_rate;
+            $previous_senior_and_pwd_rate = $taripa->senior_and_pwd_rate;
           }
 
-          // Calculate regular_rate and discounted_rate for the selected year
+          // Calculate regular_rate, student_rate, and senior_and_pwd_rate for the selected year
           if ($rate_action === 'increase') {
             $regular_rate = $previous_regular_rate + ($previous_regular_rate * $percentage / 100);
-            $discounted_rate = $previous_discounted_rate + ($previous_discounted_rate * $percentage / 100);
+            $student_rate = $previous_student_rate + ($previous_student_rate * $percentage / 100);
+            $senior_and_pwd_rate = $previous_senior_and_pwd_rate + ($previous_senior_and_pwd_rate * $percentage / 100);
           } elseif ($rate_action === 'decrease') {
             $regular_rate = $previous_regular_rate - ($previous_regular_rate * $percentage / 100);
-            $discounted_rate = $previous_discounted_rate - ($previous_discounted_rate * $percentage / 100);
+            $student_rate = $previous_student_rate - ($previous_student_rate * $percentage / 100);
+            $senior_and_pwd_rate = $previous_senior_and_pwd_rate - ($previous_senior_and_pwd_rate * $percentage / 100);
           }
         } else {
           // If the selected year is not in the rate adjustments table,
-          // fetch regular_rate and discounted_rate directly from the taripa table
+          // fetch regular_rate, student_rate, and senior_and_pwd_rate directly from the taripa table
           $regular_rate = $taripa->regular_rate;
-          $discounted_rate = $taripa->discounted_rate;
+          $student_rate = $taripa->student_rate;
+          $senior_and_pwd_rate = $taripa->senior_and_pwd_rate;
         }
 
         $filteredData[] = [
@@ -118,7 +130,8 @@ class Taripa
           'route_area' => $taripa->route_area,
           'barangay' => $taripa->barangay,
           'regular_rate' => $regular_rate,
-          'discounted_rate' => $discounted_rate,
+          'student_rate' => $student_rate,
+          'senior_and_pwd_rate' => $senior_and_pwd_rate,
         ];
       }
 
@@ -133,7 +146,8 @@ class Taripa
           'route_area' => $taripa['route_area'],
           'barangay' => $taripa['barangay'],
           'regular_rate' => $taripa['regular_rate'],
-          'discounted_rate' => $taripa['discounted_rate'],
+          'student_rate' => $taripa['student_rate'],
+          'senior_and_pwd_rate' => $taripa['senior_and_pwd_rate'],
         ];
       }
     }

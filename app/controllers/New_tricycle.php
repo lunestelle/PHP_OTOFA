@@ -30,7 +30,6 @@ class New_tricycle
         $validationErrors = $tricycleModel->validate($_POST);
 
         if (empty($validationErrors)) {
-          // Process the form data and add the tricycle
           $tricycleData = [
             'make_model' => $_POST['make_model'],
             'year_acquired' => $_POST['year_acquired'],
@@ -45,8 +44,6 @@ class New_tricycle
 
           $tricycle = $tricycleModel->insert($tricycleData);
 
-          
-          
           $fileUploadSuccess = true;
 
           if ($tricycle) {
@@ -99,7 +96,16 @@ class New_tricycle
           $rate_adjustments_years = [];
     
           $routeArea = $_POST['route_area'];
-          $taripaData = $taripasModel->where(['route_area' => $routeArea]);
+          if ($routeArea === 'Free Zone & Zone 2') {
+            $taripaData = $taripasModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 2']);
+          } else if ($routeArea === 'Free Zone & Zone 3') {
+            $taripaData = $taripasModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 3']);
+          } else if ($routeArea === 'Free Zone & Zone 4') {
+            $taripaData = $taripasModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 4']);
+          } else {
+            $taripaData = $taripasModel->where(['route_area' => $routeArea]);
+          }
+          
     
           $taripa_years = array_unique(array_column($taripaData, 'effective_year'));
           $recentTaripaYear = max($taripa_years);
@@ -118,7 +124,7 @@ class New_tricycle
             $recentYearExists = in_array($recentYear, $rate_adjustments_years);
     
             if ($recentYearExists) {
-              // Calculate regular_rate and discounted_rate for the recent year from rate adjustment data
+              // Calculate regular_rate and student_rate for the recent year from rate adjustment data
               $recent_rate_adjustment = $rateAdjustmentModel->first(['effective_year' => $recentYear]);
               $recent_rate_action = $recent_rate_adjustment->rate_action;
               $recent_percentage = $recent_rate_adjustment->percentage;
@@ -132,35 +138,42 @@ class New_tricycle
     
                 // Calculate the rates for the previous year
                 $regular_rate = $row->regular_rate;
-                $discounted_rate = $row->discounted_rate;
+                $student_rate = $row->student_rate;
+                $senior_and_pwd_rate = $row->senior_and_pwd_rate;
     
                 if ($previous_rate_action === 'increase') {
                   $previous_regular_rate = $regular_rate + ($regular_rate * $previous_percentage / 100);
-                  $previous_discounted_rate = $discounted_rate + ($discounted_rate * $previous_percentage / 100);
+                  $previous_student_rate = $student_rate + ($student_rate * $previous_percentage / 100);
+                  $previous_senior_and_pwd_rate = $senior_and_pwd_rate + $senior_and_pwd_rate * $previous_percentage / 100;
                 } elseif ($previous_rate_action === 'decrease') {
                   $previous_regular_rate = $regular_rate - ($regular_rate * $previous_percentage / 100);
-                  $previous_discounted_rate = $discounted_rate - ($discounted_rate * $previous_percentage / 100);
+                  $previous_student_rate = $student_rate - ($student_rate * $previous_percentage / 100);
+                  $previous_senior_and_pwd_rate = $senior_and_pwd_rate - $senior_and_pwd_rate * $previous_percentage / 100;
                 }
               } else {
                 // If the previous year is not in the rate adjustments table,
-                // fetch regular_rate and discounted_rate directly from the taripa table
+                // fetch regular_rate and student_rate directly from the taripa table
                 $previous_regular_rate = $row->regular_rate;
-                $previous_discounted_rate = $row->discounted_rate;
+                $previous_student_rate = $row->student_rate;
+                $previous_senior_and_pwd_rate = $row->senior_and_pwd_rate;
               }
     
-              // Calculate regular_rate and discounted_rate for the recent year
+              // Calculate regular_rate and student_rate for the recent year
               if ($recent_rate_action === 'increase') {
                 $recent_regular_rate = $previous_regular_rate + ($previous_regular_rate * $recent_percentage / 100);
-                $recent_discounted_rate = $previous_discounted_rate + ($previous_discounted_rate * $recent_percentage / 100);
+                $recent_student_rate = $previous_student_rate + ($previous_student_rate * $recent_percentage / 100);
+                $recent_senior_and_pwd_rate = $previous_senior_and_pwd_rate + ($previous_senior_and_pwd_rate * $recent_percentage / 100);
               } elseif ($recent_rate_action === 'decrease') {
                 $recent_regular_rate = $previous_regular_rate - ($previous_regular_rate * $recent_percentage / 100);
-                $recent_discounted_rate = $previous_discounted_rate - ($previous_discounted_rate * $recent_percentage / 100);
+                $recent_student_rate = $previous_student_rate - ($previous_student_rate * $recent_percentage / 100);
+                $recent_senior_and_pwd_rate = $previous_senior_and_pwd_rate - ($previous_senior_and_pwd_rate * $recent_percentage / 100);
               }
             } else {
               // If the recent year is not in the rate adjustments table,
-              // fetch regular_rate and discounted_rate directly from the taripa table
+              // fetch regular_rate, student_rate, and senior_and_pwd_rate directly from the taripa table
               $recent_regular_rate = $row->regular_rate;
-              $recent_discounted_rate = $row->discounted_rate;
+              $recent_student_rate = $row->student_rate;
+              $recent_student_rate = $row->senior_and_pwd_rate;
             }
     
             // Add the calculated rates to the recentTaripaData
@@ -168,7 +181,8 @@ class New_tricycle
               'route_area' => $row->route_area,
               'barangay' => $row->barangay,
               'regular_rate' => $recent_regular_rate,
-              'discounted_rate' => $recent_discounted_rate,
+              'student_rate' => $recent_student_rate,
+              'senior_and_pwd_rate' => $recent_senior_and_pwd_rate,
             ];
           }
     

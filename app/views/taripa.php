@@ -8,22 +8,21 @@
         </div>
         <div class="col-lg-12">
           <div class="row mt-2">
-            <div class="col-6">
-              <label for="routeAreaFilter">Select Route Area:</label>
-              <select id="routeAreaFilter" class="form-select">
-                <option value="All">All</option>
-                <option value="Freezone & Zone 1">Freezone & Zone 1</option>
-                <option value="Freezone & Zone 2">Freezone & Zone 2</option>
-                <option value="Freezone & Zone 3">Freezone & Zone 3</option>
-                <option value="Freezone & Zone 4">Freezone & Zone 4</option>
-                <option value="Freezone">Freezone</option>
-              </select>
-            </div>
-            <div class="col-6 mt-3">
+            <div class="col-12 mt-3">
               <a href="new_taripa" class="text-uppercase sidebar-btnContent">New</a>
             </div>
-            <div class="col-6 mt-3">
-              <label for="yearFilter">Select Year:</label>
+            <div class="col-6">
+              <label for="routeAreaFilter" class="fw-bold">Filter Route Area:</label>
+              <select id="routeAreaFilter" class="form-select">
+                <option value="All">All</option>
+                <option value="Free Zone / Zone 1">Free Zone / Zone 1</option>
+                <option value="Zone 2">Freezone & Zone 2</option>
+                <option value="Zone 3">Freezone & Zone 3</option>
+                <option value="Zone 4">Freezone & Zone 4</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="yearFilter" class="fw-bold">Filter Year:</label>
               <select id="yearFilter" class="form-select">
                 <?php foreach ($years as $year): ?>
                   <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
@@ -35,28 +34,28 @@
         
         <div class="col-12">
           <div class="table-responsive pt-4">
-            <table class="table-bordered table-hover" id="systemTable">
-              <thead class="thead-custom">
+            <table class="table table-hover" id="systemTable">
+              <thead>
                 <tr class="text-uppercase">
-                  <th scope="col" class="text-center">#</th>
                   <?php if ($selectedFilter === 'All'): ?>
                     <th scope="col" class="text-center">Route Area</th>
                   <?php endif; ?>
                   <th scope="col" class="text-center">Barangay</th>
                   <th scope="col" class="text-center">Regular Rate</th>
-                  <th scope="col" class="text-center">Senior Citizen, PWD, & Student Rate</th>
+                  <th scope="col" class="text-center">Student Rate</th>
+                  <th scope="col" class="text-center">Senior Citizen & PWD Rate</th>
                 </tr>
               </thead>
               <tbody class="text-center">
                 <?php foreach ($taripas as $taripa): ?>
                   <tr>
-                    <td><?php echo $index++; ?></td>
                     <?php if ($selectedFilter === 'All'): ?>
                       <td><?php echo $taripa['route_area']; ?></td>
                     <?php endif; ?>
                     <td><?php echo $taripa['barangay']; ?></td>
                     <td><?php echo '₱' . number_format($taripa['regular_rate'], 2, '.', ''); ?></td>
-                    <td><?php echo '₱' . number_format($taripa['discounted_rate'], 2, '.', ''); ?></td>
+                    <td><?php echo '₱' . number_format($taripa['student_rate'], 2, '.', ''); ?></td>
+                    <td><?php echo '₱' . number_format($taripa['senior_and_pwd_rate'], 2, '.', ''); ?></td>
                   </tr>
                 <?php endforeach; ?>   
               </tbody>

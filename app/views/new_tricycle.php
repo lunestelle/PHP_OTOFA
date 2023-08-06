@@ -160,22 +160,24 @@
       dataType: "json",
       success: function (response) {
         let tableHtml = '<div id="taripaTableContainer" class="content-container mt-2 p-3">';
-        tableHtml += '<h6>Tricycle Taripa for ' + routeArea + '</h6>';
-        tableHtml += '<table class="table table-hover text-center" id="systemTable">';
-        tableHtml += '<thead style="background-color:#090C1B;"><tr><th class="text-white">Barangay</th><th class="text-white">Regular Rate</th><th class="text-white">Discounted Rate</th></tr></thead><tbody>';
+        tableHtml += '<h6 class="text-center m-2">Tricycle Taripa for ' + routeArea + '</h6>';
+        tableHtml += '<table class="table-bordered table-hover text-center" id="systemTable">';
+        tableHtml += '<thead style="background-color:#090C1B;"><tr><th class="text-white text-center">Barangay</th><th class="text-white text-center">Regular Rate</th><th class="text-white text-center">Student Rate</th><th class="text-white text-center">Senior Citizen & PWD Rate</th></tr></thead><tbody>';
 
         // Loop through the taripa data to generate table rows
         for (let i = 0; i < response.length; i++) {
           const regularRate = '₱' + parseFloat(response[i].regular_rate).toFixed(2);
-          const discountedRate = '₱' + parseFloat(response[i].discounted_rate).toFixed(2);
+          const studentRate = '₱' + parseFloat(response[i].student_rate).toFixed(2);
+          const seniorPwdRate = '₱' + parseFloat(response[i].senior_and_pwd_rate).toFixed(2);
           
-          tableHtml += '<tr><td>' + response[i].barangay + '</td><td>' + regularRate + '</td><td>' + discountedRate + '</td></tr>';
+          tableHtml += '<tr><td>' + response[i].barangay + '</td><td>' + regularRate + '</td><td>' + studentRate + '</td><td>' + seniorPwdRate + '</td></tr>';
         }
 
         tableHtml += '</tbody></table>';
         tableHtml += '</div>';
 
         $("#taripaTableContainer").html(tableHtml);
+        $('#systemTable').DataTable();
       },
       error: function () {
         alert("Failed to fetch taripa data. Please try again.");

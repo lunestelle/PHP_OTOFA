@@ -10,7 +10,8 @@ class Taripas
     'route_area',
     'barangay',
     'regular_rate',
-    'discounted_rate',
+    'student_rate',
+    'senior_and_pwd_rate',
     'effective_year'
   ];
   protected $order_column = 'taripa_id';

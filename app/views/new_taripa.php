@@ -44,9 +44,11 @@
                 <th scope="col" class="text-center">Route Area</th>
                 <th scope="col" class="text-center">Barangay</th>
                 <th scope="col" class="text-center">Previous Regular Rate</th>
-                <th scope="col" class="text-center">Previous Discounted Rate</th>
+                <th scope="col" class="text-center">Previous Student Rate</th>
+                <th scope="col" class="text-center">Previous Senior & PWD Rate</th>
                 <th scope="col" class="text-center">New Regular Rate</th>
-                <th scope="col" class="text-center">New Discounted Rate</th>
+                <th scope="col" class="text-center">New Student Rate</th>
+                <th scope="col" class="text-center">New Senior & PWD Rate</th>
               </tr>
             </thead>
             <tbody>
@@ -55,9 +57,11 @@
                   <td><?php echo $rate['route_area']; ?></td>
                   <td><?php echo $rate['barangay']; ?></td>
                   <td><?php echo '₱' . number_format($rate['previous_regular_rate'], 2); ?></td>
-                  <td><?php echo '₱' . number_format($rate['previous_discounted_rate'], 2); ?></td>
+                  <td><?php echo '₱' . number_format($rate['previous_student_rate'], 2); ?></td>
+                  <td><?php echo '₱' . number_format($rate['previous_senior_and_pwd_rate'], 2); ?></td>
                   <td><?php echo '₱' . number_format($rate['new_regular_rate'], 2); ?></td>
-                  <td><?php echo '₱' . number_format($rate['new_discounted_rate'], 2); ?></td>
+                  <td><?php echo '₱' . number_format($rate['new_student_rate'], 2); ?></td>
+                  <td><?php echo '₱' . number_format($rate['new_senior_and_pwd_rate'], 2); ?></td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
