@@ -84,7 +84,7 @@
                 </div>
                 <div class="col-5 text-end auth-sign-up">
                   <h5 class="auth-modal-title text-uppercase">
-                  <a href="javascript:void(0)" id="sign_up_link" >Sign Up</a>
+                  <a href="javascript:void(0)" id="sign_up_link" >Register</a>
                   </h5>
                 </div>
                 <div id="modalContent">
