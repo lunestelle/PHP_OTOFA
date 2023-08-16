@@ -14,7 +14,7 @@ class Account
      // checks if the request is an AJAX call by checking the 'HTTP_X_REQUESTED_WITH'
      if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
       set_flash_message("Invalid request method.", "error");
-      redirect('');
+      redirect('dashboard');
     }
 
     $user = new User();
@@ -77,7 +77,7 @@ class Account
       $_SESSION['USER']->first_name = $post_first_name;
       $_SESSION['USER']->last_name = $post_last_name;
 
-      $response = ['status' => 'success', 'msg' => 'Account successfully updated.', 'redirect_url' => ROOT];
+      $response = ['status' => 'success', 'msg' => 'Account successfully updated.', 'redirect_url' => 'dashboard'];
       echo json_encode($response);
       exit;
     }

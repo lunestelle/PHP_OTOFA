@@ -4,14 +4,12 @@ Trait Model
 {
   use Database;
 
-  protected $limit = 10;
-  protected $offset = 0;
-  protected $order_type = "desc";
+  protected $order_type = "asc";
   public $errors = [];
 
   public function findAll()
   {
-    $query = "SELECT * FROM {$this->table} ORDER BY {$this->order_column} {$this->order_type} LIMIT {$this->limit} OFFSET {$this->offset}";
+    $query = "SELECT * FROM {$this->table} ORDER BY {$this->order_column} {$this->order_type}";
 
     return $this->query($query);
   }
@@ -32,10 +30,18 @@ Trait Model
 
     $query = trim($query, " && ");
 
-    $query .= " order by $this->order_column $this->order_type limit $this->limit offset $this->offset";
+    $query .= " order by $this->order_column $this->order_type";
     $data = array_merge($data, $data_not);
 
     return $this->query($query, $data);
+  }
+
+    public function whereIn($column, $values)
+  {
+    $placeholders = implode(', ', array_fill(0, count($values), '?'));
+    $query = "SELECT * FROM {$this->table} WHERE {$column} IN ({$placeholders}) ORDER BY {$this->order_column} {$this->order_type}";
+
+    return $this->query($query, $values);
   }
 
   public function first($data, $data_not = [])
@@ -54,7 +60,7 @@ Trait Model
 
     $query = trim($query, " && ");
 
-    $query .= " LIMIT {$this->limit} OFFSET {$this->offset}";
+    $query .= "";
     $data = array_merge($data, $data_not);
 
     $result = $this->query($query, $data);
@@ -119,7 +125,13 @@ Trait Model
     $mergedData = array_merge($conditions, $data);
     $this->query($query, $mergedData);
 
-    return false;
+    try {
+      $this->query($query, $mergedData);
+      return true; // Data update was successful
+    } catch (Exception $e) {
+      // Handle the exception or log the error
+      return false; // Data update failed
+  }
   }
 
   public function delete($conditions)

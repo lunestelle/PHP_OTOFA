@@ -1,18 +1,22 @@
 $(document).ready(function() {
-  let currentUrl = window.location.href;
+  let currentUrl = new URL(window.location.href);
   let navLinks = $('.sidebar .nav-link');
 
   navLinks.each(function() {
     let linkUrl = $(this).attr('href');
 
-    if (currentUrl.includes('manage_tricycle') && linkUrl.includes('tricycles')) {
-      $(this).addClass('nav-link-active');
-    } else if (currentUrl.includes('manage_driver') && linkUrl.includes('drivers')) {
-      $(this).addClass('nav-link-active');
-    } else if (currentUrl.endsWith(linkUrl)) {
-      $(this).addClass('nav-link-active');
+    if (linkUrl.includes('taripa')) {
+      if (currentUrl.href.includes(linkUrl)) {
+        $(this).addClass('nav-link-active');
+      } else {
+        $(this).removeClass('nav-link-active');
+      }
     } else {
-      $(this).removeClass('nav-link-active');
+      if (currentUrl.href.includes('new_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('new_driver') && linkUrl.includes('drivers') || currentUrl.href.includes('new_taripa') && linkUrl.includes('taripa') || currentUrl.href.endsWith(linkUrl)) {
+        $(this).addClass('nav-link-active');
+      } else {
+        $(this).removeClass('nav-link-active');
+      }
     }
   });
 });

@@ -15,6 +15,11 @@ class Forgot_password
   {
     $data = [];
 
+    if (is_authenticated()) {
+      set_flash_message("You are already signed in.", "error");
+      redirect('dashboard');
+    }
+
     // checks if the request is an AJAX call by checking the 'HTTP_X_REQUESTED_WITH'
     if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest' || is_authenticated()) {
       set_flash_message("Invalid request method.", "error");

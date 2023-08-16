@@ -9,7 +9,7 @@ class Sign_in
 
     if (is_authenticated()) {
       set_flash_message("You are already signed in.", "error");
-      redirect('');
+      redirect('dashboard');
     }
 
     // checks if the request is an AJAX call by checking the 'HTTP_X_REQUESTED_WITH'
@@ -40,7 +40,7 @@ class Sign_in
           }
         }
 
-        $response = ['status' => 'success', 'msg' => 'Successfully signed in!', 'redirect_url' => ''];
+        $response = ['status' => 'success', 'msg' => 'Successfully signed in!', 'redirect_url' => 'dashboard'];
         echo json_encode($response);
         exit;
       } else {

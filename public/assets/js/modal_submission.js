@@ -23,7 +23,7 @@ function modal_submission() {
       $('#uni_modal button[type="submit"]').text('Signing in...');
     } else if (formId === 'sign-up-form') {
       url = 'sign_up';
-      $('#uni_modal button[type="submit"]').text('Signing up...');
+      $('#uni_modal button[type="submit"]').text('Registering...');
     } else if (formId === 'forgot-password-form') {
       url = 'forgot_password';
       $('#uni_modal button[type="submit"]').text('Resetting...');

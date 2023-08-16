@@ -34,7 +34,7 @@
         </p>
       </div>
       <div class="col-12">
-        <button class="btn auth-btn" type="submit" id="submit">SIGN UP</button>
+        <button class="btn auth-btn" type="submit" id="submit">REGISTER</button>
       </div>
     </div>
   </form>

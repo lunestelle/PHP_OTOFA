@@ -6,31 +6,9 @@
     </a>
   </div>
   <nav class="navbar navbar-expand">
-    <?php if (is_authenticated()): ?>
-      <a href="<?= ROOT ?>/dashboard" class="nav-link">DASHBOARD</a>
-    <?php endif; ?>
     <a href="#home" class="nav-link">HOME</a>
     <a href="#about" class="nav-link">ABOUT</a>
     <a href="#contact" class="nav-link">CONTACT</a>
-    <?php if (is_authenticated()): ?>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <?= $first_name ?> &nbsp;
-          <i class="fa-solid fa-caret-down"></i>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="javascript:void(0)" id="manage_account_link"><i class="fa-solid fa-gear"></i>Account</a></li>
-          <li>
-            <form action="<?= ROOT ?>/sign_out" method="post" id="sign-out-form">
-              <input type="hidden" name="sign_out" value="1">
-              <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('sign-out-form').submit();">
-                <i class="fa-solid fa-right-from-bracket"></i>Logout
-              </a>
-            </form>
-          </li>
-        </ul>
-      </div> &nbsp;
-    <?php endif; ?>
   </nav>
 </header>
 
@@ -42,7 +20,7 @@
       <h1>LOCAL GOVERNMENT UNIT <span></span></h1>
     </div>
     <?php if (!is_authenticated()): ?>
-      <a href="javascript:void(0)" id="sign_in_btn" class="cta">SIGN IN</a>
+      <a href="javascript:void(0)" id="sign_in_btn" class="cta">SIGN IN/REGISTER</a>
     <?php endif; ?>
   </div>
 </section>

@@ -16,32 +16,37 @@ trait Controller
 		if (isset($_SESSION['USER'])) {
 			$this->sharedData = [
 				'user_role' => $_SESSION['USER']->role,
-				'first_name' => $_SESSION['USER']->first_name,
+				'firstName' => $_SESSION['USER']->first_name,
 			];
 		}
 	}
 	
 	protected function renderView($viewName, $useLayout = true, $data = [])
-{
+	{
     $this->setCurrentPage($viewName);
 
     if ($useLayout) {
-        $layoutContent = $this->getLayoutContent();
-        $viewContent = $this->getViewContent($viewName, $data);
+			$layoutContent = $this->getLayoutContent();
+			$viewContent = $this->getViewContent($viewName, $data);
 
-        if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'manage_tricycle', 'manage_driver'])) {
-            $sidebarContent = $this->getSidebarContent();
-            $viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
-        }
+			if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointments', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'view_driver', 'edit_driver', 'new_taripa', 'edit_taripa', 'new_appointment', 'view_appointment'])) {
+				$sidebarContent = $this->getSidebarContent();
+				$viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
+			}
 
-        $cssFile = $this->getCSSFile($this->current_page);
-        $layoutContent = str_replace('{{css}}', $cssFile, $layoutContent);
-        return str_replace('{{content}}', $viewContent, $layoutContent);
+			$cssFiles = $this->getCSSFile($this->current_page);
+
+			$cssFileTags = '';
+			foreach ($cssFiles as $cssFile) {
+				$cssFileTags .= '<link rel="stylesheet" type="text/css" href="../public/assets/css/' . $cssFile . '">';
+			}
+
+			$layoutContent = str_replace('{{css}}', $cssFileTags, $layoutContent);
+			return str_replace('{{content}}', $viewContent, $layoutContent);
     } else {
-        return $this->getViewContent($viewName, $data);
+			return $this->getViewContent($viewName, $data);
     }
-}
-
+	}
 
 	protected function getLayoutContent()
 	{
@@ -79,20 +84,39 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointment', 'maintenance_log', 'operator', 'registration_approval', 'manage_tricycle', 'manage_driver'];
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointments', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'view_driver', 'edit_driver', 'new_taripa', 'edit_taripa', 'new_appointment', 'view_appointment'];
+		
+		$sidebarViewPages = ['view_tricycle', 'view_driver', 'view_appointment'];
 
-		if (in_array($page, $sidebarPages)) {
-			return 'sidebar.css';
-		} else {
-			$cssFile = $page . '.css';
-			$cssFilePath = "../public/assets/css/{$cssFile}";
-			
-			if (file_exists($cssFilePath)) {
-				return $cssFile;
-			} else {
-				return 'home.css';
-			}
+		$sidebarEditPages = ['edit_tricycle', 'edit_driver'];
+
+		$sidebarNewPages = ['new_driver', 'new_taripa', 'new_tricycle', 'new_appointment'];
+
+		$cssFile = $page . '.css';
+		$cssFilePath = "../public/assets/css/{$cssFile}";
+		$cssFiles = [];
+
+    if (file_exists($cssFilePath)) {
+			$cssFiles[] = $cssFile;
+    }
+
+    if (in_array($page, $sidebarPages)) {
+			$cssFiles[] = 'sidebar.css';
+    }
+		
+		if (in_array($page, $sidebarViewPages)) {
+			$cssFiles[] = 'view_page.css';
+    } else if (in_array($page, $sidebarEditPages)) {
+			$cssFiles[] ='edit_page.css';
+		} else if (in_array($page, $sidebarNewPages)) {
+			$cssFiles[] = 'new_page.css';
 		}
+
+    if (empty($cssFiles)) {
+			$cssFiles[] = 'home.css';
+    }
+
+    return $cssFiles;
 	}
 
 }

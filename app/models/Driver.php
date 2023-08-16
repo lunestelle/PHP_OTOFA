@@ -5,7 +5,7 @@ class Driver
   use Model;
 
   protected $table = 'drivers';
-  protected $allowedColumns = ['first_name', 'last_name', 'middle_name', 'address', 'phone_no', 'birth_date', 'license_no', 'license_validity', 'tricycle_id'];
+  protected $allowedColumns = ['first_name', 'last_name', 'middle_name', 'address', 'phone_no', 'birth_date', 'license_no', 'license_validity'];
   protected $order_column = 'driver_id';
 
   public function validateData($formData)
@@ -30,14 +30,26 @@ class Driver
 
     if (empty($formData['phone_no'])) {
       $errors[] = "Phone No. is required.";
-    } elseif (!preg_match('/^[0-9]{10}$/', $formData['phone_no'])) {
-      $errors[] = "Phone No. must be a 10-digit number.";
+    } else {
+      $phoneNumber = $formData['phone_no'];
+
+      if (strlen($phoneNumber) !== 10) {
+        $errors[] = "Invalid phone number. Please enter <br> a valid 10-digit number after '+63'.";
+      } elseif (!is_numeric(substr($phoneNumber, 3))) {
+        $errors[] = "Invalid phone number. Please enter <br> only numeric digits (0-9).";
+      }
     }
 
     if (empty($formData['birth_date'])) {
       $errors[] = "Birth Date is required.";
-    } elseif (!strtotime($formData['birth_date'])) {
-      $errors[] = "Birth Date is invalid.";
+    } else {
+      // Validate age is at least 18 years old
+      $now = new DateTime();
+      $birthDate = new DateTime($formData['birth_date']);
+      $age = $now->diff($birthDate)->y;
+      if ($age < 18) {
+        $errors[] = "Driver must be at least 18 years old.";
+      }
     }
 
     if (empty($formData['license_no'])) {
@@ -46,10 +58,6 @@ class Driver
 
     if (empty($formData['license_validity'])) {
       $errors[] = "License Validity is required.";
-    }
-
-    if (empty($formData['tricycle_id'])) {
-      $errors[] = "Plate No. is required.";
     }
 
     return $errors;
