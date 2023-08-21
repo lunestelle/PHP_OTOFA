@@ -11,14 +11,16 @@ trait Controller
 
 	protected function setSharedData()
 	{
-		$this->sharedData = [];
+    $this->sharedData = [];
 
-		if (isset($_SESSION['USER'])) {
+    if (isset($_SESSION['USER'])) {
+			$user = $_SESSION['USER'];
+
 			$this->sharedData = [
-				'user_role' => $_SESSION['USER']->role,
-				'firstName' => $_SESSION['USER']->first_name,
+				'userRole' => $user->role,
+				'firstName' => $user->first_name
 			];
-		}
+    }
 	}
 	
 	protected function renderView($viewName, $useLayout = true, $data = [])
@@ -26,13 +28,8 @@ trait Controller
     $this->setCurrentPage($viewName);
 
     if ($useLayout) {
-			$layoutContent = $this->getLayoutContent();
+			$layoutContent = $this->getLayoutContent($this->current_page);
 			$viewContent = $this->getViewContent($viewName, $data);
-
-			if (in_array($this->current_page, ['dashboard', 'tricycles', 'drivers', 'documents', 'appointments', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'view_driver', 'edit_driver', 'new_taripa', 'edit_taripa', 'new_appointment', 'view_appointment'])) {
-				$sidebarContent = $this->getSidebarContent();
-				$viewContent = str_replace('{{sidebar}}', $sidebarContent, $viewContent);
-			}
 
 			$cssFiles = $this->getCSSFile($this->current_page);
 
@@ -48,18 +45,18 @@ trait Controller
     }
 	}
 
-	protected function getLayoutContent()
+	protected function getLayoutContent($page)
 	{
-		ob_start();
-		include_once "../app/views/layouts/main.php";
-		return ob_get_clean();
-	}
+		$userLayout = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointments', 'maintenance_log', 'operator', 'registration_approval', 'taripa', 'new_tricycle', 'view_tricycle', 'edit_tricycle', 'new_driver', 'view_driver', 'edit_driver', 'new_taripa', 'edit_taripa', 'new_appointment', 'view_appointment'];
 
-	protected function getSidebarContent()
-	{
-		extract($this->sharedData);
+		if (in_array($page, $userLayout)) {
+			extract($this->sharedData);
+			$layoutFile = 'main.php';
+    } else {
+			$layoutFile = 'guest.php';
+		}
 		ob_start();
-		include_once "../app/views/layouts/sidebar.php";
+		include_once "../app/views/layouts/$layoutFile";
 		return ob_get_clean();
 	}
 
@@ -118,5 +115,4 @@ trait Controller
 
     return $cssFiles;
 	}
-
 }

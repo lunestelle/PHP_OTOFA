@@ -23,7 +23,7 @@ class Reset_password
       $email = $_POST['email'];
       $token = $_POST['token'];
       $password = $_POST['new_password'];
-      $password_confirmation = $_POST['confirm_password'];
+      $password_confirmation = $_POST['password_confirmation'];
       $expiration_time = time(); // Get the current time
 
       $user = new User();

@@ -21,21 +21,22 @@ class Sign_up
 		
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
 			$user = new User();
-			$email = $_POST['email'];
 
 			if ($user->validate($_POST)) {
 				$hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
+				$profilePhotoPath = generateProfilePicture(strtoupper($_POST['first_name'][0] . $_POST['last_name'][0]));
+
 				$userData = [
 					'email' => $_POST['email'],
-					'first_name' => $_POST['first_name'],
-					'last_name' => $_POST['last_name'],
-					'password' => $hashedPassword
+					'first_name' => ucwords($_POST['first_name']),
+					'last_name' => ucwords($_POST['last_name']),
+					'password' => $hashedPassword,
+					'generated_profile_photo_path' => $profilePhotoPath
 				];
 
-				// Insert the user into the database
 				$user->insert($userData);
-				$_SESSION['USER'] = $user->first(['email' => $email]);
+				$_SESSION['USER'] = $user->first(['email' => $_POST['email']]);
 				$_SESSION['authenticated'] = true;
 
 				$response = ['status' => 'success', 'msg' => 'Account created successfully!', 'redirect_url' => 'dashboard'];

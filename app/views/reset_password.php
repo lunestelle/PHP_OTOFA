@@ -22,8 +22,8 @@
         </div>
         <div class="col-12 mb-3">
           <div class="form-group password-toggle">
-            <input class="form-control" autocomplete="off" type="password" name="confirm_password" id="confirm_password" placeholder="PASSWORD CONFIRMATION" autofocus required>
-            <i id="confirm_password-toggle-icon" class="toggle-icon fas fa-eye-slash" onclick="togglePassword('confirm_password')"></i>
+            <input class="form-control" autocomplete="off" type="password" name="password_confirmation" id="password_confirmation" placeholder="PASSWORD CONFIRMATION" autofocus required>
+            <i id="password_confirmation-toggle-icon" class="toggle-icon fas fa-eye-slash" onclick="togglePassword('password_confirmation')"></i>
           </div>
         </div>
       </div>

@@ -84,3 +84,36 @@ function checkInactivityTimeout()
 		unset($_SESSION['last_activity']);
 	}
 }
+
+function generateProfilePicture($initials) {
+	// Set the image size
+	$width = 100;
+	$height = 100;
+	
+	// Create an image with a white background
+	$image = imagecreatetruecolor($width, $height);
+	$bgColor = imagecolorallocate($image, rand(200, 255), rand(200, 255), rand(200, 255));
+	imagefill($image, 0, 0, $bgColor);
+	
+	list($r, $g, $b) = sscanf("#ff4200", "#%2x%2x%2x");
+	$textColor = imagecolorallocate($image, $r, $g, $b);
+
+	// Calculate the position to center the initials
+	$fontSize = 40;
+	$bbox = imagettfbbox($fontSize, 0, 'assets/fonts/Roboto-Bold.ttf', $initials);
+	$textWidth = $bbox[2] - $bbox[0];
+	$x = ($width - $textWidth) / 2;
+	$y = ($height + $fontSize) / 2;
+	
+	// Add the initials to the image
+	imagettftext($image, $fontSize, 0, $x, $y, $textColor, 'assets/fonts/Roboto-Bold.ttf', $initials);
+	
+	$path = '../profile_photos/generated_profile/' . uniqid() . '.png';
+	header('Content-type: image/png'); 
+	imagepng($image, $path);
+	
+	// Free up memory
+	imagedestroy($image);
+	
+	return $path;
+}
