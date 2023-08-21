@@ -1,6 +1,6 @@
 <header>
   <div class="d-flex">
-    <a href="#home" class="d-flex text-decoration-none">
+    <a href="<?=ROOT?>" class="d-flex text-decoration-none">
       <img class="logo" src="<?=ROOT?>/assets/images/logo.png" alt="Sakaycle Logo">
       <p>Sakay<span>cle</span></p>
     </a>

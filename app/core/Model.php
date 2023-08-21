@@ -87,16 +87,14 @@ Trait Model
 
     try {
       $this->query($query, $data);
-      return true; // Data insertion was successful
+      return true;
     } catch (Exception $e) {
-      // Handle the exception or log the error
-      return false; // Data insertion failed
+      return false;
     }
   }
 
   public function update($conditions, $data)
   {
-    /** remove unwanted data **/
     if (!empty($this->allowedColumns)) {
       foreach ($data as $key => $value) {
         if (!in_array($key, $this->allowedColumns)) {
@@ -127,11 +125,10 @@ Trait Model
 
     try {
       $this->query($query, $mergedData);
-      return true; // Data update was successful
+      return true;
     } catch (Exception $e) {
-      // Handle the exception or log the error
-      return false; // Data update failed
-  }
+      return false;
+    }
   }
 
   public function delete($conditions)

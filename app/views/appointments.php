@@ -1,72 +1,67 @@
-<div class="container-fluid">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
-    {{sidebar}} 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+    <div class="col-12 title-head text-uppercase">
+      <h6>Appointments</h6>
+    </div>
+    <div class="col-lg-12">
       <div class="row">
-        <div class="col-12 title-head text-uppercase">
-          <h6>Appointments</h6>
+        <div class="col-12">
+          <div class="mt-3">
+            <a href="new_appointment" class="text-uppercase sidebar-btnContent">New</a>
+          </div>
         </div>
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-12">
-              <div class="mt-3">
-                <a href="new_appointment" class="text-uppercase sidebar-btnContent">New</a>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="table-responsive pt-4">
-                <table class="table table-hover" id="systemTable">
-                  <thead class="thead-custom">
-                    <tr class="text-uppercase">
-                      <th scope="col" class="text-center">#</th>
-                      <th scope="col" class="text-center">Name</th>
-                      <th scope="col" class="text-center">Phone Number</th>
-                      <th scope="col" class="text-center">Appointment Type</th>
-                      <th scope="col" class="text-center">Date</th>
-                      <th scope="col" class="text-center">Time</th>
-                      <th scope="col" class="text-center">Status</th>
-                      <th scope="col" class="text-center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center">
-                    <?php foreach ($appointments as $appointment): ?>
-                      <tr>
-                        <td><?php echo $index++; ?></td>
-                        <td><?php echo $appointment['name']; ?></td>
-                        <td><?php echo $appointment['phone_number']; ?></td>
-                        <td><?php echo $appointment['appointment_type']; ?></td>
-                        <td><?php echo $appointment['appointment_date']; ?></td>
-                        <td><?php echo $appointment['appointment_time']; ?></td>
-                        <td>
-                          <span class="badge status-badge text-uppercase p-2"><?php echo $appointment['status']; ?></span>
-                        </td>
-                        <td>
-                          <a href="<?php echo 'view_appointment?appointment_id=' . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
-                          <a href="#" class="cancel_data px-1 me-1" style="color: #ff6c36;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="updateModalContent('<?php echo $appointment['name']; ?>', '<?php echo $appointment['appointment_date']; ?>', '<?php echo $appointment['appointment_time']; ?>')">
-                          <i class="fa-solid fa-times fa-lg"></i></a>
-                        </td>
-                      </tr>
-                    <?php endforeach; ?>
-                  </tbody>
-                </table>
+        <div class="col-12">
+          <div class="table-responsive pt-4">
+            <table class="table table-hover" id="systemTable">
+              <thead class="thead-custom">
+                <tr class="text-uppercase">
+                  <th scope="col" class="text-center">#</th>
+                  <th scope="col" class="text-center">Name</th>
+                  <th scope="col" class="text-center">Phone Number</th>
+                  <th scope="col" class="text-center">Appointment Type</th>
+                  <th scope="col" class="text-center">Date</th>
+                  <th scope="col" class="text-center">Time</th>
+                  <th scope="col" class="text-center">Status</th>
+                  <th scope="col" class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <?php foreach ($appointments as $appointment): ?>
+                  <tr>
+                    <td><?php echo $index++; ?></td>
+                    <td><?php echo $appointment['name']; ?></td>
+                    <td><?php echo $appointment['phone_number']; ?></td>
+                    <td><?php echo $appointment['appointment_type']; ?></td>
+                    <td><?php echo $appointment['appointment_date']; ?></td>
+                    <td><?php echo $appointment['appointment_time']; ?></td>
+                    <td>
+                      <span class="badge status-badge text-uppercase p-2"><?php echo $appointment['status']; ?></span>
+                    </td>
+                    <td>
+                      <a href="<?php echo 'view_appointment?appointment_id=' . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                      <a href="#" class="cancel_data px-1 me-1" style="color: #ff6c36;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="updateModalContent('<?php echo $appointment['name']; ?>', '<?php echo $appointment['appointment_date']; ?>', '<?php echo $appointment['appointment_time']; ?>')">
+                      <i class="fa-solid fa-times fa-lg"></i></a>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
 
-                <!-- Cancel Modal -->
-                <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="cancelModalLabel">Cancel Appointment</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <p>Are you sure you want to cancel the appointment for <span id="appointmentName"></span> on <span id="appointmentDate"></span> at <span id="appointmentTime"></span>?</p>
-                      </div>
-                      <div class="modal-footer">
-                        <form action="<?php echo 'cancel_appointment?appointment_id=' .$appointment['appointment_id']?>"  method="post" id="cancelForm">
-                          <input type="submit" class="btn btn-danger" value="Yes, Cancel Appointment">
-                        </form>
-                      </div>
-                    </div>
+            <!-- Cancel Modal -->
+            <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel">Cancel Appointment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Are you sure you want to cancel the appointment for <span id="appointmentName"></span> on <span id="appointmentDate"></span> at <span id="appointmentTime"></span>?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <form action="<?php echo 'cancel_appointment?appointment_id=' .$appointment['appointment_id']?>"  method="post" id="cancelForm">
+                      <input type="submit" class="btn btn-danger" value="Yes, Cancel Appointment">
+                    </form>
                   </div>
                 </div>
               </div>
@@ -74,9 +69,9 @@
           </div>
         </div>
       </div>
-    </main>
+    </div>
   </div>
-</div>
+</main>
 
 <script>
   function updateModalContent(name, date, time) {
