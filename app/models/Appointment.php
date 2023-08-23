@@ -32,8 +32,6 @@ class Appointment
 
     if (empty($data['appointment_type'])) {
       $errors[] = 'Appointment Type is required.';
-    } elseif (!in_array($data['appointment_type'], ['Inspection', 'Permit Renewal', 'Other'])) {
-      $errors[] = 'Invalid Appointment Type.';
     }
 
     if (empty($data['appointment_date'])) {

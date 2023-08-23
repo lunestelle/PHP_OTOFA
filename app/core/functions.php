@@ -85,6 +85,14 @@ function checkInactivityTimeout()
 	}
 }
 
+function formatTime($time) {
+	$options = ['hour' => 'numeric', 'minute' => '2-digit', 'hour12' => true];
+	[$hours, $minutes] = explode(':', $time);
+	$date = new DateTime();
+	$date->setTime($hours, $minutes);
+	return $date->format('h:i A');
+}
+
 function generateProfilePicture($initials) {
 	// Set the image size
 	$width = 100;

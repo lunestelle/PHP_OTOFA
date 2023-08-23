@@ -81,8 +81,8 @@
     var cancelForm = document.getElementById('cancelForm');
 
     appointmentName.textContent = name;
-    appointmentDate.textContent = date('l, F j, Y', strtotime($date));
-    appointmentTime.textContent = date('h:i A', strtotime($time));
+    appointmentDate.textContent = date;
+    appointmentTime.textContent = time;
 
     // Update the form action URL to include the appointment_id
     cancelForm.action = 'cancel_appointment?appointment_id=' + <?php echo $appointment['appointment_id']; ?>;
