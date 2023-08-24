@@ -4,26 +4,35 @@
   align-items: flex-start;
   justify-content: space-between;
   position: relative;
-  width: 280px;
-  height: 100px;
-  border-left: #FF4200 solid 5px;
-  background-color:rgba(255, 235, 205, 0.507) ;
+  width: 300px;
+  height: 90px;
   border-radius: 10px;
   transition: box-shadow 0.3s ease;
+  border: 1px solid rgb(247, 247, 247);
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.534), 0px 8px 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
 }
 
 .overview-container:hover {
-  background: linear-gradient(255.15deg, rgba(255, 66, 0, 0.675) 5.82%, rgba(255, 66, 0, 0.1125) 119.86%);
-  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.534), 0px 8px 10px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(255.15deg, rgba(255, 68, 0, 0.801) 5.82%, rgba(255, 66, 0, 0.1125) 119.86%);
+  box-shadow: none;
 }
 
-.overview-container img {
+.image-bg {
   position: absolute;
-  top: 0;
-  right: 10px;
-  height: 50px;
-  width: 50px;
+  top: 8px;
+  right: 7px;
+  height: 55px;
+  width: 55px;
+  background: linear-gradient(255.15deg, rgba(255, 68, 0, 0.87) 5.82%, rgba(3, 7, 27, 0.986) 119.86%);
+}
+
+.overview-container i {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  height: 47px;
+  width: 47px;
 }
 
 .overview-container h5 {
@@ -43,6 +52,7 @@
   font-weight: 400;
   font-size: 16px;
 }
+
 
 /*--- DASHBOARD PAGE TRICYCLE'S CODE ---*/
 

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand">
-  <div class="container navbar-container d-flex justify-content-between align-items-center">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
     <a class="navbar-brand" href="<?=ROOT?>">
       <img src="<?=ROOT?>/assets/images/logo.png" alt="Sakaycle Logo" width="30" height="30" class="d-inline-block align-text-top">
       <span class="sakay-text">Sakay</span><span class="cle-text">cle</span>
@@ -7,9 +7,9 @@
       
     <div class="d-flex align-items-center">
       <a href="dashboard" class="nav-link me-3">DASHBOARD</a>
-      <div class="dropdown mr-3">
+      <div class="dropdown">
         <a class="nav-link" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="<?= $profile_photo ?>" alt="Profile Photo" width="30" height="30" class="rounded-circle">
+          <img src="<?= $profile_photo ?>" alt="Profile Photo" width="30" height="30" class="rounded ">
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
           <li><h6 class="dropdown-header">Manage Account</h6></li>

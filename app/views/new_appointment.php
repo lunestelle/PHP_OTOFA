@@ -31,7 +31,7 @@
 
                             <div class="col-4">
                               <label for="appointment_type" class="form-label">Appointment Type</label>
-                              <select class="form-select" id="appointment_type" name="appointment_type" required>
+                              <select class="form-control" id="appointment_type" name="appointment_type" required>
                                 <option value="" selected disabled>Select Appointment Type</option>
                                 <option value="Transfer of Ownership" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Transfer of Ownership') ? 'selected' : ''; ?>>Transfer of Ownership</option>
                                 <option value="New Applicant" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'New Applicant') ? 'selected' : ''; ?>>New Applicant</option>

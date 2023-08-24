@@ -200,23 +200,16 @@ header #toggler{
 
 /* ABOUT */
 
-#about {
-  padding-top: 7.5rem;
-  padding-bottom: 5rem;
-  margin: auto;
-}
-
 #about .about {
   flex-direction: column;
   text-align: center;
-  margin: 0 auto;
-  padding: 100px 0;
 }
 
 #about .about-title {
   font-size: 3rem;
   font-weight: 300;
   color: black;
+  margin-top: 10px;
   margin-bottom: 10px;
   letter-spacing: .2rem;
   text-align: center;
@@ -238,37 +231,22 @@ header #toggler{
   margin : 1rem;
 }
 
-#about .about-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 #about .about-cta { 
-  display: flex;
-  flex-wrap: wrap;
-  gap:2.5rem;
-  padding-top: 2rem;
-  padding-bottom: 10rem;
-}
-
-#about .img{
-  height: 25px;
-  width: 25px;
+  padding-bottom: 1rem;
+  margin-top: 40px;
 }
 
 #about .about-item {
-  padding:2rem 2rem 3rem 1rem;
+  padding:2rem 1rem 3rem 1rem;
+  height: 250px;
   align-items: center;
-  display: flex;
-  flex:1 1 25rem;
   background-color: #FF4200;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, .25);
   box-shadow: 0 10px 10px 0px rgba(0, 0, 0, .50);
   backdrop-filter: blur(15px);
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 #about .about-item:hover{
@@ -278,8 +256,16 @@ header #toggler{
   transition: 0.4s ease-out;
 }
 
+#about .about-item-body {
+  margin-top: 10px;
+  color: white;
+  line-height: 18px;
+  font-size: 13px;
+}
+
 #about .item-title {
-  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #about img {
@@ -357,10 +343,15 @@ body .reset-email {
   background-color: #FF6A36;
 }
 
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
 /* CSS for large desktop screens */
 @media (min-width: 1200px) {
   .about{
-    padding: 100px !important;
+    padding: 80px !important;
   }
 }
 
