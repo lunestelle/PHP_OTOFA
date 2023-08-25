@@ -251,12 +251,43 @@
 
     nextButtons[0].addEventListener("click", function (event) {
       event.preventDefault();
-      currentSectionIndex = Math.min(currentSectionIndex + 1, formSections.length - 1);
-      showSection(currentSectionIndex);
-      updateURL(currentSectionIndex);
 
-      document.getElementById("appointmentInformationForm").submit();
+      const formData = new FormData(document.getElementById("appointmentInformationForm"));
+
+      $.ajax({
+        url: "new_appointment",
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json', // Parse response as JSON
+        success: function (response) {
+          if (response.status === 'error') {
+            currentSectionIndex = 0; // Reset section to 0 on error
+            showSection(currentSectionIndex);
+            updateURL(currentSectionIndex);
+            showFlashMessage(response.msg, 'error');
+                
+                // Redirect after a timeout
+                setTimeout(function () {
+                    window.location.href = response.redirect_url;
+                }, 5000); // 5000 milliseconds = 5 seconds
+           
+          } else {
+            currentSectionIndex = Math.min(currentSectionIndex + 1, formSections.length - 1);
+            showSection(currentSectionIndex);
+            updateURL(currentSectionIndex);
+          }
+        },
+        error: function (error) {
+          // Handle errors if any
+          currentSectionIndex = 0; // Reset section to 0 on error
+          showSection(currentSectionIndex);
+          updateURL(currentSectionIndex);
+        }
+      });
     });
+
 
     prevButtons[0].addEventListener("click", function (event) {
       event.preventDefault();
@@ -267,7 +298,7 @@
 
     function updateURL(sectionIndex) {
       const newURL = window.location.origin + window.location.pathname + "?section=" + sectionIndex;
-      window.history.replaceState(null, "", newURL);
+      window.history.pushState(null, "", newURL);
     }
 
     routeArea.addEventListener("change", function () {
@@ -278,4 +309,16 @@
 
     showSection(currentSectionIndex);
   });
+
+  function showFlashMessage(message, type) {
+    const flashMessage = document.getElementById("flashMessage");
+    flashMessage.textContent = message;
+    flashMessage.className = `flash-message ${type}`;
+    flashMessage.style.display = "block";
+
+    // Hide the flash message after a timeout
+    setTimeout(function () {
+      flashMessage.style.display = "none";
+    }, 5000);
+  }
 </script>

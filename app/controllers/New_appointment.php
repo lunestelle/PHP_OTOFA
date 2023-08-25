@@ -22,36 +22,38 @@ class New_appointment
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-      $appointmentData = [
-        'name' => ucwords($_POST['name']),
-        'phone_number' => $_POST['phone_number'],
-        'appointment_type' => $_POST['appointment_type'],
-        'appointment_date' => $_POST['appointment_date'],
-        'appointment_time' => $_POST['appointment_time'],
-      ];
+      // $appointmentData = [
+      //   'name' => ucwords($_POST['name']),
+      //   'phone_number' => $_POST['phone_number'],
+      //   'appointment_type' => $_POST['appointment_type'],
+      //   'appointment_date' => $_POST['appointment_date'],
+      //   'appointment_time' => $_POST['appointment_time'],
+      // ];
     
       $appointmentModel = new Appointment();
       $tricycleAppointmentModel = new TricycleAppointment();
-      $appointmentErrors = $appointmentModel->validate($appointmentData);
+      $appointmentErrors = $appointmentModel->validate($_POST);
       // $tricycleAppointmentErrors = $tricycleAppointmentModel->validate($tricycleAppointmentData);
 
       if (!empty($appointmentErrors)) {
         $errorMessage = $appointmentErrors[0];
-        set_flash_message($errorMessage, "error");
-        $data = array_merge($appointmentData, ['currentSection' => 0]);
-        echo $this->renderView('new_appointment', true, $data);
-        return;
-      } else {
-        $formattedPhoneNumber = $formData['phone_number'];
-				$formData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
-
-        if ($appointmentModel->insert($formData)) {
-          set_flash_message("Appointment scheduled successfully.", "success");
-          redirect('appointments');
-        } else {
-          set_flash_message("Failed to schedule appointment.", "error");
-        }
+        // set_flash_message($errorMessage, "error");
+        // $data['currentSection'] = 0;
+        $response = ['status' => 'error', 'msg' => $errorMessage, 'redirect_url' => 'new_appointment'];
+        echo json_encode($response);
+        exit;
       }
+      // } else {
+      //   $formattedPhoneNumber = $formData['phone_number'];
+			// 	$formData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
+
+      //   if ($appointmentModel->insert($formData)) {
+      //     set_flash_message("Appointment scheduled successfully.", "success");
+      //     redirect('appointments');
+      //   } else {
+      //     set_flash_message("Failed to schedule appointment.", "error");
+      //   }
+      // }
 
       // if (!empty($tricycleAppointmentErrors)) {
       //   $errorMessage = $errors[0];
