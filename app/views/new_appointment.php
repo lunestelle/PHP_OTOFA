@@ -1,4 +1,4 @@
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content" id="formContainer">
   <div class="row">
     <div class="col-12 title-head text-uppercase">
       <h6>Schedule New Appointment</h6>
@@ -206,9 +206,10 @@
               </div>
 
               <div class="text-end my-3">
-                <button type="submit" class="sidebar-btnContent sched-button">Schedule Appointment</button>
-                <button type="button" class="sidebar-btnContent next-button" style="margin-right: 10px;">Next</button>
-                <button type="button" class="sidebar-btnContent prev-button" style="margin-right: 10px;">Previous</button> 
+                <button type="button" class="d-none" id="submitBothFormsButton">Submit Both Forms</button>
+                <button type="button" class="sidebar-btnContent sched-button d-none">Schedule Appointment</button>
+                <button type="button" class="sidebar-btnContent next-button d-none" style="margin-right: 10px;">Next</button>
+                <button type="button" class="sidebar-btnContent prev-button d-none" style="margin-right: 10px;">Previous</button> 
               </div>
             </div>
           </div>
@@ -224,6 +225,7 @@
     const nextButtons = document.querySelectorAll(".next-button");
     const prevButtons = document.querySelectorAll(".prev-button");
     const schedButton = document.querySelector(".sched-button");
+    const submitButton = document.getElementById("submitBothFormsButton");
     const routeArea = document.getElementById("route_area");
     const colorCodeInput = document.getElementById("color_code");
 
@@ -235,17 +237,17 @@
       });
 
       if (index === 0) {
-        nextButtons[0].style.display = "block";
-        prevButtons[0].style.display = "none";
-        schedButton.style.display = "none";
+        nextButtons[0].classList.remove("d-none");
+        prevButtons[0].classList.add("d-none");
+        schedButton.classList.add("d-none");
       } else if (index === formSections.length - 1) {
-        nextButtons[0].style.display = "none";
-        prevButtons[0].style.display = "block";
-        schedButton.style.display = "block";
+        nextButtons[0].classList.add("d-none");
+        prevButtons[0].classList.remove("d-none");
+        schedButton.classList.remove("d-none");
       } else {
-        nextButtons[0].style.display = "block";
-        prevButtons[0].style.display = "block";
-        schedButton.style.display = "none";
+        nextButtons[0].classList.remove("d-none");
+        prevButtons[0].classList.remove("d-none");
+        schedButton.classList.add("d-none");
       }
     }
 
@@ -253,6 +255,7 @@
       event.preventDefault();
 
       const formData = new FormData(document.getElementById("appointmentInformationForm"));
+      formData.append('formType', 'appointmentForm');
 
       $.ajax({
         url: "new_appointment",
@@ -260,34 +263,101 @@
         data: formData,
         processData: false,
         contentType: false,
-        dataType: 'json', // Parse response as JSON
+        dataType: 'json',
         success: function (response) {
           if (response.status === 'error') {
-            currentSectionIndex = 0; // Reset section to 0 on error
-            showSection(currentSectionIndex);
-            updateURL(currentSectionIndex);
-            showFlashMessage(response.msg, 'error');
-                
-                // Redirect after a timeout
-                setTimeout(function () {
-                    window.location.href = response.redirect_url;
-                }, 5000); // 5000 milliseconds = 5 seconds
-           
-          } else {
+            showFlashMessage(response.msg, 'error');         
+          } else if (response.status === 'success') {
             currentSectionIndex = Math.min(currentSectionIndex + 1, formSections.length - 1);
             showSection(currentSectionIndex);
             updateURL(currentSectionIndex);
           }
         },
         error: function (error) {
-          // Handle errors if any
-          currentSectionIndex = 0; // Reset section to 0 on error
-          showSection(currentSectionIndex);
-          updateURL(currentSectionIndex);
+          console.log(error);
+          document.getElementById("formContainer").scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          showFlashMessage("An error occured", 'error'); 
         }
       });
     });
 
+    schedButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      const formData = new FormData(document.getElementById("triycleApplicationForm"));
+      formData.append('formType', 'tricycleApplicationForm');
+
+      $.ajax({
+        url: "new_appointment",
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        success: function (response) {
+          if (response.status === 'error') {
+            document.getElementById("formContainer").scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+            showFlashMessage(response.msg, 'error');         
+          } else if (response.status === 'success') {
+            submitButton.click();
+          }
+        },
+        error: function (error) {
+          console.log(error);
+          document.getElementById("formContainer").scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          showFlashMessage("An error occured", 'error'); 
+        }
+      });
+    });
+
+    submitButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      // const appointmentFormData = new FormData(document.getElementById("appointmentInformationForm"));
+      // const tricycleFormData = new FormData(document.getElementById("triycleApplicationForm"));
+
+      const formData = new FormData();
+
+formData.append('appointmentForm', new FormData(appointmentForm));
+formData.append('tricycleApplicationForm', new FormData(tricycleForm));
+formData.append('formType', 'bothForms');
+      
+      $.ajax({
+        url: "new_appointment",
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        success: function (response) {
+          if (response.status === 'error') {
+            document.getElementById("formContainer").scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+            showFlashMessage(response.msg, 'error');   
+          } else if (response.status === 'success') {
+            showFlashMessage(response.msg, response.status);
+            window.location.href = response.redirect_url;
+          }
+        },
+        error: function (error) {
+          console.log(error);
+          document.getElementById("formContainer").scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          showFlashMessage("An error occured", 'error'); 
+        }
+      });
+    });
 
     prevButtons[0].addEventListener("click", function (event) {
       event.preventDefault();
@@ -308,17 +378,16 @@
     });
 
     showSection(currentSectionIndex);
+
+    function showFlashMessage(message, type) {
+      const flashMessage = document.getElementById("flashMessage");
+      flashMessage.textContent = message;
+      flashMessage.className = `flash-message ${type}`;
+      flashMessage.style.display = "block";
+
+      setTimeout(function () {
+        flashMessage.style.display = "none";
+      }, 5000);
+    }
   });
-
-  function showFlashMessage(message, type) {
-    const flashMessage = document.getElementById("flashMessage");
-    flashMessage.textContent = message;
-    flashMessage.className = `flash-message ${type}`;
-    flashMessage.style.display = "block";
-
-    // Hide the flash message after a timeout
-    setTimeout(function () {
-      flashMessage.style.display = "none";
-    }, 5000);
-  }
 </script>

@@ -59,10 +59,8 @@ function modal_submission() {
           _el.show('6000');
           $('#uni_modal button').attr('disabled', false);
           $('#uni_modal button[type="submit"]').text(originalButtonText);
-          sessionStorage.setItem('flashMessage', resp.msg);
-          console.log('Before redirect'); // Add this line
+          showFlashMessage(resp.msg, 'success');
           window.location.href = resp.redirect_url;
-          console.log('After redirect'); // Add this line
         } else {
           _el.text(resp.msg);
           _el.hide();
@@ -74,26 +72,20 @@ function modal_submission() {
             _el.hide('slow', function() {
               $(this).remove();
             });
-          }, 4000);
+          }, 5000);
         }
       }
     });
   });
 }
 
-// Modal Flash message
-$(document).ready(function() {
-  var flashMessageContainer = $('#flashMessage');
-  var flashMessage = sessionStorage.getItem('flashMessage');
+function showFlashMessage(message, type) {
+  const flashMessage = document.getElementById("flashMessage");
+  flashMessage.textContent = message;
+  flashMessage.className = `flash-message ${type}`;
+  flashMessage.style.display = "block";
 
-  if (flashMessage) {
-    flashMessageContainer.text(flashMessage);
-    sessionStorage.removeItem('flashMessage');
-    flashMessageContainer.show(); 
-
-    // Hide the flash message after 3 seconds
-    setTimeout(function() {
-      flashMessageContainer.hide();
-    }, 3000);
-  }
-});
+  setTimeout(function () {
+    flashMessage.style.display = "none";
+  }, 5000);
+}

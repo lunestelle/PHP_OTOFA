@@ -20,23 +20,25 @@ class Appointment
   {
     $errors = [];
 
-    if (empty($data['name'])) {
-      $errors[] = 'Name is required.';
+    $requiredFields = [
+      'name' => 'Name',
+      'phone_number' => 'Phone Number',
+      'appointment_type' => 'Appointment Type',
+      'appointment_date' => 'Preferred Date',
+      'appointment_time' => 'Preferred Time'
+    ];
+
+    foreach ($requiredFields as $field => $fieldName) {
+      if (empty($data[$field])) {
+        $errors[] = $fieldName . ' is required.';
+      }
     }
 
-    if (empty($data['phone_number'])) {
-      $errors[] = 'Phone Number is required.';
-    } elseif (!preg_match('/^[0-9]{10}$/', $data['phone_number'])) {
+    if (!empty($data['phone_number']) && !preg_match('/^[0-9]{10}$/', $data['phone_number'])) {
       $errors[] = 'Phone Number must be a valid 10-digit number after "+63".';
     }
 
-    if (empty($data['appointment_type'])) {
-      $errors[] = 'Appointment Type is required.';
-    }
-
-    if (empty($data['appointment_date'])) {
-      $errors[] = 'Preferred Date is required.';
-    } elseif (!strtotime($data['appointment_date'])) {
+    if (!empty($data['appointment_date']) && !strtotime($data['appointment_date'])) {
       $errors[] = 'Preferred Date must be a valid date.';
     } elseif (!$this->isGovernmentWorkingDay($data['appointment_date'])) {
       $errors[] = 'Appointments can only be scheduled from Monday to Friday.';
@@ -52,11 +54,11 @@ class Appointment
         $alternativeDatesFormatted = array_map(function ($date) {
           return date('F j, Y', strtotime($date));
         }, $alternativeDates);
-    
+
         $alternativeDatesMessage = "Alternative available dates: <br>-" . implode("<br>- ", $alternativeDatesFormatted);
-        $errors[] = 'Maximum appointments reached for this day. Please <br> choose an alternative date. ' . $alternativeDatesMessage;
+        $errors[] = 'Maximum appointments reached for this day. Please choose an alternative date. ' . $alternativeDatesMessage;
       } else {
-        $errors[] = 'Maximum appointments reached for this day. <br> Please choose an alternative date.';
+        $errors[] = 'Maximum appointments reached for this day. Please choose an alternative date.';
       }
     }
 
@@ -66,7 +68,6 @@ class Appointment
       $errors[] = 'Appointments can only be scheduled during government working hours (8:00 AM to 5:00 PM).';
     }
 
-    // Check for overbooking
     if ($this->isSlotTaken($data['appointment_date'], $data['appointment_time'])) {
       $alternativeSlots = $this->getAlternativeSlots($data['appointment_date'], $data['appointment_time']);
 
@@ -78,11 +79,10 @@ class Appointment
         $alternativeSlotsMessage = "Alternative available slots: <br>-" . implode("<br>- ", $formattedSlots);
         $errors[] = 'The preferred appointment slot is already taken. Please choose an alternative slot.' . $alternativeSlotsMessage;
       } else {
-        $errors[] = 'Maximum appointments reached for this day. <br> Please choose an alternative date.';
+        $errors[] = 'Maximum appointments reached for this day. Please choose an alternative date.';
       }
     }
 
-    // Check for unique phone number
     if ($this->hasDuplicatePhoneNumber($data['phone_number'], $data['appointment_date'], $data['appointment_time'])) {
       $errors[] = 'An appointment with this phone number already exists for the same date and time.';
     }

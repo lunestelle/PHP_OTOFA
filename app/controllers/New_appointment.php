@@ -19,63 +19,47 @@ class New_appointment
       redirect('new_appointment');
     }
 
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-      // $appointmentData = [
-      //   'name' => ucwords($_POST['name']),
-      //   'phone_number' => $_POST['phone_number'],
-      //   'appointment_type' => $_POST['appointment_type'],
-      //   'appointment_date' => $_POST['appointment_date'],
-      //   'appointment_time' => $_POST['appointment_time'],
-      // ];
-    
       $appointmentModel = new Appointment();
       $tricycleAppointmentModel = new TricycleAppointment();
-      $appointmentErrors = $appointmentModel->validate($_POST);
-      // $tricycleAppointmentErrors = $tricycleAppointmentModel->validate($tricycleAppointmentData);
 
-      if (!empty($appointmentErrors)) {
-        $errorMessage = $appointmentErrors[0];
-        // set_flash_message($errorMessage, "error");
-        // $data['currentSection'] = 0;
-        $response = ['status' => 'error', 'msg' => $errorMessage, 'redirect_url' => 'new_appointment'];
-        echo json_encode($response);
-        exit;
+      if (isset($_POST['formType']) && $_POST['formType'] === 'appointmentForm') {
+        $appointmentErrors = $appointmentModel->validate($_POST);
+
+        if (!empty($appointmentErrors)) {
+          $errorMessage = $appointmentErrors[0];
+          $response = ['status' => 'error', 'msg' => $errorMessage];
+          echo json_encode($response);
+          exit;
+        } else {
+          echo json_encode(['status' => 'success']);
+          exit;
+        }
+      } else if (isset($_POST['formType']) && $_POST['formType'] === 'tricycleApplicationForm') {
+        $tricycleAppointmentErrors = $tricycleAppointmentModel->validate($_POST);
+
+        if (!empty($tricycleAppointmentErrors)) {
+          $errorMessage = $tricycleAppointmentErrors[0];
+          $response = ['status' => 'error', 'msg' => $errorMessage];
+          echo json_encode($response);
+          exit;
+        } else {
+          echo json_encode(['status' => 'success']);
+          exit;
+        }
+      } else if (isset($_POST['formType']) && $_POST['formType'] === 'bothForms') {
+        $insertedAppointmentInfo = $appointmentModel->insert($appointmentFormData);
+        $insertedTricycleAppointment = $tricycleAppointmentModel->insert($tricycleFormData);
+  
+        if ($insertedAppointmentInfo && $insertedTricycleAppointment) {
+          echo json_encode(['status' => 'success', 'msg' => 'Appointment scheduled successfully.', 'redirect_url' => 'appointments']);
+            exit;
+        } else {
+          echo json_encode(['status' => 'success', 'msg' => '"Failed to schedule appointment. Please try again.', 'redirect_url' => 'appointments']);
+          exit;
+        }
       }
-      // } else {
-      //   $formattedPhoneNumber = $formData['phone_number'];
-			// 	$formData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
-
-      //   if ($appointmentModel->insert($formData)) {
-      //     set_flash_message("Appointment scheduled successfully.", "success");
-      //     redirect('appointments');
-      //   } else {
-      //     set_flash_message("Failed to schedule appointment.", "error");
-      //   }
-      // }
-
-      // if (!empty($tricycleAppointmentErrors)) {
-      //   $errorMessage = $errors[0];
-      //   set_flash_message($errorMessage, "error");
-      //   $data = array_merge($tricycleAppointmentData);
-      //   echo $this->renderView('new_appointment', true, $data);
-      //   return;
-      // } else {
-      //   $formattedPhoneNumber = $formData['phone_number'];
-			// 	$formData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
-
-      //   $insertedTricycleAppointment = $tricycleAppointmentModel->insert($tricycleAppointmentData);
-      // }
-
-      // if ($insertedTricycleAppointment && $insertedAppointment) {
-      //   set_flash_message("Appointment scheduled successfully.", "success");
-      //   redirect('appointments');
-      // } else {
-      //   set_flash_message("Failed to schedule appointment.", "error");
-      // }
     }
-
     echo $this->renderView('new_appointment', true, $data);
   }
 }
