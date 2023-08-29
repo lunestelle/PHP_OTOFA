@@ -34,25 +34,23 @@
           <div class="col-12">
             <div class="container gap-5 px-5 mb-4 pb-3">
               <div class="overview-container mt-3">
-                <img src="assets/images/tricycle.png" alt="Tricycle Image" class="mt-2">
-                <h5>10</h5>
-                <p>Tricycles</p>
-              </div>
-              <div class="overview-container mt-3">
-                <img src="assets/images/Driver.png" alt="Driver Image" class="mt-2">
-                <h5>10</h5>
-                <p>Drivers</p>
-              </div>
-              <div class="overview-container mt-3">
-                <img src="assets/images/approval.png" alt="Registration Image" class="mt-2">
-                <h5>25</h5>
-                <p>Registrations</p>
-              </div>
-              <div class="overview-container mt-3">
-                <img src="assets/images/calendar.png" alt="Appointment Image" class="mt-2">
-                <h5>20</h5>
-                <p>Appointments</p>
-              </div>
+                <div class="image-bg rounded"> </div>
+                  <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
+                  <h5>20</h5>
+                  <p>Tricycles</p>
+                </div>
+                <div class="overview-container mt-3">
+                  <div class="image-bg rounded"> </div>
+                    <i class="fa-solid fa-user fa-2xl" style="color: #ffffff;"></i>
+                    <h5>10</h5>
+                    <p>Registrations</p>
+                </div>
+                <div class="overview-container mt-3">
+                  <div class="image-bg rounded"> </div>
+                  <i class="fa-solid fa-clock fa-2xl" style="color: #ffffff; margin-right: 4px;"></i>
+                  <h5>25</h5>
+                  <p>Appointments</p>
+                </div>
             </div>
           </div>
         <?php } ?>
