@@ -64,7 +64,7 @@
 
               <div class="content-container p-3" style="<?php echo ($currentSection === 1) ? 'display: block;' : 'display: none;'; ?>">
                 <h6 class="pl-2 text-uppercase">Tricycle Application Form</h6>
-                <form class="default-form" method="POST" action="" id="triycleApplicationForm">
+                <form class="default-form" method="POST" action="" id="tricycleApplicationForm">
                   <div class="container">
                     <div class="d-flex justify-content-center">
                       <div class="row px-3">
@@ -279,14 +279,16 @@
               behavior: "smooth",
               block: "start"
             });
-          showFlashMessage("An error occured", 'error'); 
+          showFlashMessage("An error occurred", 'error'); 
         }
       });
     });
 
     schedButton.addEventListener("click", function (event) {
       event.preventDefault();
-      const formData = new FormData(document.getElementById("triycleApplicationForm"));
+      
+      const triycleApplicationForm = document.getElementById("tricycleApplicationForm");
+      const formData = new FormData(triycleApplicationForm);
       formData.append('formType', 'tricycleApplicationForm');
 
       $.ajax({
@@ -304,57 +306,51 @@
             });
             showFlashMessage(response.msg, 'error');         
           } else if (response.status === 'success') {
-            submitButton.click();
+            const appointmentForm = document.getElementById("appointmentInformationForm");
+            const tricycleForm = document.getElementById("tricycleApplicationForm");
+            
+            const combinedFormData = new FormData();
+            combinedFormData.append('appointmentInformationForm', new FormData(appointmentForm));
+            combinedFormData.append('tricycleApplicationForm', new FormData(tricycleForm));
+            combinedFormData.append('formType', 'bothForms');
+            
+            $.ajax({
+              url: "new_appointment",
+              method: "POST",
+              data: combinedFormData,
+              processData: false,
+              contentType: false,
+              dataType: 'json',
+              success: function (response) {
+                if (response.status === 'error') {
+                  document.getElementById("formContainer").scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                  });
+                  showFlashMessage(response.msg, 'error');
+                  window.location.href = response.redirect_url;
+                } else if (response.status === 'success') {
+                  showFlashMessage(response.msg, response.status);
+                }
+              },
+              error: function (error) {
+                console.log(error);
+                document.getElementById("formContainer").scrollIntoView({
+                  behavior: "smooth",
+                  block: "start"
+                });
+                showFlashMessage("An error occurred (both forms submission", 'error'); 
+              }
+            });
           }
         },
         error: function (error) {
           console.log(error);
           document.getElementById("formContainer").scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-          showFlashMessage("An error occured", 'error'); 
-        }
-      });
-    });
-
-    submitButton.addEventListener("click", function (event) {
-      event.preventDefault();
-      // const appointmentFormData = new FormData(document.getElementById("appointmentInformationForm"));
-      // const tricycleFormData = new FormData(document.getElementById("triycleApplicationForm"));
-
-      const formData = new FormData();
-
-formData.append('appointmentForm', new FormData(appointmentForm));
-formData.append('tricycleApplicationForm', new FormData(tricycleForm));
-formData.append('formType', 'bothForms');
-      
-      $.ajax({
-        url: "new_appointment",
-        method: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: 'json',
-        success: function (response) {
-          if (response.status === 'error') {
-            document.getElementById("formContainer").scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-            showFlashMessage(response.msg, 'error');   
-          } else if (response.status === 'success') {
-            showFlashMessage(response.msg, response.status);
-            window.location.href = response.redirect_url;
-          }
-        },
-        error: function (error) {
-          console.log(error);
-          document.getElementById("formContainer").scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-          showFlashMessage("An error occured", 'error'); 
+            behavior: "smooth",
+            block: "start"
+          });
+          showFlashMessage("An error occurred", 'error'); 
         }
       });
     });
@@ -389,5 +385,10 @@ formData.append('formType', 'bothForms');
         flashMessage.style.display = "none";
       }, 5000);
     }
+  });
+
+  window.addEventListener('beforeunload', function () {
+    const newURL = window.location.origin + window.location.pathname;
+      window.history.pushState(null, "", newURL);
   });
 </script>
