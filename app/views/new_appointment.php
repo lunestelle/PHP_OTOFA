@@ -387,8 +387,8 @@
     }
   });
 
-  window.addEventListener('beforeunload', function () {
-    const newURL = window.location.origin + window.location.pathname;
-      window.history.pushState(null, "", newURL);
-  });
+  window.addEventListener('beforeunload', function (event) {
+  window.location.href = 'new_appointment';
+});
+
 </script>
