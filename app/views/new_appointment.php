@@ -30,6 +30,17 @@
                             </div>
 
                             <div class="col-4">
+                              <label for="email" class="form-label">Email (Optional)</label>
+                              <div class="input-group">
+                                <input type="email" class="form-control phone-no" id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" required>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="row mt-3">
+                            <div class="col-4">
                               <label for="appointment_type" class="form-label">Appointment Type</label>
                               <select class="form-control" id="appointment_type" name="appointment_type" required>
                                 <option value="" selected disabled>Select Appointment Type</option>
@@ -40,11 +51,7 @@
                                 <option value="Change of Motorcycle" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Change of Motorcycle') ? 'selected' : ''; ?>>Change of Motorcycle</option>
                               </select>
                             </div>
-                          </div>
-                        </div>
 
-                        <div class="col-12">
-                          <div class="row mt-3">
                             <div class="col-4">
                               <label for="appointment_date" class="form-label">Preferred Date</label>
                               <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?php echo isset($_POST['appointment_date']) ? $_POST['appointment_date'] : ''; ?>" required>

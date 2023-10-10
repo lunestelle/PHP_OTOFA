@@ -9,6 +9,7 @@ class Appointment
     'appointment_id',
     'name',
     'phone_number',
+    'email',
     'appointment_type',
     'appointment_date',
     'appointment_time',
@@ -36,6 +37,10 @@ class Appointment
 
     if (!empty($data['phone_number']) && !preg_match('/^[0-9]{10}$/', $data['phone_number'])) {
       $errors[] = 'Phone Number must be a valid 10-digit number after "+63".';
+    }
+
+    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+      $errors[] = 'Invalid email format.';
     }
 
     if (!empty($data['appointment_date']) && !strtotime($data['appointment_date'])) {

@@ -18,12 +18,16 @@ class Manage_account
       'email' => $userData->email,
       'first_name' => $userData->first_name,
       'last_name' => $userData->last_name,
+      'address' => $userData->address,
+      'phone_number' => $userData->phone_number,
       'profile_photo' => $userData->uploaded_profile_photo_path ?: $userData->generated_profile_photo_path,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $postData = [
         'email' => $_POST['email'],
+        'address' => $_POST['address'],
+        'phone_number' => $_POST['phone_number'],
         'first_name' => $_POST['first_name'],
         'last_name' => $_POST['last_name'],
         'new_profile' => $_POST['selected-profile-photo'],
@@ -48,6 +52,7 @@ class Manage_account
     
         if ($updateUser) {
           set_flash_message("Profile photo removed successfully.", "success");
+          $_SESSION['USER'] = $user->first(['user_id' =>  $_SESSION['USER']->user_id]);
           redirect('manage_account');
         } else {
           set_flash_message("Failed to remove profile photo. Please try again.", "error");
@@ -67,6 +72,8 @@ class Manage_account
   { 
     $updateData = [
       'email' => $postData['email'],
+      'phone_number' => $postData['phone_number'],
+      'address' => ucwords($postData['address']),
       'first_name' => ucwords($postData['first_name']),
       'last_name' => ucwords($postData['last_name'])
     ];

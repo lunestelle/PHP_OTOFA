@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         <div class="form-group mb-3">
-          <input class="form-control" autocomplete="email" type="email" name="email" id="email" placeholder="EMAIL" autofocus required>
+          <input class="form-control" autocomplete="email" type="text" name="email_or_phone" id="email_or_phone" placeholder="EMAIL OR PHONE NUMBER" autofocus required/>
         </div>
       </div>
       <div class="col-6 mb-3">
@@ -14,6 +14,11 @@
       <div class="col-6 mb-3">
         <div class="form-group">
           <input type="text" id="last_name"  name="last_name" placeholder="LAST NAME" autocomplete="last_name" class="form-control" autofocus required/>
+        </div>
+      </div>
+      <div class="col-12 mb-3">
+        <div class="form-group">
+          <input class="form-control" autocomplete="address" type="text" name="address" id="address" placeholder="ADDRESS" autofocus required/>
         </div>
       </div>
       <div class="col-12 mb-3">

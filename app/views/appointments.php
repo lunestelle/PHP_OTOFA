@@ -18,6 +18,7 @@
                   <th scope="col" class="text-center">#</th>
                   <th scope="col" class="text-center">Name</th>
                   <th scope="col" class="text-center">Phone Number</th>
+                  <th scope="col" class="text-center">Email</th>
                   <th scope="col" class="text-center">Appointment Type</th>
                   <th scope="col" class="text-center">Date</th>
                   <th scope="col" class="text-center">Time</th>
@@ -31,6 +32,7 @@
                     <td><?php echo $index++; ?></td>
                     <td><?php echo $appointment['name']; ?></td>
                     <td><?php echo $appointment['phone_number']; ?></td>
+                    <td><?php echo empty($appointment['email']) ? '----------------' : $appointment['email']; ?></td>
                     <td><?php echo $appointment['appointment_type']; ?></td>
                     <td><?php echo $appointment['appointment_date']; ?></td>
                     <td><?php echo $appointment['appointment_time']; ?></td>

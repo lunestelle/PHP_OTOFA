@@ -41,8 +41,8 @@
                       <span class="badge status-badge"><?php echo $tricycle['tricycle_status']; ?></span>
                     </td>
                     <td>
-                      <a href="./view_tricycle" class="view_data px-1 me-1" style="color:#26CC00;" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
-                      <a href="./edit_tricycle" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Product Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>
+                      <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Operator Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                      <a href="./edit_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Operator Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>

@@ -20,22 +20,28 @@ class Sign_in
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $user = new User();
-      $email = $_POST['email'];
+      $emailOrPhone = $_POST['email_or_phone'];
       $password = $_POST['password'];
-      $row = $user->first(['email' => $email]);
+
+      if (filter_var($emailOrPhone, FILTER_VALIDATE_EMAIL)) {
+        $row = $user->first(['email' => $emailOrPhone]);
+      } else {
+        $phone_number = $user->formatPhoneNumber($emailOrPhone);
+        $row = $user->first(['phone_number' => $phone_number]);
+      }
 
       if ($row && password_verify($password, $row->password)) {
         $_SESSION['USER'] = $row;
         $_SESSION['authenticated'] = true;
 
         if (isset($_POST['rememberMe'])) {
-          setcookie('email', $email, time() + (86400 * 30), '/'); // cookie is set to expire in 30 days
-          setcookie('password', $password, time() + (86400 * 30), '/'); 
+          setcookie('email_or_phone', $emailOrPhone, time() + (86400 * 30), '/'); // cookie is set to expire in 30 days
+          setcookie('password', $password, time() + (86400 * 30), '/');
         } else {
-          if (isset($_COOKIE['email'])){
-            setcookie('email', '', time() - 3600, '/');
+          if (isset($_COOKIE['email_or_phone'])) {
+            setcookie('email_or_phone', '', time() - 3600, '/');
           }
-          if (isset($_COOKIE['password'])){
+          if (isset($_COOKIE['password'])) {
             setcookie('password', '', time() - 3600, '/');
           }
         }

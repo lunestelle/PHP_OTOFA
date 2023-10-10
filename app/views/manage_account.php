@@ -74,10 +74,17 @@
                     <label for="last_name" class="form-label">Last Name</label>
                     <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo isset($last_name) ? $last_name : '' ?>" required>
                   </div>
-
-                  <div class="col-md-8">
+                  <div class="col-md-8 mb-3">
+                    <label for="phone_number" class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?php echo isset($phone_number) ? $phone_number : '' ?>">
+                  </div>
+                  <div class="col-md-8 mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($email) ? $email : '' ?>" required>
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($email) ? $email : '' ?>">
+                  </div>
+                  <div class="col-md-8">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" value="<?php echo isset($address) ? $address : '' ?>">
                   </div>
                 </div>
               </div>

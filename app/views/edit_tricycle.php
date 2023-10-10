@@ -1,25 +1,25 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
     <div class="col-12 title-head text-uppercase">
-    <h6 class="add">Edit Tricycle <?php  echo isset($_GET['plate_no'])  ?></h6>
+    <h6 class="add">Edit Tricycle</h6>
     </div>
     <div class="col-lg-12">
       <div class="row">
         <div class="col-12 pt-2">
           <div id="newTricycleForm">
-            <form class="default-form" method="POST" action="" enctype="multipart/form-data">
+            <form class="default-form" method="POST" action="">
               <div class="content-container mt-2 p-3">
                 <h6 class="pl-2">MOTOR UNIT</h6>
                 <div class="row px-3">
                   <div class="col-12 d-flex justify-content-between">
                     <div>
                       <label for="make_model" class="form-label">Model</label>
-                      <input  type="text" class="form-control" id="make_model" name="make_model" value="<?php echo isset($_POST['make_model']) ? $_POST['make_model'] : ''; ?>" required>
+                      <input type="text" class="form-control" id="make_model" name="make_model" value="<?php echo isset($make_model) ? $make_model : ''; ?>" required>
                     </div>
 
                     <div>
                       <label for="year_acquired" class="form-label">Year Acquired</label>
-                      <input  type="text" class="form-control view-field" id="year_acquired" name="year_acquired" value="<?php echo isset($_POST['year_acquired']) ? $_POST['year_acquired'] : ''; ?>" required>
+                      <input  type="text" class="form-control view-field" id="year_acquired" name="year_acquired" value="<?php echo isset($year_acquired) ? $year_acquired : ''; ?>" required>
                     </div>
 
                     <div>

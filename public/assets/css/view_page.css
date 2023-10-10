@@ -41,7 +41,7 @@
 }
 
 .form-control {
-  width: 230px;
+  width: 240px !important;
   border-radius: 10px;
   border-width: 1px;
   border-style: solid;
@@ -71,6 +71,14 @@ input[type=file]::file-selector-button {
   transition: background .2s ease-in-out;
 }
 
+#front_view_image, #back_view_image, #side_view_image {
+  width: 300px;
+  height: 220px;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  margin-right: 20px;
+  margin-bottom: 15px;
+}
 
 @media screen and (min-width: 1024px) and (max-width: 1200px) {
   .form-control {

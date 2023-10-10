@@ -1,7 +1,7 @@
 <div class="col-lg-12">
   <form class="default-form custom-form" id="sign-in-form" method="POST" action="">
     <div class="form-group mb-4">
-      <input class="form-control" autocomplete="email" type="email" name="email" id="email" placeholder="EMAIL" value="<?php if(isset($_COOKIE['email'])){echo $_COOKIE['email'];}?>" autofocus required>
+      <input class="form-control" autocomplete="email" type="text" name="email_or_phone" id="email_or_phone" placeholder="EMAIL OR PHONE NUMBER" value="<?php if(isset($_COOKIE['email_or_phone'])){echo $_COOKIE['email_or_phone'];}?>" autofocus required>
     </div>
     <div class="form-group password-toggle mb-2">
       <input class="form-control" autocomplete="off" type="password" name="password" id="password" placeholder="PASSWORD" value="<?php if(isset($_COOKIE['password'])){echo $_COOKIE['password'];}?>"autofocus required>
@@ -9,7 +9,7 @@
     </div>
     <div class="form-group remember-me text-start p-0 mb-3">
       <label class="form-check-label p-0">
-        <input class="form-check-input" type="checkbox" value="" name="rememberMe" id="rememberMe" <?php if(isset($_COOKIE['email'])){echo 'checked';}?>>
+        <input class="form-check-input" type="checkbox" value="" name="rememberMe" id="rememberMe" <?php if(isset($_COOKIE['email_or_phone'])){echo 'checked';}?>>
         Remember me
       </label>
     </div>
