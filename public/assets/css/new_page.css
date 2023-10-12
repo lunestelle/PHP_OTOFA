@@ -17,7 +17,7 @@
 }
 
 .content-container {
-  border-radius: 20px;
+  border-radius: 10px;
   border: 1px solid #d8d8d8c9;
   background: #FFF;
   box-shadow: -1px 4px 10px 0px rgba(0, 0, 0, 0.25);
@@ -44,7 +44,7 @@
 
 .form-control {
   width: 230px;
-  border-radius: 10px;
+  border-radius: 7px;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
   border-color: rgba(168, 166, 166, 1);
   border-width: 1px;

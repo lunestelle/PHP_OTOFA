@@ -3,7 +3,7 @@
     <div class="col-12 title-head text-uppercase">
       <h6>View Appointment</h6>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-8 mx-auto">
       <div class="row">
         <div class="col-12 pt-2">
           <div class="container pt-4">
@@ -16,11 +16,11 @@
                       <div class="row px-3">
                         <div class="col-12">
                           <div class="row mt-3">
-                            <p>Name: <?php echo $appointment->name; ?></p>
-                            <p>Phone Number: <?php echo $appointment->phone_number; ?></p>
-                            <p>Appointment Type: <?php echo $appointment->appointment_type; ?></p>
-                            <p>Date: <?php echo $appointment->appointment_date; ?></p>
-                            <p>Time: <?php echo $appointment_time; ?></p>
+                            <p> <span class="fw-bolder mr-5">Name:</span> <?php echo $appointment->name; ?></p>
+                            <p><span class="fw-bolder mr-5"> Phone Number: </span> <?php echo $appointment->phone_number; ?></p>
+                            <p><span class="fw-bolder mr-5">Appointment Type:</span> <?php echo $appointment->appointment_type; ?></p>
+                            <p> <span class="fw-bolder mr-5"> Date: </span> <?php echo $appointment->appointment_date; ?></p>
+                            <p><span class="fw-bolder mr-5">Time: </span> <?php echo $appointment_time; ?></p>
                           </div>
                         </div>
                       </div>
@@ -29,11 +29,11 @@
                 </div>
 
                 <div class="text-end my-3">
-                  <a href="#" class="sidebar-btnContent text-white px-1 me-1" style="color: #ff6c36;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel Appointment</a>
+                  <a href="#" class="sidebar-btnContent text-white px-3 me-1"  data-bs-toggle="modal" data-bs-target="#cancelModal">Back</a>
                 </div>
               </form>
 
-              <!-- Cancel Modal -->
+              <!-- Cancel Modal
               <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -55,7 +55,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+<main class="dashboard-container col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
-    <div class="col-12 title-head text-uppercase">
-      <h6>dashboard</h6>
+    <div class="col-12 text-uppercase">
+      <h6 class="text-secondary fw-bolder">dashboard</h6>
     </div>
     <div class="col-lg-12">
       <div class="row">
@@ -56,10 +56,10 @@
         <?php } ?>
       </div>
     </div>
-    <div class="d-flex">`
+    <div class="d-flex">
       <div class="col-lg-6">
-        <div class="col-12 title-head text-uppercase">
-          <h6>Tricycle's Code </h6>
+        <div class="col-12 text-uppercase">
+          <h6 class="text-secondary fw-bolder">Tricycle's Code </h6>
         </div>
         <div class="row">
           <div class="col-12">
@@ -104,9 +104,18 @@
           </div>
         </div>
       </div>
-        <!-- <div class="col-12 title-head text-uppercase">
-          <h6>Tricycle's Code </h6>
-        </div> -->
+      <div class="col-lg-6">
+        <div class="col-12 text-uppercase">
+          <h6 class="text-secondary fw-bolder">Taripa</h6>
+        </div>
+        <div class="row">
+          <div class="col-12">
+           <div class="bg-white p-2">
+             <div></div>
+           </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
