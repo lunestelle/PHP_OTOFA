@@ -18,10 +18,7 @@
         </div>
         <div class="col-6">
   <form method="post" action="">
-    <div class="form-group">
-      <label for="date_range">Date Range:</label>
-      <input type="text" class="form-control" id="date_range" name="date_range" placeholder="Select date range">
-    </div>
+    
 
     <?php if ($selectedData !== 'operators' && isset($showOperatorFilter) && $showOperatorFilter): ?>
       <div class="form-group">

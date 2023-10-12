@@ -117,9 +117,6 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 <li class="nav-item mb-2">
                   <a class="nav-link" href="export">Export</a>
                 </li>
-                <li class="nav-item mb-2">
-                  <a class="nav-link" href="#">Sample</a>
-                </li>
               </ul>
             </li>
             <?php } ?>
