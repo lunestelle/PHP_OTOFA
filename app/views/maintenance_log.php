@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-12">
           <div class="mt-3">
-            <a href="#" class="text-uppercase sidebar-btnContent">New</a>
+            <a href="#" class="text-uppercase sidebar-btnContent new-button">New</a>
           </div>
         </div>
         <div class="col-12">

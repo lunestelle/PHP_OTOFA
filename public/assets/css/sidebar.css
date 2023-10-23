@@ -161,11 +161,11 @@ hr {
 }
 
 .title-head {
-  border-bottom: #ABAAAA 2px solid;
+  border-bottom: #c5c5c5 1px solid;
 }
 
 .sidebar-btnContent {
-  padding: 7px 15px;
+  padding: 5px 18px;
   color: white;
   background-color: #FF4200;
   border: #FF4200 1px solid;
@@ -180,6 +180,12 @@ hr {
   background-color: #ffc5b0;
   border: #FF4200 1px solid;
   color: #FF4200;
+}
+
+.new-button {
+  position: absolute;
+  top: 5px;
+  right: 20px;
 }
 
 /* -- STATUS -- */
