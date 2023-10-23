@@ -68,9 +68,11 @@ select.form-control:hover {
 
 input[type="date"]:focus,
 input[type="text"]:focus,
+input[type="time"]:focus,
 input[type="number"]:focus,
 input[type="date"]:hover,
 input[type="text"]:hover,
+input[type="time"]:hover,
 input[type="number"]:hover {
   background-color: #ffdbcead;
   box-shadow: none;
@@ -171,8 +173,6 @@ input[type=number] {
   background-color: rgba(255, 255, 255, 1);
   height: 36px;
 }
-
-
 
 @media screen and (min-width: 1024px) and (max-width: 1315px) {
   .form-control {

@@ -131,11 +131,11 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
         <div class="flex-grow-1"></div>
         <div class="mt-auto">
           <div class="dropdown">
-            <button class="btn color dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<?= $profilePhoto ?>" alt="Profile Photo" width="30" height="30" class="rounded-circle">
-              <?= $firstName ?> &nbsp;
-              <i class="fa-solid fa-caret-up"></i>
-            </button>
+            <div class="dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="<?= $profilePhoto ?>" alt="Profile Photo" width="40" height="40" class="rounded" title="Manage Account">
+              <!-- <?= $firstName ?> &nbsp; -->
+              <!-- <i class="fa-solid fa-caret-up"></i> -->
+            </div>
             
             <ul class="dropdown-menu" aria-labelledby="accountDropdown">
               <li><h6 class="dropdown-header">Manage Account</h6></li>

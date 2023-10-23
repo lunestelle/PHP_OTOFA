@@ -102,7 +102,7 @@ nav #toggler{
   width: 5rem;
   height: 5rem;
   object-fit: cover;
-  border-radius: 9999px;
+  border-radius: 10px;
   max-width: 100%;
 }
 

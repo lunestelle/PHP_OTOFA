@@ -17,18 +17,18 @@ class Appointments
     $data['appointments'] = [];
     $data['index'] = 1;
 
-    if (!empty($appointmentsData)) {
-      foreach ($appointmentsData as $appointment) {
-        $data['appointments'][] = [
-          'appointment_id' => $appointment->appointment_id,
-          'name' => $appointment->name,
-          'phone_number' => $appointment->phone_number,
-          'appointment_type' => $appointment->appointment_type,
-          'appointment_date' => $appointment->appointment_date,
-          'appointment_time' => $appointment->appointment_time,
-          'status' => $appointment->status
-        ];
-      }
+    foreach ($appointmentsData as $appointment) {
+      $formattedAppointmentTime = formatTime($appointment->appointment_time);
+
+      $data['appointments'][] = [
+        'appointment_id' => $appointment->appointment_id,
+        'name' => $appointment->name,
+        'phone_number' => $appointment->phone_number,
+        'appointment_type' => $appointment->appointment_type,
+        'appointment_date' => $appointment->appointment_date,
+        'appointment_time' => $formattedAppointmentTime,
+        'status' => $appointment->status
+      ];
     }
 
     echo $this->renderView('appointments', true, $data);

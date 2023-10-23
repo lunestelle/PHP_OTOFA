@@ -51,16 +51,19 @@
             <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="cancelModalLabel">Cancel Appointment</h5>
+                  <div class="modal-header border-0">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-title" id="cancelModalLabel">
+                    <p class="fs-4 text-center mt-2">Cancel Appointment</p>
+                  </div>
+                                
+                  <div class="modal-body mx-2">
                     <p>Are you sure you want to cancel the appointment for <span id="appointmentName"></span> on <span id="appointmentDate"></span> at <span id="appointmentTime"></span>?</p>
                   </div>
-                  <div class="modal-footer">
-                    <form action="<?php echo 'cancel_appointment?appointment_id=' .$appointment['appointment_id']?>"  method="post" id="cancelForm">
-                      <input type="submit" class="btn btn-danger" value="Yes, Cancel Appointment">
+                  <div class="modal-footer border-0">
+                    <form action="<?php echo 'cancel_appointment?appointment_id=' . $appointment['appointment_id'] ?>" method="post" id="cancelForm">
+                      <input type="submit" class="btn sidebar-btnContent" value="Yes, Cancel Appointment">
                     </form>
                   </div>
                 </div>
@@ -81,8 +84,8 @@
     var cancelForm = document.getElementById('cancelForm');
 
     appointmentName.textContent = name;
-    appointmentDate.textContent = date('l, F j, Y', strtotime($date));
-    appointmentTime.textContent = date('h:i A', strtotime($time));
+    appointmentDate.textContent = date;
+    appointmentTime.textContent = time;
 
     // Update the form action URL to include the appointment_id
     cancelForm.action = 'cancel_appointment?appointment_id=' + <?php echo $appointment['appointment_id']; ?>;

@@ -20,7 +20,7 @@
                             <p>Phone Number: <?php echo $appointment->phone_number; ?></p>
                             <p>Appointment Type: <?php echo $appointment->appointment_type; ?></p>
                             <p>Date: <?php echo $appointment->appointment_date; ?></p>
-                            <p>Time: <?php echo $appointment->appointment_time; ?></p>
+                            <p>Time: <?php echo $appointment_time; ?></p>
                           </div>
                         </div>
                       </div>
