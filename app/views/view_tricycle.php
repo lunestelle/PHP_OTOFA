@@ -77,52 +77,39 @@
 
             <div class="content-container mt-2 p-3">
               <h6 class="pl-2 pt-3">TRICYCLE IMAGES</h6>
-                <div class="row px-3">
-                  <div class="col-8 d-flex justify-content-between">
-                    <div>
-                      <p class="form-label">Tricycle Front View</p>
-                      <?php
-                      if (isset($front_view_image) && $front_view_image) {
-                        echo '<img src="' . $front_view_image->file_path . '" id="front_view_image" alt="Tricycle Front View">';
+              <div class="row px-3">
+                <div class="col-8 d-flex justify-content-between">
+                  <div>
+                    <p class="form-label">Tricycle Front View</p>
+                    <?php
+                    if (isset($front_view_image) && $front_view_image) {
+                      echo '<img src="' . $front_view_image->file_path . '" id="front_view_image" alt="Tricycle Front View">';
+                    } else {
+                      echo '<p class="form-label">Front view image not available</p>';
+                    }
+                    ?>
+                  </div>
+                  <div>
+                    <p class="form-label">Tricycle Back View</p>
+                    <?php
+                      if (isset($back_view_image) && $back_view_image) {
+                        echo '<img src="' . $back_view_image->file_path . '" id="back_view_image" alt="Tricycle Back View" class="tricycle_image">';
                       } else {
-                        echo '<p class="form-label">Front view image not available</p>';
+                        echo '<p class="form-label">Back view image not available</p>';
                       }
-                      ?>
-                    </div>
-                    <div>
-                      <p class="form-label">Tricycle Back View</p>
-                      <?php
-                        if (isset($back_view_image) && $back_view_image) {
-                          echo '<img src="' . $back_view_image->file_path . '" id="back_view_image" alt="Tricycle Back View" class="tricycle_image">';
-                        } else {
-                          echo '<p class="form-label">Back view image not available</p>';
-                        }
-                      ?>
-                    </div>
-                    <div>
-                      <p class="form-label">Tricycle Side View</p>
-                      <?php
-                        if (isset($side_view_image) && $side_view_image) {
-                          echo '<img src="' . $side_view_image->file_path . '" id="side_view_image" alt="Tricycle Side View">';
-                        } else {
-                          echo '<p class="form-label">Tricycle side view image not available</p>';
-                        }
-                      ?>
-                    </div>
+                    ?>
+                  </div>
+                  <div>
+                    <p class="form-label">Tricycle Side View</p>
+                    <?php
+                      if (isset($side_view_image) && $side_view_image) {
+                        echo '<img src="' . $side_view_image->file_path . '" id="side_view_image" alt="Tricycle Side View">';
+                      } else {
+                        echo '<p class="form-label">Tricycle side view image not available</p>';
+                      }
+                    ?>
                   </div>
                 </div>
-                <!-- <div class="row px-3 pt-4">
-                  <div class="col-8 d-flex justify-content-between">
-                    <div>
-                      <label for="certificate_of_registration" class="form-label">Certificate of Registration (CR)</label>
-                      <input disabled type="file" class="form-control" id="certificate_of_registration" name="certificate_of_registration" required>
-                    </div> 
-                    <div>
-                      <label for="official_receipt" class="form-label">Official Receipt (OR)</label>
-                      <input disabled type="file" class="form-control" id="official_receipt" name="official_receipt" required>
-                    </div>
-                  </div>
-                </div> -->
               </div>
               <div id="taripaTableContainer" >
                 <!-- show here the taripa of the selected route area -->

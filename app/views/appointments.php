@@ -5,11 +5,13 @@
     </div>
     <div class="col-lg-12">
       <div class="row">
-        <div class="col-12">
-          <div class="mt-3">
-            <a href="new_appointment" class="text-uppercase sidebar-btnContent new-button">New</a>
+        <?php if ($userRole === 'admin'): ?>  
+          <div class="col-12">
+            <div class="mt-3">
+              <a href="new_appointment" class="text-uppercase sidebar-btnContent new-button">New</a>
+            </div>
           </div>
-        </div>
+        <?php endif; ?>  
         <div class="col-12">
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">

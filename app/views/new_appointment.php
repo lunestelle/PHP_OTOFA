@@ -72,6 +72,7 @@
                   </div>
                 </form>
               </div>
+            </div>
 
               <div class="content-container p-3" style="<?php echo ($currentSection === 1) ? 'display: block;' : 'display: none;'; ?>">
                 <h6 class="pl-2 text-uppercase">Tricycle Application Form</h6>
