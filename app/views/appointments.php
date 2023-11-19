@@ -1,4 +1,4 @@
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content overflow-scroll">
   <div class="row">
     <div class="col-12 title-head text-uppercase">
       <h6>Appointments</h6>

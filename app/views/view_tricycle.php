@@ -7,9 +7,11 @@
       <div class="row">
         <div class="col-12 pt-2">
           <div id="newTricycleForm">
-            <div class="content-container mt-2 p-3">
-              <h6 class="pl-2">MOTOR UNIT</h6>
-              <div class="row px-3">
+            <div class="content-container mt-2">
+              <div class="bckgrnd pt-2">
+                <h6 class="pl-2 text-uppercase text-center text-light fs-6">Motor Unit</h6>
+              </div>
+              <div class="row px-3 p-4">
                 <div class="col-12 d-flex justify-content-between">
                   <div>
                     <p class="form-label">Model</p>
@@ -74,10 +76,11 @@
                 </div>
               </div>
             </div>
-
-            <div class="content-container mt-2 p-3">
-              <h6 class="pl-2 pt-3">TRICYCLE IMAGES</h6>
-              <div class="row px-3">
+            <div class="content-container mt-3">
+              <div class="bckgrnd pt-2">
+                <h6 class="pl-2 text-uppercase text-center text-light fs-6">tricycle images</h6>
+              </div>
+              <div class="row px-3 p-3">
                 <div class="col-8 d-flex justify-content-between">
                   <div>
                     <p class="form-label">Tricycle Front View</p>

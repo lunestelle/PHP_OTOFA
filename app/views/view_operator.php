@@ -13,9 +13,9 @@
                 <div class="col-md-4">
                   <div class="profile-photo-container text-center mt-3">
                     <?php if(!empty($profile_photo_path)): ?>
-                      <img src="<?php echo $profile_photo_path; ?>" class="img-fluid rounded-circle" alt="Profile Photo">
+                        <img src="<?php echo $profile_photo_path; ?>" class="img-fluid rounded-circle" alt="Profile Photo" style="width: 150px; height: 150px;">
                     <?php endif; ?>
-                  </div>
+                 </div>
                 </div>
                 <div class="col-md-8">
                   <div class="row">

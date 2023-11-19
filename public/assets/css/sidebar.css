@@ -274,7 +274,7 @@ table > :not(caption) > * > * > :last-child {
 
 
 .cancel-btn {
-  padding: 7px 15px;
+  padding: 5px 18px;
   background-color: white;
   border: #FF4200 1px solid;
   color: #FF4200;
