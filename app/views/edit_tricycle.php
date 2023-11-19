@@ -13,45 +13,45 @@
                 <div class="row px-3">
                   <div class="col-12 d-flex justify-content-between">
                     <div>
-                      <p class="form-label">Model</p>
+                      <label class="form-label">Model</label>
                       <input type="text" name="make_model" class="form-control" value="<?php echo $make_model; ?>">
                     </div>
                     <div>
-                      <p for="year_acquired" class="form-label">Year Acquired</p>
+                      <label for="year_acquired" class="form-label">Year Acquired</label>
                       <input type="text" name="year_acquired" class="form-control" value="<?php echo $year_acquired; ?>">
                     </div>
                     <div>
-                      <p for="color_code" class="form-label">Color Code</p>
+                      <label for="color_code" class="form-label">Color Code</label>
                       <input type="text" name="color_code" class="form-control" value="<?php echo $color_code; ?>">
                     </div>
                   </div>
 
                   <div class="col-12 d-flex justify-content-between">
                     <div>
-                      <p class="form-label">Route Area</p>
+                      <label class="form-label">Route Area</label>
                       <input type="text" name="route_area" class="form-control" value="<?php echo $route_area; ?>">
                     </div>
                     <div>
-                      <p class="form-label">Plate No.</p>
+                      <label class="form-label">Plate No.</label>
                       <input type="text" name="plate_no" class="form-control" value="<?php echo $plate_no; ?>">
                     </div>
                     <div>
-                      <p class="form-label">Driver's Name</p>
+                      <label class="form-label">Driver's Name</label>
                       <input type="text" name="driver_name" class="form-control" value="<?php echo $driver_name; ?>">
                     </div>
                   </div>
 
                   <div class="col-12 d-flex justify-content-between pt-3">
                     <div>
-                      <p class="form-label">OR No.</p>
+                      <label class="form-label">OR No.</label>
                       <input type="text" name="or_no" class="form-control" value="<?php echo $or_no; ?>">
                     </div>
                     <div>
-                      <p for="or_date" class="form-label">OR Date</p>
+                      <label for="or_date" class="form-label">OR Date</label>
                       <input type="text" name="or_date" class="form-control" value="<?php echo $or_date; ?>">
                     </div>
                     <div>
-                      <p for="tricycle_status" class="form-label">Tricycle Status</p>
+                      <label for="tricycle_status" class="form-label">Tricycle Status</label>
                       <input type="text" name="tricycle_status" class="form-control" value="<?php echo $tricycle_status; ?>">
                     </div>
                   </div>
@@ -63,7 +63,7 @@
                 <div class="row px-3">
                   <div class="col-8 d-flex justify-content-between">
                     <div>
-                      <p class="form-label">Tricycle Front View</p>
+                      <label class="form-label">Tricycle Front View</label>
                       <?php
                       if (isset($front_view_image) && $front_view_image) {
                         echo '<div class="image-container">';
@@ -71,14 +71,13 @@
                         echo '<button class="remove-image-btn" onclick="removeImage(\'front_view_image\')">X</button>';
                         echo '</div>';
                       } else {
-                        echo '<p class="form-label">Front view image not available</p>';
                         echo '<input type="file" name="front_view_image" accept="image/*">';
                       }
                       ?>
                     </div>
 
                     <div>
-                      <p class="form-label">Tricycle Back View</p>
+                      <label class="form-label">Tricycle Back View</label>
                       <?php
                       if (isset($back_view_image) && $back_view_image) {
                         echo '<div class="image-container">';
@@ -86,13 +85,13 @@
                         echo '<button class="remove-image-btn" onclick="removeImage(\'back_view_image\')">X</button>';
                         echo '</div>';
                       } else {
-                        echo '<p class="form-label">Back view image not available</p>';
+                        echo '<input type="file" name="front_view_image" accept="image/*">';
                       }
                       ?>
                     </div>
 
                     <div>
-                      <p class="form-label">Tricycle Side View</p>
+                      <label class="form-label">Tricycle Side View</label>
                       <?php
                       if (isset($side_view_image) && $side_view_image) {
                         echo '<div class="image-container">';
@@ -100,7 +99,7 @@
                         echo '<button class="remove-image-btn" onclick="removeImage(\'side_view_image\')">X</button>';
                         echo '</div>';
                       } else {
-                        echo '<p class="form-label">Tricycle side view image not available</p>';
+                        echo '<input type="file" name="front_view_image" accept="image/*">';
                       }
                       ?>
                     </div>

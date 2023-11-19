@@ -12,9 +12,9 @@
                 <h6 class="pl-2">MOTOR UNIT</h6>
                 <div class="row px-3">
                   <div class="col-12 d-flex justify-content-between">
-                  <div>
-                    <label for="make_model" class="form-label">Model</label>
-                    <select class="form-control" id="make_model" name="make_model" required>
+                    <div>
+                      <label for="make_model" class="form-label">Model</label>
+                      <select class="form-control" id="make_model" name="make_model" required>
                         <option selected disabled>Please Select Here</option>
                         <option value="Kymco Kargador 150" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Kymco Kargador 150' ? 'selected' : ''; ?>>Kymco Kargador 150</option>
                         <option value="Honda TMX 125 Alpha" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Honda TMX 125 Alpha' ? 'selected' : ''; ?>>Honda TMX 125 Alpha</option>
@@ -32,12 +32,10 @@
                         <option value="Other" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Other' ? 'selected' : ''; ?>>Others</option>
                       </select>
                     </div>
-
                     <div>
                       <label for="year_acquired" class="form-label">Year Acquired</label>
                       <input type="text" class="form-control" id="year_acquired" name="year_acquired" value="<?php echo isset($_POST['year_acquired']) ? $_POST['year_acquired'] : ''; ?>" required>
                     </div>
-
                     <div>
                       <label for="color_code" class="form-label">Color Code</label>
                       <select class="form-control" id="color_code" name="color_code" required>
@@ -48,19 +46,17 @@
                         <option value="Blue" data-route-area="Free Zone & Zone 4">Blue</option>
                       </select>
                     </div>
+                  </div>
 
+                  <div class="col-12 d-flex justify-content-between">
                     <div>
                       <label for="route_area" class="form-label">Route Area</label>
                       <input type="text" class="form-control" id="route_area" name="route_area" placeholder="Please select a color code" readonly required>
                     </div>
-                  </div>
-
-                  <div class="col-12 d-flex justify-content-between pt-3">
                     <div>
                       <label for="plate_no" class="form-label">Plate No.</label>
                       <input type="text" class="form-control" id="plate_no" name="plate_no" value="<?php echo isset($_POST['plate_no']) ? $_POST['plate_no'] : ''; ?>" required>
                     </div>
-
                     <div>
                       <label for="driver_id" class="form-label">Driver's Name</label>
                       <select class="form-control" id="driver_id" name="driver_id" required>
@@ -72,18 +68,17 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-
+                  </div>
+                  <div class="col-12 d-flex justify-content-between pt-3">
                     <div>
                       <label for="or_no" class="form-label">OR No.</label>
                       <input type="text" class="form-control" id="or_no" name="or_no" value="<?php echo isset($_POST['or_no']) ? $_POST['or_no'] : ''; ?>" required>
                     </div>
-
                     <div>
                       <label for="or_date" class="form-label">OR Date</label>
                       <input type="date" class="form-control" id="or_date" name="or_date" value="<?php echo isset($_POST['or_date']) ? $_POST['or_date'] : ''; ?>" required>
                     </div>
-
-                    <!-- <div>
+                    <div>
                       <label for="tricycle_status" class="form-label">Tricycle Status</label>
                       <select class="form-control" id="tricycle_status" name="tricycle_status" readonly>
                         <option value="Registration Pending" selected>Registration Pending</option>
@@ -92,7 +87,7 @@
                         <option value="Sold">Sold</option>
                         <option value="Under Maintenance">Under Maintenance</option>
                       </select>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
 
