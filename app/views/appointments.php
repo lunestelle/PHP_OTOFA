@@ -1,15 +1,17 @@
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content overflow-scroll">
   <div class="row">
     <div class="col-12 title-head text-uppercase">
       <h6>Appointments</h6>
     </div>
     <div class="col-lg-12">
       <div class="row">
-        <div class="col-12">
-          <div class="mt-3">
-            <a href="new_appointment" class="text-uppercase sidebar-btnContent">New</a>
+        <?php if ($userRole === 'admin'): ?>  
+          <div class="col-12">
+            <div class="mt-3">
+              <a href="new_appointment" class="text-uppercase sidebar-btnContent new-button">New</a>
+            </div>
           </div>
-        </div>
+        <?php endif; ?>  
         <div class="col-12">
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
@@ -18,6 +20,7 @@
                   <th scope="col" class="text-center">#</th>
                   <th scope="col" class="text-center">Name</th>
                   <th scope="col" class="text-center">Phone Number</th>
+                  <th scope="col" class="text-center">Email</th>
                   <th scope="col" class="text-center">Appointment Type</th>
                   <th scope="col" class="text-center">Date</th>
                   <th scope="col" class="text-center">Time</th>
@@ -31,6 +34,7 @@
                     <td><?php echo $index++; ?></td>
                     <td><?php echo $appointment['name']; ?></td>
                     <td><?php echo $appointment['phone_number']; ?></td>
+                    <td><?php echo empty($appointment['email']) ? '----------------' : $appointment['email']; ?></td>
                     <td><?php echo $appointment['appointment_type']; ?></td>
                     <td><?php echo $appointment['appointment_date']; ?></td>
                     <td><?php echo $appointment['appointment_time']; ?></td>

@@ -24,6 +24,7 @@ class Appointments
         'appointment_id' => $appointment->appointment_id,
         'name' => $appointment->name,
         'phone_number' => $appointment->phone_number,
+        'email' => $appointment->email,
         'appointment_type' => $appointment->appointment_type,
         'appointment_date' => $appointment->appointment_date,
         'appointment_time' => $formattedAppointmentTime,

@@ -100,13 +100,10 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
             </li>
             <?php } elseif ($userRole === 'admin') { ?>
             <li class="nav-item">
-              <a class="nav-link" href="operator"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
+              <a class="nav-link" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="registration_approval"><i class="fa-solid fa-person-circle-check"></i><span class="ms-2">Registration Applications</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
@@ -118,10 +115,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                   <a class="nav-link" href="taripa">Taripa</a>
                 </li>
                 <li class="nav-item mb-2">
-                  <a class="nav-link" href="#">Export</a>
-                </li>
-                <li class="nav-item mb-2">
-                  <a class="nav-link" href="#">Sample</a>
+                  <a class="nav-link" href="export">Export</a>
                 </li>
               </ul>
             </li>
@@ -132,7 +126,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
         <div class="mt-auto">
           <div class="dropdown">
             <div class="dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<?= $profilePhoto ?>" alt="Profile Photo" width="40" height="40" class="rounded" title="Manage Account">
+            <img src="<?= $profilePhoto ?>" alt="Profile Photo" width="40" height="40" class="rounded">
               <!-- <?= $firstName ?> &nbsp; -->
               <!-- <i class="fa-solid fa-caret-up"></i> -->
             </div>

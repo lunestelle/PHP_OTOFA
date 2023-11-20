@@ -1,7 +1,7 @@
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+<main class="dashboard-container col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
-    <div class="col-12 title-head text-uppercase">
-      <h6>dashboard</h6>
+    <div class="col-12 text-uppercase">
+      <h6 class="text-secondary fw-bolder">dashboard</h6>
     </div>
     <div class="col-lg-12">
       <div class="row">
@@ -56,49 +56,63 @@
         <?php } ?>
       </div>
     </div>
-    <div class="col-12 title-head text-uppercase">
-      <h6>Tricycle's Code </h6>
-    </div>
-    <div class="col-lg-12">
-      <div class="row">
-        <div class="col-12">
-          <div class="container-code mt-3 mx-4 ">
-            <div class="color-code-blue d-flex">
-              <div class="center">
-                <img src="assets/images/blue-trike.png" alt="Blue Trike Image">
-                <p>Blue Trike</p>
+    <div class="d-flex">
+      <div class="col-lg-6">
+        <div class="col-12 text-uppercase">
+          <h6 class="text-secondary fw-bolder">Tricycle's Code </h6>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="d-block container-code mt-3">
+              <div class="color-code-blue d-flex">
+                <div class="mt-2 center">
+                  <img src="assets/images/blue-trike.png" alt="Blue Trike Image">
+                  <p>Blue Trike</p>
+                </div>
+                <div class="description">
+                  <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                </div>
               </div>
-              <div class="description">
-                <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam voluptatum sunt ipsam, laborum, tenetur exercitationem at illum odit expedita nemo, quasi soluta id in quaerat numquam molestias eum nihil placeat.</p>
+              <div class="color-code-green d-flex mt-3">
+                <div class="mt-2 center">
+                  <img src="assets/images/green-trike.png" alt="Gree Trike Image">
+                  <p>Green Trike</p>
+                </div>
+                <div class="description">
+                  <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                </div>
+              </div>
+               <div class="color-code-red d-flex mt-3">
+                <div class="mt-2 center">
+                  <img src="assets/images/red-trike.png" alt="Gree Trike Image">
+                  <p>Red Trike</p>
+                </div>
+                <div class="description">
+                  <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                </div>
+              </div>
+              <div class="color-code-yellow d-flex mt-3">
+                <div class="mt-2">
+                  <img src="assets/images/yellow-trike.png" alt="Gree Trike Image" class="center">
+                  <p class="pb-1">Yellow Trike</p>
+                </div>
+                <div class="description">
+                  <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                </div>
               </div>
             </div>
-            <div class="color-code-green d-flex">
-              <div>
-                <img src="assets/images/green-trike.png" alt="Green Trike Image">
-                <p>Green Trike</p>
-              </div>
-              <div class="description">
-                <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam voluptatum sunt ipsam, laborum, tenetur exercitationem at illum odit expedita nemo, quasi soluta id in quaerat numquam molestias eum nihil placeat.</p>
-              </div>
-            </div>
-            <div class="color-code-red d-flex">
-              <div>
-                <img src="assets/images/red-trike.png" alt="Red Trike Image">
-                <p>Red Trike</p>
-              </div>
-              <div class="description">
-                <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam voluptatum sunt ipsam, laborum, tenetur exercitationem at illum odit expedita nemo, quasi soluta id in quaerat numquam molestias eum nihil placeat.</p>
-              </div>
-            </div>
-            <div class="color-code-yellow d-flex">
-              <div>
-                <img src="assets/images/yellow-trike.png" alt="Yellow Trike Image">
-                <p>Yellow Trike</p>
-              </div>
-              <div class="description">
-                <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam voluptatum sunt ipsam, adipisicing elit. Magnam voluptatum sunt ipsam, laborum, tenetur exercitationem at illum odit expedita nemo, quasi soluta id in quaerat numquam molestias eum nihil placeat.</p>
-              </div>
-            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="col-12 text-uppercase">
+          <h6 class="text-secondary fw-bolder">Taripa</h6>
+        </div>
+        <div class="row">
+          <div class="col-12">
+           <div class="bg-white p-2">
+             <div></div>
+           </div>
           </div>
         </div>
       </div>

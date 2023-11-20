@@ -9,48 +9,59 @@
           <div class="container pt-4">
             <div id="newAppointmentForm">
               <div class="content-container mt-2 p-3" style="<?php echo ($currentSection === 0) ? 'display: block;' : 'display: none;'; ?>">
-                <h6 class="pl-2 text-uppercase">Appointment Information</h6>
+                <h6 class="pl-2 text-uppercase text-center">Appointment Information</h6>
                 <form class="default-form" method="POST" action="" id="appointmentInformationForm">
                   <div class="container">
                     <div class="d-flex justify-content-center">
                       <div class="row px-3">
-                        <div class="col-12">
+                        <div class="col-12 p-4">
                           <div class="row mt-3">
-                            <div class="col-4">
+                            <div class="col-6">
                               <label for="name" class="form-label">Full Name</label>
                               <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($_POST['name']) ? $_POST['name'] : ''; ?>" required>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-6">
                               <label for="phone_number" class="form-label">Phone Number</label>
                               <div class="input-group">
                                 <span class="input-group-text">+63</span>
                                 <input type="text" class="form-control phone-no" id="phone_number" name="phone_number" placeholder="e.g., 9123456789" value="<?php echo isset($_POST['phone_number']) ? $_POST['phone_number'] : ''; ?>" required>
                               </div>
                             </div>
+                          </div>
+                        
+                            
+                          <div class="col-12">
+                            <div class="row mt-4">
+                              <div class="col-6">
+                                <label for="appointment_type" class="form-label">Appointment Type</label>
+                                <select class="form-control" id="appointment_type" name="appointment_type" required>
+                                  <option value="" selected disabled>Select Appointment Type</option>
+                                  <option value="Transfer of Ownership" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Transfer of Ownership') ? 'selected' : ''; ?>>Transfer of Ownership</option>
+                                  <option value="New Applicant" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'New Applicant') ? 'selected' : ''; ?>>New Applicant</option>
+                                  <option value="New Franchise" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'New Franchise') ? 'selected' : ''; ?>>New Franchise</option>
+                                  <option value="Renewal of Franchise" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Renewal of Franchise') ? 'selected' : ''; ?>>Renewal of Franchise</option>
+                                  <option value="Change of Motorcycle" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Change of Motorcycle') ? 'selected' : ''; ?>>Change of Motorcycle</option>
+                                </select>
+                              </div>
 
-                            <div class="col-4">
-                              <label for="appointment_type" class="form-label">Appointment Type</label>
-                              <select class="form-control" id="appointment_type" name="appointment_type" required>
-                                <option value="" selected disabled>Select Appointment Type</option>
-                                <option value="Transfer of Ownership" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Transfer of Ownership') ? 'selected' : ''; ?>>Transfer of Ownership</option>
-                                <option value="New Applicant" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'New Applicant') ? 'selected' : ''; ?>>New Applicant</option>
-                                <option value="New Franchise" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'New Franchise') ? 'selected' : ''; ?>>New Franchise</option>
-                                <option value="Renewal of Franchise" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Renewal of Franchise') ? 'selected' : ''; ?>>Renewal of Franchise</option>
-                                <option value="Change of Motorcycle" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Change of Motorcycle') ? 'selected' : ''; ?>>Change of Motorcycle</option>
-                              </select>
+                              <div class="col-6">
+                                <label for="email" class="form-label">Email (Optional)</label>
+                                <div class="input-group">
+                                  <input type="email" class="form-control phone-no" id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" required>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
                         <div class="col-12">
-                          <div class="row mt-3">
-                            <div class="col-4">
+                          <div class="row mt-4">
+                            <div class="col-6">
                               <label for="appointment_date" class="form-label">Preferred Date</label>
                               <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?php echo isset($_POST['appointment_date']) ? $_POST['appointment_date'] : ''; ?>" required>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-6">
                               <label for="appointment_time" class="form-label">Preferred Time</label>
                               <input type="time" class="form-control" id="appointment_time" name="appointment_time" value="<?php echo isset($_POST['appointment_time']) ? $_POST['appointment_time'] : ''; ?>" required>
                             </div>
@@ -61,6 +72,7 @@
                   </div>
                 </form>
               </div>
+            </div>
 
               <div class="content-container p-3" style="<?php echo ($currentSection === 1) ? 'display: block;' : 'display: none;'; ?>">
                 <h6 class="pl-2 text-uppercase">Tricycle Application Form</h6>
@@ -94,7 +106,7 @@
                           <div class="row mt-3">
                             <div class="col-4">
                               <label for="mtop_no" class="form-label">MTOP Number</label>
-                              <input type="number" class="form-control" id="mtop_no" name="mtop_no" value="<?php echo isset($_POST['mtop_no']) ? $_POST['mtop_no'] : ''; ?>" min="0" required>
+                              <input type="text" class="form-control" id="mtop_no" name="mtop_no" value="<?php echo isset($_POST['mtop_no']) ? $_POST['mtop_no'] : ''; ?>" min="0" required>
                             </div>
 
                             <div class="col-4">
@@ -123,19 +135,19 @@
                             </div>
 
                             <div class="col-4">
-                              <label for="make_model_expiry_date" class="form-label">Expiry Date</label>
+                              <label for="make_model_expiry_date" class="form-label">Model Expiry Date</label>
                               <input type="date" class="form-control" id="make_model_expiry_date" name="make_model_expiry_date" value="<?php echo isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ''; ?>" required>
-                            </div>
-
-                            <div class="col-4">
-                              <label for="motor_number" class="form-label">Motor Number</label>
-                              <input type="number" class="form-control" id="motor_number" name="motor_number" value="<?php echo isset($_POST['motor_number']) ? $_POST['motor_number'] : ''; ?>" min="0" required>
                             </div>
                           </div>
                         </div>
 
                         <div class="col-12">
-                          <div class="row mt-3">
+                          <div class="row mt-5">
+                            <div class="col-4">
+                              <label for="motor_number" class="form-label">Motor Number</label>
+                              <input type="text" class="form-control" id="motor_number" name="motor_number" value="<?php echo isset($_POST['motor_number']) ? $_POST['motor_number'] : ''; ?>" min="0" required>
+                            </div>
+
                             <div class="col-4">
                               <label for="insurer" class="form-label">Insurer</label>
                               <input type="text" class="form-control" id="insurer" name="insurer" value="<?php echo isset($_POST['insurer']) ? $_POST['insurer'] : ''; ?>" required>
@@ -143,42 +155,42 @@
 
                             <div class="col-4">
                               <label for="chasis_number" class="form-label">Chasis Number</label>
-                              <input type="number" class="form-control" id="chasis_number" name="chasis_number" value="<?php echo isset($_POST['chasis_number']) ? $_POST['chasis_number'] : ''; ?>" min="0" required>
+                              <input type="text" class="form-control" id="chasis_number" name="chasis_number" value="<?php echo isset($_POST['chasis_number']) ? $_POST['chasis_number'] : ''; ?>" min="0" required>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-4 mt-3">
                               <label for="coc_no" class="form-label">C.O.C Number</label>
-                              <input type="number" class="form-control" id="coc_no" name="coc_no" value="<?php echo isset($_POST['coc_no']) ? $_POST['coc_no'] : ''; ?>" min="0" required>
+                              <input type="text" class="form-control" id="coc_no" name="coc_no" value="<?php echo isset($_POST['coc_no']) ? $_POST['coc_no'] : ''; ?>" min="0" required>
+                            </div>
+
+                            <div class="col-4 mt-3">
+                              <label for="coc_no_expiry_date" class="form-label">C.O.C Expiry Date</label>
+                              <input type="date" class="form-control" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?php echo isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : ''; ?>" required>
                             </div>
                           </div>
                         </div>
 
                         <div class="col-12">
-                          <div class="row mt-3">
-                            <div class="col-4">
-                              <label for="coc_no_expiry_date" class="form-label">Expiry Date</label>
-                              <input type="date" class="form-control" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?php echo isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : ''; ?>" required>
-                            </div>
-
+                          <div class="row mt-5">
                             <div class="col-4">
                               <label for="plate_number" class="form-label">Plate Number</label>
-                              <input type="number" class="form-control" id="plate_number" name="plate_number" value="<?php echo isset($_POST['plate_number']) ? $_POST['plate_number'] : ''; ?>" min="0" required>
+                              <input type="text" class="form-control" id="plate_number" name="plate_number" value="<?php echo isset($_POST['plate_number']) ? $_POST['plate_number'] : ''; ?>" min="0" required>
                             </div>
 
                             <div class="col-4">
                               <label for="lto_cr_no" class="form-label">LTO CR Number</label>
-                              <input type="number" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?php echo isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : ''; ?>" required>
+                              <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?php echo isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : ''; ?>" required>
+                            </div>
+
+                            <div class="col-4">
+                              <label for="lto_or_no" class="form-label">LTO OR Number</label>
+                              <input type="text" class="form-control" id="lto_or_no" name="lto_or_no" value="<?php echo isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : ''; ?>" required>
                             </div>
                           </div>
                         </div>
 
                         <div class="col-12">
                           <div class="row mt-3">
-                            <div class="col-4">
-                              <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                              <input type="number" class="form-control" id="lto_or_no" name="lto_or_no" value="<?php echo isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : ''; ?>" required>
-                            </div>
-
                             <div class="col-4">
                               <label for="driver_name" class="form-label">Name of Driver</label>
                               <input type="text" class="form-control" id="driver_name" name="driver_name" value="<?php echo isset($_POST['driver_name']) ? $_POST['driver_name'] : ''; ?>" required>
@@ -188,13 +200,9 @@
                               <label for="driver_license_no" class="form-label">Driver License Number</label>
                               <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?php echo isset($_POST['driver_license_no']) ? $_POST['driver_license_no'] : ''; ?>" required>
                             </div>
-                          </div>
-                        </div>
 
-                        <div class="col-12">
-                          <div class="row mt-3">
                             <div class="col-4">
-                              <label for="driver_license_expiry_date" class="form-label">Expiry Date</label>
+                              <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
                               <input type="date" class="form-control" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?php echo isset($_POST['driver_license_expiry_date']) ? $_POST['driver_license_expiry_date'] : ''; ?>" required>
                             </div>
                           </div>
@@ -205,10 +213,10 @@
                 </form>
               </div>
 
-              <div class="text-end my-3">
+              <div class="text-end my-5">
                 <button type="button" class="d-none" id="submitBothFormsButton">Submit Both Forms</button>
                 <button type="button" class="sidebar-btnContent sched-button d-none">Schedule Appointment</button>
-                <button type="button" class="sidebar-btnContent next-button d-none" style="margin-right: 10px;">Next</button>
+                <button type="button" class="sidebar-btnContent next-button d-none mt-5 px-4">Next</button>
                 <button type="button" class="sidebar-btnContent prev-button d-none" style="margin-right: 10px;">Previous</button> 
               </div>
             </div>

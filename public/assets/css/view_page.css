@@ -17,9 +17,10 @@
 }
 
 .content-container {
-  border-radius: 20px;
+  border-radius: 10px;
   border: 1px solid #d8d8d8c9;
   background: #FFF;
+  box-shadow: -1px 4px 10px 0px rgba(0, 0, 0, 0.25);
 }
 
 .input-group {
@@ -41,7 +42,7 @@
 }
 
 .form-control {
-  width: 230px;
+  width: 240px !important;
   border-radius: 10px;
   border-width: 1px;
   border-style: solid;
@@ -71,6 +72,23 @@ input[type=file]::file-selector-button {
   transition: background .2s ease-in-out;
 }
 
+#front_view_image, #back_view_image, #side_view_image {
+  width: 300px;
+  height: 220px;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  margin-right: 20px;
+  margin-bottom: 15px;
+}
+
+
+/* --- VIEW APPOINTMENT --- */
+
+.bckgrnd {
+  background-color: #f25939;
+  height: 35px;
+  border-radius: 10px 10px 0 0;
+}
 
 @media screen and (min-width: 1024px) and (max-width: 1200px) {
   .form-control {
@@ -104,3 +122,9 @@ input[type=file]::file-selector-button {
     width: 170px;
   }
 }  
+
+@media screen and (min-width: 1200px) and (max-width: 1280px) {
+  #front_view_image, #back_view_image, #side_view_image {
+    width: 243px;
+  }  
+} 

@@ -31,6 +31,7 @@ class Tricycles
         }
 
         $data['tricycles'][] = [
+          'tricycle_id' => $tricycle->tricycle_id,
           'plate_no' => $tricycle->plate_no,
           'driver_name' => $driverName,
           'make_model' => $tricycle->make_model,

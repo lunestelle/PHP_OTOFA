@@ -16,7 +16,7 @@
   <div class="background container">
     <img src="<?=ROOT?>/assets/images/oc_logo.png" alt="Ormoc Logo">
     <div class="text-container">
-      <h1 class="text-uppercase">Transportation Development ranchising <span></span></h1>
+      <h1 class="text-uppercase">Transportation Development Franchising <span></span></h1>
       <h1 class="text-uppercase">and Regulatory office<span></span></h1>
     </div>
     <?php if (!is_authenticated()): ?>

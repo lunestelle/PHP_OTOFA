@@ -21,14 +21,30 @@ class Sign_up
 		
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
 			$user = new User();
+			$emailOrPhone = $_POST['email_or_phone'];
+
+			if (filter_var($emailOrPhone, FILTER_VALIDATE_EMAIL)) {
+				$email = $emailOrPhone;
+				$phone_number = null;
+			} else {
+				$phone_number = $emailOrPhone;
+				$email = null;
+			}
 
 			if ($user->validate($_POST)) {
 				$hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
 				$profilePhotoPath = generateProfilePicture(strtoupper($_POST['first_name'][0] . $_POST['last_name'][0]));
+				
+				if (isset($phone_number) && $phone_number !== null) {
+					$formattedPhoneNumber = $user->formatPhoneNumber($phone_number);
+				} else {
+					$formattedPhoneNumber = $phone_number;
+				}
 
 				$userData = [
-					'email' => $_POST['email'],
+					'email' => $email,
+					'phone_number' => $formattedPhoneNumber,
+					'address' => ucwords($_POST['address']),
 					'first_name' => ucwords($_POST['first_name']),
 					'last_name' => ucwords($_POST['last_name']),
 					'password' => $hashedPassword,
@@ -36,9 +52,12 @@ class Sign_up
 				];
 
 				$user->insert($userData);
-				$_SESSION['USER'] = $user->first(['email' => $_POST['email']]);
+				if (isset($email) && $email !== null) {
+					$_SESSION['USER'] = $user->first(['email' => $email]);
+				} else {
+					$_SESSION['USER'] = $user->first(['phone_number' => $formattedPhoneNumber]);
+				}
 				$_SESSION['authenticated'] = true;
-
 				$response = ['status' => 'success', 'msg' => 'Account created successfully!', 'redirect_url' => 'dashboard'];
         echo json_encode($response);
         exit;
