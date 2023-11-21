@@ -1,15 +1,15 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
-    <div class="col-12 title-head text-uppercase">
-      <h6 class="add newColor">View Tricycle</h6>
+    <div class="col-12 text-uppercase nav-top">
+      <h6 class="title-head">View Tricycle</h6>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-12 mt-4">
       <div class="row">
         <div class="col-12 pt-2">
           <div id="newTricycleForm">
             <div class="content-container mt-2">
               <div class="bckgrnd pt-2">
-                <h6 class="pl-2 text-uppercase text-center text-light fs-6">Motor Unit</h6>
+                <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Motor Unit</h6>
               </div>
               <div class="row px-3 p-4">
                 <div class="col-12 d-flex justify-content-between">
@@ -78,7 +78,7 @@
             </div>
             <div class="content-container mt-3">
               <div class="bckgrnd pt-2">
-                <h6 class="pl-2 text-uppercase text-center text-light fs-6">tricycle images</h6>
+                <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">tricycle images</h6>
               </div>
               <div class="row px-3 p-3">
                 <div class="col-8 d-flex justify-content-between">

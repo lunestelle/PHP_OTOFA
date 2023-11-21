@@ -68,84 +68,83 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
 
   <div class="flash-message success" id="flashMessage" style="display: none; width: 200px;"></div>
 
-  <div class="container-fluid">
-    <div class="row">
-      <nav class="col-md-3 col-lg-2 d-md-block sidebar">
-        <div class="position-sticky">
-          <div class="text-center mb-3 logo-container">
-            <a href="dashboard" class="d-flex align-items-center">
-              <img src="<?=ROOT?>/assets/images/logo.png" alt="Sakaycle Logo" class="logo-image">
-              <h3 class="logo-text">Sakay<span>cle</span></h3>
-            </a>
-          </div><hr>
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a href="dashboard" class="nav-link"><i class="fa-solid fa-list"></i><span class="ms-2">Dashboard</span></a>
-            </li>
-            <?php if ($userRole === 'operator') { ?>
-            <li class="nav-item">
-              <a class="nav-link" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-2">Drivers</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="documents"><i class="fa-solid fa-folder"></i><span class="ms-2">Documents</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="maintenance_log"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
-            </li>
-            <?php } elseif ($userRole === 'admin') { ?>
-            <li class="nav-item">
-              <a class="nav-link" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span></a>
-              <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse <?php if ($current_page_is_maintenance) echo 'show'; ?>">
-                <li class="nav-item my-2">
-                  <a class="nav-link" href="taripa">Taripa</a>
-                </li>
-                <li class="nav-item mb-2">
-                  <a class="nav-link" href="export">Export</a>
-                </li>
-              </ul>
-            </li>
-            <?php } ?>
-          </ul><br><br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+          <div class="position-sticky">
+            <div class="mt-auto">
+              <div class="dropdown">
+                <div class="dropdown-toggle d-flex" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="<?= $profilePhoto ?>" alt="Profile Photo" class="rounded-circle profile-photo">
+                    <!-- <?= $firstName ?> &nbsp; -->
+                    <!-- <i class="fa-solid fa-caret-up"></i> -->
+                    <p class="profile-name text-uppercase">Fname Lname</p>
+                    <i id="profileIcon" class="fa-solid fa-angle-right fa-xs dropdown-fa" style="color: #ffffff;"></i>
+                </div>
+                
+                <ul class="dropdown-menu shadow" aria-labelledby="accountDropdown">
+                  <li><h6 class="dropdown-header text-white text-start fs-6">Manage Account</h6></li>
+                  <li><a class="dropdown-item  mt-2" href="manage_account"><i class="fa-solid fa-gear"></i>Profile</a></li>
+                  <li><a class="dropdown-item  mt-2" href="manage_account"><i class="fa-solid fa-bell"></i>Notifications</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <form action="<?= ROOT ?>/sign_out" method="post" id="sign-out-form">
+                      <input type="hidden" name="sign_out" value="1">
+                      <a href="#" class="dropdown-item mb-2" onclick="event.preventDefault(); document.getElementById('sign-out-form').submit();">
+                        <i class="fa-solid fa-right-from-bracket"></i>Log Out
+                        </a>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <hr>
+            <ul class="nav flex-column justify-content-evenly">
+              <li class="nav-item">
+                <a href="dashboard" class="nav-link"><i class="fa-solid fa-list"></i><span class="ms-2">Dashboard</span></a>
+              </li>
+              <?php if ($userRole === 'operator') { ?>
+              <li class="nav-item">
+                <a class="nav-link" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-2">Drivers</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="documents"><i class="fa-solid fa-folder"></i><span class="ms-2">Documents</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="maintenance_log"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
+              </li>
+              <?php } elseif ($userRole === 'admin') { ?>
+              <li class="nav-item">
+                <a class="nav-link" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span></a>
+                <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse <?php if ($current_page_is_maintenance) echo 'show'; ?>">
+                  <li class="nav-item my-2">
+                    <a class="nav-link" href="taripa">Taripa</a>
+                  </li>
+                  <li class="nav-item mb-2">
+                    <a class="nav-link" href="export">Export</a>
+                  </li>
+                </ul>
+              </li>
+              <?php } ?>
+            </ul><br><br>
         </div>
         <div class="flex-grow-1"></div>
-        <div class="mt-auto">
-          <div class="dropdown">
-            <div class="dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="<?= $profilePhoto ?>" alt="Profile Photo" width="40" height="40" class="rounded">
-              <!-- <?= $firstName ?> &nbsp; -->
-              <!-- <i class="fa-solid fa-caret-up"></i> -->
-            </div>
-            
-            <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-              <li><h6 class="dropdown-header">Manage Account</h6></li>
-              <li><a class="dropdown-item" href="manage_account"><i class="fa-solid fa-gear"></i>Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <form action="<?= ROOT ?>/sign_out" method="post" id="sign-out-form">
-                  <input type="hidden" name="sign_out" value="1">
-                  <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('sign-out-form').submit();">
-                    <i class="fa-solid fa-right-from-bracket"></i>Log Out
-                    </a>
-                </form>
-              </li>
-            </ul>
-          </div>
-        </div><br>
+        <br>
       </nav>
       {{content}}
     </div>
@@ -159,4 +158,13 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
 </body>
+
+<script>
+  // Add an event listener to the dropdown toggle
+  document.getElementById('accountDropdown').addEventListener('click', function() {
+    var icon = document.getElementById('profileIcon');
+    icon.classList.toggle('rotated');
+  });
+</script>
+
 </html>
