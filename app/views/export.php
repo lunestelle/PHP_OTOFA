@@ -1,9 +1,9 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
-    <div class="col-12 title-head text-uppercase">
-      <h6>Export Data</h6>
+    <div class="col-12 text-uppercase nav-top">
+      <h6 class="title-head">Export Data</h6>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-12 mt-4">
       <div class="row mt-2">
         <div class="col-6">
           <form method="post" action="">

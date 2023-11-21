@@ -1,11 +1,11 @@
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content overflow-scroll">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
-    <div class="col-12 title-head text-uppercase">
-      <h6>Appointments</h6>
+    <div class="col-12 text-uppercase nav-top">
+      <h6 class="title-head">Appointments</h6>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-12 mt-4">
       <div class="row">
-        <?php if ($userRole === 'admin'): ?>  
+        <?php if ($userRole === 'operator'): ?>  
           <div class="col-12">
             <div class="mt-3">
               <a href="new_appointment" class="text-uppercase sidebar-btnContent new-button">New</a>

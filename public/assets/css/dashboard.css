@@ -1,4 +1,4 @@
-.dashboard-container {
+.background-container {
   background-color: rgba(179, 179, 179, 0.195);
 }
 
@@ -8,18 +8,18 @@
   align-items: flex-start;
   justify-content: space-between;
   position: relative;
-  width: 350px;
+  width: 300px;
   height: 90px;
   border-radius: 10px;
   transition: box-shadow 0.3s ease;
   box-shadow: 0px 8px 12px rgba(172, 172, 172, 0.407), 0px 8px 10px rgba(0, 0, 0, 0.1);
   padding: 12px;
-  background-color: white;
+  background: linear-gradient(255.15deg, rgba(255, 68, 0, 0.801) 5.82%, rgba(255, 66, 0, 0.1125) 119.86%);
 }
 
 .overview-container:hover {
-  background: linear-gradient(255.15deg, rgba(255, 68, 0, 0.801) 5.82%, rgba(255, 66, 0, 0.1125) 119.86%);
   box-shadow: none;
+  border: 2px solid #EBB803;
 }
 
 .image-bg {
@@ -28,7 +28,7 @@
   right: 7px;
   height: 55px;
   width: 55px;
-  background: linear-gradient(255.15deg, rgba(255, 68, 0, 0.87) 5.82%, rgba(3, 7, 27, 0.986) 119.86%);
+  background-color: #EBB803;
 }
 
 .overview-container i {

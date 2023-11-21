@@ -1,9 +1,9 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
-    <div class="col-12 title-head text-uppercase">
-      <h6>tricycles</h6>
+    <div class="col-12 text-uppercase nav-top">
+      <h6 class="title-head">tricycles</h6>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-12 mt-4">
       <div class="row">
         <div class="col-12">
           <div class="mt-3">

@@ -44,36 +44,9 @@
   }
 }
 
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
-.logo-container a {
-  text-decoration: none;
-}
-
-.logo-image {
-  width: 50px;
-}
-
-.logo-text {
-  margin-top: 10px;
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  color: #FF4200;
-  font-weight: 700;
-  font-size: 24px;
-  letter-spacing: 1px;
-}
-
-.logo-text span {
-  color: #fff;
-}
-
 hr {
  color: #dee2e6;
+ line-height: 0px;
 }
 
 /* --- NAV-ITEMS ---  */
@@ -111,10 +84,10 @@ hr {
 /* --- DROPDOWN ---  */
 
 .dropdown {
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 5;
-  margin-bottom: 10px;
+  width: 200px;
 }
 
 .dropdown .color {
@@ -127,18 +100,82 @@ hr {
   display: none;
 }
 
+.profile-photo {
+  width: 40px;
+  height: 40px;
+}
+
+.profile-name {
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  padding-top: 8px;
+  margin-left: 10px;
+}
+
+.dropdown-fa {
+  padding-top: 20px;
+  margin-left: 15px;
+}
+
+.rotated {
+  margin-bottom: 6px;
+  transform: rotate(90deg);
+}
+
+
+@media screen and (min-width: 1010px) and (max-width: 1190px) {
+  .profile-name {
+    margin-left: 5px;
+    padding-top: 5px;
+    font-size: 14px;
+  }
+
+  .profile-photo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dropdown-fa {
+    padding-top: 14px;
+    margin-left: 9px;
+  }
+  
+  .rotated {
+    margin-bottom: 10px;
+    transform: rotate(90deg);
+  }
+
+  .dropdown-menu {
+    width: 190px;
+  }
+  
+
+} 
+
+
 /* --- DROPDOWN MENU --- */
+
 
 .dropdown-menu {
   position: absolute;
-  bottom: 100%;
+  top: 10px;
   left: 0;
-  margin: 0;
   transform: translate3d(-1px, -98px, 0px);
+  width: 210px;
+  border-radius: 10px;
+  padding: 0;
+}
+
+.dropdown-header {
+  background-color: #EBB803;
+  border: 1px solid #EBB803;
+  border-radius: 10px 10px 0 0;
 }
 
 .dropdown-menu a.dropdown-item {
-  color: black;
+  color: #3a3b45;
+  font-weight: 700;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -161,7 +198,9 @@ hr {
 }
 
 .title-head {
-  border-bottom: #c5c5c5 1px solid;
+  position: relative;
+  left: 240px;
+  top: 8px;
 }
 
 .sidebar-btnContent {
@@ -272,7 +311,6 @@ table > :not(caption) > * > * > :last-child {
   padding: 4px !important;
 }
 
-
 .cancel-btn {
   padding: 5px 18px;
   background-color: white;
@@ -290,4 +328,13 @@ table > :not(caption) > * > * > :last-child {
   color: white;
   background-color: #ff4400ad;
   border: #ffff 1px solid;
+}
+
+.nav-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  min-height: 40px;
+  box-shadow: 2px 3px #00000009;
 }

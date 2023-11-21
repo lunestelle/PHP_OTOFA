@@ -1,10 +1,11 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
-    <div class="col-12 title-head text-uppercase">
-      <h6>New Taripa</h6>
+    <div class="col-12 text-uppercase nav-top">
+      <h6 class="title-head">new taripa</h6>
     </div>
     <form method="post" id="taripaForm">
-      <div class="col-lg-12 mx-auto mt-3 p-3 content-container">
+      <div class="col-lg-12 mx-auto mt-5 p-3 content-container">
+      <h6 class="pl-2 text-uppercase pb-3">Generate New Taripa</h6>
         <div class="row mx-auto">
           <div class="col-12 d-flex justify-content-between">
             <div class="col-4">
@@ -24,7 +25,8 @@
             </div>
           </div>
           <div class="col-12 mt-5">
-            <button type="submit" class="sidebar-btnContent me-5">Calculate</button>
+            <button type="submit" class="sidebar-btnContent me-">Calculate</button>
+            <a href="./taripa" class="cancel-btn me-1">Cancel</a>
           </div>
         </div>
       </div>
