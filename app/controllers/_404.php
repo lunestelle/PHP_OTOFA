@@ -6,6 +6,7 @@ class _404
 	
 	public function index()
 	{
-		echo "404 Page not found controller";
+		http_response_code(404);
+		echo $this->renderView('404', true);
 	}
 }
