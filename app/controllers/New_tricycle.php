@@ -7,7 +7,7 @@ class New_tricycle
   public function index()
   {
     if (!is_authenticated()) {
-      set_flash_message("Oops! You need to be logged in to view this page.", "error");
+      set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
       redirect('');
     }
 
@@ -25,68 +25,53 @@ class New_tricycle
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (isset($_POST['add_tricycle'])) { // Check if the "Add Tricycle" button is clicked
 
+        $tricycleData = [
+          'make_model' => $_POST['make_model'] ?? '',
+          'year_acquired' => $_POST['year_acquired'] ?? '',
+          'color_code' => $_POST['color_code'] ?? '',
+          'route_area' => $_POST['route_area'] ?? '',
+          'plate_no' => $_POST['plate_no'] ?? '',
+          'driver_id' => $_POST['driver_id'] ?? '',
+          'or_no' => $_POST['or_no'] ?? '',
+          'or_date' => $_POST['or_date'] ?? '',
+          'tricycle_status' => $_POST['tricycle_status'] ?? 'Registration Pending'
+        ];
+
         $tricycleModel = new Tricycle();
-        $documentModel = new Document();
-        $validationErrors = $tricycleModel->validate($_POST);
+        $errors = $tricycleModel->validateData($tricycleData);
 
-        if (empty($validationErrors)) {
-          $tricycleData = [
-            'make_model' => $_POST['make_model'],
-            'year_acquired' => $_POST['year_acquired'],
-            'color_code' => $_POST['color_code'],
-            'route_area' => $_POST['route_area'],
-            'plate_no' => $_POST['plate_no'],
-            'driver_id' => $_POST['driver_id'],
-            'or_no' => $_POST['or_no'],
-            'or_date' => $_POST['or_date'],
-            'tricycle_status' => 'Registration Pending'
-          ];
+        if (!empty($errors)) {
+          $errorMessage = $errors[0];
+          set_flash_message($errorMessage, "error");
+          $data = array_merge($tricycleData, $data);
+          echo $this->renderView('new_tricycle', true, $data);
+          return;
+        } else {
+          $tricycleId = $tricycleModel->insert($tricycleData);
 
-          $tricycle = $tricycleModel->insert($tricycleData);
+          if ($tricycleId) {
+            $imageData = [
+              'tricycle_id' => $tricycleId,
+              'front_view_image' => $this->uploadImage('front_view_image', $tricycleId),
+              'back_view_image' => $this->uploadImage('back_view_image', $tricycleId),
+              'side_view_image' => $this->uploadImage('side_view_image', $tricycleId)
+            ];
 
-          $fileUploadSuccess = true;
+            $imageModel = new TricycleImage();
+            $imageErrors = $imageModel->validateData($imageData);
 
-          if ($tricycle) {
-            $newlyInserted = $tricycleModel->first($tricycleData);
-            $tricycle_id = $newlyInserted->tricycle_id;
-            foreach ($_FILES as $key => $file) {
-              if ($file['error'] === UPLOAD_ERR_OK) {
-                $cleanKey = str_replace(['-', '_'], ' ', $key);
-                $file_path = uniqid() . '_' . $file['name'];
-                $filename = $cleanKey;
-
-                move_uploaded_file($file['tmp_name'], '../uploads/' . $file_path);
-
-                $documentData = [
-                  'tricycle_id' => $tricycle_id,
-                  'document_type' => $documentModel->setDocumentType($file),
-                  'filename' => $filename,
-                  'file_path' => '../uploads/' . $file_path
-                ];
-
-                $documentInserted = $documentModel->insert($documentData);
-
-                if (!$documentInserted) {
-                  $fileUploadSuccess = false;
-                }
-              }
-            }
-
-            if ($fileUploadSuccess) {
-              set_flash_message("New tricycle has been successfully saved.", "success");
+            if (empty($imageErrors)) {
+              $imageModel->insert($imageData);
+              set_flash_message("Tricycle added successfully.", "success");
               redirect('tricycles');
             } else {
-              set_flash_message("Failed to save the new tricycle's documents. Please try again.", "error");
+              $errorMessage = $imageErrors[0];
+              set_flash_message($errorMessage, "error");
+              redirect('tricycles');
             }
           } else {
-            set_flash_message("Failed to save the new tricycle. Please try again.", "error");
+            set_flash_message("Failed to add tricycle. Please try again.", "error");
           }
-        } else {
-          $errorArray = array_keys($validationErrors)[0];
-          $error = $validationErrors[$errorArray];
-
-          set_flash_message($error, "error");
-          echo $this->renderView('new_tricycle', true, $data);
         }
       } else {
         if (isset($_POST['route_area'])) {
@@ -192,7 +177,20 @@ class New_tricycle
       }
     }
 
-    // Render the initial view
     echo $this->renderView('new_tricycle', true, $data);
+  }
+
+  private function uploadImage($inputName, $tricycleId)
+  {
+    $uploadDir = 'uploads/tricycle_images/';
+    $targetFile = $uploadDir . basename($_FILES[$inputName]['name']);
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    $newFileName = $tricycleId . '_' . $inputName . '.' . $imageFileType;
+    $targetPath = $uploadDir . $newFileName;
+
+    move_uploaded_file($_FILES[$inputName]['tmp_name'], $targetPath);
+
+    return $newFileName;
   }
 }

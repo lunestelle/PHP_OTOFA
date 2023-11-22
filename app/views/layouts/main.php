@@ -35,6 +35,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
   <script src="<?=ROOT?>/assets/DataTables/js/datatableInitializer.js"></script>
   <script src="<?=ROOT?>/assets/js/flash_messages.js"></script>
   <script src="<?=ROOT?>/assets/js/password_toggle.js"></script>
+  <script src="<?=ROOT?>/assets/js/tooltip.js"></script>
   <script src="<?=ROOT?>/assets/js/modal.js"></script>
   <script src="<?=ROOT?>/assets/js/modal_submission.js"></script>
   <script src="<?=ROOT?>/assets/js/active_links.js"></script>
