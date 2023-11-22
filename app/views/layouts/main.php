@@ -133,7 +133,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
               </li>
               <li class="nav-item" id="maintenanceDropdown">
-                <a class="nav-link d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span>  <i id="maintenanceIcon" class="fa-solid fa-angle-down fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
+                <a class="nav-link d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span><i id="maintenanceIcon" class="fa-solid fa-angle-down fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
                 <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse <?php if ($current_page_is_maintenance) echo 'show'; ?>">
                   <li class="nav-item my-2">
                     <a class="nav-link" href="taripa">Taripa</a>

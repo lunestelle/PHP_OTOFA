@@ -6,6 +6,9 @@
     </a>
       
     <div class="d-flex align-items-center">
+      <a href="<?=ROOT?>" class="nav-link me-3">HOME</a>
+      <a href="<?=ROOT?>#about" class="nav-link me-3">ABOUT</a>
+      <a href="<?=ROOT?>#contact" class="nav-link me-3">CONTACT</a>
       <a href="dashboard" class="nav-link me-3">DASHBOARD</a>
       <div class="dropdown">
         <a class="nav-link" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
