@@ -101,6 +101,9 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
             <hr>
             <ul class="nav flex-column justify-content-evenly">
               <li class="nav-item">
+                <a href="home" class="nav-link"><i class="fa-solid fa-house"></i><span class="ms-2">Home</span></a>
+              </li>
+              <li class="nav-item">
                 <a href="dashboard" class="nav-link"><i class="fa-solid fa-list"></i><span class="ms-2">Dashboard</span></a>
               </li>
               <?php if ($userRole === 'operator') { ?>
@@ -129,8 +132,8 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
               <li class="nav-item">
                 <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span></a>
+              <li class="nav-item" id="maintenanceDropdown">
+                <a class="nav-link d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span>  <i id="maintenanceIcon" class="fa-solid fa-angle-down fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
                 <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse <?php if ($current_page_is_maintenance) echo 'show'; ?>">
                   <li class="nav-item my-2">
                     <a class="nav-link" href="taripa">Taripa</a>
@@ -138,7 +141,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                   <li class="nav-item mb-2">
                     <a class="nav-link" href="export">Export</a>
                   </li>
-                </ul>
+                </ul>     
               </li>
               <?php } ?>
             </ul><br><br>
@@ -164,6 +167,11 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
   document.getElementById('accountDropdown').addEventListener('click', function() {
     var icon = document.getElementById('profileIcon');
     icon.classList.toggle('rotated');
+  });
+
+  document.getElementById('maintenanceDropdown').addEventListener('click', function() {
+    var icon = document.getElementById('maintenanceIcon');
+    icon.classList.toggle('rotateMaintenance');
   });
 </script>
 

@@ -9,6 +9,9 @@
     <a href="#home" class="nav-link">HOME</a>
     <a href="#about" class="nav-link">ABOUT</a>
     <a href="#contact" class="nav-link">CONTACT</a>
+    <?php if (is_authenticated()): ?>
+      <a href="dashboard" class="nav-link">DASHBOARD</a>
+    <?php endif; ?>
   </nav>
 </header>
 

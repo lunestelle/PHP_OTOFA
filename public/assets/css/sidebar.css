@@ -123,6 +123,18 @@ hr {
   transform: rotate(90deg);
 }
 
+/* --- MAINTENANCE DROPDOWN --- */
+
+.maintenance-fa {
+  padding-top: 7px;
+  margin-left: 55px;
+}
+
+.rotateMaintenance {
+  margin-bottom: 6px;
+  transform: rotate(-90deg);
+}
+
 
 @media screen and (min-width: 1010px) and (max-width: 1190px) {
   .profile-name {
@@ -149,13 +161,16 @@ hr {
   .dropdown-menu {
     width: 190px;
   }
-  
 
+  .maintenance-fa {
+    padding-top: 6px;
+    margin-left: 15px;
+  }
 } 
 
 
-/* --- DROPDOWN MENU --- */
 
+/* --- DROPDOWN MENU --- */
 
 .dropdown-menu {
   position: absolute;
@@ -199,7 +214,7 @@ hr {
 
 .title-head {
   position: relative;
-  left: 200px;
+  left: 175px;
   top: 8px;
 }
 
@@ -227,9 +242,11 @@ hr {
   right: 20px;
 }
 
-@media screen and (min-width: 1010px) and (max-width: 1190px) {
+@media only screen and (min-width: 1060px) {
   .title-head {
-    width: 150px;
+    position: relative;
+    left: 220px;
+    top: 8px;
   }
 } 
 
