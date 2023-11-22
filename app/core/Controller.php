@@ -1,4 +1,5 @@
 <?php
+define('BASE_URL', 'http://localhost/PHP_Sakaycle/public/');
 
 trait Controller
 {
@@ -62,18 +63,30 @@ trait Controller
 
 	protected function getViewContent($viewName, $data)
 	{
-		extract($this->sharedData);
-		extract($data);
-		ob_start();
-		$filePath = "../app/views/{$viewName}.php";
-		if (file_exists($filePath)) {
-			include_once $filePath;
-		} else {
-			include_once "../app/views/404.php";
-		}
-		return ob_get_clean();
-	}
+    extract($this->sharedData);
+    extract($data);
+    ob_start();
 
+    $urlSegments = explode('/', trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
+    $baseSegments = explode('/', trim(BASE_URL, '/'));
+    $filteredSegments = array_diff($urlSegments, $baseSegments);
+    $filePath = "../app/views/{$viewName}.php";
+
+    if (count($filteredSegments) < 2) {
+			if (file_exists($filePath)) {
+				include_once $filePath;
+			} else {
+				header("Location: " . BASE_URL . "404.php");
+				exit();
+			}
+    } else {
+			header("Location: " . BASE_URL . "404.php");
+			exit();
+		} 
+
+    return ob_get_clean();
+	}
+		
 	protected function setCurrentPage($viewName)
 	{
 		$this->current_page = basename($viewName, '.php');
