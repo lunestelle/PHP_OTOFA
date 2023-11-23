@@ -2,6 +2,9 @@
 
 session_start(); // Starts the PHP session
 
+// Enable the GD extension
+ini_set('extension', 'gd');
+
 require "../app/core/init.php"; // Includes the initialization file, which sets up the application
 
 DEBUG ? ini_set('display_errors', 1) : ini_set('display_errors', 0); // Sets the error display based on the DEBUG constant
