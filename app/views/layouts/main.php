@@ -77,7 +77,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
               <div class="dropdown">
                 <div class="dropdown-toggle d-flex" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                   <img src="<?= $profilePhoto ?>" alt="Profile Photo" class="rounded-circle profile-photo">
-                    <p class="profile-name text-uppercase"><?= $fullName ?></p>
+                    <p class="profile-name text-uppercase"><?= $firstName ?></p>
                     <i id="profileIcon" class="fa-solid fa-angle-right fa-xs dropdown-fa" style="color: #ffffff;"></i>
                 </div>
                 
