@@ -28,54 +28,56 @@
   </div>
 </section>
 
-<section id="about">
-  <div class="about">
-    <div class="about-top">
-      <h1 class="about-title">ABOUT <span>US</span></h1>
-      <p class="text-justify">At the forefront of innovation, our Transportation Development Franchising and Regulatory Office (TDFRO) is dedicated to enhancing tricycle transportation through cutting-edge solutions. By embracing technology, we strive to enhance operational efficiency, reduce delay transactions, and provide tricycle operators with a modern way to navigate their administrative responsibilities swiftly and effortlessly.</p>
-    </div>
-    <div class="about-bottom">
-      <div class="about-cta">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="about-item">
-              <div class="item-title">
-                <img src="<?=ROOT?>/assets/images/appointment.png" alt="Appointment Icon">
-                <p class="fs-3 mt-4">Appointment</p>
-              </div>
-              <div class="text-justify about-item-body">
-              Experience effortless transaction appointments with TDFRO. Our online scheduling ensures convenience, saving tricycle operators time and eliminating queues. Simplify your interactions with the Transportation Development Franchising and Regulatory Office today.
+<div class="container">
+  <section id="about">
+    <div class="about">
+      <div class="about-top">
+        <h1 class="about-title">ABOUT <span>US</span></h1>
+        <p class="text-justify">At the forefront of innovation, our Transportation Development Franchising and Regulatory Office (TDFRO) is dedicated to enhancing tricycle transportation through cutting-edge solutions. By embracing technology, we strive to enhance operational efficiency, reduce delay transactions, and provide tricycle operators with a modern way to navigate their administrative responsibilities swiftly and effortlessly.</p>
+      </div>
+      <div class="about-bottom">
+        <div class="about-cta">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="about-item">
+                <div class="item-title">
+                  <img src="<?=ROOT?>/assets/images/appointment.png" alt="Appointment Icon">
+                  <p class="fs-5 mt-4">Appointment</p>
+                </div>
+                <div class="text-justify about-item-body">
+                Experience effortless transaction appointments with TDFRO. Our online scheduling ensures convenience, saving tricycle operators time and eliminating queues. Simplify your interactions with the Transportation Development Franchising and Regulatory Office today.
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="col-md-4">
-            <div class="about-item">
-             <div class="item-title">
-                <img src="<?=ROOT?>/assets/images/notification.png" alt="Push Notification"> 
-                <p class="fs-3 mt-4">Push Notifications</p>
+            <div class="col-md-4">
+              <div class="about-item">
+              <div class="item-title">
+                  <img src="<?=ROOT?>/assets/images/notification.png" alt="Push Notification"> 
+                  <p class="fs-5 mt-4">Push Notifications</p>
+                </div>
+                <div class="text-justify about-item-body">
+                Push notifications for franchise renewal are essential for tricycle operators to renew on time and prevent penalties. By receiving timely reminders, operators can efficiently complete the renewal process, ensuring compliance and avoiding unnecessary fines. These notifications enable operators to stay informed and promoting timely renewals.
+                </div>
+              </div>
+            </div>
+          
+            <div class="col-md-4">
+              <div class="about-item">
+              <div class="item-title">
+                <img src="<?=ROOT?>/assets/images/management.png" alt="Management Icon">
+                <p class="fs-5 mt-4">Management</p>
               </div>
               <div class="text-justify about-item-body">
-              Push notifications for franchise renewal are essential for tricycle operators to renew on time and prevent penalties. By receiving timely reminders, operators can efficiently complete the renewal process, ensuring compliance and avoiding unnecessary fines. These notifications enable operators to stay informed and promoting timely renewals.
+              Promote hassle-free tricycle management through digital solutions, minimizing paperwork, optimizing licensing, scheduling, and maintenance processes. Simplify interactions between operators and authorities for a more efficient and organized transportation system.
               </div>
-            </div>
-          </div>
-        
-          <div class="col-md-4">
-            <div class="about-item">
-            <div class="item-title">
-              <img src="<?=ROOT?>/assets/images/management.png" alt="Management Icon">
-              <p class="fs-3 mt-4">Management</p>
-            </div>
-            <div class="text-justify about-item-body">
-            Promote hassle-free tricycle management through digital solutions, minimizing paperwork, optimizing licensing, scheduling, and maintenance processes. Simplify interactions between operators and authorities for a more efficient and organized transportation system.
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
 <footer class="text-white text-center text-lg-start" id="contact">
   <div class="p-4 m-auto gap-6 col-md-10">
