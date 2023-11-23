@@ -133,14 +133,16 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
               </li>
               <li class="nav-item" id="maintenanceDropdown">
-                <a class="nav-link d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span><i id="maintenanceIcon" class="fa-solid fa-angle-down fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
-                <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse <?php if ($current_page_is_maintenance) echo 'show'; ?>">
-                  <li class="nav-item my-2">
-                    <a class="nav-link" href="taripa">Taripa</a>
-                  </li>
-                  <li class="nav-item mb-2">
-                    <a class="nav-link" href="export">Export</a>
-                  </li>
+                <a class="nav-link d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
+                <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-white <?php if ($current_page_is_maintenance) echo 'show'; ?>">
+                <div>
+                    <li class="nav-item mt-2 pt-1 px-2">
+                      <a class="nav-link text-dark fw-bold" href="taripa">Taripa</a>
+                    </li>
+                    <li class="nav-item mb-2 pb-1 px-2">
+                      <a class="nav-link text-dark fw-bold" href="export">Export</a>
+                    </li>
+                </div>
                 </ul>     
               </li>
               <?php } ?>

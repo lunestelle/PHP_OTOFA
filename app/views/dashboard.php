@@ -38,25 +38,33 @@
           </div>
         <?php } elseif ($userRole === 'admin') { ?>
           <div class="col-12">
-            <div class="container gap-5 px-5 mb-4 pb-3">
-              <div class="overview-container mt-3">
-                <div class="image-bg rounded-circle"> </div>
-                  <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
-                  <h5>20</h5>
-                  <p>Tricycles</p>
-                </div>
-                <div class="overview-container mt-3">
-                  <div class="image-bg rounded-circle"> </div>
+            <div class="overview-wrapper">
+              <div class="container gap-5 px-5 mb-4 pb-3">
+                <a href="./appointments" class="text-black">
+                  <div class="overview-container mt-3">
+                    <div class="image-bg rounded-circle"> </div>
+                    <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
+                    <h5>10</h5>
+                    <p>Tricycles</p>
+                  </div>
+                </a>
+                <a href="./drivers" class="text-black">
+                  <div class="overview-container mt-3">
+                    <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-user fa-2xl" style="color: #ffffff;"></i>
                     <h5>10</h5>
-                    <p>Registrations</p>
-                </div>
-                <div class="overview-container mt-3">
-                  <div class="image-bg rounded-circle"> </div>
-                  <i class="fa-solid fa-clock fa-2xl" style="color: #ffffff; margin-right: 4px;"></i>
-                  <h5>25</h5>
-                  <p>Appointments</p>
-                </div>
+                    <p>Drivers</p>
+                  </div>
+                </a>
+                <a href="./appointments" class="text-black">
+                 <div class="overview-container mt-3">
+                    <div class="image-bg rounded-circle"> </div>
+                    <i class="fa-solid fa-clock fa-2xl" style="color: #ffffff; margin-right: 4px;"></i>
+                    <h5>15</h5>
+                    <p>Appointments</p>
+                  </div>
+                 </a>
+              </div>
             </div>
           </div>
         <?php } ?>
