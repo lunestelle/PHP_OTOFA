@@ -39,8 +39,15 @@ nav #toggler{
   display: none;
 }
 
+.dropdown-menu {
+  padding: 0;
+  border-radius: 10px;
+}
+
 .dropdown-menu a.dropdown-item {
   color: black;
+  color: #3a3b45;
+  font-weight: 700;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -54,6 +61,12 @@ nav #toggler{
   color: #fff !important;
   background: #FF4200;
   text-decoration: none;
+}
+
+.dropdown-header {
+  background-color: #EBB803;
+  border: 1px solid #EBB803;
+  border-radius: 10px 10px 0 0;
 }
 
 .profile-header-bg {

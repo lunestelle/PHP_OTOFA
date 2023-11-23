@@ -12,16 +12,17 @@
       <a href="dashboard" class="nav-link me-3">DASHBOARD</a>
       <div class="dropdown">
         <a class="nav-link" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="<?= $profile_photo ?>" alt="Profile Photo" width="30" height="30" class="rounded ">
+          <img src="<?= $profile_photo ?>" alt="Profile Photo" width="30" height="30" class="rounded-circle ">
         </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-          <li><h6 class="dropdown-header">Manage Account</h6></li>
-          <li><a class="dropdown-item" href="manage_account"><i class="fa-solid fa-gear"></i> Profile</a></li>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profileDropdown">
+          <li><h6 class="dropdown-header text-white text-start fs-6 mb-1">Manage Account</h6></li>
+          <li><a class="dropdown-item my-2" href="manage_account"><i class="fa-solid fa-gear"></i> Profile</a></li>
+          <li><a class="dropdown-item  my-2" href="manage_account"><i class="fa-solid fa-bell"></i>Notifications</a></li>
           <li><hr class="dropdown-divider"></li>
           <li>
           <form action="<?= ROOT ?>/sign_out" method="post" id="sign-out-form">
             <input type="hidden" name="sign_out" value="1">
-            <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('sign-out-form').submit();">
+            <a href="#" class="dropdown-item my-2" onclick="event.preventDefault(); document.getElementById('sign-out-form').submit();">
               <i class="fa-solid fa-right-from-bracket"></i> Log Out
               </a>
           </form>
