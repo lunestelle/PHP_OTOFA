@@ -33,7 +33,7 @@
                   </div>
                 </div>
 
-                <div class="col-12 d-flex justify-content-between pt-3">
+                <div class="col-12 d-flex justify-content-between pt-2">
                   <div>
                     <p class="form-label">Route Area</p>
                     <div class="form-control">
@@ -54,7 +54,7 @@
                   </div>
                 </div>
 
-                <div class="col-12 d-flex justify-content-between pt-3">
+                <div class="col-12 d-flex justify-content-between pt-2">
                   <div>
                     <p class="form-label">OR No.</p>
                     <div class="form-control">
@@ -78,7 +78,7 @@
             </div>
             <div class="content-container mt-3">
               <div class="bckgrnd pt-2">
-                <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">tricycle images</h6>
+                <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Tricycle images</h6>
               </div>
               <div class="row px-3 p-3">
                 <div class="col-8 d-flex justify-content-between">

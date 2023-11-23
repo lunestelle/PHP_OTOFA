@@ -17,10 +17,14 @@ trait Controller
     if (isset($_SESSION['USER'])) {
 			$user = $_SESSION['USER'];
 
+			$fullName = $user->first_name . ' ' . $user->last_name;
+
 			$this->sharedData = [
 				'userRole' => $user->role,
-				'firstName' => $user->first_name
-			];
+				'firstName' => $user->first_name,
+				'lastName' => $user->last_name,
+				'fullName' => $fullName
+		];
     }
 	}
 	
