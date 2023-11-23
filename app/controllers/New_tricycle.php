@@ -22,157 +22,57 @@ class New_tricycle
       ];
     }
 
+    $tricycleModel = new Tricycle();
+    $existingPlateNumbers = $tricycleModel->pluck('plate_no');
+    if ($existingPlateNumbers !== false) {
+      $allPlateNumbers = range(1, 2000);
+      $data['availablePlateNumbers'] = array_diff($allPlateNumbers, $existingPlateNumbers);
+    } else {
+      $data['availablePlateNumbers'] = range(1, 2000);
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      if (isset($_POST['add_tricycle'])) { // Check if the "Add Tricycle" button is clicked
+      $formData = [
+        'make_model' => $_POST['make_model'] ?? '',
+        'year_acquired' => $_POST['year_acquired'] ?? '',
+        'color_code' => $_POST['color_code'] ?? '',
+        'route_area' => $_POST['route_area'] ?? '',
+        'plate_no' => $_POST['plate_no'] ?? '',
+        'driver_id' => $_POST['driver_id'] ?? '',
+        'or_no' => $_POST['or_no'] ?? '',
+        'or_date' => $_POST['or_date'] ?? '',
+        'tricycle_status' => $_POST['tricycle_status'] ?? '',
+        'front_view_image' => $_FILES['front_view_image'] ?? '',
+        'back_view_image' => $_FILES['back_view_image'] ?? '',
+        'side_view_image' => $_FILES['side_view_image'] ?? '',
+      ];
 
-        $tricycleData = [
-          'make_model' => $_POST['make_model'] ?? '',
-          'year_acquired' => $_POST['year_acquired'] ?? '',
-          'color_code' => $_POST['color_code'] ?? '',
-          'route_area' => $_POST['route_area'] ?? '',
-          'plate_no' => $_POST['plate_no'] ?? '',
-          'driver_id' => $_POST['driver_id'] ?? '',
-          'or_no' => $_POST['or_no'] ?? '',
-          'or_date' => $_POST['or_date'] ?? '',
-          'tricycle_status' => $_POST['tricycle_status'] ?? 'Registration Pending'
-        ];
+      $tricycleModel = new Tricycle();
+      $errors = $tricycleModel->validateData($formData);
 
-        $tricycleModel = new Tricycle();
-        $errors = $tricycleModel->validateData($tricycleData);
-
-        if (!empty($errors)) {
-          $errorMessage = $errors[0];
-          set_flash_message($errorMessage, "error");
-          $data = array_merge($tricycleData, $data);
-          echo $this->renderView('new_tricycle', true, $data);
-          return;
-        } else {
-          $tricycleId = $tricycleModel->insert($tricycleData);
-
-          if ($tricycleId) {
-            $imageData = [
-              'tricycle_id' => $tricycleId,
-              'front_view_image' => $this->uploadImage('front_view_image', $tricycleId),
-              'back_view_image' => $this->uploadImage('back_view_image', $tricycleId),
-              'side_view_image' => $this->uploadImage('side_view_image', $tricycleId)
-            ];
-
-            $imageModel = new TricycleImage();
-            $imageErrors = $imageModel->validateData($imageData);
-
-            if (empty($imageErrors)) {
-              $imageModel->insert($imageData);
-              set_flash_message("Tricycle added successfully.", "success");
-              redirect('tricycles');
-            } else {
-              $errorMessage = $imageErrors[0];
-              set_flash_message($errorMessage, "error");
-              redirect('tricycles');
-            }
-          } else {
-            set_flash_message("Failed to add tricycle. Please try again.", "error");
-          }
-        }
+      if (!empty($errors)) {
+        $errorMessage = $errors[0];
+        set_flash_message($errorMessage, "error");
+        
+        // Only merge form data if there are errors
+        $data['formData'] = $formData;
       } else {
-        if (isset($_POST['route_area'])) {
-          $taripasModel = new Taripas();
-          $rateAdjustmentModel = new RateAdjustment();
-          $recentTaripaData = [];
-          $rate_adjustments_years = [];
-    
-          $routeArea = $_POST['route_area'];
-          if ($routeArea === 'Free Zone & Zone 2') {
-            $taripaData = $taripasModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 2']);
-          } else if ($routeArea === 'Free Zone & Zone 3') {
-            $taripaData = $taripasModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 3']);
-          } else if ($routeArea === 'Free Zone & Zone 4') {
-            $taripaData = $taripasModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 4']);
-          } else {
-            $taripaData = $taripasModel->where(['route_area' => $routeArea]);
-          }
-          
-    
-          $taripa_years = array_unique(array_column($taripaData, 'effective_year'));
-          $recentTaripaYear = max($taripa_years);
-    
-          if (!empty($rateAdjustmentModel->findAll())) {
-            $rateAdjustmentsData = $rateAdjustmentModel->findAll();
-            $rate_adjustments_years = array_unique(array_column($rateAdjustmentsData, 'effective_year'));
-            $recentRateAdjustmentYear = max($rate_adjustments_years);
-            $recentYear = max($recentTaripaYear, $recentRateAdjustmentYear);
-          } else {
-            $recentYear = $recentTaripaYear;
-          }
-    
-          foreach ($taripaData as $index => $row) {
-            // Check if the recent year is in the rate adjustments table
-            $recentYearExists = in_array($recentYear, $rate_adjustments_years);
-    
-            if ($recentYearExists) {
-              // Calculate regular_rate and student_rate for the recent year from rate adjustment data
-              $recent_rate_adjustment = $rateAdjustmentModel->first(['effective_year' => $recentYear]);
-              $recent_rate_action = $recent_rate_adjustment->rate_action;
-              $recent_percentage = $recent_rate_adjustment->percentage;
-              $recent_previous_year = $recent_rate_adjustment->previous_year;
-    
-              // If the previous year is in the rate adjustments table, get its rates
-              if (in_array($recent_previous_year, $rate_adjustments_years)) {
-                $previous_rate_adjustment = $rateAdjustmentModel->first(['effective_year' => $recent_previous_year]);
-                $previous_percentage = $previous_rate_adjustment->percentage;
-                $previous_rate_action = $previous_rate_adjustment->rate_action;
-    
-                // Calculate the rates for the previous year
-                $regular_rate = $row->regular_rate;
-                $student_rate = $row->student_rate;
-                $senior_and_pwd_rate = $row->senior_and_pwd_rate;
-    
-                if ($previous_rate_action === 'increase') {
-                  $previous_regular_rate = $regular_rate + ($regular_rate * $previous_percentage / 100);
-                  $previous_student_rate = $student_rate + ($student_rate * $previous_percentage / 100);
-                  $previous_senior_and_pwd_rate = $senior_and_pwd_rate + $senior_and_pwd_rate * $previous_percentage / 100;
-                } elseif ($previous_rate_action === 'decrease') {
-                  $previous_regular_rate = $regular_rate - ($regular_rate * $previous_percentage / 100);
-                  $previous_student_rate = $student_rate - ($student_rate * $previous_percentage / 100);
-                  $previous_senior_and_pwd_rate = $senior_and_pwd_rate - $senior_and_pwd_rate * $previous_percentage / 100;
-                }
-              } else {
-                // If the previous year is not in the rate adjustments table,
-                // fetch regular_rate and student_rate directly from the taripa table
-                $previous_regular_rate = $row->regular_rate;
-                $previous_student_rate = $row->student_rate;
-                $previous_senior_and_pwd_rate = $row->senior_and_pwd_rate;
-              }
-    
-              // Calculate regular_rate and student_rate for the recent year
-              if ($recent_rate_action === 'increase') {
-                $recent_regular_rate = $previous_regular_rate + ($previous_regular_rate * $recent_percentage / 100);
-                $recent_student_rate = $previous_student_rate + ($previous_student_rate * $recent_percentage / 100);
-                $recent_senior_and_pwd_rate = $previous_senior_and_pwd_rate + ($previous_senior_and_pwd_rate * $recent_percentage / 100);
-              } elseif ($recent_rate_action === 'decrease') {
-                $recent_regular_rate = $previous_regular_rate - ($previous_regular_rate * $recent_percentage / 100);
-                $recent_student_rate = $previous_student_rate - ($previous_student_rate * $recent_percentage / 100);
-                $recent_senior_and_pwd_rate = $previous_senior_and_pwd_rate - ($previous_senior_and_pwd_rate * $recent_percentage / 100);
-              }
-            } else {
-              // If the recent year is not in the rate adjustments table,
-              // fetch regular_rate, student_rate, and senior_and_pwd_rate directly from the taripa table
-              $recent_regular_rate = $row->regular_rate;
-              $recent_student_rate = $row->student_rate;
-              $recent_student_rate = $row->senior_and_pwd_rate;
-            }
-    
-            // Add the calculated rates to the recentTaripaData
-            $recentTaripaData[] = [
-              'route_area' => $row->route_area,
-              'barangay' => $row->barangay,
-              'regular_rate' => $recent_regular_rate,
-              'student_rate' => $recent_student_rate,
-              'senior_and_pwd_rate' => $recent_senior_and_pwd_rate,
-            ];
-          }
-    
-          echo json_encode($recentTaripaData);
-          exit;
+        $imagePaths = $this->handleFileUploads($formData);
+
+        if ($imagePaths === false) {
+          set_flash_message("Failed to upload images.", "error");
+          redirect('tricycles');
+        }
+
+        $formData['front_view_image_path'] = $imagePaths['front_view_image'];
+        $formData['back_view_image_path'] = $imagePaths['back_view_image'];
+        $formData['side_view_image_path'] = $imagePaths['side_view_image'];
+
+        if ($tricycleModel->insert($formData)) {
+          set_flash_message("Tricycle added successfully.", "success");
+          redirect('tricycles');
+        } else {
+          set_flash_message("Failed to add tricycle.", "error");
         }
       }
     }
@@ -180,17 +80,34 @@ class New_tricycle
     echo $this->renderView('new_tricycle', true, $data);
   }
 
-  private function uploadImage($inputName, $tricycleId)
+  private function handleFileUploads($formData)
   {
-    $uploadDir = 'uploads/tricycle_images/';
-    $targetFile = $uploadDir . basename($_FILES[$inputName]['name']);
-    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+    $uploadDirectory = '../uploads/tricycle_images/';
 
-    $newFileName = $tricycleId . '_' . $inputName . '.' . $imageFileType;
-    $targetPath = $uploadDir . $newFileName;
+    $frontImageName = 'front_view_image';
+    $backImageName = 'back_view_image';
+    $sideImageName = 'side_view_image';
 
-    move_uploaded_file($_FILES[$inputName]['tmp_name'], $targetPath);
+    // Define the file paths
+    $frontImagePath = $uploadDirectory . basename($_FILES[$frontImageName]['name']);
+    $backImagePath = $uploadDirectory . basename($_FILES[$backImageName]['name']);
+    $sideImagePath = $uploadDirectory . basename($_FILES[$sideImageName]['name']);
 
-    return $newFileName;
+    // Move uploaded files to destination
+    if (
+      move_uploaded_file($_FILES[$frontImageName]['tmp_name'], $frontImagePath) &&
+      move_uploaded_file($_FILES[$backImageName]['tmp_name'], $backImagePath) &&
+      move_uploaded_file($_FILES[$sideImageName]['tmp_name'], $sideImagePath)
+    ) {
+      // Return file paths if upload is successful
+      return [
+        'front_view_image' => $frontImagePath,
+        'back_view_image' => $backImagePath,
+        'side_view_image' => $sideImagePath,
+      ];
+    } else {
+      // Return false if any of the file uploads fail
+      return false;
+    }
   }
 }
