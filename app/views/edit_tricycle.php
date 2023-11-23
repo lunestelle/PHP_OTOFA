@@ -101,59 +101,57 @@
                     </div>
                   </div>
                 </div>
-
-                <div class="content-container mt-3">
-                  <div class="bckgrnd pt-2">
-                    <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Tricycle images</h6>
-                  </div>
-                  <div class="row px-3 p-3">
-                    <div class="col-8 d-flex justify-content-between">
-                      <div>
-                        <label class="form-label">Tricycle Front View</label>
-                        <?php
-    if (isset($front_view_image) && $front_view_image) {
-      echo '<div class="image-container">';
-      echo '<img src="' . $front_view_image_path . '" id="front_view_image" alt="Tricycle Front View">';
-      echo '<button class="remove-image-btn" onclick="removeImage(\'front_view_image\')">X</button>';
-      echo '</div>';
-    } else {
-      echo '<input type="file" name="front_view_image" accept="image/*">';
-    }
-    ?>
-                      </div>
-                      <div>
-                        <label class="form-label">Tricycle Back View</label>
-                        <?php
-                        if (isset($back_view_image) && $back_view_image) {
+              </div> 
+              
+              <div class="content-container mt-3">
+                <div class="bckgrnd pt-2">
+                  <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Tricycle images</h6>
+                </div>
+                <div class="row px-3 p-3">
+                  <div class="col-8 d-flex justify-content-between">
+                    <div>
+                      <label class="form-label">Tricycle Front View</label>
+                      <?php
+                        if (isset($tricycleData['front_view_image_path']) && $tricycleData['front_view_image_path']) {
                           echo '<div class="image-container">';
-                          echo '<img src="' . $back_view_image->file_path . '" id="back_view_image" alt="Tricycle Back View" class="tricycle_image">';
-                          echo '<button class="remove-image-btn" onclick="removeImage(\'back_view_image\')">X</button>';
+                          echo '<img src="' . $front_view_image_path . '" id="front_view_image" alt="Tricycle Front View">';
+                          echo '<button class="remove-image-btn" onclick="removeImage(\'front_view_image\')">X</button>';
                           echo '</div>';
                         } else {
                           echo '<input type="file" name="front_view_image" accept="image/*">';
                         }
                         ?>
-                      </div>
-                      <div>
-                        <label class="form-label">Tricycle Side View</label>
-                        <?php
-                        if (isset($side_view_image) && $side_view_image) {
-                          echo '<div class="image-container">';
-                          echo '<img src="' . $side_view_image->file_path . '" id="side_view_image" alt="Tricycle Side View">';
-                          echo '<button class="remove-image-btn" onclick="removeImage(\'side_view_image\')">X</button>';
-                          echo '</div>';
-                        } else {
-                          echo '<input type="file" name="front_view_image" accept="image/*">';
-                        }
-                        ?>
-                      </div>
+                    </div>
+                    <div>
+                      <label class="form-label">Tricycle Back View</label>
+                      <?php
+                      if (isset($back_view_image) && $back_view_image) {
+                        echo '<div class="image-container">';
+                        echo '<img src="' . $back_view_image->file_path . '" id="back_view_image" alt="Tricycle Back View" class="tricycle_image">';
+                        echo '<button class="remove-image-btn" onclick="removeImage(\'back_view_image\')">X</button>';
+                        echo '</div>';
+                      } else {
+                        echo '<input type="file" name="front_view_image" accept="image/*">';
+                      }
+                      ?>
+                    </div>
+                    <div>
+                      <label class="form-label">Tricycle Side View</label>
+                      <?php
+                      if (isset($side_view_image) && $side_view_image) {
+                        echo '<div class="image-container">';
+                        echo '<img src="' . $side_view_image->file_path . '" id="side_view_image" alt="Tricycle Side View">';
+                        echo '<button class="remove-image-btn" onclick="removeImage(\'side_view_image\')">X</button>';
+                        echo '</div>';
+                      } else {
+                        echo '<input type="file" name="front_view_image" accept="image/*">';
+                      }
+                      ?>
                     </div>
                   </div>
                 </div>
-                <div id="taripaTableContainer">
-                  <!-- show here the taripa of the selected route area -->
-                </div>
               </div>
+
               <div class="text-end my-3">
                 <button type="submit" class="sidebar-btnContent" name="update">Update</button>
                 <a href="./tricycles" class="cancel-btn">Cancel</a>
