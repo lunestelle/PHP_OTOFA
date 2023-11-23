@@ -209,3 +209,9 @@ input[type=number] {
   position: relative;
   top: 100;
 }
+
+.bckgrnd {
+  background-color: #f25939;
+  height: 35px;
+  border-radius: 10px 10px 0 0;
+}

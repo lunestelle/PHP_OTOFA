@@ -1,0 +1,14 @@
+https://chat.openai.com/share/b49e3dfa-44be-428d-b070-b0103e833ff1
+
+If dili maka log in:
+    - Open your php.ini file (usually located in the php directory of your XAMPP installation).
+    - Find the line ;extension=gd and uncomment it by removing the semicolon at the beginning.
+    - Save the php.ini file and restart your Apache server.
+
+Forgot Password Issue is due to the database table:
+CREATE TABLE password_resets (
+  password_reset_id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  token VARCHAR(255) NOT NULL,
+  expiration_time DATETIME NOT NULL
+);

@@ -5,20 +5,11 @@ class Tricycle
   use Model;
 
   protected $table = 'tricycles';
-  protected $allowedColumns = [
-    'make_model',
-    'year_acquired',
-    'color_code',
-    'route_area',
-    'plate_no',
-    'driver_id',
-    'or_no',
-    'or_date',
-    'tricycle_status'
-  ];
   protected $order_column = 'tricycle_id';
+  protected $allowedColumns = ['make_model', 'year_acquired', 'color_code', 'route_area', 'plate_no', 'driver_id', 'or_no', 'or_date', 'tricycle_status', 'front_view_image_path', 'back_view_image_path', 'side_view_image_path'];
 
-  public function validate($data)
+
+  public function validateData($data)
   {
     $errors = [];
 
@@ -28,8 +19,8 @@ class Tricycle
 
     if (empty($data['year_acquired'])) {
       $errors[] = 'Year Acquired is required.';
-    } elseif (!is_numeric($data['year_acquired'])) {
-      $errors[] = 'Year Acquired must be a numeric value.';
+    } elseif (!is_numeric($data['year_acquired']) || $data['year_acquired'] > date('Y')) {
+        $errors[] = 'Year Acquired should be a valid year and <br> should not exceed the current year.';
     }
 
     if (empty($data['color_code'])) {
@@ -37,55 +28,62 @@ class Tricycle
     }
 
     if (empty($data['route_area'])) {
-      $errors[] = 'Route Area is required.';
+      $errors[] = 'Route/Area is required.';
     }
 
     if (empty($data['plate_no'])) {
       $errors[] = 'Plate No. is required.';
-    } else {
-      $existingPlate = $this->where(['plate_no' => $data['plate_no']]);
-      if ($existingPlate) {
-        $errors[] = 'Plate No. already exists in the system.';
-      }
+    } elseif ($this->plateNumberExists($data['plate_no'])) {
+      $errors[] = 'Plate No. is already in use.';
     }
 
     if (empty($data['driver_id'])) {
-      $errors[] = 'Driver ID is required.';
-    } elseif (!is_numeric($data['driver_id'])) {
-      $errors[] = 'Driver ID must be a numeric value.';
+      $errors[] = 'Driver is required.';
     }
 
     if (empty($data['or_no'])) {
       $errors[] = 'OR No. is required.';
-    } else {
-      $existingOR = $this->where(['or_no' =>$data['or_no']]);
-      if ($existingOR) {
-        $errors[] = 'OR No. already exists in the system.';
-      }
     }
 
     if (empty($data['or_date'])) {
       $errors[] = 'OR Date is required.';
-    } elseif (!strtotime($data['or_date'])) {
-      $errors[] = 'OR Date must be a valid date.';
     }
 
-    if (empty($_FILES['tricycle_operator_permit']['tmp_name'])) {
-      $errors[] = 'Tricycle Operator Permit file is required.';
+    if (empty($data['tricycle_status'])) {
+      $errors[] = 'Tricycle Status is required.';
     }
 
-    if (empty($_FILES['tricycle_images']['tmp_name'][0])) {
-      $errors[] = 'Tricycle Images files (Front, Back, & Sides) are required.';
+    if (empty($data['front_view_image'])) {
+      $errors[] = 'Front View Image is required.';
     }
-
-    if (empty($_FILES['certificate_of_registration']['tmp_name'])) {
-      $errors[] = 'Certificate of Registration (CR) file is required.';
+  
+    if (empty($data['back_view_image'])) {
+      $errors[] = 'Back View Image is required.';
     }
-
-    if (empty($_FILES['official_receipt']['tmp_name'])) {
-      $errors[] = 'Official Receipt (OR) file is required.';
+    
+    if (empty($data['side_view_image'])) {
+      $errors[] = 'Side View Image is required.';
     }
+  
 
     return $errors;
+  }
+
+  public function plateNumberExists($plateNo)
+  {
+    $result = $this->where(['plate_no' => $plateNo]);
+		return !empty($result);
+  }
+
+  public function pluck($column)
+  {
+    $query = "SELECT {$column} FROM {$this->table}";
+    $result = $this->query($query);
+
+    if ($result !== false) {
+      return array_column($result, $column);
+    } else {
+      return [];
+    }
   }
 }

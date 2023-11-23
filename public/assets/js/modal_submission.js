@@ -51,6 +51,7 @@ function modal_submission() {
         }, 3000);
       },
       success: function(resp) {
+        console.log(resp); // Add this line for debugging
         if (resp.status === 'success') {
           _el.addClass('alert alert-success');
           _el.text(resp.msg);
