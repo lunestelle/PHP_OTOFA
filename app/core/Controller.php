@@ -4,6 +4,7 @@ define('BASE_URL', 'http://localhost/PHP_Sakaycle/public/');
 trait Controller
 {
 	protected $sharedData = [];
+	protected $current_page;
 
 	public function __construct()
 	{
