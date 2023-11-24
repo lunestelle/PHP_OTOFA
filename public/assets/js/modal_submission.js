@@ -60,8 +60,16 @@ function modal_submission() {
           _el.show('6000');
           $('#uni_modal button').attr('disabled', false);
           $('#uni_modal button[type="submit"]').text(originalButtonText);
-          showFlashMessage(resp.msg, 'success');
-          window.location.href = resp.redirect_url;
+          // showFlashMessage(resp.msg, 'success');
+          // window.location.href = resp.redirect_url;
+          setTimeout(function() {
+            _el.hide('slow', function() {
+              $(this).remove();
+              
+              // Redirect to the specified URL after hiding the success message
+              window.location.href = resp.redirect_url;
+            });
+          }, 2000);
         } else {
           _el.text(resp.msg);
           _el.hide();
@@ -80,13 +88,13 @@ function modal_submission() {
   });
 }
 
-function showFlashMessage(message, type) {
-  const flashMessage = document.getElementById("flashMessage");
-  flashMessage.textContent = message;
-  flashMessage.className = `flash-message ${type}`;
-  flashMessage.style.display = "block";
+// function showFlashMessage(message, type) {
+//   const flashMessage = document.getElementById("flashMessage");
+//   flashMessage.textContent = message;
+//   flashMessage.className = `flash-message ${type}`;
+//   flashMessage.style.display = "block";
 
-  setTimeout(function () {
-    flashMessage.style.display = "none";
-  }, 5000);
-}
+//   setTimeout(function () {
+//     flashMessage.style.display = "none";
+//   }, 5000);
+// }
