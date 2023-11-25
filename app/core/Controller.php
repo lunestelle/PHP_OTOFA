@@ -53,7 +53,7 @@ trait Controller
 
 	protected function getLayoutContent($page)
 	{
-		$userLayout = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointments', 'maintenance_log', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_operator', 'view_appointment', 'view_driver', 'edit_tricycle', 'edit_driver', 'edit_taripa', 'edit_operator', 'new_taripa', 'new_driver', 'new_appointment', 'new_tricycle', 'new_tricycle', ];
+		$userLayout = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointments', 'maintenance_log', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_operator', 'view_appointment', 'view_driver', 'edit_tricycle', 'edit_driver', 'edit_taripa', 'edit_operator', 'new_taripa', 'new_driver', 'new_appointment', 'new_tricycle', 'new_tricycle', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info',];
 
 		if (in_array($page, $userLayout)) {
 			extract($this->sharedData);
@@ -99,7 +99,7 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointments', 'maintenance_log', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_operator', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle'];
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'documents', 'appointments', 'maintenance_log', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_operator', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info'];
 		
 		$sidebarViewPages = ['view_tricycle', 'view_driver', 'view_appointment', 'view_operator'];
 
