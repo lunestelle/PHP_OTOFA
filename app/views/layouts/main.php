@@ -75,16 +75,17 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
           <div class="position-sticky">
             <div class="mt-auto">
               <div class="dropdown">
-                <div class="dropdown-toggle d-flex" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="<?= $profilePhoto ?>" alt="Profile Photo" class="rounded-circle profile-photo">
+                <div class="dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <div class="profile-center">
+                    <img src="<?= $profilePhoto ?>" alt="Profile Photo" class="rounded-circle profile-photo">
                     <p class="profile-name text-uppercase"><?= $firstName ?></p>
-                    <i id="profileIcon" class="fa-solid fa-angle-right fa-xs dropdown-fa" style="color: #ffffff;"></i>
+                    <!-- <i id="profileIcon" class="fa-solid fa-angle-right fa-xs dropdown-fa" style="color: #ffffff;"></i> -->
+                  </div>      
                 </div>
-                
                 <ul class="dropdown-menu shadow" aria-labelledby="accountDropdown">
                   <li><h6 class="dropdown-header text-white text-start fs-6">Manage Account</h6></li>
                   <li><a class="dropdown-item  mt-2" href="manage_account"><i class="fa-solid fa-gear"></i>Profile</a></li>
-                  <li><a class="dropdown-item  mt-2" href="manage_account"><i class="fa-solid fa-bell"></i>Notifications</a></li>
+                  <li><a class="dropdown-item  mt-2" href="notification"><i class="fa-solid fa-bell"></i>Notifications</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li>
                     <form action="<?= ROOT ?>/sign_out" method="post" id="sign-out-form">
@@ -163,17 +164,27 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
 </body>
 
-<script>
-  // Add an event listener to the dropdown toggle
-  document.getElementById('accountDropdown').addEventListener('click', function() {
-    var icon = document.getElementById('profileIcon');
-    icon.classList.toggle('rotated');
-  });
+  <script>
+    // Add an event listener to the account dropdown toggle
+    document.getElementById('accountDropdown').addEventListener('click', function() {
+      var icon = document.getElementById('profileIcon');
+      icon.classList.toggle('rotated');
+    });
 
-  document.getElementById('maintenanceDropdown').addEventListener('click', function() {
-    var icon = document.getElementById('maintenanceIcon');
-    icon.classList.toggle('rotateMaintenance');
-  });
-</script>
+    // Add an event listener to the maintenance dropdown toggle
+    document.getElementById('maintenanceDropdown').addEventListener('click', function() {
+      var icon = document.getElementById('maintenanceIcon');
+      icon.classList.toggle('rotateMaintenance');
+    });
+
+    // Add an event listener to the maintenance links
+    var maintenanceLinks = document.querySelectorAll('#maintenanceSubMenu a');
+    maintenanceLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        var icon = document.getElementById('maintenanceIcon');
+        icon.classList.toggle('rotateMaintenance');
+      });
+    });
+  </script>
 
 </html>

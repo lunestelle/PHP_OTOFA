@@ -42,7 +42,7 @@
               <div class="about-item">
                 <div class="item-title">
                   <img src="<?=ROOT?>/assets/images/appointment.png" alt="Appointment Icon">
-                  <p class="fs-5 mt-4">Appointment</p>
+                  <p class="mx-1">Appointment</p>
                 </div>
                 <div class="text-justify about-item-body">
                 Experience effortless transaction appointments with TDFRO. Our online scheduling ensures convenience, saving tricycle operators time and eliminating queues. Simplify your interactions with the Transportation Development Franchising and Regulatory Office today.
@@ -54,7 +54,7 @@
               <div class="about-item">
               <div class="item-title">
                   <img src="<?=ROOT?>/assets/images/notification.png" alt="Push Notification"> 
-                  <p class="fs-5 mt-4">Push Notifications</p>
+                  <p class="mx-1">Push Notifications</p>
                 </div>
                 <div class="text-justify about-item-body">
                 Push notifications for franchise renewal are essential for tricycle operators to renew on time and prevent penalties. By receiving timely reminders, operators can efficiently complete the renewal process, ensuring compliance and avoiding unnecessary fines. These notifications enable operators to stay informed and promoting timely renewals.
@@ -66,7 +66,7 @@
               <div class="about-item">
               <div class="item-title">
                 <img src="<?=ROOT?>/assets/images/management.png" alt="Management Icon">
-                <p class="fs-5 mt-4">Management</p>
+                <p class="mx-1">Management</p>
               </div>
               <div class="text-justify about-item-body">
               Promote hassle-free tricycle management through digital solutions, minimizing paperwork, optimizing licensing, scheduling, and maintenance processes. Simplify interactions between operators and authorities for a more efficient and organized transportation system.

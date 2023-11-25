@@ -78,42 +78,50 @@
         <div class="row">
           <div class="col-12">
             <div class="d-block container-code mt-3">
-              <div class="color-code-blue d-flex">
-                <div class="mt-2 center">
-                  <img src="assets/images/blue-trike.png" alt="Blue Trike Image">
-                  <p>Blue Trike</p>
+              <a href="red_trike_info" class="text-decoration-none">
+                <div class="color-code-red d-flex">
+                  <div class="mt-2 center">
+                    <img src="assets/images/red-trike.png" alt="Red Trike Image">
+                    <p>Red Trike</p>
+                  </div>
+                  <div class="description">
+                    <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                  </div>
                 </div>
-                <div class="description">
-                  <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+              </a>
+              <a href="blue_trike_info" class="text-decoration-none">
+                <div class="color-code-blue d-flex mt-3">
+                  <div class="mt-2 center">
+                    <img src="assets/images/blue-trike.png" alt="Blue Trike Image">
+                    <p>Blue Trike</p>
+                  </div>
+                  <div class="description">
+                    <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="color-code-green d-flex mt-3">
-                <div class="mt-2 center">
-                  <img src="assets/images/green-trike.png" alt="Gree Trike Image">
-                  <p>Green Trike</p>
+              </a>
+              <a href="yellow_trike_info" class="text-decoration-none">
+                <div class="color-code-yellow d-flex mt-3">
+                  <div class="mt-2">
+                    <img src="assets/images/yellow-trike.png" alt="Yellow Trike Image" class="center">
+                    <p  class="pb-1">Yellow Trike</p>
+                  </div>
+                  <div class="description">
+                    <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                  </div>
                 </div>
-                <div class="description">
-                  <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+              </a>
+              <a href="green_trike_info" class="text-decoration-none">
+                <div class="color-code-green d-flex mt-3">
+                  <div class="mt-2 center">
+                    <img src="assets/images/green-trike.png" alt="Green Trike Image">
+                    <p>Green Trike</p>
+                  </div>
+                  <div class="description">
+                    <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                  </div>
                 </div>
-              </div>
-               <div class="color-code-red d-flex mt-3">
-                <div class="mt-2 center">
-                  <img src="assets/images/red-trike.png" alt="Gree Trike Image">
-                  <p>Red Trike</p>
-                </div>
-                <div class="description">
-                  <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-                </div>
-              </div>
-              <div class="color-code-yellow d-flex mt-3">
-                <div class="mt-2">
-                  <img src="assets/images/yellow-trike.png" alt="Gree Trike Image" class="center">
-                  <p class="pb-1">Yellow Trike</p>
-                </div>
-                <div class="description">
-                  <p class="truncate">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-                </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>
