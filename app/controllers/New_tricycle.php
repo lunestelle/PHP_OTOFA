@@ -48,7 +48,7 @@ class New_tricycle
       ];
 
       $tricycleModel = new Tricycle();
-      $errors = $tricycleModel->validateData($formData);
+      $errors = $tricycleModel->validateData($formData, $tricycleId);
 
       if (!empty($errors)) {
         $errorMessage = $errors[0];

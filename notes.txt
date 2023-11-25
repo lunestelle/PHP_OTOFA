@@ -12,3 +12,7 @@ CREATE TABLE password_resets (
   token VARCHAR(255) NOT NULL,
   expiration_time DATETIME NOT NULL
 );
+
+Update Tricycle Table on Database to include the user_id
+ALTER TABLE tricycles
+ADD COLUMN user_id INT AFTER tricycle_id;
