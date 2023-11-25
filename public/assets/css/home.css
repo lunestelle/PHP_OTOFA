@@ -9,7 +9,7 @@ html {
 }
 
 .container {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -198,7 +198,11 @@ header #toggler{
   background-color: #FF4200;
 }
 
-/* ABOUT */
+/* --- ABOUT --- */
+
+.about {
+  margin-bottom: 2rem !important;
+}
 
 #about .about {
   flex-direction: column;
@@ -260,18 +264,12 @@ header #toggler{
   margin-top: 10px;
   color: white;
   line-height: 18px;
-  font-size: 13px;
+  font-size: 11px !important;
 }
 
 #about .item-title {
   display: flex;
   flex-wrap: wrap;
-}
-
-#about img {
-  margin-right: 10px;
-  height: 70px;
-  width: 70px;
 }
 
 #about .about-item h2 {
@@ -348,16 +346,8 @@ body .reset-email {
   text-justify: inter-word;
 }
 
-/* CSS for large desktop screens */
-@media (min-width: 1200px) {
-  .about{
-    padding: 80px !important;
-  }
-}
-
-/* CSS for laptops and medium-sized desktop screens */
 @media (min-width: 992px) and (max-width: 1199px) {
   .about {
-    padding-top: 180px !important;
+    padding-top: 40px !important;
   }
 }
