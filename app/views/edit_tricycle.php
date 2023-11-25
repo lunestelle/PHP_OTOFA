@@ -108,46 +108,44 @@
                   <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Tricycle images</h6>
                 </div>
                 <div class="row px-3 p-3">
-                  <div class="col-8 d-flex justify-content-between">
-                    <div>
-                      <label class="form-label">Tricycle Front View</label>
-                      <?php
-                        if (isset($tricycleData['front_view_image_path']) && $tricycleData['front_view_image_path']) {
-                          echo '<div class="image-container">';
-                          echo '<img src="' . $front_view_image_path . '" id="front_view_image" alt="Tricycle Front View">';
-                          echo '<button class="remove-image-btn" onclick="removeImage(\'front_view_image\')">X</button>';
-                          echo '</div>';
-                        } else {
-                          echo '<input type="file" name="front_view_image" accept="image/*">';
-                        }
-                        ?>
-                    </div>
-                    <div>
-                      <label class="form-label">Tricycle Back View</label>
-                      <?php
-                      if (isset($back_view_image) && $back_view_image) {
-                        echo '<div class="image-container">';
-                        echo '<img src="' . $back_view_image->file_path . '" id="back_view_image" alt="Tricycle Back View" class="tricycle_image">';
-                        echo '<button class="remove-image-btn" onclick="removeImage(\'back_view_image\')">X</button>';
-                        echo '</div>';
-                      } else {
-                        echo '<input type="file" name="front_view_image" accept="image/*">';
-                      }
-                      ?>
-                    </div>
-                    <div>
-                      <label class="form-label">Tricycle Side View</label>
-                      <?php
-                      if (isset($side_view_image) && $side_view_image) {
-                        echo '<div class="image-container">';
-                        echo '<img src="' . $side_view_image->file_path . '" id="side_view_image" alt="Tricycle Side View">';
-                        echo '<button class="remove-image-btn" onclick="removeImage(\'side_view_image\')">X</button>';
-                        echo '</div>';
-                      } else {
-                        echo '<input type="file" name="front_view_image" accept="image/*">';
-                      }
-                      ?>
-                    </div>
+                  <div class="col-md-4 text-center">
+                    <label class="form-label fw-semibold fs-6">Tricycle Front View</label>
+                    <?php
+                    if (isset($tricycleData['front_view_image_path']) && $tricycleData['front_view_image_path']) {
+                      echo '<div class="image-container position-relative">';
+                      echo '<img src="' . $tricycleData['front_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
+                      echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="removeImage(\'front_view_image\')"></button>';
+                      echo '</div>';
+                    } else {
+                      echo '<input class="form-control" type="file" name="front_view_image" accept="image/*">';
+                    }
+                    ?>
+                  </div>
+                  <div class="col-md-4 text-center">
+                    <label class="form-label fw-semibold fs-6">Tricycle Back View</label>
+                    <?php
+                    if (isset($tricycleData['back_view_image_path']) && $tricycleData['back_view_image_path']) {
+                      echo '<div class="image-container position-relative">';
+                      echo '<img src="' . $tricycleData['back_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="back_view_image" alt="Tricycle Back View">';
+                      echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="removeImage(\'back_view_image\')"></button>';
+                      echo '</div>';
+                    } else {
+                      echo '<input class="form-control" type="file" name="back_view_image" accept="image/*">';
+                    }
+                    ?>
+                  </div>
+                  <div class="col-md-4 text-center">
+                    <label class="form-label fw-semibold fs-6">Tricycle Side View</label>
+                    <?php
+                    if (isset($tricycleData['side_view_image_path']) && $tricycleData['side_view_image_path']) {
+                      echo '<div class="image-container position-relative">';
+                      echo '<img src="' . $tricycleData['side_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
+                      echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="removeImage(\'side_view_image\')"></button>';
+                      echo '</div>';
+                    } else {
+                      echo '<input class="form-control" type="file" name="side_view_image" accept="image/*">';
+                    }
+                    ?>
                   </div>
                 </div>
               </div>
@@ -164,34 +162,6 @@
   </div>
 </main>
 <script>
-  function updateTaripaTable(routeArea) {
-    if (!routeArea) {
-      $("#taripaTableContainer").empty();
-      return;
-    }
-    $.ajax({
-      url: "new_tricycle",
-      method: "POST",
-      data: { route_area: routeArea },
-      dataType: "json",
-      success: function (response) {
-        let tableHtml = '<div id="taripaTableContainer" class="content-container mt-2 p-3">';
-        tableHtml += '<h6>' + routeArea + ' Taripa</h6>';
-        tableHtml += '<table class="table table-bordered table-hover text-center" id="systemTable">';
-        tableHtml += '<thead><tr><th>Barangay</th><th>Regular Rate</th><th>Discounted Rate</th></tr></thead><tbody>';
-        // Loop through the taripa data to generate table rows
-        for (let i = 0; i < response.length; i++) {
-          tableHtml += '<tr><td>' + response[i].barangay + '</td><td>' + response[i].regular_rate + '</td><td>' + response[i].discounted_rate + '</td></tr>';
-        }
-        tableHtml += '</tbody></table>';
-        tableHtml += '</div>';
-        $("#taripaTableContainer").html(tableHtml);
-      },
-      error: function () {
-        alert("Failed to fetch taripa data. Please try again.");
-      },
-    });
-  }
   $(document).ready(function () {
     $("#color_code").change(function () {
       let selectedColorCode = $(this).val();

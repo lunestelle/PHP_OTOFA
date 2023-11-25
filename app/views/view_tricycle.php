@@ -76,46 +76,82 @@
                 </div>
               </div>
             </div>
+
             <div class="content-container mt-3">
               <div class="bckgrnd pt-2">
                 <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Tricycle images</h6>
               </div>
               <div class="row px-3 p-3">
-                <div class="col-8 d-flex justify-content-between">
-                  <div>
-                    <p class="form-label">Tricycle Front View</p>
-                    <?php
-                    if (isset($front_view_image) && $front_view_image) {
-                      echo '<img src="' . $front_view_image->file_path . '" id="front_view_image" alt="Tricycle Front View">';
+                <div class="col-md-4 text-center">
+                  <p class="form-label fw-semibold fs-6">Tricycle Front View</p>
+                  <?php
+                    if (isset($front_view_image_path) && $front_view_image_path) {
+                      echo '<div class="image-container position-relative">';
+                      echo '<img src="' . $front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
+                      echo '</div>';
                     } else {
                       echo '<p class="form-label">Front view image not available</p>';
                     }
-                    ?>
-                  </div>
-                  <div>
-                    <p class="form-label">Tricycle Back View</p>
-                    <?php
-                      if (isset($back_view_image) && $back_view_image) {
-                        echo '<img src="' . $back_view_image->file_path . '" id="back_view_image" alt="Tricycle Back View" class="tricycle_image">';
-                      } else {
-                        echo '<p class="form-label">Back view image not available</p>';
-                      }
-                    ?>
-                  </div>
-                  <div>
-                    <p class="form-label">Tricycle Side View</p>
-                    <?php
-                      if (isset($side_view_image) && $side_view_image) {
-                        echo '<img src="' . $side_view_image->file_path . '" id="side_view_image" alt="Tricycle Side View">';
-                      } else {
-                        echo '<p class="form-label">Tricycle side view image not available</p>';
-                      }
-                    ?>
-                  </div>
+                  ?>
+                </div>
+                <div class="col-md-4 text-center">
+                  <p class="form-label fw-semibold fs-6">Tricycle Back View</p>
+                  <?php
+                    if (isset($back_view_image_path) && $back_view_image_path) {
+                      echo '<div class="image-container position-relative">';
+                      echo '<img src="' . $back_view_image_path . '" class="img-fluid rounded fixed-height-image" id="back_view_image" alt="Tricycle Back View">';
+                      echo '</div>';
+                    } else {
+                      echo '<p class="form-label">Back view image not available</p>';
+                    }
+                  ?>
+                </div>
+                <div class="col-md-4 text-center">
+                  <p class="form-label fw-semibold fs-6">Tricycle Side View</p>
+                  <?php
+                    if (isset($side_view_image_path) && $side_view_image_path) {
+                      echo '<div class="image-container position-relative">';
+                      echo '<img src="' . $side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
+                      echo '</div>';
+                    } else {
+                      echo '<p class="form-label">Tricycle side view image not available</p>';
+                    }
+                  ?>
                 </div>
               </div>
-              <div id="taripaTableContainer" >
-                <!-- show here the taripa of the selected route area -->
+            </div>
+
+            <div id="taripaTableContainer" class="content-container mt-2">
+              <div class="bckgrnd pt-2">
+                <?php
+                  $taripaTitle = isset($route_area) ? $route_area : '';
+                  $taripaTitle .= isset($recentYear) ? ' &mdash; ' . $recentYear . ' TARIPA' : '';
+                ?>
+                <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">
+                  <?php echo $taripaTitle; ?>
+                </h6>
+              </div>
+              <div class="row px-3 p-4">
+                <table class="table-bordered table-hover text-center" id="systemTable">
+                  <thead>
+                    <tr>
+                      <th class="text-white text-center" style="background-color:#090C1B !important;">Barangay</th>
+                      <th class="text-white text-center" style="background-color:#090C1B !important;">Regular Rate</th>
+                      <th class="text-white text-center" style="background-color:#090C1B !important;">Student Rate</th>
+                      <th class="text-white text-center" style="background-color:#090C1B !important;">Senior Citizen & PWD Rate</th>
+                    </tr>
+                </thead>
+                  <tbody>
+                    <?php foreach ($recentTaripaData as $taripa): ?>
+                      <tr>
+                        <td><?php echo $taripa['barangay']; ?></td>
+                        <td><?php echo '₱' . number_format($taripa['regular_rate'], 2); ?></td>
+                        <td><?php echo '₱' . number_format($taripa['student_rate'], 2); ?></td>
+                        <td><?php echo '₱' . number_format($taripa['senior_and_pwd_rate'], 2); ?></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
               </div>
             </div>
 
@@ -128,39 +164,3 @@
     </div>
   </div>
 </main>
-<script>
-  function updateTaripaTable(routeArea) {
-    if (!routeArea) {
-      $("#taripaTableContainer").empty();
-      return;
-    }
-    $.ajax({
-      url: "new_tricycle",
-      method: "POST",
-      data: { route_area: routeArea },
-      dataType: "json",
-      success: function (response) {
-        let tableHtml = '<div id="taripaTableContainer" class="content-container mt-2 p-3">';
-        tableHtml += '<h6>' + routeArea + ' Taripa</h6>';
-        tableHtml += '<table class="table table-bordered table-hover text-center" id="systemTable">';
-        tableHtml += '<thead><tr><th>Barangay</th><th>Regular Rate</th><th>Discounted Rate</th></tr></thead><tbody>';
-        // Loop through the taripa data to generate table rows
-        for (let i = 0; i < response.length; i++) {
-          tableHtml += '<tr><td>' + response[i].barangay + '</td><td>' + response[i].regular_rate + '</td><td>' + response[i].discounted_rate + '</td></tr>';
-        }
-        tableHtml += '</tbody></table>';
-        tableHtml += '</div>';
-        $("#taripaTableContainer").html(tableHtml);
-      },
-      error: function () {
-        alert("Failed to fetch taripa data. Please try again.");
-      },
-    });
-  }
- $(document).ready(function () {
-    $("#route_area").change(function () {
-      let selectedRouteArea = $(this).val();
-      updateTaripaTable(selectedRouteArea);
-    });
-  });
-</script>

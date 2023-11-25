@@ -35,23 +35,50 @@ class Edit_tricycle
         'or_no' => $_POST['or_no'],
         'or_date' => $_POST['or_date'],
         'tricycle_status' => $_POST['tricycle_status'],
+        'front_view_image' => $_FILES['front_view_image'] ?? '',
+        'back_view_image' => $_FILES['back_view_image'] ?? '',
+        'side_view_image' => $_FILES['side_view_image'] ?? '',
       ];
 
-      $validationErrors = $tricycleModel->validateData($dataToUpdate);
+      $originalPlateNumber = $tricycleData->plate_no;
+
+      if ($_POST['plate_no'] !== $originalPlateNumber) {
+        $validationErrors = $tricycleModel->validateData(['plate_no' => $_POST['plate_no']]);
+          if (!empty($validationErrors)) {
+            set_flash_message($validationErrors[0], "error");
+            $data['dataToUpdate'] = $dataToUpdate;
+          } else {
+            $dataToUpdate['plate_no'] = $_POST['plate_no'];
+          }
+      }
+
+
+      $validationErrors = $tricycleModel->validateData($dataToUpdate, $tricycleId);
 
       if (!empty($validationErrors)) {
         set_flash_message($validationErrors[0], "error");
-        $data = array_merge($dataToUpdate, $data);
-        echo $this->renderView('edit_tricycle', true, $data);
-        return;
+        $data['dataToUpdate'] = $dataToUpdate;
       } else {
-        $tricycleModel->update(['tricycle_id' => $tricycleId], $dataToUpdate);
-        set_flash_message("Tricycle updated successfully.", "success");
-        redirect('tricycles');
+        $imagePaths = $this->handleFileUploads($dataToUpdate);
+
+        if ($imagePaths === false) {
+          set_flash_message("Failed to upload images.", "error");
+          redirect('tricycles');
+        }
+
+        $dataToUpdate['front_view_image_path'] = $imagePaths['front_view_image'];
+        $dataToUpdate['back_view_image_path'] = $imagePaths['back_view_image'];
+        $dataToUpdate['side_view_image_path'] = $imagePaths['side_view_image'];
+
+        if ($tricycleModel>update(['tricycle_id' => $tricycleId], $dataToUpdate)) {
+          set_flash_message("Tricycle updated successfully.", "success");
+          redirect('tricycles');
+        } else {
+          set_flash_message("Failed to update tricycle.", "error");
+        }
       }
     }
 
-    // Load available plate numbers
     $selectedPlateNumber = $tricycleData->plate_no;
     $availablePlateNumbers = $this->getAvailablePlateNumbers($tricycleModel, $selectedPlateNumber);
 
@@ -104,4 +131,36 @@ class Edit_tricycle
 
     return $availablePlateNumbers;
   }
+
+  private function handleFileUploads($dataToUpdate)
+{
+    $uploadDirectory = '../uploads/tricycle_images/';
+
+    $frontImageName = 'front_view_image';
+    $backImageName = 'back_view_image';
+    $sideImageName = 'side_view_image';
+
+    // Define the file paths
+    $frontImagePath = $uploadDirectory . basename($_FILES[$frontImageName]['name']);
+    $backImagePath = $uploadDirectory . basename($_FILES[$backImageName]['name']);
+    $sideImagePath = $uploadDirectory . basename($_FILES[$sideImageName]['name']);
+
+    // Move uploaded files to destination
+    if (
+        move_uploaded_file($_FILES[$frontImageName]['tmp_name'], $frontImagePath) &&
+        move_uploaded_file($_FILES[$backImageName]['tmp_name'], $backImagePath) &&
+        move_uploaded_file($_FILES[$sideImageName]['tmp_name'], $sideImagePath)
+    ) {
+        // Return file paths if upload is successful
+        return [
+            'front_view_image' => $frontImagePath,
+            'back_view_image' => $backImagePath,
+            'side_view_image' => $sideImagePath,
+        ];
+    } else {
+        // Return false if any of the file uploads fail
+        return false;
+    }
+}
+
 }
