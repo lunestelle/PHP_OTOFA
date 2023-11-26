@@ -6,8 +6,7 @@ class Tricycle
 
   protected $table = 'tricycles';
   protected $order_column = 'tricycle_id';
-  protected $allowedColumns = ['make_model', 'year_acquired', 'color_code', 'route_area', 'plate_no', 'driver_id', 'or_no', 'or_date', 'tricycle_status', 'front_view_image_path', 'back_view_image_path', 'side_view_image_path'];
-
+  protected $allowedColumns = ['tricycle_id', 'make_model', 'year_acquired', 'color_code', 'route_area', 'plate_no', 'driver_id', 'or_no', 'or_date', 'tricycle_status', 'front_view_image_path', 'back_view_image_path', 'side_view_image_path'];
 
   public function validateData($data)
   {
@@ -20,7 +19,7 @@ class Tricycle
     if (empty($data['year_acquired'])) {
       $errors[] = 'Year Acquired is required.';
     } elseif (!is_numeric($data['year_acquired']) || $data['year_acquired'] > date('Y')) {
-        $errors[] = 'Year Acquired should be a valid year and <br> should not exceed the current year.';
+      $errors[] = 'Year Acquired should be a valid year and should not exceed the current year.';
     }
 
     if (empty($data['color_code'])) {
@@ -33,8 +32,6 @@ class Tricycle
 
     if (empty($data['plate_no'])) {
       $errors[] = 'Plate No. is required.';
-    } elseif ($this->plateNumberExists($data['plate_no'])) {
-      $errors[] = 'Plate No. is already in use.';
     }
 
     if (empty($data['driver_id'])) {
@@ -53,26 +50,20 @@ class Tricycle
       $errors[] = 'Tricycle Status is required.';
     }
 
-    if (empty($data['front_view_image'])) {
-      $errors[] = 'Front View Image is required.';
-    }
-  
-    if (empty($data['back_view_image'])) {
-      $errors[] = 'Back View Image is required.';
-    }
-    
-    if (empty($data['side_view_image'])) {
-      $errors[] = 'Side View Image is required.';
-    }
-  
-
     return $errors;
   }
 
-  public function plateNumberExists($plateNo)
+  public function plateNumberExists($plateNo, $excludeTricycleId = null)
   {
-    $result = $this->where(['plate_no' => $plateNo]);
-		return !empty($result);
+    $conditions = ['plate_no' => $plateNo];
+
+    // Exclude the current tricycle ID if available
+    if ($excludeTricycleId !== null) {
+      $conditions['tricycle_id !='] = $excludeTricycleId;
+    }
+
+    $result = $this->where($conditions);
+    return !empty($result);
   }
 
   public function pluck($column)

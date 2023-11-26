@@ -42,9 +42,6 @@ class New_tricycle
         'or_no' => $_POST['or_no'] ?? '',
         'or_date' => $_POST['or_date'] ?? '',
         'tricycle_status' => $_POST['tricycle_status'] ?? '',
-        'front_view_image' => $_FILES['front_view_image'] ?? '',
-        'back_view_image' => $_FILES['back_view_image'] ?? '',
-        'side_view_image' => $_FILES['side_view_image'] ?? '',
       ];
 
       $tricycleModel = new Tricycle();
@@ -53,26 +50,36 @@ class New_tricycle
       if (!empty($errors)) {
         $errorMessage = $errors[0];
         set_flash_message($errorMessage, "error");
-        
+
         // Only merge form data if there are errors
         $data['formData'] = $formData;
       } else {
-        $imagePaths = $this->handleFileUploads($formData);
+        // Check if any files were uploaded
+        if (!empty($_FILES['front_view_image']['name']) && !empty($_FILES['back_view_image']['name']) && !empty($_FILES['side_view_image']['name'])) {
+          $imagePaths = $this->handleFileUploads($formData);
 
-        if ($imagePaths === false) {
-          set_flash_message("Failed to upload images.", "error");
-          redirect('tricycles');
-        }
+          if ($imagePaths === false) {
+            set_flash_message("Failed to upload images.", "error");
+            redirect('tricycles');
+          }
 
-        $formData['front_view_image_path'] = $imagePaths['front_view_image'];
-        $formData['back_view_image_path'] = $imagePaths['back_view_image'];
-        $formData['side_view_image_path'] = $imagePaths['side_view_image'];
+          $formData['front_view_image_path'] = $imagePaths['front_view_image'];
+          $formData['back_view_image_path'] = $imagePaths['back_view_image'];
+          $formData['side_view_image_path'] = $imagePaths['side_view_image'];
 
-        if ($tricycleModel->insert($formData)) {
-          set_flash_message("Tricycle added successfully.", "success");
-          redirect('tricycles');
+          if ($tricycleModel->insert($formData)) {
+            set_flash_message("Tricycle added successfully.", "success");
+            redirect('tricycles');
+          } else {
+            set_flash_message("Failed to add tricycle. Please try again.", "error");
+          }
         } else {
-          set_flash_message("Failed to add tricycle.", "error");
+          if ($tricycleModel->insert($formData)) {
+            set_flash_message("Tricycle added successfully.", "success");
+            redirect('tricycles');
+          } else {
+            set_flash_message("Failed to add tricycle. Please try again.", "error");
+          }
         }
       }
     }
@@ -82,7 +89,8 @@ class New_tricycle
 
   private function handleFileUploads($formData)
   {
-    $uploadDirectory = '../uploads/tricycle_images/';
+    $uniqueId = uniqid();
+    $uploadDirectory = '../uploads/tricycle_images/' . $uniqueId;
 
     $frontImageName = 'front_view_image';
     $backImageName = 'back_view_image';

@@ -24,65 +24,10 @@ class Edit_tricycle
     $driverModel = new Driver();
     $drivers = $driverModel->findAll();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
-      $dataToUpdate = [
-        'make_model' => $_POST['make_model'],
-        'year_acquired' => $_POST['year_acquired'],
-        'color_code' => $_POST['color_code'],
-        'route_area' => $_POST['route_area'],
-        'plate_no' => $_POST['plate_no'],
-        'driver_id' => $_POST['driver_id'],
-        'or_no' => $_POST['or_no'],
-        'or_date' => $_POST['or_date'],
-        'tricycle_status' => $_POST['tricycle_status'],
-        'front_view_image' => $_FILES['front_view_image'] ?? '',
-        'back_view_image' => $_FILES['back_view_image'] ?? '',
-        'side_view_image' => $_FILES['side_view_image'] ?? '',
-      ];
-
-      $originalPlateNumber = $tricycleData->plate_no;
-
-      if ($_POST['plate_no'] !== $originalPlateNumber) {
-        $validationErrors = $tricycleModel->validateData(['plate_no' => $_POST['plate_no']]);
-          if (!empty($validationErrors)) {
-            set_flash_message($validationErrors[0], "error");
-            $data['dataToUpdate'] = $dataToUpdate;
-          } else {
-            $dataToUpdate['plate_no'] = $_POST['plate_no'];
-          }
-      }
-
-
-      $validationErrors = $tricycleModel->validateData($dataToUpdate, $tricycleId);
-
-      if (!empty($validationErrors)) {
-        set_flash_message($validationErrors[0], "error");
-        $data['dataToUpdate'] = $dataToUpdate;
-      } else {
-        $imagePaths = $this->handleFileUploads($dataToUpdate);
-
-        if ($imagePaths === false) {
-          set_flash_message("Failed to upload images.", "error");
-          redirect('tricycles');
-        }
-
-        $dataToUpdate['front_view_image_path'] = $imagePaths['front_view_image'];
-        $dataToUpdate['back_view_image_path'] = $imagePaths['back_view_image'];
-        $dataToUpdate['side_view_image_path'] = $imagePaths['side_view_image'];
-
-        if ($tricycleModel>update(['tricycle_id' => $tricycleId], $dataToUpdate)) {
-          set_flash_message("Tricycle updated successfully.", "success");
-          redirect('tricycles');
-        } else {
-          set_flash_message("Failed to update tricycle.", "error");
-        }
-      }
-    }
-
+    // Get available plate numbers
     $selectedPlateNumber = $tricycleData->plate_no;
     $availablePlateNumbers = $this->getAvailablePlateNumbers($tricycleModel, $selectedPlateNumber);
 
- 
     $data = [
       'tricycleData' => [
         'make_model' => $tricycleData->make_model,
@@ -100,8 +45,10 @@ class Edit_tricycle
       ],
       'drivers' => [],
       'availablePlateNumbers' => $availablePlateNumbers,
+      'tricycleId' => $tricycleId,
     ];
 
+    // Map drivers for the dropdown
     foreach ($drivers as $driver) {
       $data['drivers'][$driver->driver_id] = [
         'driver_id' => $driver->driver_id,
@@ -109,8 +56,109 @@ class Edit_tricycle
       ];
     }
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $postData = [
+        'make_model' => $_POST['make_model'] ?? '',
+        'year_acquired' => $_POST['year_acquired'] ?? '',
+        'color_code' => $_POST['color_code'] ?? '',
+        'route_area' => $_POST['route_area'] ?? '',
+        'plate_no' => $_POST['plate_no'] ?? '',
+        'driver_id' => $_POST['driver_id'] ?? '',
+        'or_no' => $_POST['or_no'] ?? '',
+        'or_date' => $_POST['or_date'] ?? '',
+        'tricycle_status' => $_POST['tricycle_status'] ?? '',
+        'front_view_image' => $_FILES['front_view_image'] ?? '',
+        'back_view_image' => $_FILES['back_view_image'] ?? '',
+        'side_view_image' => $_FILES['side_view_image'] ?? '',
+      ];
+
+      if (isset($_POST['confirm_delete_image'])) {
+        $imageType = $_POST['image_type'];
+        $imagePathColumn = "{$imageType}_view_image_path";
+        
+        // Check if the file exists before attempting to delete
+        if (file_exists($_POST['original_image_path'])) {
+          $deleted = unlink($_POST['original_image_path']);
+          
+          // Update the database column with an empty value if deletion was successful
+          if ($deleted) {
+            $tricycleModel->update(['tricycle_id' => $tricycleId], [$imagePathColumn => null]);
+            set_flash_message("Image deleted successfully.", "success");
+            redirect('edit_tricycle?tricycle_id=' . $tricycleId);
+          } else {
+            set_flash_message("Failed to delete the image.", "error");
+            redirect('edit_tricycle?tricycle_id=' . $tricycleId);
+          }
+        } else {
+          set_flash_message("File not found. Image may have been deleted already.", "error");
+          redirect('edit_tricycle?tricycle_id=' . $tricycleId);
+        }
+      }
+      
+      if (isset($_POST['update_tricycle'])) {
+        $validationErrors = $tricycleModel->validateData($postData);
+
+        if (!empty($validationErrors)) {
+          set_flash_message($validationErrors[0], "error");
+          $data['postData'] = $postData;
+        } else {
+          // Check if the images are removed
+          $isFrontImageRemoved = empty($_FILES['front_view_image']['name']);
+          $isBackImageRemoved = empty($_FILES['back_view_image']['name']);
+          $isSideImageRemoved = empty($_FILES['side_view_image']['name']);
+
+          // Check if new front view image is uploaded, otherwise use the original path
+          $frontViewImagePath = $isFrontImageRemoved
+            ? $_POST['original_front_view_image']
+            : $this->handleFileUpload($postData['front_view_image'], 'front_view_image');
+
+          // Similar checks for back and side view images
+          $backViewImagePath = $isBackImageRemoved
+            ? $_POST['original_back_view_image']
+            : $this->handleFileUpload($postData['back_view_image'], 'back_view_image');
+
+          $sideViewImagePath = $isSideImageRemoved
+            ? $_POST['original_side_view_image']
+            : $this->handleFileUpload($postData['side_view_image'], 'side_view_image');
+
+          $postData['front_view_image_path'] = $frontViewImagePath;
+          $postData['back_view_image_path'] = $backViewImagePath;
+          $postData['side_view_image_path'] = $sideViewImagePath;
+
+          // Update tricycle data
+          if ($tricycleModel->update(['tricycle_id' => $tricycleId], $postData)) {
+            set_flash_message("Tricycle updated successfully.", "success");
+            redirect('tricycles');
+          } else {
+            set_flash_message("Failed to update tricycle.", "error");
+          }
+        }
+        
+      }
+      
+    }
     echo $this->renderView('edit_tricycle', true, $data);
   }
+
+  private function handleFileUpload($file, $imageName)
+  {
+    $uploadDirectory = '../uploads/tricycle_images/';
+    
+    // Check if the file was uploaded without errors
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+      // Handle the error appropriately (e.g., log it or return an error message)
+      return '';
+    }
+
+    $imagePath = $uploadDirectory . basename($file['name']);
+
+    if (move_uploaded_file($file['tmp_name'], $imagePath)) {
+      return $imagePath;
+    } else {
+      return '';
+    }
+  }
+
 
   private function getAvailablePlateNumbers($tricycleModel, $selectedPlateNumber)
   {
@@ -126,41 +174,7 @@ class Edit_tricycle
     // Exclude plate numbers that are in the database
     $availablePlateNumbers = array_merge($availablePlateNumbers, array_diff($allPlateNumbersRange, $allPlateNumbers));
 
-    // Sort the plate numbers
     sort($availablePlateNumbers);
-
     return $availablePlateNumbers;
   }
-
-  private function handleFileUploads($dataToUpdate)
-{
-    $uploadDirectory = '../uploads/tricycle_images/';
-
-    $frontImageName = 'front_view_image';
-    $backImageName = 'back_view_image';
-    $sideImageName = 'side_view_image';
-
-    // Define the file paths
-    $frontImagePath = $uploadDirectory . basename($_FILES[$frontImageName]['name']);
-    $backImagePath = $uploadDirectory . basename($_FILES[$backImageName]['name']);
-    $sideImagePath = $uploadDirectory . basename($_FILES[$sideImageName]['name']);
-
-    // Move uploaded files to destination
-    if (
-        move_uploaded_file($_FILES[$frontImageName]['tmp_name'], $frontImagePath) &&
-        move_uploaded_file($_FILES[$backImageName]['tmp_name'], $backImagePath) &&
-        move_uploaded_file($_FILES[$sideImageName]['tmp_name'], $sideImagePath)
-    ) {
-        // Return file paths if upload is successful
-        return [
-            'front_view_image' => $frontImagePath,
-            'back_view_image' => $backImagePath,
-            'side_view_image' => $sideImagePath,
-        ];
-    } else {
-        // Return false if any of the file uploads fail
-        return false;
-    }
-}
-
 }
