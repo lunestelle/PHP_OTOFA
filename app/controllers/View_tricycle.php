@@ -21,8 +21,8 @@ class View_tricycle
       redirect('tricycles');
     }
 
-    $driverModel = new Driver();
-    $driverData = $driverModel->first(['driver_id' => $tricycleData->driver_id]);
+    $userModel = new User();
+    $userData = $userModel->first(['user_id' => $tricycleData->user_id]);
 
     $data = [
       'plate_no' => $tricycleData->plate_no,
@@ -31,7 +31,7 @@ class View_tricycle
       'color_code' => $tricycleData->color_code,
       'route_area' => $tricycleData->route_area,
       'tricycle_status' => $tricycleData->tricycle_status,
-      'driver_name' => isset($driverData) ? $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name : '',
+      'user_name' => isset($userData) ? $userData->first_name . ' ' . $userData->last_name : '',
       'or_no' => $tricycleData->or_no,
       'or_date' => $tricycleData->or_date,
       'front_view_image_path' => $tricycleData->front_view_image_path,

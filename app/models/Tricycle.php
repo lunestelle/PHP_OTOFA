@@ -6,7 +6,7 @@ class Tricycle
 
   protected $table = 'tricycles';
   protected $order_column = 'tricycle_id';
-  protected $allowedColumns = ['tricycle_id', 'make_model', 'year_acquired', 'color_code', 'route_area', 'plate_no', 'driver_id', 'or_no', 'or_date', 'tricycle_status', 'front_view_image_path', 'back_view_image_path', 'side_view_image_path'];
+  protected $allowedColumns = ['tricycle_id', 'make_model', 'year_acquired', 'color_code', 'route_area', 'plate_no', 'user_id', 'or_no', 'or_date', 'tricycle_status', 'front_view_image_path', 'back_view_image_path', 'side_view_image_path'];
 
   public function validateData($data)
   {
@@ -34,7 +34,7 @@ class Tricycle
       $errors[] = 'Plate No. is required.';
     }
 
-    if (empty($data['driver_id'])) {
+    if (empty($data['user_id'])) {
       $errors[] = 'Driver is required.';
     }
 
