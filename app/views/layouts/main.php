@@ -134,7 +134,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
               </li>
               <li class="nav-item" id="maintenanceDropdown">
                 <a class="nav-link text-white d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
-                <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-white <?php if ($current_page_is_maintenance) echo 'show'; ?>">
+                <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-warning <?php if ($current_page_is_maintenance) echo 'show'; ?>">
                 <div>
                     <li class="nav-item mt-2 pt-1 px-2">
                       <a class="nav-link text-white fw-bold" href="taripa">Taripa</a>
@@ -147,13 +147,13 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
               </li>
               <?php } ?>
             </ul><br><br>
+          </nav>
         </div>
         <div class="flex-grow-1"></div>
         <br>
-      </nav>
-      {{content}}
+        {{content}}
+      </div>
     </div>
-  </div>
 
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

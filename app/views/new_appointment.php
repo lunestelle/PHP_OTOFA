@@ -8,8 +8,10 @@
         <div class="col-12 pt-2">
           <div class="container pt-4">
             <div id="newAppointmentForm">
-              <div class="content-container mt-2 p-3" style="<?php echo ($currentSection === 0) ? 'display: block;' : 'display: none;'; ?>">
-                <h6 class="pl-2 text-uppercase text-center">Appointment Information</h6>
+              <div class="content-container mt-2 pb-3"  style="<?php echo ($currentSection === 0) ? 'display: block;' : 'display: none;'; ?>">
+                <div class="bckgrnd pt-2">
+                  <h6 class="pl-2 text-uppercase text-center text-light fs-6">Appointment Information</h6>
+                </div>
                 <form class="default-form" method="POST" action="" id="appointmentInformationForm">
                   <div class="container">
                     <div class="d-flex justify-content-center">
@@ -216,8 +218,11 @@
               <div class="text-end my-5">
                 <button type="button" class="d-none" id="submitBothFormsButton">Submit Both Forms</button>
                 <button type="button" class="sidebar-btnContent sched-button d-none">Schedule Appointment</button>
-                <button type="button" class="sidebar-btnContent next-button d-none mt-5 px-4">Next</button>
+                <button type="button" class="sidebar-btnContent next-button d-none mt-2 px-4">Next</button>
                 <button type="button" class="sidebar-btnContent prev-button d-none" style="margin-right: 10px;">Previous</button> 
+              </div>
+              <div class="text-end my-3">
+                <a href="./appointments"><button class="cancel-btn mt-2">Back</button></a>
               </div>
             </div>
           </div>

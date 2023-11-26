@@ -7,8 +7,10 @@
       <div class="row">
         <div class="col-12 pt-2">
           <div id="newDriverForm">
-            <div class="content-container mt-2 p-3">
-              <h6 class="pl-2 text-uppercase">Operator Information</h6>
+            <div class="content-container mt-2 pb-4">
+              <div class="bckgrnd pt-2 mb-4">
+                <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Operator Information</h6>
+              </div>
               <div class="row px-3">
                 <div class="col-md-4">
                   <div class="profile-photo-container text-center mt-3">

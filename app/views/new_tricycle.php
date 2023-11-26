@@ -10,7 +10,7 @@
             <form class="default-form" method="POST" action="" enctype="multipart/form-data">
               <div class="content-container mt-2">
                 <div class="bckgrnd pt-2">
-                  <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Motor Unit</h6>
+                  <h6 class="pl-2 text-uppercase text-center text-light fs-6">Motor Unit</h6>
                 </div>
                 <div class="row px-3 p-4">
                   <div class="col-12 d-flex justify-content-between">
@@ -103,9 +103,9 @@
                 </div>
               </div>
 
-              <div class="content-container mt-3">
+              <div class="content-container mt-4">
                 <div class="bckgrnd pt-2">
-                    <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Tricycle images</h6>
+                    <h6 class="pl-2 text-uppercase text-center text-light fs-6">Tricycle images</h6>
                 </div>
                 <div class="row justify-content-evenly px-3 p-3">
                     <div class="col-12 d-flex justify-content-evenly">
@@ -128,6 +128,9 @@
                 <button type="submit" class="sidebar-btnContent" name="add_tricycle">Add Tricycle</button>
               </div>
             </form>
+            <div class="text-end my-3">
+              <a href="./tricycles"><button class="cancel-btn">Back</button></a>
+            </div>
           </div>
         </div>
       </div>

@@ -9,8 +9,10 @@
           <div class="container pt-4">
             <div id="newDriverForm">
               <form class="default-form" method="POST" action="">
-                <div class="content-container mt-2 p-3">
-                  <h6 class="pl-2 text-uppercase">Driver information</h6>
+                <div class="content-container mx-1 mt-3 pb-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-light fs-6">Driver Information</h6>
+                  </div>
                   <div class="container">
                     <div class="d-flex justify-content-center">
                       <div class="row px-3">

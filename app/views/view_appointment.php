@@ -11,7 +11,7 @@
               <form class="default-form" method="POST" action="">
                 <div class="content-container mx-5 mt-3">
                   <div class="bckgrnd pt-2">
-                    <h6 class="pl-2 text-uppercase text-center text-light fs-6">Appointment Details</h6>
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Appointment Details</h6>
                   </div>
                   <div class="container">
                     <div class="d-flex justify-content-center">

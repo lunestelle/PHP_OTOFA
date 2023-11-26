@@ -4,29 +4,33 @@
       <h6 class="title-head">new taripa</h6>
     </div>
     <form method="post" id="taripaForm">
-      <div class="col-lg-12 mx-auto mt-5 p-3 content-container">
-      <h6 class="pl-2 text-uppercase pb-3">Generate New Taripa</h6>
-        <div class="row mx-auto">
-          <div class="col-12 d-flex justify-content-between">
-            <div class="col-4">
-              <label for="rateAction">Select Rate Action:</label>
-              <select id="rateAction" name="rate_action" class="form-select">
-                <option value="increase" <?= isset($rate_action) && $rate_action === 'increase' ? 'selected' : '' ?>>Increase</option>
-                <option value="decrease" <?= isset($rate_action) && $rate_action === 'decrease' ? 'selected' : '' ?>>Decrease</option>
-              </select>
-            </div>
-            <div class="col-4">
-              <label for="year">Enter Year:</label>
-              <input type="number" id="year" name="year" class="form-control" min="<?= $minYear ?>" max="<?= $currentYear ?>" value="<?= $year ?? '' ?>" required>
-            </div>
-            <div class="col-4">
-              <label for="percentage">Enter Percentage:</label>
-              <input type="number" id="percentage" name="percentage" class="form-control" min="1" max="100" step="1" value="<?= $percentage ?? '' ?>" required>
-            </div>
+      <div class="mx-5">
+        <div class="col-lg-12 mt-5 pb-3 content-container mt-2">
+          <div class="bckgrnd pt-2">
+            <h6 class="pl-2 text-uppercase text-center text-light fs-6">Motor Unit</h6>
           </div>
-          <div class="col-12 mt-5">
-            <button type="submit" class="sidebar-btnContent me-">Calculate</button>
-            <a href="./taripa" class="cancel-btn me-1">Cancel</a>
+          <div class="row mx-auto mt-4 px-3">
+            <div class="col-12 d-flex justify-content-between gap-3">
+              <div class="col-4">
+                <label for="rateAction">Select Rate Action:</label>
+                <select id="rateAction" name="rate_action" class="form-select">
+                  <option value="increase" <?= isset($rate_action) && $rate_action === 'increase' ? 'selected' : '' ?>>Increase</option>
+                  <option value="decrease" <?= isset($rate_action) && $rate_action === 'decrease' ? 'selected' : '' ?>>Decrease</option>
+                </select>
+              </div>
+              <div class="col-4">
+                <label for="year">Enter Year:</label>
+                <input type="number" id="year" name="year" class="form-control" min="<?= $minYear ?>" max="<?= $currentYear ?>" value="<?= $year ?? '' ?>" required>
+              </div>
+              <div class="col-4">
+                <label for="percentage">Enter Percentage:</label>
+                <input type="number" id="percentage" name="percentage" class="form-control" min="1" max="100" step="1" value="<?= $percentage ?? '' ?>" required>
+              </div>
+            </div>
+            <div class="col-12 mt-5">
+              <button type="submit" class="sidebar-btnContent me-">Calculate</button>
+              <a href="./taripa" class="cancel-btn me-1">Cancel</a>
+            </div>
           </div>
         </div>
       </div>
