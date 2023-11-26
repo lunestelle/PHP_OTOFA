@@ -20,6 +20,7 @@ class Drivers
 		if (!empty($driversData)) {
       foreach ($driversData as $driver) {
         $data['drivers'][] = [
+          'driver_id' => $driver->driver_id,
           'name' => $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name,
           'birthdate' => $driver->birth_date,
           'address' => $driver->address,

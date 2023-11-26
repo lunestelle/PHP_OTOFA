@@ -1,7 +1,7 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
     <div class="col-12 text-uppercase nav-top">
-      <h6 class="title-head">edit driver</h6>
+      <h6 class="title-head">Edit Driver</h6>
     </div>
     <div class="col-lg-12 mt-4">
       <div class="row">
@@ -10,7 +10,7 @@
             <div id="newDriverForm">
               <form class="default-form" method="POST" action="">
                 <div class="content-container mt-2 p-3">
-                <h6 class="pl-2 text-uppercase">Driver information</h6>
+                  <h6 class="pl-2 text-uppercase">Driver information</h6>
                   <div class="container">
                     <div class="d-flex justify-content-center">
                       <div class="row px-3">

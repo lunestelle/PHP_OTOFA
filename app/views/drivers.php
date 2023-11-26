@@ -37,8 +37,8 @@
                     <td><?php echo $driver['license_no']; ?></td>
                     <td><?php echo $driver['license_validity']; ?></td>
                     <td>
-                      <a href="./view_driver" class="view_data px-1 me-1" style="color:#26CC00;" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
-                      <a href="./edit_driver" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Product Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>
+                      <a href="./view_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                      <a href="./edit_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Product Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>

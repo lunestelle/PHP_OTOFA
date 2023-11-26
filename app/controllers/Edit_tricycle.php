@@ -131,6 +131,7 @@ class Edit_tricycle
             redirect('tricycles');
           } else {
             set_flash_message("Failed to update tricycle.", "error");
+            redirect('tricycles');
           }
         }
         
