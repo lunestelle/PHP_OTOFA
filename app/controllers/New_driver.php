@@ -29,10 +29,10 @@ class New_driver
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$userId = $_SESSION['USER']->user_id;
 			$formData = [
-				'first_name' => $_POST['first_name'] ?? '',
-				'last_name' => $_POST['last_name'] ?? '',
-				'middle_name' => $_POST['middle_name'] ?? '',
-				'address' => $_POST['address'] ?? '',
+				'first_name' => ucwords($_POST['first_name']) ?? '',
+				'last_name' => ucwords($_POST['last_name']) ?? '',
+				'middle_name' => ucwords($_POST['middle_name']) ?? '',
+				'address' => ucwords($_POST['address']) ?? '',
 				'phone_no' => $_POST['phone_no'] ?? '',
 				'birth_date' => $_POST['birth_date'] ?? '',
 				'license_no' => $_POST['license_no'] ?? '',
