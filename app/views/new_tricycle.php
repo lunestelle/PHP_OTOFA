@@ -105,26 +105,25 @@
 
               <div class="content-container mt-3">
                 <div class="bckgrnd pt-2">
-                  <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Tricycle images</h6>
+                    <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Tricycle images</h6>
                 </div>
-                <div class="row px-3 p-3">
-                  <div class="col-8 d-flex justify-content-between">
-                    <div>
-                      <label for="front_view_image" class="form-label">Tricycle Front View</label>
-                      <input type="file" class="form-control" id="front_view_image" name="front_view_image" required accept="image/*" />
+                <div class="row justify-content-evenly px-3 p-3">
+                    <div class="col-12 d-flex justify-content-evenly">
+                        <div class="text-center">
+                            <label for="front_view_image" class="form-label">Tricycle Front View</label>
+                            <input type="file" class="form-control" id="front_view_image" name="front_view_image" required accept="image/*" />
+                        </div>
+                        <div class="text-center">
+                            <label for="back_view_image" class="form-label">Tricycle Back View</label>
+                            <input type="file" class="form-control" id="back_view_image" name="back_view_image" required accept="image/*" />
+                        </div>
+                        <div class="text-center">
+                            <label for="side_view_image" class="form-label">Tricycle Side View</label>
+                            <input type="file" class="form-control" id="side_view_image" name="side_view_image" required accept="image/*" />
+                        </div>
                     </div>
-                    <div>
-                      <label for="back_view_image" class="form-label">Tricycle Back View</label>
-                      <input type="file" class="form-control" id="back_view_image" name="back_view_image" required accept="image/*" />
-                    </div>
-                    <div>
-                      <label for="side_view_image" class="form-label">Tricycle Side View</label>
-                      <input type="file" class="form-control" id="side_view_image" name="side_view_image" required accept="image/*" />
-                    </div>
-                  </div>
                 </div>
               </div>
-              
               <div class="text-end my-3">
                 <button type="submit" class="sidebar-btnContent" name="add_tricycle">Add Tricycle</button>
               </div>
