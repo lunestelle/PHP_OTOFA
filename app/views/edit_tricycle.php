@@ -19,7 +19,7 @@
                       <select class="form-control" id="make_model" name="make_model" required>
                         <option selected disabled>Please Select Here</option>
                         <option value="Kymco Kargador 150" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Kymco Kargador 150' ? 'selected' : ''; ?>>Kymco Kargador 150</option>
-                        <option value="Honda TMX 125 Alpha" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Honda TMX 125 Alpha' ? 'selected' : ''; ?>>Honda TMX 125 Alpha</option>
+                        <option value="Honda TMX 125 Alpha" <?php echo isset($tricycleData['make_model']) && $tricycleDat['make_model'] === 'Honda TMX 125 Alpha' ? 'selected' : ''; ?>>Honda TMX 125 Alpha</option>
                         <option value="Honda TMX Supremo" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Honda TMX Supremo' ? 'selected' : ''; ?>>Honda TMX Supremo</option>
                         <option value="Honda XRM 125 Dual Sport" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Honda XRM 125 Dual Sport' ? 'selected' : ''; ?>>Honda XRM 125 Dual Sport</option>
                         <option value="Bajaj CT 150 BA" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Bajaj CT 150 BA' ? 'selected' : ''; ?>>Bajaj CT 150 BA</option>
@@ -111,47 +111,62 @@
                   <div class="col-md-4 text-center">
                     <label class="form-label fw-semibold fs-6">Tricycle Front View</label>
                     <?php
-                    if (isset($tricycleData['front_view_image_path']) && $tricycleData['front_view_image_path']) {
-                      echo '<div class="image-container position-relative">';
-                      echo '<img src="' . $tricycleData['front_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
-                      echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="removeImage(\'front_view_image\')"></button>';
-                      echo '</div>';
-                    } else {
-                      echo '<input class="form-control" type="file" name="front_view_image" accept="image/*">';
-                    }
+                      if (isset($tricycleData['front_view_image_path']) && $tricycleData['front_view_image_path']) {
+                        echo '<div class="image-container position-relative">';
+                        echo '<img src="' . $tricycleData['front_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="front" data-original-image="' . $tricycleData['front_view_image_path'] . '"></button>';
+                        echo '</div>';
+                      } else {
+                        echo '<div class="image-container">';
+                        echo '<input class="form-control" type="file" name="front_view_image" id="front_view_image-input" accept="image/*">';
+                        echo '</div>';
+                      }
+                    ?>
+                    <?php
+                      echo '<input type="hidden" name="original_front_view_image" value="' . ($tricycleData['front_view_image_path'] ?? '') . '">';
                     ?>
                   </div>
                   <div class="col-md-4 text-center">
                     <label class="form-label fw-semibold fs-6">Tricycle Back View</label>
                     <?php
-                    if (isset($tricycleData['back_view_image_path']) && $tricycleData['back_view_image_path']) {
-                      echo '<div class="image-container position-relative">';
-                      echo '<img src="' . $tricycleData['back_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="back_view_image" alt="Tricycle Back View">';
-                      echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="removeImage(\'back_view_image\')"></button>';
-                      echo '</div>';
-                    } else {
-                      echo '<input class="form-control" type="file" name="back_view_image" accept="image/*">';
-                    }
+                      if (isset($tricycleData['back_view_image_path']) && $tricycleData['back_view_image_path']) {
+                        echo '<div class="image-container position-relative">';
+                        echo '<img src="' . $tricycleData['back_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="back_view_image" alt="Tricycle Back View">';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="back" data-original-image="' . $tricycleData['back_view_image_path'] . '"></button>';
+                        echo '</div>';
+                      } else {
+                        echo '<div class="image-container">';
+                        echo '<input class="form-control" type="file" name="back_view_image" id="back_view_image-input" accept="image/*">';
+                        echo '</div>';
+                      }
+                    ?>
+                    <?php
+                      echo '<input type="hidden" name="original_back_view_image" value="' . ($tricycleData['back_view_image_path'] ?? '') . '">';
                     ?>
                   </div>
                   <div class="col-md-4 text-center">
                     <label class="form-label fw-semibold fs-6">Tricycle Side View</label>
                     <?php
-                    if (isset($tricycleData['side_view_image_path']) && $tricycleData['side_view_image_path']) {
-                      echo '<div class="image-container position-relative">';
-                      echo '<img src="' . $tricycleData['side_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
-                      echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="removeImage(\'side_view_image\')"></button>';
-                      echo '</div>';
-                    } else {
-                      echo '<input class="form-control" type="file" name="side_view_image" accept="image/*">';
-                    }
+                      if (isset($tricycleData['side_view_image_path']) && $tricycleData['side_view_image_path']) {
+                        echo '<div class="image-container position-relative">';
+                        echo '<img src="' . $tricycleData['side_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="side" data-original-image="' . $tricycleData['side_view_image_path'] . '"></button>';
+                        echo '</div>';
+                      } else {
+                        echo '<div class="image-container">';
+                        echo '<input class="form-control" type="file" name="side_view_image" id="side_view_image-input" accept="image/*">';
+                        echo '</div>';
+                      }
+                    ?>
+                    <?php
+                      echo '<input type="hidden" name="original_side_view_image" value="' . ($tricycleData['side_view_image_path'] ?? '') . '">';
                     ?>
                   </div>
                 </div>
               </div>
 
               <div class="text-end my-3">
-                <button type="submit" class="sidebar-btnContent" name="update">Update</button>
+                <button type="submit" class="sidebar-btnContent" name="update_tricycle">Update</button>
                 <a href="./tricycles" class="cancel-btn">Cancel</a>
               </div>
             </form>
@@ -161,18 +176,44 @@
     </div>
   </div>
 </main>
+<!-- Confirmation Modal -->
+<div class="modal fade" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteImageModalLabel">Delete Image Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this image?
+      </div>
+      <div class="modal-footer">
+        <form method="POST" action="">
+          <input type="hidden" name="image_type" id="imageTypeInput">
+          <input type="hidden" name="original_image_path" id="originalImagePathInput">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger" name="confirm_delete_image">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   $(document).ready(function () {
     $("#color_code").change(function () {
-      let selectedColorCode = $(this).val();
-      let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
-      $("#route_area").val(selectedRouteArea);
-      updateTaripaTable(selectedRouteArea);
+    let selectedColorCode = $(this).val();
+    let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
+    $("#route_area").val(selectedRouteArea);
     });
   });
-  function removeImage(imageId) {
-    // You can add an AJAX call here to remove the image from the server if needed.
-    // For simplicity, let's just remove the image from the DOM in this example.
-    $("#" + imageId).parent(".image-container").remove();
-  }
+
+  $(document).ready(function () {
+    $(".remove-image-btn").click(function () {
+      let imageType = $(this).data("image-type");
+      let originalImagePath = $(this).data("original-image");
+      
+      $("#imageTypeInput").val(imageType);
+      $("#originalImagePathInput").val(originalImagePath);
+    });
+  });
 </script>

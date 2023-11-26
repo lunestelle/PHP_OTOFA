@@ -111,15 +111,15 @@
                     <div class="col-12 d-flex justify-content-evenly">
                         <div class="text-center">
                             <label for="front_view_image" class="form-label">Tricycle Front View</label>
-                            <input type="file" class="form-control" id="front_view_image" name="front_view_image" required accept="image/*" />
+                            <input type="file" class="form-control" id="front_view_image" name="front_view_image" accept="image/*" />
                         </div>
                         <div class="text-center">
                             <label for="back_view_image" class="form-label">Tricycle Back View</label>
-                            <input type="file" class="form-control" id="back_view_image" name="back_view_image" required accept="image/*" />
+                            <input type="file" class="form-control" id="back_view_image" name="back_view_image" accept="image/*" />
                         </div>
                         <div class="text-center">
                             <label for="side_view_image" class="form-label">Tricycle Side View</label>
-                            <input type="file" class="form-control" id="side_view_image" name="side_view_image" required accept="image/*" />
+                            <input type="file" class="form-control" id="side_view_image" name="side_view_image" accept="image/*" />
                         </div>
                     </div>
                 </div>

@@ -90,7 +90,7 @@
                       echo '<img src="' . $front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
                       echo '</div>';
                     } else {
-                      echo '<p class="form-label">Front view image not available</p>';
+                      echo '<p class="form-label">Front View Image not available</p>';
                     }
                   ?>
                 </div>
@@ -102,7 +102,7 @@
                       echo '<img src="' . $back_view_image_path . '" class="img-fluid rounded fixed-height-image" id="back_view_image" alt="Tricycle Back View">';
                       echo '</div>';
                     } else {
-                      echo '<p class="form-label">Back view image not available</p>';
+                      echo '<p class="form-label">Back View Image not available</p>';
                     }
                   ?>
                 </div>
@@ -114,7 +114,7 @@
                       echo '<img src="' . $side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
                       echo '</div>';
                     } else {
-                      echo '<p class="form-label">Tricycle side view image not available</p>';
+                      echo '<p class="form-label">Side View Image not available</p>';
                     }
                   ?>
                 </div>

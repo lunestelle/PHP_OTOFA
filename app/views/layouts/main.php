@@ -101,46 +101,46 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
             <hr>
             <ul class="nav flex-column justify-content-evenly">
               <li class="nav-item">
-                <a href="home" class="nav-link"><i class="fa-solid fa-house"></i><span class="ms-2">Home</span></a>
+                <a href="home" class="nav-link text-white"><i class="fa-solid fa-house"></i><span class="ms-2">Home</span></a>
               </li>
               <li class="nav-item">
-                <a href="dashboard" class="nav-link"><i class="fa-solid fa-list"></i><span class="ms-2">Dashboard</span></a>
+                <a href="dashboard" class="nav-link text-white"><i class="fa-solid fa-list"></i><span class="ms-2">Dashboard</span></a>
               </li>
               <?php if ($userRole === 'operator') { ?>
               <li class="nav-item">
-                <a class="nav-link" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
+                <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-2">Drivers</span></a>
+                <a class="nav-link text-white" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-2">Drivers</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="documents"><i class="fa-solid fa-folder"></i><span class="ms-2">Documents</span></a>
+                <a class="nav-link text-white" href="documents"><i class="fa-solid fa-folder"></i><span class="ms-2">Documents</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
+                <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="maintenance_log"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
+                <a class="nav-link text-white" href="maintenance_log"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
               </li>
               <?php } elseif ($userRole === 'admin') { ?>
               <li class="nav-item">
-                <a class="nav-link" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
+                <a class="nav-link text-white" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
+                <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
+                <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
               </li>
               <li class="nav-item" id="maintenanceDropdown">
-                <a class="nav-link d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
+                <a class="nav-link text-white d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
                 <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-white <?php if ($current_page_is_maintenance) echo 'show'; ?>">
                 <div>
                     <li class="nav-item mt-2 pt-1 px-2">
-                      <a class="nav-link text-dark fw-bold" href="taripa">Taripa</a>
+                      <a class="nav-link text-white fw-bold" href="taripa">Taripa</a>
                     </li>
                     <li class="nav-item mb-2 pb-1 px-2">
-                      <a class="nav-link text-dark fw-bold" href="export">Export</a>
+                      <a class="nav-link text-white fw-bold" href="export">Export</a>
                     </li>
                 </div>
                 </ul>     
@@ -186,5 +186,4 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
       });
     });
   </script>
-
 </html>
