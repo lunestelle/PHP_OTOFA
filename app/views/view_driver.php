@@ -1,3 +1,9 @@
+<?php
+$_SESSION['prev_page'] = $_SERVER['HTTP_REFERER'];
+
+$backUrl = isset($_SESSION['prev_page']) ? $_SESSION['prev_page'] : './drivers';
+?>
+
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
     <div class="col-12 text-uppercase nav-top">
@@ -75,6 +81,12 @@
                               <?php echo isset($license_validity) ? $license_validity : ''; ?>
                             </div>
                           </div>
+                          <div class="col-4">
+                            <p class="form-label">Tricycle Plate Number</p>
+                            <div class="form-control">
+                              <?php echo isset($tricycle_plate_number) && !empty($tricycle_plate_number) ? $tricycle_plate_number : 'No Chosen Tricycle'; ?>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -83,7 +95,7 @@
               </div>
 
               <div class="text-end my-3">
-                <a href="./drivers"><button class="sidebar-btnContent">Back</button></a>
+                <a href="<?php echo $backUrl; ?>"><button class="sidebar-btnContent">Back</button></a>
               </div>
             </div>
           </div>
