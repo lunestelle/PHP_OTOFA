@@ -12,7 +12,7 @@ $(document).ready(function() {
         $(this).removeClass('nav-link-active');
       }
     } else {
-      if (currentUrl.href.includes('new_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('edit_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('view_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('new_driver') && linkUrl.includes('drivers') || currentUrl.href.includes('new_taripa') && linkUrl.includes('taripa') || currentUrl.href.endsWith(linkUrl) || currentUrl.href.includes('view_operator') && linkUrl.includes('operators')) {
+      if (currentUrl.href.includes('new_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('edit_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('view_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('new_driver') && linkUrl.includes('drivers') || currentUrl.href.includes('view_driver') && linkUrl.includes('drivers') || currentUrl.href.includes('edit_driver') && linkUrl.includes('drivers') || currentUrl.href.includes('new_taripa') && linkUrl.includes('taripa') || currentUrl.href.endsWith(linkUrl) || currentUrl.href.includes('view_operator') && linkUrl.includes('operators')) {
         $(this).addClass('nav-link-active');
       } else {
         $(this).removeClass('nav-link-active');
