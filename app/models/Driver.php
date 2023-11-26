@@ -5,7 +5,7 @@ class Driver
   use Model;
 
   protected $table = 'drivers';
-  protected $allowedColumns = ['first_name', 'last_name', 'middle_name', 'address', 'phone_no', 'birth_date', 'license_no', 'license_validity'];
+  protected $allowedColumns = ['first_name', 'last_name', 'middle_name', 'address', 'phone_no', 'birth_date', 'license_no', 'license_validity', 'user_id', 'tricycle_id'];
   protected $order_column = 'driver_id';
 
   public function validateData($formData)
@@ -59,7 +59,7 @@ class Driver
     if (empty($formData['license_validity'])) {
       $errors[] = "License Validity is required.";
     }
-
+    
     return $errors;
   }
 }
