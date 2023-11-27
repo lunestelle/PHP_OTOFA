@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 230px; /* Set a fixed width for the sidebar */
+  width: 200px; /* Set a fixed width for the sidebar */
   z-index: 100;
   padding-top: 20px; /* Adjusted padding to accommodate fixed positioning */
   display: flex;
@@ -31,9 +31,9 @@
   display: block;
 }
 
-@media (max-width: 1030px) {
+@media (mIN-width: 1025px) {
   .sidebar {
-    width: 165px !important;
+    width: 230px !important;
     position: absolute !important;
   }
   .sidebar .collapse {

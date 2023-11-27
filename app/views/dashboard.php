@@ -194,7 +194,8 @@
                           x: {
                             title: {
                               display: true,
-                              text: 'Year'
+                              text: 'Year',
+                              text: 'BARANGAY ALEGRIA'
                             }
                           }
                         }
