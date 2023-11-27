@@ -12,8 +12,21 @@ class Edit_driver {
 
     $driverId = isset($_GET['driver_id']) ? $_GET['driver_id'] : null;
 
-    $driverModel = new Driver(); // Use the correct model (Driver) here
+    $driverModel = new Driver();
     $driverData = $driverModel->first(['driver_id' => $driverId]);
+
+    $tricycleModel = new Tricycle();
+    $tricycles = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+
+
+    $data['tricycles'] = [];
+
+    foreach ($tricycles as $tricycle) {
+      $data['tricycles'][$tricycle->tricycle_id] = [
+        'tricycle_id' => $tricycle->tricycle_id,
+        'plate_no' => $tricycle->plate_no
+      ];
+    }
 
     if (!$driverData) {
       set_flash_message("Driver not found.", "error");
@@ -30,6 +43,7 @@ class Edit_driver {
         'birth_date' => $_POST['birth_date'],
         'license_no' => $_POST['license_no'],
         'license_validity' => $_POST['license_validity'],
+        'tricycle_id' => $_POST['tricycle_id'],
       ];
 
       $result = $driverModel->update(['driver_id' => $driverId], $updatedData);
@@ -43,17 +57,20 @@ class Edit_driver {
       }
     }
 
-    $data = [
-      'first_name' => $driverData->first_name,
-      'last_name' => $driverData->last_name,
-      'middle_name' => $driverData->middle_name,
-      'address' => $driverData->address,
-      'phone_no' => $driverData->phone_no,
-      'birth_date' => $driverData->birth_date,
-      'license_no' => $driverData->license_no,
-      'license_validity' => $driverData->license_validity,
+    $data = array_merge($data, [
+      'driverData' => [
+        'first_name' => $driverData->first_name,
+        'last_name' => $driverData->last_name,
+        'middle_name' => $driverData->middle_name,
+        'address' => $driverData->address,
+        'phone_no' => $driverData->phone_no,
+        'birth_date' => $driverData->birth_date,
+        'license_no' => $driverData->license_no,
+        'license_validity' => $driverData->license_validity,
+        'tricycle_id' => $driverData->tricycle_id,
+      ],
       'driverId' => $driverId,
-    ];
+    ]);
 
     echo $this->renderView('edit_driver', true, $data);
   }
