@@ -114,9 +114,6 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 <a class="nav-link text-white" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-2">Drivers</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white" href="documents"><i class="fa-solid fa-folder"></i><span class="ms-2">Documents</span></a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
               </li>
               <li class="nav-item">
