@@ -11,14 +11,14 @@ class New_tricycle
       redirect('');
     }
 
-    $driverModel = new Driver();
-    $drivers = $driverModel->findAll();
-    $data['drivers'] = [];
+    $userModel = new User();
+    $users = $userModel->where(['role' => 'operator']);
+    $data['users'] = [];
 
-    foreach ($drivers as $driver) {
-      $data['drivers'][$driver->driver_id] = [
-        'driver_id' => $driver->driver_id,
-        'name' => $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name
+    foreach ($users as $user) {
+      $data['users'][$user->user_id] = [
+        'user_id' => $user->user_id,
+        'name' => $user->first_name . ' ' . $user->last_name
       ];
     }
 
@@ -38,7 +38,7 @@ class New_tricycle
         'color_code' => $_POST['color_code'] ?? '',
         'route_area' => $_POST['route_area'] ?? '',
         'plate_no' => $_POST['plate_no'] ?? '',
-        'driver_id' => $_POST['driver_id'] ?? '',
+        'user_id' => $_POST['user_id'] ?? '',
         'or_no' => $_POST['or_no'] ?? '',
         'or_date' => $_POST['or_date'] ?? '',
         'tricycle_status' => $_POST['tricycle_status'] ?? '',

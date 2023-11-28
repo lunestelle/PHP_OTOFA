@@ -47,9 +47,9 @@
                     </div>
                   </div>
                   <div>
-                    <p class="form-label">Driver's Name</p>
+                    <p class="form-label">Operator's Name</p>
                     <div class="form-control">
-                      <?php echo isset($driver_name) ? $driver_name : ''; ?>
+                      <?php echo isset($user_name) ? $user_name : ''; ?>
                     </div>
                   </div>
                 </div>

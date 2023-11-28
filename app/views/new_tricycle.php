@@ -69,12 +69,12 @@
                       </select>
                     </div>
                     <div>
-                      <label for="driver_id" class="form-label">Driver's Name</label>
-                      <select class="form-control" id="driver_id" name="driver_id" required>
-                        <option <?php echo (!isset($_POST['driver_id'])) ? 'selected' : ''; ?> disabled>Please Select Here</option>
-                        <?php foreach ($drivers as $driver): ?>
-                        <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($_POST['driver_id']) && $_POST['driver_id'] == $driver['driver_id']) ? 'selected' : ''; ?>>
-                          <?php echo $driver['name']; ?>
+                      <label for="user_id" class="form-label">Operator's Name</label>
+                      <select class="form-control" id="user_id" name="user_id" required>
+                        <option <?php echo (!isset($_POST['user_id'])) ? 'selected' : ''; ?> disabled>Please Select Here</option>
+                        <?php foreach ($users as $user): ?>
+                        <option value="<?php echo $user['user_id']; ?>" <?php echo (isset($_POST['user_id']) && $_POST['user_id'] == $user['user_id']) ? 'selected' : ''; ?>>
+                          <?php echo $user['name']; ?>
                         </option>
                         <?php endforeach; ?>
                       </select>
@@ -134,7 +134,6 @@
     </div>
   </div>
 </main>
-
 <script>
   $(document).ready(function () {
     $("#color_code").change(function () {

@@ -1,7 +1,7 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
     <div class="col-12 text-uppercase nav-top">
-      <h6 class="title-head">view appointment</h6>
+      <h6 class="title-head">View Appointment</h6>
     </div>
     <div class="col-lg-8 mx-auto mt-4">
       <div class="row">
@@ -23,6 +23,14 @@
                             <p><span class="fw-bolder mr-5">Appointment Type:</span> <?php echo $appointment->appointment_type; ?></p>
                             <p> <span class="fw-bolder mr-5"> Date: </span> <?php echo $appointment->appointment_date; ?></p>
                             <p><span class="fw-bolder mr-5">Time: </span> <?php echo $appointment_time; ?></p>
+                            <hr>
+                            <?php
+                              if (!empty($tricycleApplication)) {
+                                echo '<p><span class="fw-bolder mr-5">Sample of accessing or getting the data for tricycle application: </span>' . $tricycleApplication->operator_name . '</p>';
+                              } else {
+                                echo "Tricycle application not available"; // or some other default message
+                              }
+                            ?>
                           </div>
                         </div>
                       </div>

@@ -11,16 +11,34 @@ class New_driver
 			redirect('');
 		}
 
+		$tricycleModel = new Tricycle();
+		$tricycles = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+		$data['tricycles'] = [];
+
+		if (is_array($tricycles) || is_object($tricycles)) {
+			foreach ($tricycles as $tricycle) {
+				$data['tricycles'][$tricycle->tricycle_id] = [
+					'tricycle_id' => $tricycle->tricycle_id,
+					'plate_no' => $tricycle->plate_no
+				];
+			}
+		} else {
+			$data['tricycles'] = [];
+		}
+
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$userId = $_SESSION['USER']->user_id;
 			$formData = [
-				'first_name' => $_POST['first_name'] ?? '',
-				'last_name' => $_POST['last_name'] ?? '',
-				'middle_name' => $_POST['middle_name'] ?? '',
-				'address' => $_POST['address'] ?? '',
+				'first_name' => ucwords($_POST['first_name']) ?? '',
+				'last_name' => ucwords($_POST['last_name']) ?? '',
+				'middle_name' => ucwords($_POST['middle_name']) ?? '',
+				'address' => ucwords($_POST['address']) ?? '',
 				'phone_no' => $_POST['phone_no'] ?? '',
 				'birth_date' => $_POST['birth_date'] ?? '',
 				'license_no' => $_POST['license_no'] ?? '',
-				'license_validity' => $_POST['license_validity'] ?? ''
+				'license_validity' => $_POST['license_validity'] ?? '',
+				'user_id' => $userId ?? '',
+				'tricycle_id' => $_POST['tricycle_id'] ?? '',
 			];
 
 			$driverModel = new Driver();
@@ -29,7 +47,8 @@ class New_driver
 			if (!empty($errors)) {
 				$errorMessage = $errors[0];
 				set_flash_message($errorMessage, "error");
-				$data = array_merge($formData);
+				$data['tricycle_id'] = $_POST['tricycle_id'] ?? '';
+				$data = array_merge($data, $formData);
 				echo $this->renderView('new_driver', true, $data);
 				return;
 			} else {
@@ -44,7 +63,6 @@ class New_driver
 				}
 			}
 		}
-
-		echo $this->renderView('new_driver', true);
+    echo $this->renderView('new_driver', true, $data);
 	}
 }
