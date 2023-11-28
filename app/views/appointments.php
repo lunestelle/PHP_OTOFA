@@ -69,7 +69,7 @@
                     </td>
                     <td>
                       <a href="<?php echo 'view_appointment?appointment_id=' . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
-                      <?php if ($userRole === 'operator'): ?>
+                      <?php if ($userRole === 'operator' && $appointment['status'] !== "Cancelled"): ?>
                         <a href="#" class="cancel_data px-1 me-1" style="color: #ff6c36;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="updateModalContent('<?php echo $appointment['name']; ?>', '<?php echo $appointment['appointment_date']; ?>', '<?php echo $appointment['appointment_time']; ?>')">
                           <i class="fa-solid fa-times fa-lg"></i>
                         </a>
