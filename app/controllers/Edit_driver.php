@@ -39,15 +39,15 @@ class Edit_driver {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $updatedData = [
-        'first_name' => $_POST['first_name'],
-        'last_name' => $_POST['last_name'],
-        'middle_name' => $_POST['middle_name'],
-        'address' => $_POST['address'],
-        'phone_no' => $_POST['phone_no'],
-        'birth_date' => $_POST['birth_date'],
-        'license_no' => $_POST['license_no'],
-        'license_validity' => $_POST['license_validity'],
-        'tricycle_id' => $_POST['tricycle_id'],
+        'first_name' => $_POST['first_name'] ?? '',
+        'last_name' => $_POST['last_name'] ?? '',
+        'middle_name' => $_POST['middle_name'] ?? '',
+        'address' => $_POST['address'] ?? '',
+        'phone_no' => $_POST['phone_no'] ?? '',
+        'birth_date' => $_POST['birth_date'] ?? '',
+        'license_no' => $_POST['license_no'] ?? '',
+        'license_validity' => $_POST['license_validity'] ?? '',
+        'tricycle_id' => $_POST['tricycle_id'] ?? '',
       ];
 
       $errors = $driverModel->validateData($updatedData );
@@ -55,7 +55,8 @@ class Edit_driver {
       if (!empty($errors)) {
 				$errorMessage = $errors[0];
 				set_flash_message($errorMessage, "error");
-				$data['updatedData'] = $updatedData;
+				$data = array_merge($data, $_POST);
+        redirect('edit_driver?driver_id=' . $driverId);
 			} else {
 				$formattedPhoneNumber = $updatedData ['phone_no'];
 				$updatedData ['phone_no'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
@@ -77,7 +78,7 @@ class Edit_driver {
         'last_name' => $driverData->last_name,
         'middle_name' => $driverData->middle_name,
         'address' => $driverData->address,
-        'phone_no' => $driverData->phone_no,
+        'phone_no' => $this->formatPhoneNumber($driverData->phone_no),
         'birth_date' => $driverData->birth_date,
         'license_no' => $driverData->license_no,
         'license_validity' => $driverData->license_validity,
@@ -87,5 +88,9 @@ class Edit_driver {
     ]);
 
     echo $this->renderView('edit_driver', true, $data);
+  }
+
+  private function formatPhoneNumber($phoneNumber) {
+    return preg_replace('/[^0-9]/', '', str_replace('+63', '', $phoneNumber));
   }
 }
