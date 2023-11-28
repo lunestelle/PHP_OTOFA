@@ -53,6 +53,7 @@ class New_appointment
         'appointment_date' => $_POST['appointment_date'] ?? '',
         'appointment_time' => $_POST['appointment_time'] ?? '',
         'status' => 'Pending',
+        'user_id' => $_SESSION['USER']->user_id,
       ];
 
       $tricycleApplicationFormData = [

@@ -7,6 +7,7 @@ class Appointment
   protected $table = 'appointments';
   protected $allowedColumns = [
     'appointment_id',
+    'user_id',
     'name',
     'phone_number',
     'email',
@@ -59,9 +60,9 @@ class Appointment
     } elseif ($this->isPastDate($data['appointment_date'])) {
       $errors[] = 'Appointment date must be in the future.';
     } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
-      $errors[] = 'Appointments must be scheduled at least one day in advance.';
+      $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
-      $errors[] = 'Appointments cannot be scheduled more than 30 days in advance.';
+      $errors[] = 'Appointments cannot be scheduled more than <br> 30 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
       $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
     }
@@ -69,11 +70,11 @@ class Appointment
     if (empty($data['appointment_time'])) {
       $errors[] = 'Preferred Time is required.';
     } elseif (!$this->isWorkingHour($data['appointment_time'])) {
-      $errors[] = 'Appointments can only be scheduled during government working hours (8:00 AM to 5:00 PM).';
+      $errors[] = 'Appointments can only be scheduled <br> during government working hours (8:00 AM to 5:00 PM).';
     }
 
     if ($this->isSlotTaken($data['appointment_date'], $data['appointment_time'])) {
-      $errors[] = '<strong>The preferred appointment slot is already taken.</strong> Please choose another available slot or select a different date.';
+      $errors[] = '<strong>The preferred appointment slot is already taken.</strong> Please choose <br> another available slot or select a different date.';
     }
    
   

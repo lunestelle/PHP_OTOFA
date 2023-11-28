@@ -1,6 +1,6 @@
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content" id="mainAppointmentForm">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
-    <div class="col-12 text-uppercase nav-top">
+    <div class="col-12 text-uppercase nav-top" id="mainAppointmentForm">
       <h6 class="title-head">Schedule New Appointment</h6>
     </div>
     <div class="col-lg-12 mt-2">
