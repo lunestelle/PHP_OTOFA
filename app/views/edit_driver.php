@@ -47,7 +47,7 @@
                                 <label for="phone_no" class="form-label">Phone No.</label>
                                 <div class="input-group">
                                   <span class="input-group-text">+63</span>
-                                  <input type="text" class="form-control phone-no" id="phone_no" name="phone_no" placeholder="e.g., 9123456789" value="<?php echo isset($driverData['phone_no']) ? $driverData['phone_no'] : ''; ?>" required>
+                                  <input type="text" class="form-control phone-no" id="phone_no" name="phone_no" placeholder="e.g., 9123456789" value="<?php echo isset($driverData['phone_no']) ? substr($driverData['phone_no'], 3) : ''; ?>" required>
                                 </div>
                               </div>
                             </div>

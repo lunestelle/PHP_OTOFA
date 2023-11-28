@@ -39,15 +39,15 @@ class Edit_driver {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $updatedData = [
-        'first_name' => $_POST['first_name'] ?? '',
-        'last_name' => $_POST['last_name'] ?? '',
-        'middle_name' => $_POST['middle_name'] ?? '',
-        'address' => $_POST['address'] ?? '',
-        'phone_no' => $_POST['phone_no'] ?? '',
-        'birth_date' => $_POST['birth_date'] ?? '',
-        'license_no' => $_POST['license_no'] ?? '',
-        'license_validity' => $_POST['license_validity'] ?? '',
-        'tricycle_id' => $_POST['tricycle_id'] ?? '',
+        'first_name' => $_POST['first_name'],
+        'last_name' => $_POST['last_name'],
+        'middle_name' => $_POST['middle_name'],
+        'address' => $_POST['address'],
+        'phone_no' => $_POST['phone_no'],
+        'birth_date' => $_POST['birth_date'],
+        'license_no' => $_POST['license_no'],
+        'license_validity' => $_POST['license_validity'],
+        'tricycle_id' => $_POST['tricycle_id'],
       ];
 
       $errors = $driverModel->validateData($updatedData );
