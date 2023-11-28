@@ -24,13 +24,15 @@ class Drivers
     foreach ($driversData as $driver) {
       $tricyclePlateNo = '';
 
-      foreach ($tricyclesData as $tricycle) {
-        if ($driver->tricycle_id === $tricycle->tricycle_id) {
-          $tricyclePlateNo = $tricycle->plate_no;
-          break;
+      if (!empty($tricyclesData)){
+        foreach ($tricyclesData as $tricycle) {
+          if ($driver->tricycle_id === $tricycle->tricycle_id) {
+            $tricyclePlateNo = $tricycle->plate_no;
+            break;
+          }
         }
       }
-
+      
       $data['drivers'][] = [
         'driver_id' => $driver->driver_id,
         'name' => $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name,
@@ -39,7 +41,7 @@ class Drivers
         'phone_no' => $driver->phone_no,
         'license_no' => $driver->license_no,
         'license_validity' => $driver->license_validity,
-        'tricycle_plate_number' => $tricyclePlateNo,
+        'tricycle_plate_number' => $tricyclePlateNo ?? '',
       ];
     }
   }

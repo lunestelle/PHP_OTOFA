@@ -70,17 +70,19 @@
                               <input type="text" class="form-control" id="license_validity" name="license_validity" value="<?php echo isset($driverData['license_validity']) ? $driverData['license_validity'] : ''; ?>" required>
                             </div>
 
-                            <div class="col-4">
-                              <label for="tricycle_id" class="form-label">Tricycle Plate Number</label>
-                              <select class="form-control" id="tricycle_id" name="tricycle_id" required>
-                                <option value="" disabled <?php echo (!isset($driverData['tricycle_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
-                                <?php foreach ($data['tricycles'] as $tricycle): ?>
-                                  <option value="<?php echo $tricycle['tricycle_id']; ?>" <?php echo (isset($driverData['tricycle_id']) && $driverData['tricycle_id'] == $tricycle['tricycle_id']) ? 'selected' : ''; ?>>
-                                    <?php echo $tricycle['plate_no']; ?>
-                                  </option>
-                                <?php endforeach; ?>
-                              </select>
-                          </div>
+                            <?php if (!empty($tricycles)): ?>
+                              <div class="col-4">
+                                <label for="tricycle_id" class="form-label">Tricycle Plate Number</label>
+                                <select class="form-control" id="tricycle_id" name="tricycle_id" required>
+                                  <option value="" disabled <?php echo (!isset($driverData['tricycle_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
+                                  <?php foreach ($data['tricycles'] as $tricycle): ?>
+                                    <option value="<?php echo $tricycle['tricycle_id']; ?>" <?php echo (isset($driverData['tricycle_id']) && $driverData['tricycle_id'] == $tricycle['tricycle_id']) ? 'selected' : ''; ?>>
+                                      <?php echo $tricycle['plate_no']; ?>
+                                    </option>
+                                  <?php endforeach; ?>
+                                </select>
+                              </div>
+                            <?php endif; ?> 
                           </div>
                         </div>
                       </div>

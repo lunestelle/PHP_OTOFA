@@ -32,11 +32,13 @@ class Driver
       $errors[] = "Phone No. is required.";
     } else {
       $phoneNumber = $formData['phone_no'];
-
+  
       if (strlen($phoneNumber) !== 10) {
-        $errors[] = "Invalid phone number. Please enter <br> a valid 10-digit number after '+63'.";
+        $errors[] = "Invalid phone number. Please enter a valid 10-digit number after '+63'.";
       } elseif (!is_numeric(substr($phoneNumber, 3))) {
-        $errors[] = "Invalid phone number. Please enter <br> only numeric digits (0-9).";
+        $errors[] = "Invalid phone number. Please enter only numeric digits (0-9) after '+63'.";
+      } elseif (strpos($phoneNumber, '+63') === 0) {
+        $errors[] = "Invalid phone number. Please type only the next digit after '+63'.";
       }
     }
 
