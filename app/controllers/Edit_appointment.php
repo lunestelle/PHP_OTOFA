@@ -1,6 +1,6 @@
 <?php
 
-class New_appointment
+class Edit_appointment
 {
   use Controller;
 
@@ -10,6 +10,19 @@ class New_appointment
       set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
       redirect('');
     }
+
+    $appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
+
+    $appointmentModel = new Appointment();
+    $appointmentData = $appointmentModel->first(['appointment_id' => $appointmentId]);
+
+    if (!$appointmentData) {
+      set_flash_message("Appointment not found.", "error");
+      redirect('appointments');
+    }
+
+    $tricycleApplicationModel = new TricycleApplication();
+    $tricycleApplicationFormData = $tricycleApplicationModel->first(['appointment_id' => $appointmentId]);
 
     $driverModel = new Driver();
     $drivers = $driverModel->where(['user_id' => $_SESSION['USER']->user_id]);
@@ -26,6 +39,35 @@ class New_appointment
       $data['drivers'] = [];
     }
 
+    $data = [
+      'name' => $appointmentData->name,
+      'phone_number' => $this->formatPhoneNumber($appointmentData->phone_number),
+      'email' => $appointmentData->email,
+      'appointment_type' => $appointmentData->appointment_type,
+      'appointment_date' => $appointmentData->appointment_date,
+      'appointment_time' => $appointmentData->appointment_time,
+      'status' => $appointmentData->status,
+      'operator_name' => $tricycleApplicationFormData->operator_name,
+      'tricycle_phone_number' => $this->formatPhoneNumber($tricycleApplicationFormData->tricycle_phone_number),
+      'address' => $tricycleApplicationFormData->address,
+      'mtop_no' => $tricycleApplicationFormData->mtop_no,
+      'color_code' => $tricycleApplicationFormData->color_code,
+      'route_area' => $tricycleApplicationFormData->route_area,
+      'make_model' => $tricycleApplicationFormData->make_model,
+      'make_model_expiry_date' => $tricycleApplicationFormData->make_model_expiry_date,
+      'motor_number' => $tricycleApplicationFormData->motor_number,
+      'insurer' => $tricycleApplicationFormData->insurer,
+      'chasis_number' => $tricycleApplicationFormData->chasis_number,
+      'coc_no' => $tricycleApplicationFormData->coc_no,
+      'coc_no_expiry_date' => $tricycleApplicationFormData->coc_no_expiry_date,
+      'plate_number' => $tricycleApplicationFormData->plate_number,
+      'lto_cr_no' => $tricycleApplicationFormData->lto_cr_no,
+      'lto_or_no' => $tricycleApplicationFormData->lto_or_no,
+      'driver_id' => $tricycleApplicationFormData->driver_id,
+      'driver_license_no' => $tricycleApplicationFormData->driver_license_no,
+      'driver_license_expiry_date' => $tricycleApplicationFormData->driver_license_expiry_date,
+    ];
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
       $appointmentModel = new Appointment();
       $tricycleApplicationModel = new TricycleApplication();
@@ -37,8 +79,7 @@ class New_appointment
         'appointment_type' => $_POST['appointment_type'] ?? '',
         'appointment_date' => $_POST['appointment_date'] ?? '',
         'appointment_time' => $_POST['appointment_time'] ?? '',
-        'status' => 'Pending',
-        'user_id' => $_SESSION['USER']->user_id,
+        'status' => $_POST['status'] ?? '',
       ];
 
       $tricycleApplicationFormData = [
@@ -69,41 +110,38 @@ class New_appointment
         $firstError = reset($formErrors);
         set_flash_message($firstError[0], "error");
         $data = array_merge($data, $_POST);
-        echo $this->renderView('new_appointment', true, $data);
+        echo $this->renderView('edit_appointment', true, $data);
         return;
       } else {
         $formattedPhoneNumber = $appointmentFormData['phone_number'];
 				$appointmentFormData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
 
-        if ($appointmentModel->insert($appointmentFormData)) {
-          $lastId = $appointmentModel->getLastInsertedRecord()[0]->appointment_id;
-          $tricycleApplicationFormData['appointment_id'] = $lastId;
-          
+        if ($appointmentModel->update(['appointment_id' => $appointmentId], $appointmentFormData)) {          
           $formattedPhoneNumber = $tricycleApplicationFormData['tricycle_phone_number'];
 				  $tricycleApplicationFormData['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
 
-          if ($tricycleApplicationModel->insert($tricycleApplicationFormData)){
-            set_flash_message("Appointment scheduled successfully.", "success");
+          if ($tricycleApplicationModel->update(['appointment_id' => $appointmentId], $tricycleApplicationFormData)){
+            set_flash_message("Scheduled appointment updated successfully.", "success");
             redirect('appointments');
           } else {
             $appointmentModel->delete($lastId);
-            set_flash_message("Failed to schedule appointment. Please try again later.", "error");
+            set_flash_message("Failed to update scheduled appointment. Please try again later.", "error");
             redirect('appointments');
           }
         } else {
-          set_flash_message("Failed to schedule appointment. Please try again later.", "error");
+          set_flash_message("Failed to update scheduled appointment. Please try again later.", "error");
           redirect('appointments');
         }
       }
     }
 
-    echo $this->renderView('new_appointment', true, $data);
+    echo $this->renderView('edit_appointment', true, $data);
   }
 
   private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel) {
     $errors = array();
    
-    $appointmentErrors = $appointmentModel->validate($appointmentFormData);
+    $appointmentErrors = $appointmentModel->updateValidation($appointmentFormData);
     if (!empty($appointmentErrors)) {
       $errors['appointment'] = $appointmentErrors;
     }
@@ -114,5 +152,9 @@ class New_appointment
     }
    
     return $errors;
+  }
+  
+  private function formatPhoneNumber($phoneNumber) {
+    return preg_replace('/[^0-9]/', '', str_replace('+63', '', $phoneNumber));
   }
 }
