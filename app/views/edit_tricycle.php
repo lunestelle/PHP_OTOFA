@@ -19,7 +19,7 @@
                       <select class="form-control" id="make_model" name="make_model" required>
                         <option selected disabled>Please Select Here</option>
                         <option value="Kymco Kargador 150" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Kymco Kargador 150' ? 'selected' : ''; ?>>Kymco Kargador 150</option>
-                        <option value="Honda TMX 125 Alpha" <?php echo isset($tricycleData['make_model']) && $tricycleDat['make_model'] === 'Honda TMX 125 Alpha' ? 'selected' : ''; ?>>Honda TMX 125 Alpha</option>
+                        <option value="Honda TMX 125 Alpha" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Honda TMX 125 Alpha' ? 'selected' : ''; ?>>Honda TMX 125 Alpha</option>
                         <option value="Honda TMX Supremo" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Honda TMX Supremo' ? 'selected' : ''; ?>>Honda TMX Supremo</option>
                         <option value="Honda XRM 125 Dual Sport" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Honda XRM 125 Dual Sport' ? 'selected' : ''; ?>>Honda XRM 125 Dual Sport</option>
                         <option value="Bajaj CT 150 BA" <?php echo isset($tricycleData['make_model']) && $tricycleData['make_model'] === 'Bajaj CT 150 BA' ? 'selected' : ''; ?>>Bajaj CT 150 BA</option>

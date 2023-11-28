@@ -9,7 +9,7 @@
           <div class="bckgrnd pt-2">
             <h6 class="pl-2 text-uppercase text-center text-light fs-6">Motor Unit</h6>
           </div>
-          <div class="row mx-auto mt-4 px-3">
+          <div class="row mx-3 mt-4 px-2">
             <div class="col-12 d-flex justify-content-between gap-3">
               <div class="col-4">
                 <label for="rateAction">Select Rate Action:</label>
@@ -28,8 +28,8 @@
               </div>
             </div>
             <div class="col-12 mt-5">
-              <button type="submit" class="sidebar-btnContent me-">Calculate</button>
-              <a href="./taripa" class="cancel-btn me-1">Cancel</a>
+              <button type="submit" class="sidebar-btnContent ms-2">Calculate</button>
+              <a href="./taripa" class="cancel-btn ms-5">Cancel</a>
             </div>
           </div>
         </div>
