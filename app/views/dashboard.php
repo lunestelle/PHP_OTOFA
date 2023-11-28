@@ -80,45 +80,61 @@
             <div class="d-block container-code mt-3 color-code-container animate">
               <a href="red_trike_info" class="text-decoration-none">
                 <div class="color-code-red d-flex">
-                  <div class="mt-2 center">
-                    <img src="assets/images/red-trike.png" alt="Red Trike Image">
-                    <p>Red Trike</p>
+                  <div class="col-2">
+                    <div class="mt-2 center">
+                      <img src="assets/images/red-trike.png" alt="Red Trike Image">
+                      <p>Red Trike</p>
+                    </div>
                   </div>
-                  <div class="description">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                  <div class="col-10">
+                    <div class="description">
+                      <p class="lh-1 mt-1">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 1 with color <span class="text-danger fw-bolder">RED </span>for the purpose of the operation of motorized tricycle in Ormoc City. This coverage is also a <span class="text-danger fw-bolder">FREE ZONE.</span></p>
+                    </div>
                   </div>
                 </div>
               </a>
               <a href="blue_trike_info" class="text-decoration-none">
                 <div class="color-code-blue d-flex mt-3">
-                  <div class="mt-2 center">
-                    <img src="assets/images/blue-trike.png" alt="Blue Trike Image">
-                    <p>Blue Trike</p>
+                  <div class="col-2">
+                    <div class="mt-2 center">
+                      <img src="assets/images/blue-trike.png" alt="Blue Trike Image">
+                      <p>Blue Trike</p>
+                    </div>
                   </div>
-                  <div class="description">
-                    <p class="">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                  <div class="col-10">
+                    <div class="description">
+                      <p class="lh-1 mt-1">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 1 with color <span class="text-primary fw-bolder">BlUE </span>for the purpose of the operation of motorized tricycle in Ormoc City.
+                    </div>
                   </div>
                 </div>
               </a>
               <a href="yellow_trike_info" class="text-decoration-none">
                 <div class="color-code-yellow d-flex mt-3">
-                  <div class="mt-2">
-                    <img src="assets/images/yellow-trike.png" alt="Yellow Trike Image" class="center">
-                    <p  class="pb-1">Yellow Trike</p>
+                  <div class="col-2">
+                    <div class="mt-2">
+                      <img src="assets/images/yellow-trike.png" alt="Yellow Trike Image" class="mx-3">
+                      <p>Yellow Trike</p>
+                    </div>
                   </div>
-                  <div class="description">
-                    <p class="">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                  <div class="col-10">
+                    <div class="description">
+                      <p class="lh-1 mt-1 ms-2">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 1 with color <span class="text-warning fw-bolder">YELLOW </span>for the purpose of the operation of motorized tricycle in Ormoc City.
+                    </div>
                   </div>
                 </div>
               </a>
               <a href="green_trike_info" class="text-decoration-none">
                 <div class="color-code-green d-flex mt-3">
-                  <div class="mt-2 center">
-                    <img src="assets/images/green-trike.png" alt="Green Trike Image">
-                    <p>Green Trike</p>
+                  <div class="col-2">
+                    <div class="mt-2 center">
+                      <img src="assets/images/green-trike.png" alt="Green Trike Image">
+                      <p>Green Trike</p>
+                    </div>
                   </div>
-                  <div class="description">
-                    <p class="">Lorem ipsum dolor sit amet consectetur, adipisicing elit, Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                  <div class="col-10">
+                    <div class="description">
+                      <p class="lh-1 mt-1">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 1 with color <span class="text-success fw-bolder">GREEN </span>for the purpose of the operation of motorized tricycle in Ormoc City.
+                    </div>
                   </div>
                 </div>
               </a>

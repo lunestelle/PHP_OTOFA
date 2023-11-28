@@ -16,7 +16,7 @@ $backUrl = isset($_SESSION['prev_page']) ? $_SESSION['prev_page'] : './drivers';
             <div id="newDriverForm">
               <div class="content-container mt-2 pb-3">
                 <div class="bckgrnd pt-2">
-                  <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Driver Information</h6>
+                  <h6 class="pl-2 text-uppercase text-center text-dark fs-6"><?php echo isset($full_name) ? $full_name : ''; ?> Information</h6>
                 </div>
                 <div class="container">
                   <div class="d-flex justify-content-center">

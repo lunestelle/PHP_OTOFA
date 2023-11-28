@@ -35,6 +35,7 @@ class View_driver
       'license_no' => $driverData->license_no,
       'license_validity' => $driverData->license_validity,
       'tricycle_plate_number' => $tricyclePlateNumber,
+      'full_name' => $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name, 
     ];
 
     echo $this->renderView('view_driver', true, $data);
