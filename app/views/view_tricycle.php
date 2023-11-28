@@ -9,7 +9,7 @@
           <div id="newTricycleForm">
             <div class="content-container mt-2">
               <div class="bckgrnd pt-2">
-                <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Motor Unit</h6>
+                <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Motor Unit</h6>
               </div>
               <div class="row px-3 p-4">
                 <div class="col-12 d-flex justify-content-between">
@@ -77,9 +77,9 @@
               </div>
             </div>
 
-            <div class="content-container mt-3">
+            <div class="content-container mt-4">
               <div class="bckgrnd pt-2">
-                <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">Tricycle images</h6>
+                <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Tricycle images</h6>
               </div>
               <div class="row px-3 p-3">
                 <div class="col-md-4 text-center">
@@ -121,13 +121,13 @@
               </div>
             </div>
 
-            <div id="taripaTableContainer" class="content-container mt-2">
+            <div id="taripaTableContainer" class="content-container mt-4">
               <div class="bckgrnd pt-2">
                 <?php
                   $taripaTitle = isset($route_area) ? $route_area : '';
                   $taripaTitle .= isset($recentYear) ? ' &mdash; ' . $recentYear . ' TARIPA' : '';
                 ?>
-                <h6 class="pl-2 text-uppercase text-center text-light fs-6 bckgrnd">
+                <h6 class="pl-2 text-uppercase text-center text-dark fs-6">
                   <?php echo $taripaTitle; ?>
                 </h6>
               </div>
@@ -154,7 +154,6 @@
                 </table>
               </div>
             </div>
-
             <div class="text-end my-3">
               <a href="./tricycles"><button class="sidebar-btnContent">Back</button></a>
             </div>

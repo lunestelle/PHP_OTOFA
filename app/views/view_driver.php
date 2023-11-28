@@ -14,8 +14,10 @@ $backUrl = isset($_SESSION['prev_page']) ? $_SESSION['prev_page'] : './drivers';
         <div class="col-12 pt-2">
           <div class="container pt-4">
             <div id="newDriverForm">
-              <div class="content-container mt-2 p-3">
-              <h6 class="pl-2 text-uppercase">Driver information</h6>
+              <div class="content-container mt-2 pb-3">
+                <div class="bckgrnd pt-2">
+                  <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Driver Information</h6>
+                </div>
                 <div class="container">
                   <div class="d-flex justify-content-center">
                     <div class="row px-3">

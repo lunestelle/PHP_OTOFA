@@ -1,9 +1,11 @@
 .sidebar {
   min-height: 100vh;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 200px; /* Set a fixed width for the sidebar */
   z-index: 100;
-  padding-top: 20px;
+  padding-top: 20px; /* Adjusted padding to accommodate fixed positioning */
   display: flex;
   flex-direction: column;
   background-color: #090C1B;
@@ -29,15 +31,10 @@
   display: block;
 }
 
-@media (max-width: 767.98px) {
+@media (mIN-width: 1025px) {
   .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    padding-top: 20px;
+    width: 230px !important;
+    position: absolute !important;
   }
   .sidebar .collapse {
     display: block;
@@ -224,41 +221,46 @@ hr {
 .main-content {
   flex: 1;
   padding: 15px;
+  margin-left: 200px; /* Set margin-left to match the width of the sidebar */
 }
 
 .title-head {
-  position: absolute !important;
-  left: 200px !important;
+  white-space: nowrap;
+  position: relative;
+  left: 160px; /* Adjusted left position for the title-head */
   top: 8px;
-}
+  display: flex;
+} 
 
 @media only screen and (min-width: 1250px) {
-  .title-head {
-    width: 150px;
-    position: absolute;
-    left: 240px !important;
-    top: 8px;
-  }
+.title-head {
+  width: 150px;
+  white-space: nowrap; /* Ensure text doesn't wrap onto a new line */
+  position: as;
+  left: 240px !important;
+  top: 8px;
+}
 }
 
 @media only screen and (min-width: 1360px) {
-  .title-head {
-    width: 150px;
-    position: absolute;
-    left: 240px;
-    top: 8px;
-  }
+.title-head {
+  width: 150px;
+  white-space: nowrap; /* Ensure text doesn't wrap onto a new line */
+  position: relative;
+  left: 240px;
+  top: 8px;
+}
 }
 
 @media only screen and (min-width: 1800px) {
   .title-head {
     width: 150px;
-    position: absolute;
+    white-space: nowrap; /* Ensure text doesn't wrap onto a new line */
+    position: relative;
     left: 350px !important;
     top: 8px;
   }
 }
-
 .sidebar-btnContent {
   padding: 5px 18px;
   color: white;

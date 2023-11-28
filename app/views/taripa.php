@@ -8,7 +8,7 @@
         <div class="col-12 mt-3">
           <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
         </div>
-        <div class="col-6">
+        <div class="col-5 mx-4 me-5">
           <label for="routeAreaFilter" class="fw-bold">Filter Route Area:</label>
           <select id="routeAreaFilter" class="form-select">
             <option value="All">All</option>
@@ -18,7 +18,7 @@
             <option value="Zone 4">Freezone & Zone 4</option>
           </select>
         </div>
-        <div class="col-6">
+        <div class="col-5 ms-5">
           <label for="yearFilter" class="fw-bold">Filter Year:</label>
           <select id="yearFilter" class="form-select">
             <?php foreach ($years as $year): ?>
@@ -30,7 +30,7 @@
     </div>
     
     <div class="col-12">
-      <div class="table-responsive pt-4">
+      <div class="table-responsive pt-4 mx-4">
         <table class="table table-hover" id="systemTable">
           <thead>
             <tr class="text-uppercase">

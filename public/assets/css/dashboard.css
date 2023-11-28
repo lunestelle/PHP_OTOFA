@@ -22,6 +22,19 @@
   border: 2px solid #EBB803;
 }
 
+.overview-margin { 
+  margin-bottom: 20px; 
+  gap: 45px;
+}
+
+@media screen and (min-width: 1010px) and (max-width: 1190px) {
+  .overview-margin { 
+   margin-left: 10px !important;
+   margin-right: 20px !important;
+   gap: 20px;
+  }
+}
+
 .image-bg {
   position: absolute;
   top: 8px;
@@ -130,4 +143,27 @@
   font-weight: 400;
   font-size: 12px;
   padding: 15px;
+}
+
+/* --- CHART --- */
+
+canvas {
+  max-width: 600px;
+  margin: 20px 0;
+}
+
+
+@keyframes moveFromBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate {
+  animation: moveFromBottom 1s cubic-bezier(0.23, 1, 0.32, 1);
 }

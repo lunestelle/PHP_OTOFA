@@ -29,7 +29,7 @@
                       <div>
                         <label for="email" class="form-label">Email (Optional)</label>
                         <div class="input-group">
-                          <input type="email" class="form-control phone-no" id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
+                          <input type="email" class="form-control phone-no" id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>"
                         </div>
                       </div>
                     </div>
