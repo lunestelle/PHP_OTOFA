@@ -145,4 +145,10 @@ Trait Model
 
     return false;
   }
+
+  public function getLastInsertedRecord()
+  {
+    $query = "SELECT * FROM {$this->table} ORDER BY {$this->order_column} DESC LIMIT 1";
+    return $this->query($query);
+  }
 }

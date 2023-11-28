@@ -11,7 +11,7 @@ class Cancel_appointment
       redirect('');
     }
 
-    $appointment_id = $_GET['appointment_id'];
+    $appointment_id = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
     $appointmentModel = new Appointment();
     $appointment = $appointmentModel->first(['appointment_id' => $appointment_id]);
 
@@ -24,15 +24,10 @@ class Cancel_appointment
     if (!$appointmentModel->canBeCanceled($appointment_id)) {
       set_flash_message("Sorry, this appointment cannot be <br> canceled at this time.", "error");
       redirect('appointments');
-    }
-
-    // Perform the appointment cancelation process (mark the status as canceled, etc.)
-    if ($appointmentModel->cancelAppointment($appointment_id)) {
-      set_flash_message("Appointment successfully canceled.", "success");
     } else {
-      set_flash_message("Failed to cancel the appointment.", "error");
+      $appointmentModel->update(['appointment_id' => $appointment_id], ['status' => 'Cancelled']);
+      set_flash_message("Appointment successfully canceled.", "success");
+      redirect('appointments');
     }
-
-    redirect('appointments');
   }
 }

@@ -16,6 +16,10 @@ class View_driver
     $driverModel = new Driver();
     $driverData = $driverModel->first(['driver_id' => $driverId]);
 
+    $tricycleModel = new Tricycle();
+    $tricycleData = $tricycleModel->first(['tricycle_id' => $driverData->tricycle_id]);
+    $tricyclePlateNumber = $tricycleData !== false ? $tricycleData->plate_no : '';
+
     if (!$driverData) {
       set_flash_message("Driver not found.", "error");
       redirect('drivers');
@@ -30,6 +34,7 @@ class View_driver
       'birth_date' => $driverData->birth_date,
       'license_no' => $driverData->license_no,
       'license_validity' => $driverData->license_validity,
+      'tricycle_plate_number' => $tricyclePlateNumber,
     ];
 
     echo $this->renderView('view_driver', true, $data);

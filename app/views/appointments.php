@@ -39,12 +39,41 @@
                     <td><?php echo $appointment['appointment_date']; ?></td>
                     <td><?php echo $appointment['appointment_time']; ?></td>
                     <td>
-                      <span class="badge status-badge text-uppercase p-2"><?php echo $appointment['status']; ?></span>
+                      <?php
+                        $status = $appointment['status'];
+                        $badgeColor = '';
+
+                        switch ($status) {
+                          case 'Pending':
+                            $badgeColor = 'bg-info'; // Green color for pending
+                            break;
+                          case 'Rejected':
+                            $badgeColor = 'bg-danger'; // Red color for rejected
+                            break;
+                          case 'Completed':
+                            $badgeColor = 'bg-primary'; // Blue color for completed
+                            break;
+                          case 'Approved':
+                            $badgeColor = 'bg-success'; // Light blue color for approved
+                            break;
+                          case 'Cancelled':
+                            $badgeColor = 'bg-danger'; // Red color for cancelled
+                            break;
+                          // Add cases for other statuses as needed
+                          default:
+                            $badgeColor = 'bg-secondary'; // Default color
+                            break;
+                        }
+                      ?>
+                      <span class="badge status-badge text-uppercase p-2 <?php echo $badgeColor; ?>"><?php echo $status; ?></span>
                     </td>
                     <td>
                       <a href="<?php echo 'view_appointment?appointment_id=' . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
-                      <a href="#" class="cancel_data px-1 me-1" style="color: #ff6c36;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="updateModalContent('<?php echo $appointment['name']; ?>', '<?php echo $appointment['appointment_date']; ?>', '<?php echo $appointment['appointment_time']; ?>')">
-                      <i class="fa-solid fa-times fa-lg"></i></a>
+                      <?php if ($userRole === 'operator'): ?>
+                        <a href="#" class="cancel_data px-1 me-1" style="color: #ff6c36;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="updateModalContent('<?php echo $appointment['name']; ?>', '<?php echo $appointment['appointment_date']; ?>', '<?php echo $appointment['appointment_time']; ?>')">
+                          <i class="fa-solid fa-times fa-lg"></i>
+                        </a>
+                      <?php endif; ?>  
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -59,15 +88,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-title" id="cancelModalLabel">
-                    <p class="fs-4 text-center mt-2">Cancel Appointment</p>
+                    <h5 class="modal-title text-center mt-2">Cancel Appointment</h5>
                   </div>
-                                
-                  <div class="modal-body mx-2">
+                  <div class="modal-body mx-2 text-center">
                     <p>Are you sure you want to cancel the appointment for <span id="appointmentName"></span> on <span id="appointmentDate"></span> at <span id="appointmentTime"></span>?</p>
                   </div>
                   <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Keep Appointment</button>
                     <form action="<?php echo 'cancel_appointment?appointment_id=' . $appointment['appointment_id'] ?>" method="post" id="cancelForm">
-                      <input type="submit" class="btn sidebar-btnContent" value="Yes, Cancel Appointment">
+                      <input type="submit" class="btn btn-danger" value="Yes, Cancel Appointment">
                     </form>
                   </div>
                 </div>
@@ -85,11 +114,13 @@
     var appointmentName = document.getElementById('appointmentName');
     var appointmentDate = document.getElementById('appointmentDate');
     var appointmentTime = document.getElementById('appointmentTime');
+    var appointmentIdInput = document.getElementById('appointmentIdInput');
     var cancelForm = document.getElementById('cancelForm');
 
     appointmentName.textContent = name;
     appointmentDate.textContent = date;
     appointmentTime.textContent = time;
+    appointmentIdInput.value = appointmentId;
 
     // Update the form action URL to include the appointment_id
     cancelForm.action = 'cancel_appointment?appointment_id=' + <?php echo $appointment['appointment_id']; ?>;

@@ -22,8 +22,7 @@ class Appointment
     $errors = [];
 
     $requiredFields = [
-      'name' => 'Name',
-      'phone_number' => 'Phone Number',
+      'name' => 'Full Name',
       'appointment_type' => 'Appointment Type',
       'appointment_date' => 'Preferred Date',
       'appointment_time' => 'Preferred Time'
@@ -35,11 +34,21 @@ class Appointment
       }
     }
 
-    if (!empty($data['phone_number']) && !preg_match('/^[0-9]{10}$/', $data['phone_number'])) {
-      $errors[] = 'Phone Number must be a valid 10-digit number after "+63".';
+    if (empty($data['phone_number'])) {
+      $errors[] = "Appointment Phone Number is required.";
+    } else {
+      $phoneNumber = $data['phone_number'];
+  
+      if (strlen($phoneNumber) !== 10) {
+        $errors[] = "Invalid Appointment phone number. Please <br> enter a valid 10-digit number after '+63'.";
+      } elseif (!is_numeric(substr($phoneNumber, 3))) {
+        $errors[] = "Invalid Appointment phone number. Please <br> enter only numeric digits (0-9) after '+63'.";
+      } elseif (strpos($phoneNumber, '+63') === 0) {
+        $errors[] = "Invalid Appointment phone number. Please <br> type only the next digit after '+63'.";
+      }
     }
 
-    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+    if (!empty($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
       $errors[] = 'Invalid email format.';
     }
 
@@ -54,17 +63,7 @@ class Appointment
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
       $errors[] = 'Appointments cannot be scheduled more than 30 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
-      $alternativeDates = $this->getAlternativeDates($data['appointment_date']);
-      if (!empty($alternativeDates)) {
-        $alternativeDatesFormatted = array_map(function ($date) {
-          return date('F j, Y', strtotime($date));
-        }, $alternativeDates);
-
-        $alternativeDatesMessage = "Alternative available dates: <br>-" . implode("<br>- ", $alternativeDatesFormatted);
-        $errors[] = 'Maximum appointments reached for this day. Please choose an alternative date. ' . $alternativeDatesMessage;
-      } else {
-        $errors[] = 'Maximum appointments reached for this day. Please choose an alternative date.';
-      }
+      $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
     }
 
     if (empty($data['appointment_time'])) {
@@ -74,20 +73,10 @@ class Appointment
     }
 
     if ($this->isSlotTaken($data['appointment_date'], $data['appointment_time'])) {
-      $alternativeSlots = $this->getAlternativeSlots($data['appointment_date'], $data['appointment_time']);
-
-      if (!empty($alternativeSlots)) {
-        $formattedSlots = array_map(function ($time) {
-          return date('h:i A', strtotime($time));
-        }, $alternativeSlots);
-
-        $alternativeSlotsMessage = "Alternative available slots: <br>-" . implode("<br>- ", $formattedSlots);
-        $errors[] = 'The preferred appointment slot is already taken. Please choose an alternative slot.' . $alternativeSlotsMessage;
-      } else {
-        $errors[] = 'Maximum appointments reached for this day. Please choose an alternative date.';
-      }
+      $errors[] = '<strong>The preferred appointment slot is already taken.</strong> Please choose another available slot or select a different date.';
     }
-
+   
+  
     if ($this->hasDuplicatePhoneNumber($data['phone_number'], $data['appointment_date'], $data['appointment_time'])) {
       $errors[] = 'An appointment with this phone number already exists for the same date and time.';
     }
@@ -105,48 +94,30 @@ class Appointment
     return !empty($existingAppointment);
   }
 
-  private function getAlternativeSlots($date, $time)
-  {
-    // Assuming the appointments are in 1-hour intervals
-    $availableSlots = [];
-    $totalSlots = 12; // Total available slots in a day
-
-    for ($i = 1; $i <= $totalSlots; $i++) {
-      $nextSlot = date('H:i', strtotime("+$i hour", strtotime("$date $time")));
-      if (!$this->isSlotTaken($date, $nextSlot)) {
-        $availableSlots[] = $nextSlot;
-      }
-    }
-
-    return $availableSlots;
-  }
-
   public function canBeCanceled($appointment_id)
   {
-    $appointment = $this->where(['appointment_id' => $appointment_id]);
-
+    $appointment = $this->first(['appointment_id' => $appointment_id]);
+  
     if (!$appointment) {
-      return false;
+      return false; // Appointment not found
     }
-
-    if ($appointment['status'] === 'Cancelled') {
-      return false; // Already cancelled
+  
+    if ($appointment->status === 'Cancelled' || $appointment->status === 'Approved') {
+      return false; // Already cancelled or approved
     }
-
-    // Implement your cancelation policy here
-    // For example, allow cancelation up to 24 hours before the appointment
+  
     $currentTime = strtotime('now');
-    $appointmentTime = strtotime($appointment['appointment_date'] . ' ' . $appointment['appointment_time']);
+    $appointmentTime = strtotime($appointment->appointment_date . ' ' . $appointment->appointment_time);
     $timeDifference = $appointmentTime - $currentTime;
     $hoursDifference = $timeDifference / (60 * 60);
-
+  
     if ($hoursDifference <= 24) {
-      return false; // Cannot be canceled as per cancelation policy
+      return false; // Cannot be canceled as per cancellation policy
     }
-
+  
     return true; // Appointment can be canceled
   }
-
+  
   public function cancelAppointment($appointment_id)
   {
     if (!$this->canBeCanceled($appointment_id)) {
@@ -166,10 +137,9 @@ class Appointment
 
   private function isWorkingHour($time)
   {
-    // Assume government working hours are from 8:00 AM to 5:00 PM
     date_default_timezone_set('Asia/Manila');
-    $startTime = strtotime('08:00');
-    $endTime = strtotime('17:00');
+    $startTime = strtotime('08:00 AM');
+    $endTime = strtotime('05:00 PM');
     $appointmentTime = strtotime($time);
 
     return ($appointmentTime >= $startTime && $appointmentTime <= $endTime);
@@ -184,7 +154,7 @@ class Appointment
 
   private function hasMinimumLeadTime($date)
   {
-    // Minimum lead time: 1 day
+    // Minimum lead time: 1 day -> checks if the selected date is at least one day ahead of the current date
     $today = strtotime(date('Y-m-d'));
     $selectedDate = strtotime($date);
     $oneDayAhead = strtotime('+1 day', $today);
@@ -193,11 +163,11 @@ class Appointment
 
   private function isWithinMaximumAdvanceBooking($date)
   {
-    // Maximum advance booking: 30 days
+    // Maximum advance booking: 15 days
     $today = strtotime(date('Y-m-d'));
     $selectedDate = strtotime($date);
-    $thirtyDaysAhead = strtotime('+30 days', $today);
-    return ($selectedDate <= $thirtyDaysAhead);
+    $fifteenDaysAhead = strtotime('+15 days', $today);
+    return ($selectedDate <= $fifteenDaysAhead);
   }
 
   private function hasMaximumDailyAppointments($date)
@@ -217,30 +187,8 @@ class Appointment
 
       return ($numAppointments >= $totalSlots);
     } else {
-      // Handle the case when $appointments is not a valid result set
-      // For example, you could log an error or return false if there was a problem with the query
       return false;
     }
-  }
-
-  private function getAlternativeDates($date)
-  {
-    // Get alternative dates within the maximum advance booking limit
-    $today = strtotime(date('Y-m-d'));
-    $selectedDate = strtotime($date);
-    $thirtyDaysAhead = strtotime('+30 days', $today);
-
-    $availableDates = [];
-    $currentDate = $selectedDate;
-    while ($currentDate <= $thirtyDaysAhead) {
-      $formattedDate = date('Y-m-d', $currentDate);
-      if ($this->isGovernmentWorkingDay($formattedDate) && !$this->hasMaximumDailyAppointments($formattedDate)) {
-        $availableDates[] = $formattedDate;
-      }
-      $currentDate = strtotime('+1 day', $currentDate);
-    }
-
-    return $availableDates;
   }
 
   private function hasDuplicatePhoneNumber($phone_number, $date, $time)

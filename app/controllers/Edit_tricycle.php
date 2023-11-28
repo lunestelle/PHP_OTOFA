@@ -21,8 +21,8 @@ class Edit_tricycle
       redirect('tricycles');
     }
 
-    $driverModel = new Driver();
-    $drivers = $driverModel->findAll();
+    $userModel = new User();
+    $users = $userModel->where(['role' => 'operator']);
 
     // Get available plate numbers
     $selectedPlateNumber = $tricycleData->plate_no;
@@ -35,7 +35,7 @@ class Edit_tricycle
         'color_code' => $tricycleData->color_code,
         'route_area' => $tricycleData->route_area,
         'plate_no' => $tricycleData->plate_no,
-        'driver_id' => $tricycleData->driver_id,
+        'user_id' => $tricycleData->user_id,
         'or_no' => $tricycleData->or_no,
         'or_date' => $tricycleData->or_date,
         'tricycle_status' => $tricycleData->tricycle_status,
@@ -43,16 +43,16 @@ class Edit_tricycle
         'back_view_image_path' => $tricycleData->back_view_image_path,
         'side_view_image_path' => $tricycleData->side_view_image_path,
       ],
-      'drivers' => [],
+      'users' => [],
       'availablePlateNumbers' => $availablePlateNumbers,
       'tricycleId' => $tricycleId,
     ];
 
-    // Map drivers for the dropdown
-    foreach ($drivers as $driver) {
-      $data['drivers'][$driver->driver_id] = [
-        'driver_id' => $driver->driver_id,
-        'name' => $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name,
+    // Map users for the dropdown
+    foreach ($users as $user) {
+      $data['users'][$user->user_id] = [
+        'user_id' => $user->user_id,
+        'name' => $user->first_name . ' ' . $user->last_name,
       ];
     }
 
@@ -63,7 +63,7 @@ class Edit_tricycle
         'color_code' => $_POST['color_code'] ?? '',
         'route_area' => $_POST['route_area'] ?? '',
         'plate_no' => $_POST['plate_no'] ?? '',
-        'driver_id' => $_POST['driver_id'] ?? '',
+        'user_id' => $_POST['user_id'] ?? '',
         'or_no' => $_POST['or_no'] ?? '',
         'or_date' => $_POST['or_date'] ?? '',
         'tricycle_status' => $_POST['tricycle_status'] ?? '',

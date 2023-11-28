@@ -14,7 +14,7 @@
                   <th scope="col" class="text-center">Phone Number</th>
                   <th scope="col" class="text-center">Email</th>
                   <th scope="col" class="text-center">Address</th>
-                  <th scope="col" class="text-center">Tricycles</th>
+                  <th scope="col" class="text-center">Tricycles Plate Number</th>
                   <th scope="col" class="text-center">Drivers</th>
                   <th scope="col" class="text-center">Actions</th>
                 </tr>

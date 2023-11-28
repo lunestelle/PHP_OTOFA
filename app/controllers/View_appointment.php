@@ -13,18 +13,22 @@ class View_appointment
 
     $appointment_id = $_GET['appointment_id'];
     $appointmentModel = new Appointment();
-    $appointment = $appointmentModel->first(['appointment_id' => $appointment_id]);
-    $appointment_time = formatTime($appointment->appointment_time);
+    $appointmentData = $appointmentModel->first(['appointment_id' => $appointment_id]);
+    $appointment_time = formatTime($appointmentData->appointment_time);
+
+    $tricycleApplicationModel = new TricycleApplication();
+    $tricyleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointmentData->appointment_id]);
 
 
-    if (!$appointment) {
+    if (!$appointmentData) {
       set_flash_message("Appointment not found.", "error");
       redirect('appointments');
     }
 
     $data = [
-      'appointment' => $appointment,
-      'appointment_time' => $appointment_time
+      'appointment' => $appointmentData,
+      'appointment_time' => $appointment_time,
+      'tricycleApplication' => $tricyleApplicationData
     ];
     echo $this->renderView('view_appointment', true, $data);
   }

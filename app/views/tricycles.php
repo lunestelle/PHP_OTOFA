@@ -7,7 +7,9 @@
       <div class="row">
         <div class="col-12">
           <div class="mt-3">
-            <a href="new_tricycle" class="text-uppercase sidebar-btnContent new-button">New</a>
+            <?php if ($userRole === 'admin'): ?>
+              <a href="new_tricycle" class="text-uppercase sidebar-btnContent new-button">New</a>
+            <?php endif; ?>  
           </div>
         </div>
         <div class="col-12">
@@ -17,7 +19,7 @@
                 <tr class="text-uppercase">
                   <th scope="col" class="text-center">#</th>
                   <th scope="col" class="text-center">Plate No.</th>
-                  <th scope="col" class="text-center">Driver's Name</th>
+                  <th scope="col" class="text-center">Operator's Name</th>
                   <th scope="col" class="text-center">Make / Model</th>
                   <th scope="col" class="text-center">Year Acquired</th>
                   <th scope="col" class="text-center">Color Code</th>
@@ -32,7 +34,7 @@
                   <tr>
                     <td><?php echo $index++; ?></td>
                     <td><?php echo $tricycle['plate_no']; ?></td>
-                    <td><?php echo $tricycle['driver_name']; ?></td>
+                    <td><?php echo $tricycle['operator_name']; ?></td>
                     <td><?php echo $tricycle['make_model']; ?></td>
                     <td><?php echo $tricycle['year_acquired']; ?></td>
                     <td><?php echo $tricycle['color_code']; ?></td>

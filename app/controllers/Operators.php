@@ -38,7 +38,7 @@ class Operators
 						$driverName = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
 						$drivers[] = [
 							'driver_name' => $driverName,
-							'driver_id' => $tricycle->driver_id,
+							'driver_id' => $driver->driver_id,
 						];
 					}
 				}

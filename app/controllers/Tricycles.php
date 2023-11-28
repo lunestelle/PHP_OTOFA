@@ -14,18 +14,18 @@ class Tricycles
     $tricycleModel = new Tricycle();
     $tricyclesData = $tricycleModel->findAll();
 
-    $driverModel = new Driver();
-    $driversData = $driverModel->findAll();
+    $userModel = new User();
+    $usersData = $userModel->where(['role' => 'operator']);
 
     $data['tricycles'] = [];
     $data['index'] = 1;
 
     if (!empty($tricyclesData)) {
       foreach ($tricyclesData as $tricycle) {
-        $driverName = '';
-        foreach ($driversData as $driver) {
-          if ($driver->driver_id === $tricycle->driver_id) {
-            $driverName = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
+        $userName = '';
+        foreach ($usersData as $user) {
+          if ($user->user_id === $tricycle->user_id) {
+            $userName = $user->first_name . ' ' . $user->last_name;
             break;
           }
         }
@@ -33,7 +33,7 @@ class Tricycles
         $data['tricycles'][] = [
           'tricycle_id' => $tricycle->tricycle_id,
           'plate_no' => $tricycle->plate_no,
-          'driver_name' => $driverName,
+          'operator_name' => $userName,
           'make_model' => $tricycle->make_model,
           'year_acquired' => $tricycle->year_acquired,
           'color_code' => $tricycle->color_code,
