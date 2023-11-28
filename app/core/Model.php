@@ -151,4 +151,26 @@ Trait Model
     $query = "SELECT * FROM {$this->table} ORDER BY {$this->order_column} DESC LIMIT 1";
     return $this->query($query);
   }
+
+  public function count($conditions = [])
+  {
+    $query = "SELECT COUNT(*) as count FROM {$this->table}";
+
+    if (!empty($conditions)) {
+      $query .= " WHERE ";
+      $conditionsValues = [];
+      foreach ($conditions as $key => $value) {
+        $conditionsValues[] = "{$key} = :{$key}";
+      }
+      $query .= implode(" AND ", $conditionsValues);
+    }
+
+    $result = $this->query($query, $conditions);
+
+    if (!empty($result)) {
+      return $result[0]->count;
+    }
+
+    return 0;
+  }
 }
