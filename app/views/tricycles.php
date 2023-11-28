@@ -26,7 +26,6 @@
                   <th scope="col" class="text-center">Route Area</td>
                   <th scope="col" class="text-center">Status</th>
                   <th scope="col" class="text-center">Actions</th>
-                  <!-- <th scope="col" class="text-center">Actions</th> -->
                 </tr>
               </thead>
               <tbody class="text-center">

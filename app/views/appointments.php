@@ -69,8 +69,17 @@
                     </td>
                     <td>
                       <a href="<?php echo 'view_appointment?appointment_id=' . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
-                      <?php if ($userRole === 'operator'): ?>
-                        <a href="#" class="cancel_data px-1 me-1" style="color: #ff6c36;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="updateModalContent('<?php echo $appointment['name']; ?>', '<?php echo $appointment['appointment_date']; ?>', '<?php echo $appointment['appointment_time']; ?>')">
+                      <?php
+                        if ($userRole === 'operator' && $appointment['status'] === "Pending") {
+                          // Operator can edit only if the status is pending
+                          echo '<a href="edit_appointment?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+                        } elseif ($userRole === 'admin' && $appointment['status'] !== "Cancelled") {
+                          // Admin can edit any status except cancelled
+                          echo '<a href="edit_appointment?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+                        }
+                      ?>
+                      <?php if ($userRole === 'operator' && $appointment['status'] === "Pending"): ?>
+                        <a href="#" class="cancel_data px-1 me-1" style="color: red;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="updateModalContent('<?php echo $appointment['name']; ?>', '<?php echo $appointment['appointment_date']; ?>', '<?php echo $appointment['appointment_time']; ?>')">
                           <i class="fa-solid fa-times fa-lg"></i>
                         </a>
                       <?php endif; ?>  

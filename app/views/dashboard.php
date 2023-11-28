@@ -13,15 +13,15 @@
                   <div class="overview-container">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
-                    <h5>10</h5>
-                    <p>Tricycles</p>
+                    <h5><?php echo $userTricycleCount; ?></h5>
+                    <p>Active Tricycles</p>
                   </div>
                 </a>
                 <a href="./drivers" class="text-black">
                   <div class="overview-container">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-user fa-2xl" style="color: #ffffff;"></i>
-                    <h5>10</h5>
+                    <h5><?php echo $userDriverCount; ?></h5>
                     <p>Drivers</p>
                   </div>
                 </a>
@@ -29,8 +29,8 @@
                  <div class="overview-container">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-clock fa-2xl" style="color: #ffffff; margin-right: 4px;"></i>
-                    <h5>15</h5>
-                    <p>Appointments</p>
+                    <h5><?php echo $userPendingAppointmentCount; ?></h5>
+                    <p>Pending Appointments</p>
                   </div>
                  </a>
               </div>
@@ -44,24 +44,24 @@
                   <div class="overview-container mt-3">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
-                    <h5>10</h5>
-                    <p>Tricycles</p>
+                    <h5><?php echo $activeTricycleCount; ?></h5>
+                    <p>Active Tricycles</p>
                   </div>
                 </a>
                 <a href="./drivers" class="text-black">
                   <div class="overview-container mt-3">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-user fa-2xl" style="color: #ffffff;"></i>
-                    <h5>10</h5>
-                    <p>Drivers</p>
+                    <h5><?php echo $operatorCount; ?></h5>
+                    <p>Operators</p>
                   </div>
                 </a>
                 <a href="./appointments" class="text-black">
                  <div class="overview-container mt-3">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-clock fa-2xl" style="color: #ffffff; margin-right: 4px;"></i>
-                    <h5>15</h5>
-                    <p>Appointments</p>
+                    <h5><?php echo $pendingAppointmentCount; ?></h5>
+                    <p>Pending Appointments</p>
                   </div>
                  </a>
               </div>

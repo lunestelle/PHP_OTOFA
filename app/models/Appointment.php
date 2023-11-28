@@ -7,6 +7,7 @@ class Appointment
   protected $table = 'appointments';
   protected $allowedColumns = [
     'appointment_id',
+    'user_id',
     'name',
     'phone_number',
     'email',
@@ -59,9 +60,9 @@ class Appointment
     } elseif ($this->isPastDate($data['appointment_date'])) {
       $errors[] = 'Appointment date must be in the future.';
     } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
-      $errors[] = 'Appointments must be scheduled at least one day in advance.';
+      $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
-      $errors[] = 'Appointments cannot be scheduled more than 30 days in advance.';
+      $errors[] = 'Appointments cannot be scheduled more than <br> 30 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
       $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
     }
@@ -69,16 +70,78 @@ class Appointment
     if (empty($data['appointment_time'])) {
       $errors[] = 'Preferred Time is required.';
     } elseif (!$this->isWorkingHour($data['appointment_time'])) {
-      $errors[] = 'Appointments can only be scheduled during government working hours (8:00 AM to 5:00 PM).';
+      $errors[] = 'Appointments can only be scheduled <br> during government working hours (8:00 AM to 5:00 PM).';
     }
 
     if ($this->isSlotTaken($data['appointment_date'], $data['appointment_time'])) {
-      $errors[] = '<strong>The preferred appointment slot is already taken.</strong> Please choose another available slot or select a different date.';
+      $errors[] = '<strong>The preferred appointment slot is already taken.</strong> Please choose <br> another available slot or select a different date.';
     }
    
   
     if ($this->hasDuplicatePhoneNumber($data['phone_number'], $data['appointment_date'], $data['appointment_time'])) {
       $errors[] = 'An appointment with this phone number already exists for the same date and time.';
+    }
+
+    if ($this->isBlackoutDate($data['appointment_date'])) {
+      $errors[] = 'Appointments cannot be scheduled on this date due to a blackout period.';
+    }
+
+    return $errors;
+  }
+
+  public function updateValidation($data)
+  {
+    $errors = [];
+
+    $requiredFields = [
+      'name' => 'Full Name',
+      'appointment_type' => 'Appointment Type',
+      'appointment_date' => 'Preferred Date',
+      'appointment_time' => 'Preferred Time'
+    ];
+
+    foreach ($requiredFields as $field => $fieldName) {
+      if (empty($data[$field])) {
+        $errors[] = $fieldName . ' is required.';
+      }
+    }
+
+    if (empty($data['phone_number'])) {
+      $errors[] = "Appointment Phone Number is required.";
+    } else {
+      $phoneNumber = $data['phone_number'];
+  
+      if (strlen($phoneNumber) !== 10) {
+        $errors[] = "Invalid Appointment phone number. Please <br> enter a valid 10-digit number after '+63'.";
+      } elseif (!is_numeric(substr($phoneNumber, 3))) {
+        $errors[] = "Invalid Appointment phone number. Please <br> enter only numeric digits (0-9) after '+63'.";
+      } elseif (strpos($phoneNumber, '+63') === 0) {
+        $errors[] = "Invalid Appointment phone number. Please <br> type only the next digit after '+63'.";
+      }
+    }
+
+    if (!empty($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+      $errors[] = 'Invalid email format.';
+    }
+
+    if (!empty($data['appointment_date']) && !strtotime($data['appointment_date'])) {
+      $errors[] = 'Preferred Date must be a valid date.';
+    } elseif (!$this->isGovernmentWorkingDay($data['appointment_date'])) {
+      $errors[] = 'Appointments can only be scheduled from Monday to Friday.';
+    } elseif ($this->isPastDate($data['appointment_date'])) {
+      $errors[] = 'Appointment date must be in the future.';
+    } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
+      $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
+    } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
+      $errors[] = 'Appointments cannot be scheduled more than <br> 30 days in advance.';
+    } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
+      $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
+    }
+
+    if (empty($data['appointment_time'])) {
+      $errors[] = 'Preferred Time is required.';
+    } elseif (!$this->isWorkingHour($data['appointment_time'])) {
+      $errors[] = 'Appointments can only be scheduled <br> during government working hours (8:00 AM to 5:00 PM).';
     }
 
     if ($this->isBlackoutDate($data['appointment_date'])) {

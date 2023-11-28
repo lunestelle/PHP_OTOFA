@@ -47,7 +47,7 @@
                                 <label for="phone_no" class="form-label">Phone No.</label>
                                 <div class="input-group">
                                   <span class="input-group-text">+63</span>
-                                  <input type="text" class="form-control phone-no" id="phone_no" name="phone_no" placeholder="e.g., 9123456789" value="<?php echo isset($driverData['phone_no']) ? substr($driverData['phone_no'], 3) : ''; ?>" required>
+                                  <input type="text" class="form-control phone-no" id="phone_no" name="phone_no" placeholder="e.g., 9123456789" value="<?php echo isset($driverData['phone_no']) ? $driverData['phone_no'] : ''; ?>" required>
                                 </div>
                               </div>
                             </div>
@@ -75,7 +75,7 @@
                             <?php if (!empty($tricycles)): ?>
                               <div class="col-4">
                                 <label for="tricycle_id" class="form-label">Tricycle Plate Number</label>
-                                <select class="form-control" id="tricycle_id" name="tricycle_id" required>
+                                <select class="form-control" id="tricycle_id" name="tricycle_id">
                                   <option value="" disabled <?php echo (!isset($driverData['tricycle_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
                                   <?php foreach ($data['tricycles'] as $tricycle): ?>
                                     <option value="<?php echo $tricycle['tricycle_id']; ?>" <?php echo (isset($driverData['tricycle_id']) && $driverData['tricycle_id'] == $tricycle['tricycle_id']) ? 'selected' : ''; ?>>
