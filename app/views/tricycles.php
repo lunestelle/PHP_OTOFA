@@ -40,7 +40,25 @@
                     <td><?php echo $tricycle['color_code']; ?></td>
                     <td><?php echo $tricycle['route_area']; ?></td>
                     <td>
-                      <span class="badge status-badge"><?php echo $tricycle['tricycle_status']; ?></span>
+                      <?php
+                        $status = $tricycle['tricycle_status'];
+                        $badgeColor = '';
+
+                        switch ($status) {
+                          case 'Active':
+                            $badgeColor = 'bg-success';
+                            break;
+                          case 'Registration Pending':
+                            $badgeColor = 'bg-warning';
+                            break;
+                          case 'Renewal Required':
+                            $badgeColor = 'bg-danger';
+                            break;
+                          default:
+                            break;
+                        }
+                      ?>
+                      <span class="badge status-badge text-uppercase p-2 <?php echo $badgeColor; ?>"><?php echo $status; ?></span>
                     </td>
                     <td>
                       <?php if ($userRole === 'admin'): ?>  
