@@ -3,7 +3,7 @@
     <div class="col-12 text-uppercase nav-top">
       <h6 class="title-head">tricycles</h6>
     </div>
-    <div class="col-lg-12 mt-4">
+    <div class="col-lg-12">
       <div class="row">
         <div class="col-12">
           <div class="mt-3">
@@ -28,7 +28,7 @@
                   <th scope="col" class="text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody class="text-center">
+              <tbody class="text-center text-capitalize">
                 <?php foreach ($tricycles as $tricycle): ?>
                   <tr>
                     <td><?php echo $index++; ?></td>

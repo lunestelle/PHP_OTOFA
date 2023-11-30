@@ -13,8 +13,8 @@
                   <h6 class="pl-2 text-uppercase text-center text-light fs-6">Motor Unit</h6>
                 </div>
                 <div class="row px-3 p-4">
-                  <div class="col-12 d-flex justify-content-between">
-                    <div>
+                  <div class="col-12 d-flex">
+                    <div class="col-4 px-5">
                       <label for="make_model" class="form-label">Model</label>
                       <select class="form-control" id="make_model" name="make_model" required>
                         <option selected disabled>Please Select Here</option>
@@ -34,11 +34,11 @@
                         <option value="Others" <?php echo isset($_POST['make_model']) && $_POST['make_model'] === 'Others' ? 'selected' : ''; ?>>Others</option>
                       </select>
                     </div>
-                    <div>
+                    <div class="col-4 px-5">
                       <label for="year_acquired" class="form-label">Year Acquired</label>
                       <input type="text" class="form-control" id="year_acquired" name="year_acquired" value="<?php echo isset($_POST['year_acquired']) ? $_POST['year_acquired'] : ''; ?>" required>
                     </div>
-                    <div>
+                    <div class="col-4 px-5">
                       <label for="color_code" class="form-label">Color Code</label>
                       <select class="form-control" id="color_code" name="color_code" required>
                         <option selected disabled>Please Select Here</option>
@@ -51,11 +51,11 @@
                   </div>
 
                   <div class="col-12 d-flex justify-content-between pt-2">
-                    <div>
+                    <div class="col-4 px-5">
                       <label for="route_area" class="form-label">Route Area</label>
                       <input type="text" class="form-control" id="route_area" name="route_area" placeholder="Select Color Code First" readonly required data-toggle="tooltip" data-bs-placement="right" title="Please choose a Color Code to determine the Route Area for the tricycle." value="<?php echo isset($_POST['route_area']) ? $_POST['route_area'] : ''; ?>">
                     </div>
-                    <div>
+                    <div class="col-4 px-5">
                       <label for="plate_no" class="form-label">Plate No.</label>
                       <select class="form-control" id="plate_no" name="plate_no" required>
                         <option selected disabled>Please Select Here</option>
@@ -68,7 +68,7 @@
                         ?>
                       </select>
                     </div>
-                    <div>
+                    <div class="col-4 px-5">
                       <label for="user_id" class="form-label">Operator's Name</label>
                       <select class="form-control" id="user_id" name="user_id" required>
                         <option <?php echo (!isset($_POST['user_id'])) ? 'selected' : ''; ?> disabled>Please Select Here</option>
@@ -82,15 +82,15 @@
                   </div>
 
                   <div class="col-12 d-flex justify-content-between pt-2">
-                    <div>
+                    <div class="col-4 px-5">
                       <label for="or_no" class="form-label">OR No.</label>
                       <input type="text" class="form-control" id="or_no" name="or_no" value="<?php echo isset($_POST['or_no']) ? $_POST['or_no'] : ''; ?>" required>
                     </div>
-                    <div>
+                    <div class="col-4 px-5">
                       <label for="or_date" class="form-label">OR Date</label>
                       <input type="date" class="form-control" id="or_date" name="or_date" value="<?php echo isset($_POST['or_date']) ? $_POST['or_date'] : ''; ?>" required>
                     </div>
-                    <div>
+                    <div class="col-4 px-5">
                       <label for="tricycle_status" class="form-label">Tricycle Status</label>
                       <select class="form-control" id="tricycle_status" name="tricycle_status" required>
                         <option selected disabled>Please Select Here</option>
