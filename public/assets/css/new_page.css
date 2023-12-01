@@ -42,6 +42,11 @@
   font-size: 13px;
 }
 
+option {
+  background-color: white !important;
+  padding: 10px !important; 
+}
+
 .form-control {
   width: 230px;
   border-radius: 7px;
@@ -50,6 +55,7 @@
   border-width: 1px;
   border-style: solid;
   background-color: rgba(255, 255, 255, 1);
+  text-transform: capitalize;
 }
 
 select.form-control:focus {

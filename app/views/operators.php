@@ -3,7 +3,7 @@
     <div class="col-12 text-uppercase nav-top">
       <h6 class="title-head">operators</h6>
     </div>
-    <div class="col-lg-12 mt-4">
+    <div class="col-lg-12">
       <div class="row">
         <div class="col-12">
           <div class="table-responsive pt-4">
@@ -19,7 +19,7 @@
                   <th scope="col" class="text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody class="text-center">
+              <tbody class="text-center text-capitalize">
                 <?php foreach ($users as $user): ?>
                   <tr>
                     <td><?php echo $user['full_name']; ?></td>
@@ -31,7 +31,7 @@
                         <span class="badge text-bg-info p-1">No Registered Tricycle</span>
                       <?php else: ?>
                         <?php foreach ($user['tricycles'] as $tricycle): ?>
-                          <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="tricycle-link"><?php echo $tricycle['plate_no']; ?></a><br>
+                          <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="tricycle-link text-decoration-none text-danger"><?php echo $tricycle['plate_no']; ?></a><br>
                         <?php endforeach; ?>
                       <?php endif; ?>
                     </td>
@@ -40,7 +40,7 @@
                         <span class="badge text-bg-info p-1">No Registered Driver</span>
                       <?php else: ?>
                         <?php foreach ($user['drivers'] as $driver): ?>
-                          <a href="./view_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="tricycle-link"><?php echo $driver['driver_name']; ?></a><br>
+                          <a href="./view_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="tricycle-link text-decoration-none text-danger fw-bold "><?php echo $driver['driver_name']; ?></a><br>
                         <?php endforeach; ?>
                       <?php endif; ?>
                     </td>

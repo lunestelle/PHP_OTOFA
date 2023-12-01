@@ -78,7 +78,7 @@
         <div class="row">
           <div class="col-12">
             <div class="d-block container-code mt-3 color-code-container animate">
-              <a href="red_trike_info" class="text-decoration-none">
+              <a href="red_trike_info"  class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
                 <div class="color-code-red d-flex">
                   <div class="col-2">
                     <div class="mt-2 center">
@@ -93,7 +93,7 @@
                   </div>
                 </div>
               </a>
-              <a href="blue_trike_info" class="text-decoration-none">
+              <a href="blue_trike_info"  class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
                 <div class="color-code-blue d-flex mt-3">
                   <div class="col-2">
                     <div class="mt-2 center">
@@ -108,7 +108,7 @@
                   </div>
                 </div>
               </a>
-              <a href="yellow_trike_info" class="text-decoration-none">
+              <a href="yellow_trike_info"  class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
                 <div class="color-code-yellow d-flex mt-3">
                   <div class="col-2">
                     <div class="mt-2">
@@ -123,7 +123,7 @@
                   </div>
                 </div>
               </a>
-              <a href="green_trike_info" class="text-decoration-none">
+              <a href="green_trike_info"  class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
                 <div class="color-code-green d-flex mt-3">
                   <div class="col-2">
                     <div class="mt-2 center">
@@ -240,7 +240,22 @@
         container.classList.add('animate');
       });
     });
+
+    $(document).ready(function() {
+    // Add a function to set the background color of the tooltip
+    $('.custom-tooltip-container').on('shown.bs.tooltip', function() {
+      $('.tooltip-inner').css('background-color', '#FF4200');
+    });
+
+    // Initialize Bootstrap tooltips
+    $('[data-bs-toggle="tooltip"]').tooltip();
+  });
   </script>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Add this line to include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Add this line to include Bootstrap Tooltip library -->
+<script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/bootstrap@5.4.3/dist/js/bootstrap.min.js"></script>

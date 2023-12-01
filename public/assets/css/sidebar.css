@@ -319,10 +319,11 @@ table {
   border-collapse: collapse;
   font-size: 12px;
   border: 1px #dee2e6 solid !important;
+  box-shadow: 4px 2px 14px rgb(192, 192, 192);
 }
 
 table.dataTable thead>tr>th {
-  background-color: rgba(255, 66, 0, 0.4) !important;
+  background-color: #EBB803 !important;
 }
 
 table > :not(caption) > * > * {
