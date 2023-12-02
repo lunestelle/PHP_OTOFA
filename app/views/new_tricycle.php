@@ -56,7 +56,7 @@
                       <input type="text" class="form-control" id="route_area" name="route_area" placeholder="Select Color Code First" readonly required data-toggle="tooltip" data-bs-placement="right" title="Please choose a Color Code to determine the Route Area for the tricycle." value="<?php echo isset($_POST['route_area']) ? $_POST['route_area'] : ''; ?>">
                     </div>
                     <div class="col-4 px-5">
-                      <label for="plate_no" class="form-label">Plate No.</label>
+                      <label for="plate_no" class="form-label">CIN</label>
                       <select class="form-control" id="plate_no" name="plate_no" required>
                         <option selected disabled>Please Select Here</option>
                         <?php
@@ -105,23 +105,19 @@
 
               <div class="content-container mt-4">
                 <div class="bckgrnd pt-2">
-                    <h6 class="pl-2 text-uppercase text-center text-light fs-6">Tricycle images</h6>
+                  <h6 class="pl-2 text-uppercase text-center text-light fs-6">Tricycle images</h6>
                 </div>
                 <div class="row justify-content-evenly px-3 p-3">
-                    <div class="col-12 d-flex justify-content-evenly">
-                        <div class="text-center">
-                            <label for="front_view_image" class="form-label">Tricycle Front View</label>
-                            <input type="file" class="form-control" id="front_view_image" name="front_view_image" accept="image/*" />
-                        </div>
-                        <div class="text-center">
-                            <label for="back_view_image" class="form-label">Tricycle Back View</label>
-                            <input type="file" class="form-control" id="back_view_image" name="back_view_image" accept="image/*" />
-                        </div>
-                        <div class="text-center">
-                            <label for="side_view_image" class="form-label">Tricycle Side View</label>
-                            <input type="file" class="form-control" id="side_view_image" name="side_view_image" accept="image/*" />
-                        </div>
+                  <div class="col-12 d-flex justify-content-evenly">
+                    <div class="text-center">
+                      <label for="front_view_image" class="form-label">Tricycle Front View</label>
+                      <input type="file" class="form-control" id="front_view_image" name="front_view_image" accept="image/*" />
                     </div>
+                    <div class="text-center">
+                      <label for="side_view_image" class="form-label">Tricycle Side View</label>
+                      <input type="file" class="form-control" id="side_view_image" name="side_view_image" accept="image/*" />
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="text-end my-3">

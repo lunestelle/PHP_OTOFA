@@ -74,7 +74,7 @@
 
                             <?php if (!empty($tricycles)): ?>
                               <div class="col-4">
-                                <label for="tricycle_id" class="form-label">Tricycle Plate Number</label>
+                                <label for="tricycle_id" class="form-label">Tricycle CIN</label>
                                 <select class="form-control" id="tricycle_id" name="tricycle_id">
                                   <option value="" disabled <?php echo (!isset($driverData['tricycle_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
                                   <?php foreach ($data['tricycles'] as $tricycle): ?>

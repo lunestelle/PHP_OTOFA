@@ -73,7 +73,7 @@
 
                           <?php if (!empty($tricycles)): ?>
                             <div class="col-4 px-5">
-                              <label for="tricycle_id" class="form-label">Tricycle Plate No.</label>
+                              <label for="tricycle_id" class="form-label">Tricycle CIN</label>
                               <select class="form-control" id="tricycle_id" name="tricycle_id" required>
                                 <option <?php echo (!isset($_POST['tricycle_id'])) ? 'selected' : ''; ?> disabled>Please Select Here</option>
                                 <?php foreach ($tricycles as $tricycle): ?>

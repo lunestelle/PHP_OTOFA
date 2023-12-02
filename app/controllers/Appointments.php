@@ -12,7 +12,14 @@ class Appointments
     }
 
     $appointmentModel = new Appointment();
-    $appointmentsData = $appointmentModel->where(['user_id' => $_SESSION['USER']->user_id]);
+
+    if ($_SESSION['USER']->role === 'admin') {
+      // Fetch all tricycles data for Admin
+      $appointmentsData = $appointmentModel->findAll();
+    } else {
+      // Fetch tricycles data based on the user ID for non-Admin users
+      $appointmentsData = $appointmentModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    }
 
     $data['appointments'] = [];
     $data['index'] = 1;

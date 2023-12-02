@@ -22,7 +22,7 @@
                   <th scope="col" class="text-center">Phone No.</th>
                   <th scope="col" class="text-center">License No.</th>
                   <th scope="col" class="text-center">License Validity</th>
-                  <th scope="col" class="text-center">Tricycle Plate Number</th>
+                  <th scope="col" class="text-center">Tricycle CIN</th>
                   <th scope="col" class="text-center">Actions</th>
                 </tr>
               </thead>

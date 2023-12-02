@@ -41,7 +41,7 @@
                     </div>
                   </div>
                   <div>
-                    <p class="form-label">Plate No.</p>
+                    <p class="form-label">CIN</p>
                     <div class="form-control">
                       <?php echo isset($plate_no) ? $plate_no : ''; ?>
                     </div>
@@ -81,42 +81,32 @@
               <div class="bckgrnd pt-2">
                 <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Tricycle images</h6>
               </div>
-              <div class="row px-3 p-3">
-                <div class="col-md-4 text-center">
-                  <p class="form-label fw-semibold fs-6">Tricycle Front View</p>
-                  <?php
-                    if (isset($front_view_image_path) && $front_view_image_path) {
-                      echo '<div class="image-container position-relative">';
-                      echo '<img src="' . $front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
-                      echo '</div>';
-                    } else {
-                      echo '<p class="form-label">Front View Image not available</p>';
-                    }
-                  ?>
-                </div>
-                <div class="col-md-4 text-center">
-                  <p class="form-label fw-semibold fs-6">Tricycle Back View</p>
-                  <?php
-                    if (isset($back_view_image_path) && $back_view_image_path) {
-                      echo '<div class="image-container position-relative">';
-                      echo '<img src="' . $back_view_image_path . '" class="img-fluid rounded fixed-height-image" id="back_view_image" alt="Tricycle Back View">';
-                      echo '</div>';
-                    } else {
-                      echo '<p class="form-label">Back View Image not available</p>';
-                    }
-                  ?>
-                </div>
-                <div class="col-md-4 text-center">
-                  <p class="form-label fw-semibold fs-6">Tricycle Side View</p>
-                  <?php
-                    if (isset($side_view_image_path) && $side_view_image_path) {
-                      echo '<div class="image-container position-relative">';
-                      echo '<img src="' . $side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
-                      echo '</div>';
-                    } else {
-                      echo '<p class="form-label">Side View Image not available</p>';
-                    }
-                  ?>
+              <div class="row justify-content-evenly px-3 p-3">
+                <div class="col-12 d-flex justify-content-evenly">
+                  <div class="text-center">
+                    <p class="form-label fw-semibold fs-6">Tricycle Front View</p>
+                    <?php
+                      if (isset($front_view_image_path) && $front_view_image_path) {
+                        echo '<div class="image-container position-relative">';
+                        echo '<img src="' . $front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
+                        echo '</div>';
+                      } else {
+                        echo '<p class="form-label">Front View Image not available</p>';
+                      }
+                    ?>
+                  </div>
+                  <div class="text-center">
+                    <p class="form-label fw-semibold fs-6">Tricycle Side View</p>
+                    <?php
+                      if (isset($side_view_image_path) && $side_view_image_path) {
+                        echo '<div class="image-container position-relative">';
+                        echo '<img src="' . $side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
+                        echo '</div>';
+                      } else {
+                        echo '<p class="form-label">Side View Image not available</p>';
+                      }
+                    ?>
+                  </div>
                 </div>
               </div>
             </div>

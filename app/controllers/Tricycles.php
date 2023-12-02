@@ -12,7 +12,14 @@ class Tricycles
     }
 
     $tricycleModel = new Tricycle();
-    $tricyclesData = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+
+    if ($_SESSION['USER']->role === 'admin') {
+      // Fetch all tricycles data for Admin
+      $tricyclesData = $tricycleModel->findAll();
+    } else {
+      // Fetch tricycles data based on the user ID for non-Admin users
+      $tricyclesData = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    }
 
     $userModel = new User();
     $usersData = $userModel->where(['role' => 'operator']);
