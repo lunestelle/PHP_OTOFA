@@ -19,6 +19,20 @@ $(document).ready(function() {
       }
     }
   });
+
+  if (currentUrl.href.includes('red_trike_info')) {
+    $('.sidebar a[href="dashboard"]').addClass('nav-link-active');
+    return;
+  } else if (currentUrl.href.includes('blue_trike_info')) {
+    $('.sidebar a[href="dashboard"]').addClass('nav-link-active');
+    return;
+  } else if (currentUrl.href.includes('yellow_trike_info')) {
+    $('.sidebar a[href="dashboard"]').addClass('nav-link-active');
+    return;
+  } else if (currentUrl.href.includes('green_trike_info')) {
+    $('.sidebar a[href="dashboard"]').addClass('nav-link-active');
+    return;
+  }
 });
 
 document.addEventListener('DOMContentLoaded', function() {

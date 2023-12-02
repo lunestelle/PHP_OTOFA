@@ -90,9 +90,9 @@
                         <select class="form-control" id="color_code" name="color_code" required>
                           <option selected disabled>Please Select Here</option>
                           <option value="Red" data-route-area="Free Zone / Zone 1" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Red' ? 'selected' : ''); ?>>Red</option>
-                          <option value="Green" data-route-area="Free Zone & Zone 2" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Green' ? 'selected' : ''); ?>>Green</option>
+                          <option value="Blue" data-route-area="Free Zone & Zone 2" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue' ? 'selected' : ''); ?>>Blue</option>
                           <option value="Yellow" data-route-area="Free Zone & Zone 3" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow' ? 'selected' : ''); ?>>Yellow</option>
-                          <option value="Blue" data-route-area="Free Zone & Zone 4" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue' ? 'selected' : ''); ?>>Blue</option>
+                          <option value="Green" data-route-area="Free Zone & Zone 4" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Green' ? 'selected' : ''); ?>>Green</option>
                         </select>
                       </div>
                       <div class="col-4 px-5">
@@ -176,6 +176,28 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-light fs-6">Document Images</h6>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <div class="col-12 d-flex justify-content-evenly">
+                      <div class="text-center">
+                        <label for="front_view_image" class="form-label">Tricycle Front View</label>
+                        <input type="file" class="form-control" id="front_view_image" name="front_view_image" accept="image/*" />
+                      </div>
+                      <div class="text-center">
+                        <label for="back_view_image" class="form-label">Tricycle Back View</label>
+                        <input type="file" class="form-control" id="back_view_image" name="back_view_image" accept="image/*" />
+                      </div>
+                      <div class="text-center">
+                        <label for="side_view_image" class="form-label">Tricycle Side View</label>
+                        <input type="file" class="form-control" id="side_view_image" name="side_view_image" accept="image/*" />
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
 
                 <div class="text-end my-3">
                   <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn">Schedule Appointment</button>

@@ -88,7 +88,7 @@
                   </div>
                   <div class="col-10">
                     <div class="description">
-                      <p class="lh-1 mt-1">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 1 with color <span class="text-danger fw-bolder">RED </span>for the purpose of the operation of motorized tricycle in Ormoc City. This coverage is also a <span class="text-danger fw-bolder">FREE ZONE.</span></p>
+                      <p class="lh-1 mt-1">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 1 with color <span class="text-danger fw-bolder">RED </span>for the purposes of the operation of motorized tricycles in Ormoc City. This coverage is also a <span class="text-danger fw-bolder">FREE ZONE.</span></p>
                     </div>
                   </div>
                 </div>
@@ -103,7 +103,7 @@
                   </div>
                   <div class="col-10">
                     <div class="description">
-                      <p class="lh-1 mt-1">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 1 with color <span class="text-primary fw-bolder">BlUE </span>for the purpose of the operation of motorized tricycle in Ormoc City.
+                      <p class="lh-1 mt-1">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 2 with color <span class="text-primary fw-bolder">BlUE </span>for the purposes of the operation of motorized tricycles in Ormoc City.
                     </div>
                   </div>
                 </div>
@@ -118,7 +118,7 @@
                   </div>
                   <div class="col-10">
                     <div class="description">
-                      <p class="lh-1 mt-1 ms-2">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 1 with color <span class="text-warning fw-bolder">YELLOW </span>for the purpose of the operation of motorized tricycle in Ormoc City.
+                      <p class="lh-1 mt-1 ms-2">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 3 with color <span class="text-warning fw-bolder">YELLOW </span>for the purposes of the operation of motorized tricycles in Ormoc City.
                     </div>
                   </div>
                 </div>
@@ -133,7 +133,7 @@
                   </div>
                   <div class="col-10">
                     <div class="description">
-                      <p class="lh-1 mt-1">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 1 with color <span class="text-success fw-bolder">GREEN </span>for the purpose of the operation of motorized tricycle in Ormoc City.
+                      <p class="lh-1 mt-1">Ordinance No.153 Series of 2009 (Section 4) designates the shown areas as part of Zone 4 with color <span class="text-success fw-bolder">GREEN </span>for the purposes of the operation of motorized tricycles in Ormoc City.
                     </div>
                   </div>
                 </div>

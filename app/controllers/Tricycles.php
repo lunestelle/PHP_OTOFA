@@ -12,7 +12,7 @@ class Tricycles
     }
 
     $tricycleModel = new Tricycle();
-    $tricyclesData = $tricycleModel->findAll();
+    $tricyclesData = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
 
     $userModel = new User();
     $usersData = $userModel->where(['role' => 'operator']);
