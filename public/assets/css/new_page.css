@@ -226,3 +226,7 @@ input[type=number] {
 .justify-content-evenly {
   justify-content: space-evenly !important;
 }
+
+#color_code option {
+  padding: 5px;
+}

@@ -82,41 +82,39 @@
                 <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Tricycle images</h6>
               </div>
               <div class="row px-3 p-3">
-                <div class="col-md-4 text-center">
-                  <p class="form-label fw-semibold fs-6">Tricycle Front View</p>
-                  <?php
-                    if (isset($front_view_image_path) && $front_view_image_path) {
-                      echo '<div class="image-container position-relative">';
-                      echo '<img src="' . $front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
+                <?php
+                  function displayImage($imagePath, $imageAlt) {
+                    if ($imagePath) {
+                      echo '<div class="col-md-4 text-center">';
+                      echo '<p class="form-label fw-semibold fs-6">' . $imageAlt . '</p>';
+                      echo '<div class="image-container position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">';
+                      echo '<img src="' . $imagePath . '" class="img-fluid rounded fixed-height-image" alt="' . $imageAlt . '">';
+                      echo '</div>';
                       echo '</div>';
                     } else {
-                      echo '<p class="form-label">Front View Image not available</p>';
-                    }
-                  ?>
-                </div>
-                <div class="col-md-4 text-center">
-                  <p class="form-label fw-semibold fs-6">Tricycle Back View</p>
-                  <?php
-                    if (isset($back_view_image_path) && $back_view_image_path) {
-                      echo '<div class="image-container position-relative">';
-                      echo '<img src="' . $back_view_image_path . '" class="img-fluid rounded fixed-height-image" id="back_view_image" alt="Tricycle Back View">';
+                      echo '<div class="col-md-4 text-center">';
+                      echo '<p class="form-label">' . $imageAlt . ' Image not available</p>';
                       echo '</div>';
-                    } else {
-                      echo '<p class="form-label">Back View Image not available</p>';
                     }
-                  ?>
-                </div>
-                <div class="col-md-4 text-center">
-                  <p class="form-label fw-semibold fs-6">Tricycle Side View</p>
-                  <?php
-                    if (isset($side_view_image_path) && $side_view_image_path) {
-                      echo '<div class="image-container position-relative">';
-                      echo '<img src="' . $side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
-                      echo '</div>';
-                    } else {
-                      echo '<p class="form-label">Side View Image not available</p>';
-                    }
-                  ?>
+                  }
+
+                  displayImage($front_view_image_path, 'Tricycle Front View');
+                  displayImage($back_view_image_path, 'Tricycle Back View');
+                  displayImage($side_view_image_path, 'Tricycle Side View');
+                ?>
+              </div>
+            </div>
+
+            <!-- Bootstrap Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <img src="" class="img-fluid" id="modalImage" alt="Enlarged Image">
+                  </div>
                 </div>
               </div>
             </div>
@@ -163,3 +161,17 @@
     </div>
   </div>
 </main>
+
+<!-- Bootstrap JS and Popper.js (Optional) -->
+<script src="path/to/bootstrap.bundle.min.js"></script>
+
+<!-- Your Custom JavaScript -->
+<script>
+  // Add JavaScript to update modal image source when an image is clicked
+  document.querySelectorAll('.image-container').forEach(function (container) {
+    container.addEventListener('click', function () {
+      var imageSrc = this.querySelector('img').src;
+      document.getElementById('modalImage').src = imageSrc;
+    });
+  });
+</script>

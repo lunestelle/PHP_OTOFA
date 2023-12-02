@@ -193,6 +193,7 @@
 
                 <div class="text-end my-3">
                   <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="saveScheduleAppointmentBtn">Save</button>
+                  <a href="./appointments" class="cancel-btn">Cancel</a>
                 </div>
               </form>
             </div>
