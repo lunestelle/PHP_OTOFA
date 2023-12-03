@@ -3,7 +3,7 @@
     <div class="col-12 text-uppercase nav-top">
       <h6 class="title-head">taripa</h6>
     </div>
-    <div class="col-lg-12 mt-4">
+    <div class="col-lg-12">
       <div class="row mt-2">
         <div class="col-12 mt-3">
           <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>

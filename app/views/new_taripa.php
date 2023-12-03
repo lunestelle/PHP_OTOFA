@@ -12,7 +12,7 @@
           <div class="col-12 d-flex">
             <div class="col-4 px-3">
               <label for="rateAction">Select Rate Action:</label>
-              <select id="rateAction" name="rate_action" class="form-select">
+              <select id="rateAction" name="rate_action" class="form-control">
                 <option value="increase" <?= isset($rate_action) && $rate_action === 'increase' ? 'selected' : '' ?>>Increase</option>
                 <option value="decrease" <?= isset($rate_action) && $rate_action === 'decrease' ? 'selected' : '' ?>>Decrease</option>
               </select>
