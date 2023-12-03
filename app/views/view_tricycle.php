@@ -161,13 +161,7 @@
     </div>
   </div>
 </main>
-
-<!-- Bootstrap JS and Popper.js (Optional) -->
-<script src="path/to/bootstrap.bundle.min.js"></script>
-
-<!-- Your Custom JavaScript -->
 <script>
-  // Add JavaScript to update modal image source when an image is clicked
   document.querySelectorAll('.image-container').forEach(function (container) {
     container.addEventListener('click', function () {
       var imageSrc = this.querySelector('img').src;

@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-12">
           <div class="mt-3">
-            <a href="#" class="text-uppercase sidebar-btnContent new-button">New</a>
+            <a href="new_maintenance_log" class="text-uppercase sidebar-btnContent new-button">New</a>
           </div>
         </div>
         <div class="col-12">
@@ -16,46 +16,30 @@
               <thead class="thead-custom">
                 <tr class="text-center text-uppercase">
                   <th scope="col" class="text-center">#</th>
-                  <th scope="col" class="text-center">Plate No.</th>
+                  <th scope="col" class="text-center">CIN</th>
                   <th scope="col" class="text-center">Driver's Name</th>
                   <th scope="col" class="text-center">Date</th>
-                  <th scope="col" class="text-center">Expense</th>
+                  <th scope="col" class="text-center">Total Expenses</th>
                   <th scope="col" class="text-center">Description</th>
-                  <th scope="col" class="text-center">Receipt</th>
                   <th scope="col" class="text-center">Actions</th>
                 </tr>
               </thead>
-            <tbody class="text-center">
-              <tr>
-                <th scope="row">1</th>
-                <td>123</td>
-                <td>Juan Dela Cruz</td>
-                <td>2023-06-18</td>
-                <td>150</td>
-                <td>Routine Maintenance</td>
-                <td><img src="public/assets/images/receipt-icon.png" alt="Receipt Image" width="40"></td>
-                <td>
-                  <div class="col-auto d-flex justify-content-center">
-                  <span href="#" class="view_data px-1 me-1" style="color:#26CC00" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></span>
-                    <a href="#" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Product Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>                        </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>456</td>
-                <td>Pedro Kalungsod</td>
-                <td>2023-06-15</td>
-                <td>200</td>
-                <td>Repair work</td>
-                <td><img src="public/assets/images/receipt-icon.png" alt="Receipt Image" width="40"></td>
-                <td>
-                  <div class="col-auto d-flex justify-content-center">
-                    <span href="#" class="view_data px-1 me-1" style="color:#26CC00" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></span>
-                    <a href="#" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Product Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>                        </div>
-                </td>
-              </tr>
-            </tbody>
+              <tbody class="text-center text-capitalize">
+              <?php foreach ($maintenance_logs as $maintenance_log): ?>
+                  <tr>
+                    <td><?php echo $index++; ?></td>
+                    <td><?php echo $maintenance_log['cin']; ?></td>
+                    <td><?php echo $maintenance_log['driver_name']; ?></td>
+                    <td><?php echo $maintenance_log['expense_date']; ?></td>
+                    <td><?php echo $maintenance_log['total_expenses']; ?></td>
+                    <td><?php echo $maintenance_log['description']; ?></td>
+                    <td>
+                      <a href="./view_maintenance_log?maintenance_log_id=<?php echo $maintenance_log['maintenance_log_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Maintenance Log Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                      <a href="./edit_maintenance_log?maintenance_log_id=<?php echo $maintenance_log['maintenance_log_id']?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Maintenance Log Details"><i class="fa-solid fa-pencil fa-lg"></i></a>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
           </table>
         </div>
       </div>
