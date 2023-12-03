@@ -25,7 +25,8 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
   <link rel="stylesheet" href="public/assets/css/flash_messages.css">
   {{css}}
 
-  <!-- OFFLINE JS -->
+  <!-- OFFLINE & ONLINE JS -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="public/assets/bootstrap/js/jquery.min.js"></script>
   <script src="public/assets/bootstrap/js/popper.min.js"></script>
   <script src="public/assets/bootstrap/js/bootstrap.min.js"></script>
@@ -39,6 +40,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
   <script src="public/assets/js/modal.js"></script>
   <script src="public/assets/js/modal_submission.js"></script>
   <script src="public/assets/js/active_links.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <style>
   .pop_msg {

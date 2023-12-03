@@ -150,76 +150,72 @@
           <div class="col-12">
            <div class="bg-white">
              <div class="mt-2">
-              <h6>Fare Rate (2019-2023)</h6>
-                <canvas id="fareChart"></canvas>
+                <h6>Fare Rate (<?php echo min($data['years']) . '-' . max($data['years']); ?>)</h6>
+                <canvas id="myChart"></canvas>
                 <script>
-                  document.addEventListener("DOMContentLoaded", function() {
-                    // Data
-                    const years = ['2019', '2020', '2021', '2022', '2023'];
-                    const studentFare = [7, 7, 7, 7, 8]; // Fare for students
-                    const pwdFare = [7, 7, 7, 7, 8];     // Fare for PWD
-                    const seniorFare = [7, 7, 7, 7, 8];   // Fare for seniors
-                    const regularFare = [10, 10, 10, 10, 10]; // Fare for regular passengers
+                  let phpData = <?php echo $data['ratesByYear']; ?>;
+                  let regularData = [];
+                  let studentData = [];
+                  let seniorAndPwdData = [];
+                  let years = <?php echo json_encode($data['years']); ?>;
 
-                    // Chart Configuration
-                    var ctx = document.getElementById('fareChart').getContext('2d');
-                    var fareChart = new Chart(ctx, {
-                      type: 'bar',
-                      data: {
-                        labels: years,
-                        datasets: [
-                          {
-                            label: 'Student',
-                            data: studentFare,
-                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                          },
-                          {
-                            label: 'PWD',
-                            data: pwdFare,
-                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1
-                          },
-                          {
-                            label: 'Senior',
-                            data: seniorFare,
-                            backgroundColor: 'rgba(255, 205, 86, 0.5)',
-                            borderColor: 'rgba(255, 205, 86, 1)',
-                            borderWidth: 1
-                          },
-                          {
-                            label: 'Regular',
-                            data: regularFare,
-                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
+                  years.forEach(function (year) {
+                    regularData.push(phpData[year][1]['regular_rate']);
+                    studentData.push(phpData[year][1]['student_rate']);
+                    seniorAndPwdData.push(phpData[year][1]['senior_and_pwd_rate']);
+                  });
+
+                  let ctx = document.getElementById('myChart').getContext('2d');
+                  let myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                      labels: years,
+                      datasets: [
+                        {
+                          label: 'Regular Rate',
+                          data: regularData,
+                          borderColor: 'rgba(75, 192, 192, 1)',
+                          borderWidth: 2,
+                          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                          fill: false,
+                        },
+                        {
+                          label: 'Student Rate',
+                          data: studentData,
+                          borderColor: 'rgba(255, 99, 132, 1)',
+                          borderWidth: 2,
+                          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                          fill: false,
+                        },
+                        {
+                          label: 'Senior and PWD Rate',
+                          data: seniorAndPwdData,
+                          borderColor: 'rgba(255, 205, 86, 1)',
+                          borderWidth: 2,
+                          backgroundColor: 'rgba(255, 205, 86, 0.2)',
+                          fill: false,
+                        },
+                      ],
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true,
+                          title: {
+                            display: true,
+                            text: 'Fare Rate (₱)'
                           }
-                        ]
-                      },
-                      options: {
-                        scales: {
-                          y: {
-                            beginAtZero: true,
-                            title: {
-                              display: true,
-                              text: 'Fare Rate (₱)'
-                            }
-                          },
-                          x: {
-                            title: {
-                              display: true,
-                              text: 'Year',
-                              text: 'BARANGAY ALEGRIA'
-                            }
+                        },
+                        x: {
+                          title: {
+                            display: true,
+                            text: 'Year'
                           }
                         }
                       }
-                    });
-                  });
-                </script>
-             </div>
+                    }
+                });
+              </script>
            </div>
           </div>
         </div>
@@ -252,10 +248,3 @@
   });
   </script>
 </main>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Add this line to include jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<!-- Add this line to include Bootstrap Tooltip library -->
-<script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://unpkg.com/bootstrap@5.4.3/dist/js/bootstrap.min.js"></script>
