@@ -82,7 +82,7 @@
                 <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Tricycle images</h6>
               </div>
 
-              <div class="row px-3 p-3">
+              <div class="row justify-content-evenly px-3 p-3">
                 <?php
                   function displayImage($imagePath, $imageAlt) {
                     if ($imagePath) {
