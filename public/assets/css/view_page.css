@@ -137,3 +137,13 @@ input[type=file]::file-selector-button {
   min-height: 40px;
   box-shadow: 2px 3px #00000009;
 }
+
+.image-container {
+  cursor:  pointer !important;
+}
+
+.modal-content img {
+  max-width: 100%;
+  height: auto;
+  padding: 10px;
+}
