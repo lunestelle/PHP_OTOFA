@@ -134,7 +134,7 @@ class Edit_tricycle
 
   private function handleFileUpload($file, $imageName)
   {
-    $uploadDirectory = '../uploads/tricycle_images/';
+    $uploadDirectory = 'public/uploads/tricycle_images/';
     
     // Check if the file was uploaded without errors
     if ($file['error'] !== UPLOAD_ERR_OK) {

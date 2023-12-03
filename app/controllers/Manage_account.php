@@ -83,7 +83,7 @@ class Manage_account
       list(, $imageData) = explode(',', $imageData);
       $imageExtension = strtolower(substr($imageType, strrpos($imageType, '/') + 1));
       $uniqueFileName = md5(uniqid(rand(), true)) . '_' . time() . '.' . $imageExtension;
-      $uploadedFilePath = '../profile_photos/uploaded_profile/' . $uniqueFileName;
+      $uploadedFilePath = 'public/profile_photos/uploaded_profile/' . $uniqueFileName;
       $decodedImageData = base64_decode($imageData);
       
       if (file_put_contents($uploadedFilePath, $decodedImageData)) {

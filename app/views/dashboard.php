@@ -9,7 +9,7 @@
           <div class="col-12">
             <div class="overview-wrapper">
               <div class="container gap-5 px-5 mb-4 pb-3">
-                <a href="./appointments" class="text-black">
+                <a href="./tricycles?status=active" class="text-black">
                   <div class="overview-container">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
@@ -25,7 +25,7 @@
                     <p>Drivers</p>
                   </div>
                 </a>
-                <a href="./appointments" class="text-black">
+                <a href="./appointments?status=pending" class="text-black">
                  <div class="overview-container">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-clock fa-2xl" style="color: #ffffff; margin-right: 4px;"></i>
@@ -40,7 +40,7 @@
           <div class="col-12">
             <div class="overview-wrapper">
               <div class="container overview-margin px-5 pb-3">
-                <a href="./appointments" class="text-black">
+                <a href="./tricycles?status=active" class="text-black">
                   <div class="overview-container mt-3">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
@@ -48,7 +48,7 @@
                     <p>Active Tricycles</p>
                   </div>
                 </a>
-                <a href="./drivers" class="text-black">
+                <a href="./operators" class="text-black">
                   <div class="overview-container mt-3">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-user fa-2xl" style="color: #ffffff;"></i>
@@ -56,7 +56,7 @@
                     <p>Operators</p>
                   </div>
                 </a>
-                <a href="./appointments" class="text-black">
+                <a href="./appointments?status=pending" class="text-black">
                  <div class="overview-container mt-3">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-clock fa-2xl" style="color: #ffffff; margin-right: 4px;"></i>
@@ -82,7 +82,7 @@
                 <div class="color-code-red d-flex">
                   <div class="col-2">
                     <div class="mt-2 center">
-                      <img src="assets/images/red-trike.png" alt="Red Trike Image">
+                      <img src="public/assets/images/red-trike.png" alt="Red Trike Image">
                       <p>Red Trike</p>
                     </div>
                   </div>
@@ -97,7 +97,7 @@
                 <div class="color-code-blue d-flex mt-3">
                   <div class="col-2">
                     <div class="mt-2 center">
-                      <img src="assets/images/blue-trike.png" alt="Blue Trike Image">
+                      <img src="public/assets/images/blue-trike.png" alt="Blue Trike Image">
                       <p>Blue Trike</p>
                     </div>
                   </div>
@@ -112,7 +112,7 @@
                 <div class="color-code-yellow d-flex mt-3">
                   <div class="col-2">
                     <div class="mt-2">
-                      <img src="assets/images/yellow-trike.png" alt="Yellow Trike Image" class="mx-3">
+                      <img src="public/assets/images/yellow-trike.png" alt="Yellow Trike Image" class="mx-3">
                       <p>Yellow Trike</p>
                     </div>
                   </div>
@@ -127,7 +127,7 @@
                 <div class="color-code-green d-flex mt-3">
                   <div class="col-2">
                     <div class="mt-2 center">
-                      <img src="assets/images/green-trike.png" alt="Green Trike Image">
+                      <img src="public/assets/images/green-trike.png" alt="Green Trike Image">
                       <p>Green Trike</p>
                     </div>
                   </div>

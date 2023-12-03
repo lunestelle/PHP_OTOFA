@@ -11,14 +11,20 @@ class Tricycles
       redirect('');
     }
 
+    $statusFilter = isset($_GET['status']) ? $_GET['status'] : '';
+
     $tricycleModel = new Tricycle();
 
     if ($_SESSION['USER']->role === 'admin') {
       // Fetch all tricycles data for Admin
-      $tricyclesData = $tricycleModel->findAll();
+      $tricyclesData = $statusFilter !== 'active' ? $tricycleModel->findAll() : $tricycleModel->where(['tricycle_status' => 'Active']);
     } else {
       // Fetch tricycles data based on the user ID for non-Admin users
-      $tricyclesData = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+      $whereConditions = ['user_id' => $_SESSION['USER']->user_id];
+      if ($statusFilter === 'active') {
+        $whereConditions['tricycle_status'] = 'Active';
+      }
+      $tricyclesData = $tricycleModel->where($whereConditions);
     }
 
     $userModel = new User();

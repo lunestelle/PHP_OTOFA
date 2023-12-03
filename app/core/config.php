@@ -8,7 +8,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('DB_PASS', '');
 	define('DB_DRIVER', 'mysql');
 
-	define('ROOT', 'http://localhost/PHP_Sakaycle/public');
+	define('ROOT', 'http://localhost/PHP_Sakaycle');
 } else {
 	/** Database configuration **/
 	define('DB_NAME', 'sakaycle');

@@ -108,16 +108,16 @@ function generateProfilePicture($initials) {
 
 	// Calculate the position to center the initials
 	$fontSize = 40;
-	$bbox = imagettfbbox($fontSize, 0, 'assets/fonts/Europa-Regular.ttf', $initials);
+	$bbox = imagettfbbox($fontSize, 0, 'public/assets/fonts/Europa-Regular.ttf', $initials);
 	$textWidth = $bbox[2] - $bbox[0];
 	// Cast to integer if needed
 	$x = (int)(($width - $textWidth) / 2);
 	$y = (int)(($height + $fontSize) / 2);
 	
 	// Add the initials to the image
-	imagettftext($image, $fontSize, 0, $x, $y, $textColor, 'assets/fonts/Europa-Regular.ttf', $initials);
+	imagettftext($image, $fontSize, 0, $x, $y, $textColor, 'public/assets/fonts/Europa-Regular.ttf', $initials);
 	
-	$path = '../profile_photos/generated_profile/' . uniqid() . '.png';
+	$path = 'public/profile_photos/generated_profile/' . uniqid() . '.png';
 	header('Content-type: image/png'); 
 	imagepng($image, $path);
 	

@@ -1,7 +1,7 @@
 <header>
   <div class="d-flex">
     <a href="<?=ROOT?>" class="d-flex text-decoration-none">
-      <img class="logo" src="<?=ROOT?>/assets/images/logo.png" alt="Sakaycle Logo">
+      <img class="logo" src="public/assets/images/logo.png" alt="Sakaycle Logo">
       <p>Sakay<span>cle</span></p>
     </a>
   </div>
@@ -17,7 +17,7 @@
 
 <section class="home" id="home">
   <div class="background container">
-    <img src="<?=ROOT?>/assets/images/oc_logo.png" alt="Ormoc Logo">
+    <img src="public/assets/images/oc_logo.png" alt="Ormoc Logo">
     <div class="text-container">
       <h1 class="text-uppercase">Transportation Development Franchising <span></span></h1>
       <h1 class="text-uppercase">and Regulatory office<span></span></h1>
@@ -41,7 +41,7 @@
             <div class="col-md-4">
               <div class="about-item">
                 <div class="item-title">
-                  <img src="<?=ROOT?>/assets/images/appointment.png" alt="Appointment Icon">
+                  <img src="public/assets/images/appointment.png" alt="Appointment Icon">
                   <p class="mx-1">Appointment</p>
                 </div>
                 <div class="text-justify about-item-body">
@@ -53,7 +53,7 @@
             <div class="col-md-4">
               <div class="about-item">
               <div class="item-title">
-                  <img src="<?=ROOT?>/assets/images/notification.png" alt="Push Notification"> 
+                  <img src="public/assets/images/notification.png" alt="Push Notification"> 
                   <p class="mx-1">Push Notifications</p>
                 </div>
                 <div class="text-justify about-item-body">
@@ -65,7 +65,7 @@
             <div class="col-md-4">
               <div class="about-item">
               <div class="item-title">
-                <img src="<?=ROOT?>/assets/images/management.png" alt="Management Icon">
+                <img src="public/assets/images/management.png" alt="Management Icon">
                 <p class="mx-1">Management</p>
               </div>
               <div class="text-justify about-item-body">

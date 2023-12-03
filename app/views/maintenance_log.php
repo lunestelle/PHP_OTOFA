@@ -33,7 +33,7 @@
                 <td>2023-06-18</td>
                 <td>150</td>
                 <td>Routine Maintenance</td>
-                <td><img src="<?=ROOT?>/assets/images/receipt-icon.png" alt="Receipt Image" width="40"></td>
+                <td><img src="public/assets/images/receipt-icon.png" alt="Receipt Image" width="40"></td>
                 <td>
                   <div class="col-auto d-flex justify-content-center">
                   <span href="#" class="view_data px-1 me-1" style="color:#26CC00" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></span>
@@ -48,7 +48,7 @@
                 <td>2023-06-15</td>
                 <td>200</td>
                 <td>Repair work</td>
-                <td><img src="<?=ROOT?>/assets/images/receipt-icon.png" alt="Receipt Image" width="40"></td>
+                <td><img src="public/assets/images/receipt-icon.png" alt="Receipt Image" width="40"></td>
                 <td>
                   <div class="col-auto d-flex justify-content-center">
                     <span href="#" class="view_data px-1 me-1" style="color:#26CC00" title="View Product Details"><i class="fa-solid fa-file-lines fa-lg"></i></span>

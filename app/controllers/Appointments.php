@@ -11,18 +11,25 @@ class Appointments
       redirect('');
     }
 
+    $statusFilter = isset($_GET['status']) ? $_GET['status'] : '';
+
     $appointmentModel = new Appointment();
 
     if ($_SESSION['USER']->role === 'admin') {
       // Fetch all tricycles data for Admin
-      $appointmentsData = $appointmentModel->findAll();
+      $appointmentsData = $statusFilter !== 'pending' ? $appointmentModel->findAll() : $appointmentModel->where(['status' => 'Pending']);
     } else {
       // Fetch tricycles data based on the user ID for non-Admin users
-      $appointmentsData = $appointmentModel->where(['user_id' => $_SESSION['USER']->user_id]);
+      $whereConditions = ['user_id' => $_SESSION['USER']->user_id];
+      if ($statusFilter === 'pending') {
+        $whereConditions['status'] = 'Pending';
+      }
+      $appointmentsData = $appointmentModel->where($whereConditions);
     }
 
     $data['appointments'] = [];
     $data['index'] = 1;
+    // $appointment = [];
 
     if (!empty($appointmentsData)) {
       foreach ($appointmentsData as $appointment) {

@@ -89,7 +89,7 @@ class New_tricycle
   private function handleFileUploads($formData)
   {
     $uniqueId = uniqid();
-    $uploadDirectory = '../uploads/tricycle_images/' . $uniqueId;
+    $uploadDirectory = 'public/uploads/tricycle_images/' . $uniqueId;
 
     $frontImageName = 'front_view_image';
     $sideImageName = 'side_view_image';

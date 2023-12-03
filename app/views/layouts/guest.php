@@ -3,28 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>SAKAYCLE | A Web-based Tricycle Management</title>
-  <link rel="icon" href="<?=ROOT?>/assets/images/logo.png" type="image/x-icon">
+  <link rel="icon" href="public/assets/images/logo.png" type="image/x-icon">
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
 
   <!-- OFFLINE CSS -->
-  <link rel="stylesheet" href="<?=ROOT?>/assets/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="<?=ROOT?>/assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="public/assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="public/assets/fontawesome/css/all.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="<?=ROOT?>/assets/css/flash_messages.css">
-  <link rel="stylesheet" href="<?=ROOT?>/assets/css/authentication.css">
+  <link rel="stylesheet" href="public/assets/css/flash_messages.css">
+  <link rel="stylesheet" href="public/assets/css/authentication.css">
   {{css}}
 
   <!-- OFFLINE JS -->
-  <script src="<?=ROOT?>/assets/bootstrap/js/jquery.min.js"></script>
-  <script src="<?=ROOT?>/assets/bootstrap/js/popper.min.js"></script>
-  <script src="<?=ROOT?>/assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="<?=ROOT?>/assets/js/flash_messages.js"></script>
-  <script src="<?=ROOT?>/assets/js/password_toggle.js"></script>
-  <script src="<?=ROOT?>/assets/js/modal.js"></script>
-  <script src="<?=ROOT?>/assets/js/modal_submission.js"></script>
-  <script src="<?=ROOT?>/assets/js/active_links.js"></script>
-  <script src="<?=ROOT?>/assets/js/tooltip.js"></script>
+  <script src="public/assets/bootstrap/js/jquery.min.js"></script>
+  <script src="public/assets/bootstrap/js/popper.min.js"></script>
+  <script src="public/assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="public/assets/js/flash_messages.js"></script>
+  <script src="public/assets/js/password_toggle.js"></script>
+  <script src="public/assets/js/modal.js"></script>
+  <script src="public/assets/js/modal_submission.js"></script>
+  <script src="public/assets/js/active_links.js"></script>
+  <script src="public/assets/js/tooltip.js"></script>
 </head>
 <style>
   .pop_msg {

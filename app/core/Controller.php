@@ -1,5 +1,5 @@
 <?php
-define('BASE_URL', 'http://localhost/PHP_Sakaycle/public/');
+define('BASE_URL', 'http://localhost/PHP_Sakaycle/');
 
 trait Controller
 {
@@ -41,7 +41,7 @@ trait Controller
 
 			$cssFileTags = '';
 			foreach ($cssFiles as $cssFile) {
-				$cssFileTags .= '<link rel="stylesheet" type="text/css" href="../public/assets/css/' . $cssFile . '">';
+				$cssFileTags .= '<link rel="stylesheet" type="text/css" href="public/assets/css/' . $cssFile . '">';
 			}
 
 			$layoutContent = str_replace('{{css}}', $cssFileTags, $layoutContent);
@@ -62,7 +62,7 @@ trait Controller
 			$layoutFile = 'guest.php';
 		}
 		ob_start();
-		include_once "../app/views/layouts/$layoutFile";
+		include_once "app/views/layouts/$layoutFile";
 		return ob_get_clean();
 	}
 
@@ -75,7 +75,7 @@ trait Controller
     $urlSegments = explode('/', trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
     $baseSegments = explode('/', trim(BASE_URL, '/'));
     $filteredSegments = array_diff($urlSegments, $baseSegments);
-    $filePath = "../app/views/{$viewName}.php";
+    $filePath = "app/views/{$viewName}.php";
 
     if (count($filteredSegments) < 2) {
 			if (file_exists($filePath)) {
@@ -108,7 +108,7 @@ trait Controller
 		$sidebarNewPages = ['new_driver', 'new_taripa', 'new_tricycle', 'new_appointment'];
 
 		$cssFile = $page . '.css';
-		$cssFilePath = "../public/assets/css/{$cssFile}";
+		$cssFilePath = "public/assets/css/{$cssFile}";
 		$cssFiles = [];
 
     if (file_exists($cssFilePath)) {

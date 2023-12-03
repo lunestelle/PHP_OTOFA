@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>404 Not Found</title>
-  <link rel="stylesheet" href="<?=ROOT?>/assets/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="<?=ROOT?>/assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="public/assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="public/assets/fontawesome/css/all.min.css">
   <style>
     body {
       background-color: #f8f9fa;
@@ -74,8 +74,8 @@
     </p>
   </div>
 
-  <script src="<?=ROOT?>/assets/bootstrap/js/jquery.min.js"></script>
-  <script src="<?=ROOT?>/assets/bootstrap/js/popper.min.js"></script>
-  <script src="<?=ROOT?>/assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="public/assets/bootstrap/js/jquery.min.js"></script>
+  <script src="public/assets/bootstrap/js/popper.min.js"></script>
+  <script src="public/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
           </tr>
           <tr>
             <td style="text-align:center;">
-              <img class="logo" src="<?=ROOT?>/assets/images/logo.png" alt="">
+              <img class="logo" src="public/assets/images/logo.png" alt="">
               <a href="http://localhost/PHP_Sakaycle/views/index.php" title="logo" target="_blank" style="font-size: 48px; font-weight: bold; color: #FF4200; text-decoration: none;">Sakay<span style="color: #000;">cle.</span></a>
             </td>
           </tr>

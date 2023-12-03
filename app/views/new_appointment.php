@@ -224,16 +224,16 @@
                 </div>
 
                 <div id="newFranchiseFormContainer" class="form-container">
-                  <?php include('../app/views/appointments_form/new_franchise.php'); ?>
+                  <?php include('app/views/appointments_form/new_franchise.php'); ?>
                 </div>
                 <div id="renewalOfFranchiseFormContainer" class="form-container">
-                  <?php include('../app/views/appointments_form/renewal_of_franchise.php'); ?>
+                  <?php include('app/views/appointments_form/renewal_of_franchise.php'); ?>
                 </div>
                 <div id="transferOfOwnershipFormContainer" class="form-container">
-                  <?php include('../app/views/appointments_form/transfer_of_ownership.php'); ?>
+                  <?php include('app/views/appointments_form/transfer_of_ownership.php'); ?>
                 </div>
                 <div id="changeOfMotorcycleFormContainer" class="form-container">
-                  <?php include('../app/views/appointments_form/change_of_motorcycle.php'); ?>
+                  <?php include('app/views/appointments_form/change_of_motorcycle.php'); ?>
                 </div>
                
                 <div class="text-end my-3">
