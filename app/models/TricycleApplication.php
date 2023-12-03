@@ -21,11 +21,31 @@ class TricycleApplication
     'chasis_number',
     'coc_no',
     'coc_no_expiry_date',
-    'plate_number',
+    'tricycle_id',
     'lto_cr_no',
     'lto_or_no',
     'driver_license_no',
     'driver_license_expiry_date',
+    // mtop requirements
+    'mc_lto_certificate_of_registration_path',
+    'mc_lto_official_receipt_path',
+    'mc_plate_authorization_path',
+    'tc_insurance_policy_path',
+    'front_view_image_path',
+    'side_view_image_path',
+    'sketch_location_of_garage_path',
+    'affidavit_of_income_tax_return_path',
+    'driver_cert_safety_driving_seminar_path',
+    'proof_of_id_path',
+    'tc_lto_certificate_of_registration_path',
+    'tc_lto_official_receipt_path',
+    'tc_plate_authorization_path',
+    'tc_renewed_insurance_policy_path',
+    'latest_franchise_path',
+    'death_certificate_path',
+    'agreement_amongst_heirs_path',
+    'deed_of_donation_or_deed_of_sale_path',
+    'or_of_return_plate_path',
   ];
   protected $order_column = 'tricycle_application_id';
 
@@ -44,10 +64,6 @@ class TricycleApplication
       'chasis_number' => 'Chassis Number',
       'coc_no' => 'COC Number',
       'coc_no_expiry_date' => 'COC Expiry Date',
-      'plate_number' => 'Tricycle Plate Number',
-      'lto_cr_no' => 'LTO CR Number',
-      'lto_or_no' => 'LTO OR Number',
-      'plate_number' => 'Plate Number',
       'route_area' => 'Route Area / Zone',
       'color_code' => 'Color Code',
       // ------- Didn't require the following because there are instances of tricycles that still have no driver like New Franchise -------
@@ -92,6 +108,19 @@ class TricycleApplication
       foreach ($requiredDriverFields as $field => $fieldName) {
         if (empty($data[$field])) {
           $errors[] = $fieldName . ' is required for the selected driver.';
+        }
+      }
+    }
+
+    if (!empty($data['tricycle_id']) || !empty($data['plate_no'])) {
+      $requiredTricycleFields = [
+        'lto_cr_no' => 'LTO CR Number',
+        'lto_or_no' => 'LTO OR Number',
+      ];
+
+      foreach ($requiredTricycleFields as $field => $fieldName) {
+        if (empty($data[$field])) {
+          $errors[] = $fieldName . ' is required for the selected tricycle CIN.';
         }
       }
     }

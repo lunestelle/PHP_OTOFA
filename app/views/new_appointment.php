@@ -14,7 +14,7 @@
                     <h6 class="text-uppercase text-center text-light fs-6">Appointment Information</h6>
                   </div>
                   <div class="row px-3 p-4">
-                    <div class="col-12 d-flex">
+                    <div class="col-12 d-flex mb-1">
                       <div class="col-4 px-5">
                         <label for="name" class="form-label">Full Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($_POST['name']) ? $_POST['name'] : ''; ?>" required>
@@ -29,35 +29,44 @@
                       <div class="col-4 px-5">
                         <label for="email" class="form-label">Email (Optional)</label>
                         <div class="input-group">
-                          <input type="email" class="form-control phone-no" id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
+                          <input type="email" class="form-control phone-no text-lowercase" id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
                         </div>
                       </div>
                     </div>
-                    <div class="col-12 d-flex">
+                    <div class="col-12 d-flex mb-1">
                       <div class="col-4 px-5">
                         <label for="appointment_type" class="form-label">Appointment Type</label>
                         <select class="form-control" id="appointment_type" name="appointment_type" required>
                           <option value="" selected disabled>Select Appointment Type</option>
-                          <option value="Transfer of Ownership" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Transfer of Ownership') ? 'selected' : ''; ?>>Transfer of Ownership</option>
-                          <option value="New Applicant" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'New Applicant') ? 'selected' : ''; ?>>New Applicant</option>
                           <option value="New Franchise" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'New Franchise') ? 'selected' : ''; ?>>New Franchise</option>
                           <option value="Renewal of Franchise" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Renewal of Franchise') ? 'selected' : ''; ?>>Renewal of Franchise</option>
+                          <option value="Transfer of Ownership" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Transfer of Ownership') ? 'selected' : ''; ?>>Transfer of Ownership</option>
                           <option value="Change of Motorcycle" <?php echo (isset($_POST['appointment_type']) && $_POST['appointment_type'] === 'Change of Motorcycle') ? 'selected' : ''; ?>>Change of Motorcycle</option>
                         </select>
                       </div>
                       <div class="col-4 px-5">
                         <label for="appointment_date" class="form-label">Preferred Date</label>
-                        <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?php echo isset($_POST['appointment_date']) ? $_POST['appointment_date'] : ''; ?>" required>
+                        <input type="date" class="form-control text-uppercase" id="appointment_date" name="appointment_date" value="<?php echo isset($_POST['appointment_date']) ? $_POST['appointment_date'] : ''; ?>" required>
                       </div>
                       <div class="col-4 px-5">
                         <label for="appointment_time" class="form-label">Preferred Time</label>
                         <input type="time" class="form-control" id="appointment_time" name="appointment_time" value="<?php echo isset($_POST['appointment_time']) ? $_POST['appointment_time'] : ''; ?>" required>
                       </div>
                     </div>
+                    <div class="col-12 d-flex">
+                      <div class="col-4 px-5" id="transferTypeSection" style="display: none;">
+                        <label for="transferType" class="form-label">Transfer Type (if applicable):</label>
+                        <select id="transferType" name="transferType" class="form-control">
+                          <option value="normal">Normal Transfer</option>
+                          <option value="deceased_owner">Transfer from Deceased Owner</option>
+                          <option value="intent_of_transfer">Intent of Transfer</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div class="content-container mt-2">
+                <div class="content-container mt-2 mb-3">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6">Tricycle Application Form</h6>
                   </div>
@@ -108,7 +117,7 @@
                       </div>
                       <div class="col-4 px-5">
                         <label for="make_model_expiry_date" class="form-label">Model Expiry Date</label>
-                        <input type="date" class="form-control" id="make_model_expiry_date" name="make_model_expiry_date" value="<?php echo isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ''; ?>" required>
+                        <input type="date" class="form-control text-uppercase" id="make_model_expiry_date" name="make_model_expiry_date" value="<?php echo isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ''; ?>" required>
                       </div>
                     </div>
 
@@ -134,71 +143,99 @@
                       </div>
                       <div class="col-4 px-5">
                         <label for="coc_no_expiry_date" class="form-label">C.O.C Expiry Date</label>
-                        <input type="date" class="form-control" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?php echo isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : ''; ?>" required>
+                        <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?php echo isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : ''; ?>" required>
                       </div>
                     </div>
 
                     <div class="col-12 d-flex mb-2">
-                      <div class="col-4 px-5">
-                        <label for="plate_number" class="form-label">Plate Number</label>
-                        <input type="text" class="form-control" id="plate_number" name="plate_number" value="<?php echo isset($_POST['plate_number']) ? $_POST['plate_number'] : ''; ?>" min="0" required>
-                      </div>
-                      <div class="col-4 px-5">
-                        <label for="lto_cr_no" class="form-label">LTO CR Number</label>
-                        <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?php echo isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : ''; ?>" required>
-                      </div>
-                      <div class="col-4 px-5">
-                        <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                        <input type="text" class="form-control" id="lto_or_no" name="lto_or_no" value="<?php echo isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : ''; ?>" required>
-                      </div>
+                      <?php if (!empty($tricycles)): ?>
+                        <div class="col-4 px-5">
+                          <label for="tricycle_id" class="form-label">Tricycle CIN</label>
+                          <select class="form-control" id="tricycle_id" name="tricycle_id">
+                            <option <?php echo (!isset($_POST['tricycle_id'])) ? 'selected' : ''; ?> disabled>Please Select Here</option>
+                            <?php foreach ($tricycles as $tricycle): ?>
+                              <option value="<?php echo $tricycle['tricycle_id']; ?>" <?php echo (isset($_POST['tricycle_id']) && $_POST['tricycle_id'] == $tricycle['tricycle_id']) ? 'selected' : ''; ?>>
+                                <?php echo $tricycle['plate_no']; ?>
+                              </option>
+                            <?php endforeach; ?>
+                          </select>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="lto_cr_no" class="form-label">LTO CR Number</label>
+                          <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?php echo isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : ''; ?>" required>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="lto_or_no" class="form-label">LTO OR Number</label>
+                          <input type="text" class="form-control" id="lto_or_no" name="lto_or_no" value="<?php echo isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : ''; ?>" required>
+                        </div>
+                      <?php else: ?>
+                        <div class="col-4 px-5">
+                          <label for="tricycle_id" class="form-label">Tricycle CIN</label>
+                          <input type="text" class="form-control" id="tricycle_id" name="tricycle_id" value="<?php echo isset($_POST['tricycle_id']) ? $_POST['tricycle_id'] : ''; ?>" min="0" disabled>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="lto_cr_no" class="form-label">LTO CR Number</label>
+                          <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?php echo isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : ''; ?>" disabled>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="lto_or_no" class="form-label">LTO OR Number</label>
+                          <input type="text" class="form-control" id="lto_or_no" name="lto_or_no" value="<?php echo isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : ''; ?>" disabled>
+                        </div>
+                      <?php endif; ?>
                     </div>
 
                     <div class="col-12 d-flex mb-2">
-                      <div class="col-4 px-5">
-                        <label for="driver_id" class="form-label">Name of Driver</label>
-                        <select class="form-control" id="driver_id" name="driver_id">
-                          <option value="" disabled <?php echo (!isset($_POST['driver_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
-                          <?php foreach ($data['drivers'] as $driver): ?>
-                            <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($_POST['driver_id']) && $_POST['driver_id'] == $driver['driver_id']) ? 'selected' : ''; ?>>
-                              <?php echo $driver['name']; ?>
-                            </option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-                      <div class="col-4 px-5">
-                        <label for="driver_license_no" class="form-label">Driver License Number</label>
-                        <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?php echo isset($_POST['driver_license_no']) ? $_POST['driver_license_no'] : ''; ?>">
-                      </div>
-                      <div class="col-4 px-5">
-                        <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
-                        <input type="date" class="form-control" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?php echo isset($_POST['driver_license_expiry_date']) ? $_POST['driver_license_expiry_date'] : ''; ?>">
-                      </div>
+                      <?php if (!empty($tricycles)): ?>
+                        <div class="col-4 px-5">
+                          <label for="driver_id" class="form-label">Name of Driver</label>
+                          <select class="form-control" id="driver_id" name="driver_id">
+                            <option value="" disabled <?php echo (!isset($_POST['driver_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
+                            <?php foreach ($data['drivers'] as $driver): ?>
+                              <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($_POST['driver_id']) && $_POST['driver_id'] == $driver['driver_id']) ? 'selected' : ''; ?>>
+                                <?php echo $driver['name']; ?>
+                              </option>
+                            <?php endforeach; ?>
+                          </select>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="driver_license_no" class="form-label">Driver License Number</label>
+                          <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?php echo isset($_POST['driver_license_no']) ? $_POST['driver_license_no'] : ''; ?>">
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
+                          <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?php echo isset($_POST['driver_license_expiry_date']) ? $_POST['driver_license_expiry_date'] : ''; ?>">
+                        </div>
+                      <?php else: ?>
+                        <div class="col-4 px-5">
+                          <label for="driver_id" class="form-label">Name of Driver</label>
+                          <input type="text" class="form-control" id="driver_id" name="driver_id" value="<?php echo isset($_POST['driver_id']) ? $_POST['driver_id'] : ''; ?>" disabled>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="driver_license_no" class="form-label">Driver License Number</label>
+                          <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?php echo isset($_POST['driver_license_no']) ? $_POST['driver_license_no'] : ''; ?>" disabled>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
+                          <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?php echo isset($_POST['driver_license_expiry_date']) ? $_POST['driver_license_expiry_date'] : ''; ?>" disabled>
+                        </div>
+                      <?php endif; ?>
                     </div>
                   </div>
                 </div>
 
-                <!-- <div class="content-container mt-4">
-                  <div class="bckgrnd pt-2">
-                    <h6 class="pl-2 text-uppercase text-center text-light fs-6">Document Images</h6>
-                  </div>
-                  <div class="row justify-content-evenly px-3 p-3">
-                    <div class="col-12 d-flex justify-content-evenly">
-                      <div class="text-center">
-                        <label for="front_view_image" class="form-label">Tricycle Front View</label>
-                        <input type="file" class="form-control" id="front_view_image" name="front_view_image" accept="image/*" />
-                      </div>
-                      <div class="text-center">
-                        <label for="back_view_image" class="form-label">Tricycle Back View</label>
-                        <input type="file" class="form-control" id="back_view_image" name="back_view_image" accept="image/*" />
-                      </div>
-                      <div class="text-center">
-                        <label for="side_view_image" class="form-label">Tricycle Side View</label>
-                        <input type="file" class="form-control" id="side_view_image" name="side_view_image" accept="image/*" />
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-
+                <div id="newFranchiseFormContainer" class="form-container">
+                  <?php include('../app/views/appointments_form/new_franchise.php'); ?>
+                </div>
+                <div id="renewalOfFranchiseFormContainer" class="form-container">
+                  <?php include('../app/views/appointments_form/renewal_of_franchise.php'); ?>
+                </div>
+                <div id="transferOfOwnershipFormContainer" class="form-container">
+                  <?php include('../app/views/appointments_form/transfer_of_ownership.php'); ?>
+                </div>
+                <div id="changeOfMotorcycleFormContainer" class="form-container">
+                  <?php include('../app/views/appointments_form/change_of_motorcycle.php'); ?>
+                </div>
+               
                 <div class="text-end my-3">
                   <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn">Schedule Appointment</button>
                 </div>
@@ -224,6 +261,55 @@
         behavior: "smooth",
         block: "start"
       });
+    }
+  });
+
+  $(document).ready(function() {
+    // Initial form visibility based on selected appointment type
+    showHideForms();
+
+    // Handle appointment type change
+    $('#appointment_type').change(function() {
+      showHideForms();
+    });
+
+    $('#transferType').change(function() {
+      showHideForms();
+    });
+
+    // Handle form submission
+    $('#scheduleAppointmentBtn').click(function(e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Submit only the visible form
+      var visibleForm = $('#appointmentForm .form-container:visible form');
+      visibleForm.submit();
+    });
+
+    // Function to show/hide forms based on appointment type
+    function showHideForms() {
+      var selectedAppointmentType = $('#appointment_type').val();
+      var selectedTransferType = $('#transferType').val();
+      
+      $('#appointmentForm .form-container').hide();
+      $('#appointmentForm .form-container, #deceasedOwnerSection, #intentOfTransferSection').hide();
+
+      // Show the form container based on the selected appointment type
+      if (selectedAppointmentType === 'New Franchise') {
+        $('#newFranchiseFormContainer').show();
+      } else if (selectedAppointmentType === 'Renewal of Franchise') {
+        $('#renewalOfFranchiseFormContainer').show();
+      } else if (selectedAppointmentType === 'Transfer of Ownership') {
+        $('#transferOfOwnershipFormContainer').show();
+        $('#transferTypeSection').show();
+        if (selectedTransferType === 'deceased_owner') {
+          $('#deceasedOwnerSection').show();
+        } else if (selectedTransferType === 'intent_of_transfer') {
+          $('#intentOfTransferSection').show();
+        }
+      } else if (selectedAppointmentType === 'Change of Motorcycle') {
+        $('#changeOfMotorcycleFormContainer').show();
+      }
     }
   });
 </script>
