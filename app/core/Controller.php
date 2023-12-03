@@ -53,7 +53,7 @@ trait Controller
 
 	protected function getLayoutContent($page)
 	{
-		$userLayout = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_log', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_operator', 'view_appointment', 'view_driver', 'view_maintenance_log', 'edit_tricycle', 'edit_driver', 'edit_taripa', 'edit_appointment', 'edit_maintenance_log', 'new_taripa', 'new_driver', 'new_appointment', 'new_tricycle', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info',];
+		$userLayout = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_operator', 'view_appointment', 'view_driver', 'view_maintenance_log', 'edit_tricycle', 'edit_driver', 'edit_taripa', 'edit_appointment', 'edit_maintenance_log', 'new_taripa', 'new_driver', 'new_appointment', 'new_tricycle', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info',];
 
 		if (in_array($page, $userLayout)) {
 			extract($this->sharedData);
@@ -99,7 +99,7 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_log', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'view_maintenance_log', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info'];
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'view_maintenance_log', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info'];
 		
 		$sidebarViewPages = ['view_tricycle', 'view_driver', 'view_appointment', 'view_operator', 'view_maintenance_log'];
 

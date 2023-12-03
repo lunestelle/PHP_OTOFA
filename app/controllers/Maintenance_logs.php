@@ -1,6 +1,6 @@
 <?php
 
-class Maintenance_log
+class Maintenance_logs
 {
   use Controller;
 
@@ -64,6 +64,6 @@ class Maintenance_log
       }
     }
 
-    echo $this->renderView('maintenance_log', true, $data);
+    echo $this->renderView('maintenance_logs', true, $data);
   }
 }

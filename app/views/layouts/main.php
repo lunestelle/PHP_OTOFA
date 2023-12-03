@@ -117,7 +117,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                   <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-white" href="maintenance_log"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
+                  <a class="nav-link text-white" href="maintenance_logs"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
                 </li>
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">
