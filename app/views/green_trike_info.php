@@ -17,6 +17,13 @@
         background-color: #090C1B;
         border-radius: 15px;
     }
+    .back-button:hover {
+        padding: 7px 75px;
+        color: #090C1B;
+        background-color: white;
+        border: inset 1px #090C1B;
+        border-radius: 15px;
+    }
     .button {
         margin-top: 100px;
     }

@@ -110,6 +110,20 @@
   max-width: 100%;
 }
 
+@media screen and (min-width: 1900px) and (max-width: 4160px) {
+  .color-code-blue,
+  .color-code-green,
+  .color-code-red,
+  .color-code-yellow {
+    height: 95px !important;
+  }
+
+  .container-code .description p {
+    font-size: 14px !important;
+  }
+}
+
+
 .color-code-blue {
   border-top: 3px solid rgba(15, 136, 255, 0.75);
   background:  rgba(15, 136, 255, 0.15);
