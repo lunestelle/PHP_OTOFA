@@ -73,7 +73,7 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="col-12 text-uppercase">
-          <h6 class="text-secondary fw-bolder">Tricycle's Code </h6>
+          <h6 class="text-secondary fw-bolder">Tricycle's Zone</h6>
         </div>
         <div class="row">
           <div class="col-12">
