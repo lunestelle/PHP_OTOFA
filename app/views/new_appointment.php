@@ -8,7 +8,7 @@
         <div class="col-12 pt-2">
           <div class="container pt-3">
             <div id="newAppointmentForm">
-              <form class="default-form" method="POST" action="" id="appointmentForm">
+              <form class="default-form" method="POST" action="" enctype="multipart/form-data" id="appointmentForm">
                 <div class="content-container mt-2 mb-3">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6">Appointment Information</h6>
@@ -278,9 +278,7 @@
     });
 
     // Handle form submission
-    $('#scheduleAppointmentBtn').click(function(e) {
-      e.preventDefault(); // Prevent the default form submission
-
+    $('#appointmentForm').submit(function(e) {
       // Submit only the visible form
       var visibleForm = $('#appointmentForm .form-container:visible form');
       visibleForm.submit();
