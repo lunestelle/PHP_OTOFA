@@ -11,17 +11,17 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('ROOT', 'http://localhost/PHP_Sakaycle');
 } else {
 	/** Database configuration **/
-	define('DB_NAME', 'sakaycle');
+	define('DB_NAME', 'sakaycle'); 
 	define('DB_HOST', 'localhost');
-	define('DB_USER', 'root');
-	define('DB_PASS', '');
+	define('DB_USER', 'sakaycle_admin');
+	define('DB_PASS', 'KYio]63K{9bf'); 
 	define('DB_DRIVER', 'mysql');
 
-	define('ROOT', 'https://www.yourwebsite.com');
+	define('ROOT', 'https://wlccicte.com/sakaycle.com');
 }
 
-define('APP_NAME', "My Website");
-define('APP_DESC', "Best website on the planet");
+define('APP_NAME', "Sakaycle");
+define('APP_DESC', "A Web-Based Tricycle Management");
 
 /** Set to true to show errors **/
 define('DEBUG', true);
