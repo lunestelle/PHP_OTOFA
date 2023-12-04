@@ -3,9 +3,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../public/phpmailer/src/Exception.php';
-require '../public/phpmailer/src/PHPMailer.php';
-require '../public/phpmailer/src/SMTP.php';
+require 'public/phpmailer/src/Exception.php';
+require 'public/phpmailer/src/PHPMailer.php';
+require 'public/phpmailer/src/SMTP.php';
 
 class Forgot_password
 {

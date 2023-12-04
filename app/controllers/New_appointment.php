@@ -1,5 +1,12 @@
 <?php
 
+// require '../vendor/autoload.php';
+
+// use SMSGatewayMe\Client\ApiClient;
+// use SMSGatewayMe\Client\Configuration;
+// use SMSGatewayMe\Client\Api\MessageApi;
+// use SMSGatewayMe\Client\Model\SendMessageRequest;
+
 class New_appointment
 {
   use Controller;
@@ -25,6 +32,21 @@ class New_appointment
     } else {
       $data['drivers'] = [];
     }
+
+    $tricycleModel = new Tricycle();
+		$tricycles = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+		$data['tricycles'] = [];
+
+		if (is_array($tricycles) || is_object($tricycles)) {
+			foreach ($tricycles as $tricycle) {
+				$data['tricycles'][$tricycle->tricycle_id] = [
+					'tricycle_id' => $tricycle->tricycle_id,
+					'plate_no' => $tricycle->plate_no
+				];
+			}
+		} else {
+			$data['tricycles'] = [];
+		}
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
       $appointmentModel = new Appointment();
@@ -55,7 +77,7 @@ class New_appointment
         'chasis_number' => $_POST['chasis_number'] ?? '',
         'coc_no' => $_POST['coc_no'] ?? '',
         'coc_no_expiry_date' => $_POST['coc_no_expiry_date'] ?? '',
-        'plate_number' => $_POST['plate_number'] ?? '',
+        'tricycle_id' => $_POST['tricycle_id'] ?? '',
         'lto_cr_no' => $_POST['lto_cr_no'] ?? '',
         'lto_or_no' => $_POST['lto_or_no'] ?? '',
         'driver_id' => $_POST['driver_id'] ?? '',
@@ -75,25 +97,41 @@ class New_appointment
         $formattedPhoneNumber = $appointmentFormData['phone_number'];
 				$appointmentFormData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
 
-        if ($appointmentModel->insert($appointmentFormData)) {
-          $lastId = $appointmentModel->getLastInsertedRecord()[0]->appointment_id;
-          $tricycleApplicationFormData['appointment_id'] = $lastId;
-          
-          $formattedPhoneNumber = $tricycleApplicationFormData['tricycle_phone_number'];
-				  $tricycleApplicationFormData['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
+        if (!empty($_FILES['mc_lto_certificate_of_registration']['name']) && !empty($_FILES['mc_lto_official_receipt']['name']) && !empty($_FILES['mc_plate_authorization']['name']) && !empty($_FILES['tc_insurance_policy']['name']) && !empty($_FILES['front_view_image']['name']) && !empty($_FILES['side_view_image']['name']) && !empty($_FILES['sketch_location_of_garage']['name']) && !empty($_FILES['affidavit_of_income_tax_return']['name']) && !empty($_FILES['driver_cert_safety_driving_seminar']['name']) && !empty($_FILES['proof_of_id']['name'])) {
+          $imagePaths = $this->handleFileUploads($formData);
 
-          if ($tricycleApplicationModel->insert($tricycleApplicationFormData)){
-            set_flash_message("Appointment scheduled successfully.", "success");
-            redirect('appointments');
+          if ($imagePaths === false) {
+            set_flash_message("Failed to upload images.", "error");
+            redirect('tricycles');
+          }
+
+          $formData['mc_lto_certificate_of_registration_path'] = $imagePaths['mc_lto_certificate_of_registration'];
+          $formData['mc_lto_official_receipt_path'] = $imagePaths['mc_lto_official_receipt'];
+          $formData['mc_plate_authorization_path'] = $imagePaths['mc_plate_authorization'];
+          $formData['tc_insurance_policy_path'] = $imagePaths['tc_insurance_policy'];
+
+          if ($appointmentModel->insert($appointmentFormData)) {
+            $lastId = $appointmentModel->getLastInsertedRecord()[0]->appointment_id;
+            $tricycleApplicationFormData['appointment_id'] = $lastId;
+            
+            $formattedPhoneNumber = $tricycleApplicationFormData['tricycle_phone_number'];
+            $tricycleApplicationFormData['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
+  
+            if ($tricycleApplicationModel->insert($tricycleApplicationFormData)){
+              set_flash_message("Appointment scheduled successfully.", "success");
+              redirect('appointments');
+            } else {
+              $appointmentModel->delete($lastId);
+              set_flash_message("Failed to schedule appointment. Please try again later.", "error");
+              redirect('appointments');
+            }
           } else {
-            $appointmentModel->delete($lastId);
             set_flash_message("Failed to schedule appointment. Please try again later.", "error");
             redirect('appointments');
           }
-        } else {
-          set_flash_message("Failed to schedule appointment. Please try again later.", "error");
-          redirect('appointments');
         }
+
+       
       }
     }
 
@@ -114,5 +152,21 @@ class New_appointment
     }
    
     return $errors;
+  }
+
+  private function sendSMS($to, $message) {
+    $accountSid = 'your_twilio_account_sid';
+    $authToken  = 'your_twilio_auth_token';
+    $twilioNumber = 'your_twilio_phone_number';
+
+    $client = new Client($accountSid, $authToken);
+
+    $client->messages->create(
+      $to,
+      [
+        'from' => $twilioNumber,
+        'body' => $message,
+      ]
+    );
   }
 }

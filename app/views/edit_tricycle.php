@@ -43,9 +43,9 @@
                       <select class="form-control" id="color_code" name="color_code" required>
                           <option selected disabled>Please Select Here</option>
                           <option value="Red" data-route-area="Free Zone / Zone 1" <?php echo isset($tricycleData['color_code']) && $tricycleData['color_code'] === 'Red' ? 'selected' : ''; ?>>Red</option>
-                          <option value="Green" data-route-area="Free Zone & Zone 2" <?php echo isset($tricycleData['color_code']) && $tricycleData['color_code'] === 'Green' ? 'selected' : ''; ?>>Green</option>
+                          <option value="Blue" data-route-area="Free Zone & Zone 2" <?php echo isset($tricycleData['color_code']) && $tricycleData['color_code'] === 'Blue' ? 'selected' : ''; ?>>Blue</option>
                           <option value="Yellow" data-route-area="Free Zone & Zone 3" <?php echo isset($tricycleData['color_code']) && $tricycleData['color_code'] === 'Yellow' ? 'selected' : ''; ?>>Yellow</option>
-                          <option value="Blue" data-route-area="Free Zone & Zone 4" <?php echo isset($tricycleData['color_code']) && $tricycleData['color_code'] === 'Blue' ? 'selected' : ''; ?>>Blue</option>
+                          <option value="Green" data-route-area="Free Zone & Zone 4" <?php echo isset($tricycleData['color_code']) && $tricycleData['color_code'] === 'Green' ? 'selected' : ''; ?>>Green</option>
                       </select>
                     </div>
                   </div>
@@ -56,7 +56,7 @@
                       <input type="text" class="form-control" id="route_area" name="route_area" value="<?php echo isset($tricycleData['route_area']) ? $tricycleData['route_area'] : ''; ?>" placeholder="Select Color Code First" readonly required data-toggle="tooltip" data-bs-placement="right" title="Please choose a Color Code to determine the Route Area for the tricycle.">
                     </div>
                     <div>
-                      <label for="plate_no" class="form-label">Plate No.</label>
+                      <label for="plate_no" class="form-label">CIN</label>
                       <select class="form-control" id="plate_no" name="plate_no" required>
                         <option selected disabled>Please Select Here</option>
                         <?php
@@ -107,60 +107,44 @@
                 <div class="bckgrnd pt-2">
                   <h6 class="pl-2 text-uppercase text-center text-light fs-6">Tricycle images</h6>
                 </div>
-                <div class="row px-3 p-3">
-                  <div class="col-md-4 text-center">
-                    <label class="form-label fw-semibold fs-6">Tricycle Front View</label>
-                    <?php
-                      if (isset($tricycleData['front_view_image_path']) && $tricycleData['front_view_image_path']) {
-                        echo '<div class="image-container position-relative">';
-                        echo '<img src="' . $tricycleData['front_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="front" data-original-image="' . $tricycleData['front_view_image_path'] . '"></button>';
-                        echo '</div>';
-                      } else {
-                        echo '<div class="image-container">';
-                        echo '<input class="form-control" type="file" name="front_view_image" id="front_view_image-input" accept="image/*">';
-                        echo '</div>';
-                      }
-                    ?>
-                    <?php
-                      echo '<input type="hidden" name="original_front_view_image" value="' . ($tricycleData['front_view_image_path'] ?? '') . '">';
-                    ?>
-                  </div>
-                  <div class="col-md-4 text-center">
-                    <label class="form-label fw-semibold fs-6">Tricycle Back View</label>
-                    <?php
-                      if (isset($tricycleData['back_view_image_path']) && $tricycleData['back_view_image_path']) {
-                        echo '<div class="image-container position-relative">';
-                        echo '<img src="' . $tricycleData['back_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="back_view_image" alt="Tricycle Back View">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="back" data-original-image="' . $tricycleData['back_view_image_path'] . '"></button>';
-                        echo '</div>';
-                      } else {
-                        echo '<div class="image-container">';
-                        echo '<input class="form-control" type="file" name="back_view_image" id="back_view_image-input" accept="image/*">';
-                        echo '</div>';
-                      }
-                    ?>
-                    <?php
-                      echo '<input type="hidden" name="original_back_view_image" value="' . ($tricycleData['back_view_image_path'] ?? '') . '">';
-                    ?>
-                  </div>
-                  <div class="col-md-4 text-center">
-                    <label class="form-label fw-semibold fs-6">Tricycle Side View</label>
-                    <?php
-                      if (isset($tricycleData['side_view_image_path']) && $tricycleData['side_view_image_path']) {
-                        echo '<div class="image-container position-relative">';
-                        echo '<img src="' . $tricycleData['side_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="side" data-original-image="' . $tricycleData['side_view_image_path'] . '"></button>';
-                        echo '</div>';
-                      } else {
-                        echo '<div class="image-container">';
-                        echo '<input class="form-control" type="file" name="side_view_image" id="side_view_image-input" accept="image/*">';
-                        echo '</div>';
-                      }
-                    ?>
-                    <?php
-                      echo '<input type="hidden" name="original_side_view_image" value="' . ($tricycleData['side_view_image_path'] ?? '') . '">';
-                    ?>
+                <div class="row justify-content-evenly px-3 p-3">
+                  <div class="col-12 d-flex justify-content-evenly">
+                    <div class="text-center">
+                      <label class="form-label fw-semibold fs-6">Tricycle Front View</label>
+                      <?php
+                        if (isset($tricycleData['front_view_image_path']) && $tricycleData['front_view_image_path']) {
+                          echo '<div class="image-container position-relative">';
+                          echo '<img src="' . $tricycleData['front_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="front_view_image" alt="Tricycle Front View">';
+                          echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="front" data-original-image="' . $tricycleData['front_view_image_path'] . '"></button>';
+                          echo '</div>';
+                        } else {
+                          echo '<div class="image-container">';
+                          echo '<input class="form-control" type="file" name="front_view_image" id="front_view_image-input" accept="image/*">';
+                          echo '</div>';
+                        }
+                      ?>
+                      <?php
+                        echo '<input type="hidden" name="original_front_view_image" value="' . ($tricycleData['front_view_image_path'] ?? '') . '">';
+                      ?>
+                    </div>
+                    <div class="text-center">
+                      <label class="form-label fw-semibold fs-6">Tricycle Side View</label>
+                      <?php
+                        if (isset($tricycleData['side_view_image_path']) && $tricycleData['side_view_image_path']) {
+                          echo '<div class="image-container position-relative">';
+                          echo '<img src="' . $tricycleData['side_view_image_path'] . '" class="img-fluid rounded fixed-height-image" id="side_view_image" alt="Tricycle Side View">';
+                          echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="side" data-original-image="' . $tricycleData['side_view_image_path'] . '"></button>';
+                          echo '</div>';
+                        } else {
+                          echo '<div class="image-container">';
+                          echo '<input class="form-control" type="file" name="side_view_image" id="side_view_image-input" accept="image/*">';
+                          echo '</div>';
+                        }
+                      ?>
+                      <?php
+                        echo '<input type="hidden" name="original_side_view_image" value="' . ($tricycleData['side_view_image_path'] ?? '') . '">';
+                      ?>
+                    </div>
                   </div>
                 </div>
               </div>

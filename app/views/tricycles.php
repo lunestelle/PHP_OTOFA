@@ -18,7 +18,7 @@
               <thead class="thead-custom">
                 <tr class="text-uppercase">
                   <th scope="col" class="text-center">#</th>
-                  <th scope="col" class="text-center">Plate No.</th>
+                  <th scope="col" class="text-center">CIN</th>
                   <th scope="col" class="text-center">Operator's Name</th>
                   <th scope="col" class="text-center">Make / Model</th>
                   <th scope="col" class="text-center">Year Acquired</th>

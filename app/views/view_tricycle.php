@@ -41,7 +41,7 @@
                     </div>
                   </div>
                   <div>
-                    <p class="form-label">Plate No.</p>
+                    <p class="form-label">CIN</p>
                     <div class="form-control">
                       <?php echo isset($plate_no) ? $plate_no : ''; ?>
                     </div>
@@ -81,7 +81,8 @@
               <div class="bckgrnd pt-2">
                 <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Tricycle images</h6>
               </div>
-              <div class="row px-3 p-3">
+
+              <div class="row justify-content-evenly px-3 p-3">
                 <?php
                   function displayImage($imagePath, $imageAlt) {
                     if ($imagePath) {
@@ -99,7 +100,6 @@
                   }
 
                   displayImage($front_view_image_path, 'Tricycle Front View');
-                  displayImage($back_view_image_path, 'Tricycle Back View');
                   displayImage($side_view_image_path, 'Tricycle Side View');
                 ?>
               </div>
@@ -161,13 +161,7 @@
     </div>
   </div>
 </main>
-
-<!-- Bootstrap JS and Popper.js (Optional) -->
-<script src="path/to/bootstrap.bundle.min.js"></script>
-
-<!-- Your Custom JavaScript -->
 <script>
-  // Add JavaScript to update modal image source when an image is clicked
   document.querySelectorAll('.image-container').forEach(function (container) {
     container.addEventListener('click', function () {
       var imageSrc = this.querySelector('img').src;

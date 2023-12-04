@@ -1,5 +1,5 @@
 <?php
-define('BASE_URL', 'http://localhost/PHP_Sakaycle/public/');
+define('BASE_URL', 'http://localhost/PHP_Sakaycle/');
 
 trait Controller
 {
@@ -41,7 +41,7 @@ trait Controller
 
 			$cssFileTags = '';
 			foreach ($cssFiles as $cssFile) {
-				$cssFileTags .= '<link rel="stylesheet" type="text/css" href="../public/assets/css/' . $cssFile . '">';
+				$cssFileTags .= '<link rel="stylesheet" type="text/css" href="public/assets/css/' . $cssFile . '">';
 			}
 
 			$layoutContent = str_replace('{{css}}', $cssFileTags, $layoutContent);
@@ -53,7 +53,7 @@ trait Controller
 
 	protected function getLayoutContent($page)
 	{
-		$userLayout = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_log', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_operator', 'view_appointment', 'view_driver', 'edit_tricycle', 'edit_driver', 'edit_taripa', 'edit_appointment', 'new_taripa', 'new_driver', 'new_appointment', 'new_tricycle', 'new_tricycle', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info',];
+		$userLayout = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_operator', 'view_appointment', 'view_driver', 'view_maintenance_log', 'edit_tricycle', 'edit_driver', 'edit_taripa', 'edit_appointment', 'edit_maintenance_log', 'new_taripa', 'new_driver', 'new_appointment', 'new_tricycle', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info',];
 
 		if (in_array($page, $userLayout)) {
 			extract($this->sharedData);
@@ -62,7 +62,7 @@ trait Controller
 			$layoutFile = 'guest.php';
 		}
 		ob_start();
-		include_once "../app/views/layouts/$layoutFile";
+		include_once "app/views/layouts/$layoutFile";
 		return ob_get_clean();
 	}
 
@@ -75,7 +75,7 @@ trait Controller
     $urlSegments = explode('/', trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
     $baseSegments = explode('/', trim(BASE_URL, '/'));
     $filteredSegments = array_diff($urlSegments, $baseSegments);
-    $filePath = "../app/views/{$viewName}.php";
+    $filePath = "app/views/{$viewName}.php";
 
     if (count($filteredSegments) < 2) {
 			if (file_exists($filePath)) {
@@ -99,16 +99,16 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_log', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_appointment', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info'];
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'view_maintenance_log', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info'];
 		
-		$sidebarViewPages = ['view_tricycle', 'view_driver', 'view_appointment', 'view_operator'];
+		$sidebarViewPages = ['view_tricycle', 'view_driver', 'view_appointment', 'view_operator', 'view_maintenance_log'];
 
-		$sidebarEditPages = ['edit_tricycle', 'edit_driver', 'edit_appointment'];
+		$sidebarEditPages = ['edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log'];
 
-		$sidebarNewPages = ['new_driver', 'new_taripa', 'new_tricycle', 'new_appointment'];
+		$sidebarNewPages = ['new_driver', 'new_taripa', 'new_tricycle', 'new_appointment', 'new_maintenance_log'];
 
 		$cssFile = $page . '.css';
-		$cssFilePath = "../public/assets/css/{$cssFile}";
+		$cssFilePath = "public/assets/css/{$cssFile}";
 		$cssFiles = [];
 
     if (file_exists($cssFilePath)) {

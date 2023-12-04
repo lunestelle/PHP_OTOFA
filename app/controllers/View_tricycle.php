@@ -35,7 +35,6 @@ class View_tricycle
       'or_no' => $tricycleData->or_no,
       'or_date' => $tricycleData->or_date,
       'front_view_image_path' => $tricycleData->front_view_image_path,
-      'back_view_image_path' => $tricycleData->back_view_image_path,
       'side_view_image_path' => $tricycleData->side_view_image_path,
     ];
 

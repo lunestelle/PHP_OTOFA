@@ -1,5 +1,16 @@
 <?php
 
+use Infobip\Configuration;
+use Infobip\Api\SmsApi;
+use Infobip\Model\SmsDestination;
+use Infobip\Model\SmsTextualMessage;
+use Infobip\Model\SmsAdvancedTextualRequest;
+use Twilio\Rest\Client;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\RequestException;
+
+require "public/vendor/autoload.php";
+
 function show($stuff)
 {
 	echo "<pre>";
@@ -108,16 +119,16 @@ function generateProfilePicture($initials) {
 
 	// Calculate the position to center the initials
 	$fontSize = 40;
-	$bbox = imagettfbbox($fontSize, 0, 'assets/fonts/Europa-Regular.ttf', $initials);
+	$bbox = imagettfbbox($fontSize, 0, 'public/assets/fonts/Europa-Regular.ttf', $initials);
 	$textWidth = $bbox[2] - $bbox[0];
 	// Cast to integer if needed
 	$x = (int)(($width - $textWidth) / 2);
 	$y = (int)(($height + $fontSize) / 2);
 	
 	// Add the initials to the image
-	imagettftext($image, $fontSize, 0, $x, $y, $textColor, 'assets/fonts/Europa-Regular.ttf', $initials);
+	imagettftext($image, $fontSize, 0, $x, $y, $textColor, 'public/assets/fonts/Europa-Regular.ttf', $initials);
 	
-	$path = '../profile_photos/generated_profile/' . uniqid() . '.png';
+	$path = 'public/profile_photos/generated_profile/' . uniqid() . '.png';
 	header('Content-type: image/png'); 
 	imagepng($image, $path);
 	
@@ -125,4 +136,56 @@ function generateProfilePicture($initials) {
 	imagedestroy($image);
 	
 	return $path;
+}
+
+function sendSms($phoneNumber, $message)
+{
+	// First SMS Gateway (Infobip)
+	$infobipBaseUrl = "xl9v6g.api.infobip.com";
+	$infobipApiKey = "99213ffff87a1b97867d5365edfdac3b-8d2c3f10-e175-4afd-8307-d6940b95fc26";
+
+	$infobipConfiguration = new Configuration(host: $infobipBaseUrl, apiKey: $infobipApiKey);
+	$infobipApi = new SmsApi(config: $infobipConfiguration);
+	$infobipDestination = new SmsDestination(to: $phoneNumber);
+	$infobipMessage = new SmsTextualMessage(
+		destinations: [$infobipDestination],
+		text: $message,
+		from: "sakaycle.com"
+	);
+	$infobipRequest = new SmsAdvancedTextualRequest(messages: [$infobipMessage]);
+
+	try {
+		return $infobipApi->sendSmsMessage($infobipRequest);
+	} catch (\Exception $infobipException) {
+		// Second SMS Gateway (SmsGateway24)
+		$smsGateway24BaseUrl = "https://smsgateway24.com";
+		$smsGateway24Endpoint = "/getdata/addsms";
+		$smsGateway24ApiKey = "02936db9235ef9d923ff9cb9661784a6"; 
+
+		$guzzleClient = new Client([
+			'base_uri' => $smsGateway24BaseUrl,
+			'timeout' => 2.0,
+		]);
+
+		$paramsArr = [
+			'token' => $smsGateway24ApiKey,
+			'sendto' => $phoneNumber,
+			'body' => $message,
+			'device_id' => '11297',
+			'sim' => '0',
+			'urgent' => '1',
+		];
+
+		$formParams = ['form_params' => $paramsArr];
+
+		try {
+			$response = $guzzleClient->request('POST', $smsGateway24Endpoint, $formParams);
+
+			// Example of a good answer:
+			// {"error":0,"sms_id":22074938,"message":"Sms has been saved successfully"}
+			return json_decode($response->getBody(), true);
+		} catch (RequestException $smsGateway24Exception) {
+			return null;
+		}
+	}
 }

@@ -40,7 +40,6 @@ class Edit_tricycle
         'or_date' => $tricycleData->or_date,
         'tricycle_status' => $tricycleData->tricycle_status,
         'front_view_image_path' => $tricycleData->front_view_image_path,
-        'back_view_image_path' => $tricycleData->back_view_image_path,
         'side_view_image_path' => $tricycleData->side_view_image_path,
       ],
       'users' => [],
@@ -68,7 +67,6 @@ class Edit_tricycle
         'or_date' => $_POST['or_date'] ?? '',
         'tricycle_status' => $_POST['tricycle_status'] ?? '',
         'front_view_image' => $_FILES['front_view_image'] ?? '',
-        'back_view_image' => $_FILES['back_view_image'] ?? '',
         'side_view_image' => $_FILES['side_view_image'] ?? '',
       ];
 
@@ -104,7 +102,6 @@ class Edit_tricycle
         } else {
           // Check if the images are removed
           $isFrontImageRemoved = empty($_FILES['front_view_image']['name']);
-          $isBackImageRemoved = empty($_FILES['back_view_image']['name']);
           $isSideImageRemoved = empty($_FILES['side_view_image']['name']);
 
           // Check if new front view image is uploaded, otherwise use the original path
@@ -112,17 +109,11 @@ class Edit_tricycle
             ? $_POST['original_front_view_image']
             : $this->handleFileUpload($postData['front_view_image'], 'front_view_image');
 
-          // Similar checks for back and side view images
-          $backViewImagePath = $isBackImageRemoved
-            ? $_POST['original_back_view_image']
-            : $this->handleFileUpload($postData['back_view_image'], 'back_view_image');
-
           $sideViewImagePath = $isSideImageRemoved
             ? $_POST['original_side_view_image']
             : $this->handleFileUpload($postData['side_view_image'], 'side_view_image');
 
           $postData['front_view_image_path'] = $frontViewImagePath;
-          $postData['back_view_image_path'] = $backViewImagePath;
           $postData['side_view_image_path'] = $sideViewImagePath;
 
           // Update tricycle data
@@ -143,7 +134,7 @@ class Edit_tricycle
 
   private function handleFileUpload($file, $imageName)
   {
-    $uploadDirectory = '../uploads/tricycle_images/';
+    $uploadDirectory = 'public/uploads/tricycle_images/';
     
     // Check if the file was uploaded without errors
     if ($file['error'] !== UPLOAD_ERR_OK) {
@@ -170,7 +161,7 @@ class Edit_tricycle
     $availablePlateNumbers = [$selectedPlateNumber];
 
     // Generate a range of plate numbers from 0 to 2000
-    $allPlateNumbersRange = range(0, 2000);
+    $allPlateNumbersRange = range(1, 2000);
 
     // Exclude plate numbers that are in the database
     $availablePlateNumbers = array_merge($availablePlateNumbers, array_diff($allPlateNumbersRange, $allPlateNumbers));

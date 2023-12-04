@@ -84,7 +84,7 @@ $backUrl = isset($_SESSION['prev_page']) ? $_SESSION['prev_page'] : './drivers';
                             </div>
                           </div>
                           <div class="col-4 px-5">
-                            <p class="form-label">Tricycle Plate Number</p>
+                            <p class="form-label">Tricycle CIN</p>
                             <div class="form-control">
                               <?php echo isset($tricycle_plate_number) && !empty($tricycle_plate_number) ? $tricycle_plate_number : 'No Chosen Tricycle'; ?>
                             </div>

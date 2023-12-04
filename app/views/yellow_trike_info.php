@@ -35,7 +35,7 @@
           <div class="col-12">
             <div class="d-block container-code mt-3">
                 <div class="mx-5 mr-5">
-                    <img src="assets/images/yellow-trike.png" style="height: 350px; width: 350px;" alt="">
+                    <img src="public/assets/images/yellow-trike.png" style="height: 350px; width: 350px;" alt="">
                 </div>
             </div>
           </div>

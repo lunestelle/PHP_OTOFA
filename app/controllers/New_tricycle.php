@@ -45,7 +45,7 @@ class New_tricycle
       ];
 
       $tricycleModel = new Tricycle();
-      $errors = $tricycleModel->validateData($formData, $tricycleId);
+      $errors = $tricycleModel->validateData($formData);
 
       if (!empty($errors)) {
         $errorMessage = $errors[0];
@@ -55,7 +55,7 @@ class New_tricycle
         $data['formData'] = $formData;
       } else {
         // Check if any files were uploaded
-        if (!empty($_FILES['front_view_image']['name']) && !empty($_FILES['back_view_image']['name']) && !empty($_FILES['side_view_image']['name'])) {
+        if (!empty($_FILES['front_view_image']['name']) && !empty($_FILES['side_view_image']['name'])) {
           $imagePaths = $this->handleFileUploads($formData);
 
           if ($imagePaths === false) {
@@ -64,7 +64,6 @@ class New_tricycle
           }
 
           $formData['front_view_image_path'] = $imagePaths['front_view_image'];
-          $formData['back_view_image_path'] = $imagePaths['back_view_image'];
           $formData['side_view_image_path'] = $imagePaths['side_view_image'];
 
           if ($tricycleModel->insert($formData)) {
@@ -90,27 +89,23 @@ class New_tricycle
   private function handleFileUploads($formData)
   {
     $uniqueId = uniqid();
-    $uploadDirectory = '../uploads/tricycle_images/' . $uniqueId;
+    $uploadDirectory = 'public/uploads/tricycle_images/' . $uniqueId;
 
     $frontImageName = 'front_view_image';
-    $backImageName = 'back_view_image';
     $sideImageName = 'side_view_image';
 
     // Define the file paths
     $frontImagePath = $uploadDirectory . basename($_FILES[$frontImageName]['name']);
-    $backImagePath = $uploadDirectory . basename($_FILES[$backImageName]['name']);
     $sideImagePath = $uploadDirectory . basename($_FILES[$sideImageName]['name']);
 
     // Move uploaded files to destination
     if (
       move_uploaded_file($_FILES[$frontImageName]['tmp_name'], $frontImagePath) &&
-      move_uploaded_file($_FILES[$backImageName]['tmp_name'], $backImagePath) &&
       move_uploaded_file($_FILES[$sideImageName]['tmp_name'], $sideImagePath)
     ) {
       // Return file paths if upload is successful
       return [
         'front_view_image' => $frontImagePath,
-        'back_view_image' => $backImagePath,
         'side_view_image' => $sideImagePath,
       ];
     } else {

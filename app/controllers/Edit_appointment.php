@@ -121,6 +121,14 @@ class Edit_appointment
 				  $tricycleApplicationFormData['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
 
           if ($tricycleApplicationModel->update(['appointment_id' => $appointmentId], $tricycleApplicationFormData)){
+            
+            // // Check if the status is changed to 'approved'
+            // if ($_POST['status'] == 'approved') {
+            //   // Send SMS if the status is approved
+            //   $message = "Your appointment request is approved. Thank you!";
+            //   sendSms($appointmentFormData['phone_number'], $message);
+            // }
+
             set_flash_message("Scheduled appointment updated successfully.", "success");
             redirect('appointments');
           } else {
