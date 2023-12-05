@@ -140,7 +140,7 @@
                                 echo '</div>';
 
                                 echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->plate_number . '</p>';
+                                echo '<p>' . $tricycle_plate_number . '</p>';
                                 echo '</div>';
 
                                 echo '<div class="col-md-6">';

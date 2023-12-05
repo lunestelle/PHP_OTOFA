@@ -19,6 +19,9 @@ class View_appointment
     $tricycleApplicationModel = new TricycleApplication();
     $tricyleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointmentData->appointment_id]);
 
+    $tricycleModel = new Tricycle();
+    $tricycleData = $tricycleModel->first(['tricycle_id' => $tricyleApplicationData->tricycle_id]);
+    $tricyclePlateNumber = $tricycleData !== false ? $tricycleData->plate_no : '';
 
     if (!$appointmentData) {
       set_flash_message("Appointment not found.", "error");
@@ -28,7 +31,8 @@ class View_appointment
     $data = [
       'appointment' => $appointmentData,
       'appointment_time' => $appointment_time,
-      'tricycleApplication' => $tricyleApplicationData
+      'tricycleApplication' => $tricyleApplicationData,
+      'tricycle_plate_number' => $tricyclePlateNumber
     ];
     echo $this->renderView('view_appointment', true, $data);
   }
