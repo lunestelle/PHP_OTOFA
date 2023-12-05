@@ -39,6 +39,21 @@ class Edit_appointment
       $data['drivers'] = [];
     }
 
+    $tricycleModel = new Tricycle();
+    $tricycles = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    $data['tricycles'] = [];
+
+    if (is_array($tricycles) || is_object($tricycles)) {
+			foreach ($tricycles as $tricycle) {
+				$data['tricycles'][$tricycle->tricycle_id] = [
+					'tricycle_id' => $tricycle->tricycle_id,
+					'plate_no' => $tricycle->plate_no
+				];
+			}
+		} else {
+			$data['tricycles'] = [];
+		}
+
     $data = [
       'name' => $appointmentData->name,
       'phone_number' => $this->formatPhoneNumber($appointmentData->phone_number),
@@ -60,7 +75,7 @@ class Edit_appointment
       'chasis_number' => $tricycleApplicationFormData->chasis_number,
       'coc_no' => $tricycleApplicationFormData->coc_no,
       'coc_no_expiry_date' => $tricycleApplicationFormData->coc_no_expiry_date,
-      'plate_number' => $tricycleApplicationFormData->plate_number,
+      'tricycle_id' => $tricycleApplicationFormData->tricycle_id,
       'lto_cr_no' => $tricycleApplicationFormData->lto_cr_no,
       'lto_or_no' => $tricycleApplicationFormData->lto_or_no,
       'driver_id' => $tricycleApplicationFormData->driver_id,

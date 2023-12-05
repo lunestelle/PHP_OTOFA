@@ -136,7 +136,7 @@
                             <?php
                               if (!empty($tricycleApplication)) {
                                 echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Plate Number:</span></p>';
+                                echo '<p><span class="fw-bolder mr-5">Tricycle CIN:</span></p>';
                                 echo '</div>';
 
                                 echo '<div class="col-md-6">';
