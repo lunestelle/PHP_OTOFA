@@ -72,10 +72,11 @@
                       <?php
                         if ($userRole === 'operator' && $appointment['status'] === "Pending") {
                           // Operator can edit only if the status is pending
-                          echo '<a href="edit_appointment?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+                          echo '<a href="' . (($appointment['appointment_type'] === 'New Franchise') ? 'edit_new_franchise?appointment_id=' : 'edit_renewal_franchise?appointment_id=') . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
                         } elseif ($userRole === 'admin' && $appointment['status'] !== "Cancelled") {
                           // Admin can edit any status except cancelled
-                          echo '<a href="edit_appointment?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+                          echo '<a href="' . (($appointment['appointment_type'] === 'New Franchise') ? 'edit_new_franchise?appointment_id=' : 'edit_renewal_franchise?appointment_id=') . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+
                         }
                       ?>
                       <?php if ($userRole === 'operator' && $appointment['status'] === "Pending"): ?>

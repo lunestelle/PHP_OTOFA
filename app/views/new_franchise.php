@@ -36,7 +36,12 @@
                     <div class="col-12 d-flex mb-1">
                       <div class="col-4 px-5">
                         <label for="appointment_type" class="form-label">Appointment Type</label>
-                        <input type="text" class="form-control" id="appointment_type" name="appointment_type" value="New Franchise" readonly>
+                        <div class="input-group">
+                          <input type="text" class="form-control" style="cursor: pointer;" id="appointment_type" name="appointment_type" value="New Franchise" data-toggle="tooltip" data-bs-placement="top" title="Default appointment type. This field is read-only." readonly>
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="col-4 px-5">
                         <label for="appointment_date" class="form-label">Preferred Date</label>
@@ -100,7 +105,12 @@
                       </div>
                       <div class="col-4 px-5">
                         <label for="route_area" class="form-label">Route Area</label>
-                        <input type="text" class="form-control" id="route_area" name="route_area" placeholder="Select Color Code First" readonly required data-toggle="tooltip" data-bs-placement="right" title="Please choose a Color Code to determine the Route Area for the tricycle." value="<?php echo isset($_POST['route_area']) ? $_POST['route_area'] : ''; ?>">
+                        <div class="input-group">
+                          <input type="text" class="form-control" id="route_area" name="route_area" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?php echo isset($_POST['route_area']) ? $_POST['route_area'] : ''; ?>" readonly required>
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                     </div>
 

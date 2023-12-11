@@ -38,6 +38,15 @@ $(document).ready(function() {
   } else if (currentUrl.href.includes('appointments?status=pending')) {
     $('.sidebar a[href="appointments"]').addClass('nav-link-active');
     return;
+  } else if (currentUrl.href.includes('new_franchise')) {
+    $('.sidebar a[href="appointments"]').addClass('nav-link-active');
+    return;
+  } else if (currentUrl.href.includes('edit_new_franchise')) {
+    $('.sidebar a[href="appointments"]').addClass('nav-link-active');
+    return;
+  } else if (currentUrl.href.includes('view_new_franchise')) {
+    $('.sidebar a[href="appointments"]').addClass('nav-link-active');
+    return;
   }
 });
 

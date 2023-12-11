@@ -12,7 +12,6 @@ class New_franchise
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
-
       $appointmentModel = new Appointment();
       $tricycleApplicationModel = new TricycleApplication();
       $mtopRequirementModel = new MtopRequirement();
