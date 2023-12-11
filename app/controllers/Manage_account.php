@@ -102,8 +102,10 @@ class Manage_account
         
         if ($updateUser) {
           $_SESSION['USER']->email = $updateData['email'];
+          $_SESSION['USER']->phone_number = $updateData['phone_number'];
           $_SESSION['USER']->first_name = $updateData['first_name'];
           $_SESSION['USER']->last_name = $updateData['last_name'];
+          $_SESSION['USER']->address = $updateData['address'];
           $_SESSION['USER']->uploaded_profile_photo_path = $uploadedFilePath;
 
           set_flash_message("Profile information has been updated successfully.", "success");

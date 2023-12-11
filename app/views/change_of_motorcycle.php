@@ -37,29 +37,29 @@
     <div class="col-12 d-flex mb-2">
       <div class="text-center col-4 px-4">
         <label for="mc_lto_certificate_of_registration" class="form-label">LTO Certificate of Registration (MC of New Unit)</label>
-        <input type="file" class="form-control" id="mc_lto_certificate_of_registration" name="mc_lto_certificate_of_registration" accept="image/*" required/>
+        <input type="file" class="form-control" id="mc_lto_certificate_of_registration" name="mc_lto_certificate_of_registration" accept="image/*"/>
       </div>
       <div class="text-center col-4 px-4">
         <label for="mc_lto_official_receipt" class="form-label">LTO Official Receipt (MC of New Unit)</label>
-        <input type="file" class="form-control" id="mc_lto_official_receipt" name="mc_lto_official_receipt" accept="image/*" required/>
+        <input type="file" class="form-control" id="mc_lto_official_receipt" name="mc_lto_official_receipt" accept="image/*"/>
       </div>
       <div class="text-center col-4 px-4">
         <label for="mc_plate_authorization" class="form-label">Plate Authorization (MC of New Unit)</label>
-        <input type="file" class="form-control" id="mc_plate_authorization" name="mc_plate_authorization" accept="image/*" required/>
+        <input type="file" class="form-control" id="mc_plate_authorization" name="mc_plate_authorization" accept="image/*"/>
       </div>
     </div>
     <div class="col-12 d-flex mb-2">
       <div class="text-center col-4 px-4">
         <label for="tc_insurance_policy" class="form-label">Insurance Policy (TC) (New Owner)</label>
-        <input type="file" class="form-control" id="tc_insurance_policy" name="tc_insurance_policy" accept="image/*" required/>
+        <input type="file" class="form-control" id="tc_insurance_policy" name="tc_insurance_policy" accept="image/*"/>
       </div>
       <div class="text-center col-4 px-4">
-        <label for="front_view_image" class="form-label">Picture of New Unit (Front View)</label>
-        <input type="file" class="form-control" id="front_view_image" name="front_view_image" accept="image/*" required/>
+        <label for="unit_front_view_image" class="form-label">Picture of New Unit (Front View)</label>
+        <input type="file" class="form-control" id="unit_front_view_image" name="unit_front_view_image" accept="image/*"/>
       </div>
       <div class="text-center col-4 px-4">
-        <label for="side_view_image" class="form-label">Picture of New Unit (Side View)</label>
-        <input type="file" class="form-control" id="side_view_image" name="side_view_image" accept="image/*" required/>
+        <label for="unit_side_view_image" class="form-label">Picture of New Unit (Side View)</label>
+        <input type="file" class="form-control" id="unit_side_view_image" name="unit_side_view_image" accept="image/*"/>
       </div>
     </div>
   </div>

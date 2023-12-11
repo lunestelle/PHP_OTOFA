@@ -24,6 +24,7 @@ class Appointment
 
     $requiredFields = [
       'name' => 'Full Name',
+      'email' => 'Email',
       'appointment_type' => 'Appointment Type',
       'appointment_date' => 'Preferred Date',
       'appointment_time' => 'Preferred Time'
@@ -95,6 +96,7 @@ class Appointment
 
     $requiredFields = [
       'name' => 'Full Name',
+      'email' => 'Email',
       'appointment_type' => 'Appointment Type',
       'appointment_date' => 'Preferred Date',
       'appointment_time' => 'Preferred Time'
