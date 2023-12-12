@@ -258,3 +258,7 @@ input[type=number] {
   background-color: #ff4400;
   color: white;
 }
+
+.appointment-label {
+  color: rgb(100, 100, 100);
+}
