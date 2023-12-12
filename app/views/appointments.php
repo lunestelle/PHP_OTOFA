@@ -3,7 +3,7 @@
     <div class="col-12 text-uppercase nav-top">
       <h6 class="title-head">Appointments</h6>
     </div>
-    <div class="col-lg-12 mt-4">
+    <div class="col-lg-12">
       <div class="row">
         <?php if ($userRole === 'operator'): ?>  
           <div class="col-12">
