@@ -135,7 +135,7 @@ class Appointment
     } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
       $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
-      $errors[] = 'Appointments cannot be scheduled more than <br> 30 days in advance.';
+      $errors[] = 'Appointments cannot be scheduled more than <br> 15 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
       $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
     }
@@ -238,7 +238,7 @@ class Appointment
   private function hasMaximumDailyAppointments($date)
   {
     // Assuming the appointments are in 1-hour intervals
-    $totalSlots = 12; // Total available slots in a day
+    $totalSlots = 30; // Total available slots in a day
     $appointments = $this->where(['appointment_date' => $date]);
 
     // Check if $appointments is a valid result set (array or object)
