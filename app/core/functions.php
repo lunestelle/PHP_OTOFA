@@ -8,6 +8,12 @@ use Infobip\Model\SmsAdvancedTextualRequest;
 use Twilio\Rest\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'public/phpmailer/src/Exception.php';
+require 'public/phpmailer/src/PHPMailer.php';
+require 'public/phpmailer/src/SMTP.php';
 
 require "public/vendor/autoload.php";
 
@@ -188,4 +194,28 @@ function sendSms($phoneNumber, $message)
 			return null;
 		}
 	}
+}
+
+function sendEmail($to, $subject, $body)
+{
+  $mailer = new PHPMailer;
+  $mailer->isSMTP();
+  $mailer->Host = 'smtp.gmail.com';
+  $mailer->Port = 465;
+  $mailer->SMTPSecure = 'ssl';
+  $mailer->SMTPAuth = true;
+  $mailer->Username = 'sakaycle@gmail.com';
+  $mailer->Password = 'hagfqeqlqdtyhqzi'; 
+
+  $mailer->setFrom('sakaycle@gmail.com', 'Sakaycle');
+  $mailer->addAddress($to);
+  $mailer->Subject = $subject;
+  $mailer->Body = $body;
+  $mailer->isHTML(true);
+
+  if (!$mailer->send()) {
+    return 'Email could not be sent. Please try again later';
+  } else {
+    return 'success';
+  }
 }

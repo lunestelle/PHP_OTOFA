@@ -24,7 +24,7 @@ class PasswordReset
     $existingToken = $this->getResetToken($email);
 
     if ($existingToken) {
-      $this->update($email, $data, 'email');
+      $this->update(['email' => $email], $data);
     } else {
       $this->insert($data);
     }
