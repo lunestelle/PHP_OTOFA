@@ -231,16 +231,29 @@ input[type=number] {
   padding: 5px;
 }
 
-.new-appointment-selection {
-  box-shadow: 2px 4px 8px gray;
-  background-color: #EBB803;
-  border: 2px solid rgb(201, 159, 6);
-  padding: 7px 10px;
-  color: rgb(73, 73, 73);
-  font-weight: 600;
+.new-appointment-selection input {
+  display: none;
 }
 
-.new-appointment-selection:hover {
+.new-appointment-selection label {
+  cursor: pointer;
+  padding: 10px;
+  display: block;
+  background-color: #EBB803;
+  border: 2px solid rgb(201, 159, 6);
+  border-radius: 5px;
+  margin-bottom: 8px;
+  color: rgb(73, 73, 73);
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out; /* Add transition for smooth effect */
+}
+
+.new-appointment-selection:hover label {
+  background-color: #ff4400;
+  color: white;
+}
+
+.new-appointment-selection input:checked + label {
   box-shadow: none;
   background-color: #ff4400;
   color: white;
