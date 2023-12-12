@@ -230,3 +230,18 @@ input[type=number] {
 #color_code option {
   padding: 5px;
 }
+
+.new-appointment-selection {
+  box-shadow: 2px 4px 8px gray;
+  background-color: #EBB803;
+  border: 2px solid rgb(201, 159, 6);
+  padding: 7px 10px;
+  color: rgb(73, 73, 73);
+  font-weight: 600;
+}
+
+.new-appointment-selection:hover {
+  box-shadow: none;
+  background-color: #ff4400;
+  color: white;
+}
