@@ -27,9 +27,9 @@
                         </div>
                       </div>
                       <div class="col-4 px-5">
-                        <label for="email" class="form-label">Email (Optional)</label>
+                        <label for="email" class="form-label">Email</label>
                         <div class="input-group">
-                          <input type="email" class="form-control phone-no" id="email" name="email" value="<?php echo isset($email) ? $email : ''; ?>">
+                          <input type="email" class="form-control phone-no" id="email" name="email" value="<?php echo isset($email) ? $email : ''; ?>" required>
                         </div>
                       </div>
                     </div>
@@ -67,7 +67,6 @@
                             </select>
                           <?php else: ?>
                             <input type="hidden" name="status" value="<?php echo isset($status) ? $status : ''; ?>">
-                            <p class="form-label">Status: <?php echo isset($status) ? $status : ''; ?></p>
                           <?php endif; ?>
                         </div>
                       </div>
