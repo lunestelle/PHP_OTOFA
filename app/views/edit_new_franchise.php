@@ -53,21 +53,27 @@
                       </div>
                     </div>
                     <div class="col-12 d-flex mt-3">
-                        <div class="col-4 px-5">
-                          <?php if ($userRole === 'admin'): ?>
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-control appointment-status-select fw-bold" id="status" name="status">
-                              <option value="" selected disabled>Select Appointment Status</option>
-                              <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?>>Pending</option>
-                              <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
-                              <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
-                              <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
-                            </select>
-                          <?php else: ?>
-                            <input type="hidden" name="status" value="<?php echo isset($status) ? $status : ''; ?>">
-                          <?php endif; ?>
-                        </div>
+                      <div class="col-4 px-5">
+                        <?php if ($userRole === 'admin'): ?>
+                          <label for="status" class="form-label">Status</label>
+                          <select class="form-control appointment-status-select fw-bold" id="status" name="status">
+                            <option value="" selected disabled>Select Appointment Status</option>
+                            <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                            <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
+                            <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                            <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                          </select>
+                        <?php else: ?>
+                          <input type="hidden" name="status" value="<?php echo isset($status) ? $status : ''; ?>">
+                        <?php endif; ?>
                       </div>
+                      <?php if ($userRole === 'admin'): ?>
+                        <div class="col-8 px-5" id="rejection-comments-container" style="display: none;">
+                          <label for="comments" class="form-label">Rejection Comments</label>
+                          <textarea class="form-control" id="comments" name="comments" rows="3"><?php echo isset($comments) ? $comments : ''; ?></textarea>
+                        </div>
+                      <?php endif; ?>
+                    </div>
                   </div>
                 </div>
 
@@ -412,6 +418,22 @@
       
       $("#imageTypeInput").val(imageType);
       $("#originalImagePathInput").val(originalImagePath);
+    });
+  });
+
+  $(document).ready(function () {
+    function toggleCommentsVisibility() {
+      const selectedStatus = $('#status').val();
+      const isAdmin = <?php echo $userRole === 'admin' ? 'true' : 'false'; ?>;
+      const showComments = isAdmin && selectedStatus === 'Rejected';
+      $('#rejection-comments-container').toggle(showComments);
+    }
+
+    toggleCommentsVisibility();
+
+    // Trigger toggle when the status dropdown value changes
+    $('#status').change(function () {
+      toggleCommentsVisibility();
     });
   });
 </script>

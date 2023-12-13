@@ -1,21 +1,22 @@
 <?php
 
-use Infobip\Configuration;
-use Infobip\Api\SmsApi;
-use Infobip\Model\SmsDestination;
-use Infobip\Model\SmsTextualMessage;
-use Infobip\Model\SmsAdvancedTextualRequest;
-use Twilio\Rest\Client;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\RequestException;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
 require 'public/phpmailer/src/Exception.php';
 require 'public/phpmailer/src/PHPMailer.php';
 require 'public/phpmailer/src/SMTP.php';
 
-require "public/vendor/autoload.php";
+require 'public/vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+use Infobip\Api\SmsApi;
+use Infobip\Configuration;
+use Infobip\Model\SmsAdvancedTextualRequest;
+use Infobip\Model\SmsDestination;
+use Infobip\Model\SmsTextualMessage;
+
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 
 function show($stuff)
 {
@@ -146,31 +147,39 @@ function generateProfilePicture($initials) {
 
 function sendSms($phoneNumber, $message)
 {
-	// First SMS Gateway (Infobip)
-	$infobipBaseUrl = "xl9v6g.api.infobip.com";
+	$infobipBaseUrl = "https://xl9v6g.api.infobip.com";
 	$infobipApiKey = "99213ffff87a1b97867d5365edfdac3b-8d2c3f10-e175-4afd-8307-d6940b95fc26";
 
 	$infobipConfiguration = new Configuration(host: $infobipBaseUrl, apiKey: $infobipApiKey);
-	$infobipApi = new SmsApi(config: $infobipConfiguration);
+	$infobipSmsApi = new SmsApi(config: $infobipConfiguration);
 	$infobipDestination = new SmsDestination(to: $phoneNumber);
 	$infobipMessage = new SmsTextualMessage(
 		destinations: [$infobipDestination],
 		text: $message,
-		from: "sakaycle.com"
+		from: "Sakaycle"
 	);
 	$infobipRequest = new SmsAdvancedTextualRequest(messages: [$infobipMessage]);
 
 	try {
-		return $infobipApi->sendSmsMessage($infobipRequest);
+		return $infobipSmsApi->sendSmsMessage($infobipRequest);
+		
+		// Check if the Infobip SMS was sent successfully
+		// $smsResponse = $infobipSmsApi->sendSmsMessage($infobipRequest);
+		// if ($smsResponse->getMessages()[0]->getStatus()->getName() === 'DELIVERED') {
+		// 	return ['success' => true, 'message' => 'Infobip SMS sent successfully'];
+		// } else {
+		// 		return ['success' => false, 'message' => 'Infobip SMS sending failed'];
+		// }
 	} catch (\Exception $infobipException) {
-		// Second SMS Gateway (SmsGateway24)
+		// echo("HTTP Code: " . $infobipException->getCode() . "\n");
+
 		$smsGateway24BaseUrl = "https://smsgateway24.com";
 		$smsGateway24Endpoint = "/getdata/addsms";
 		$smsGateway24ApiKey = "02936db9235ef9d923ff9cb9661784a6"; 
 
 		$guzzleClient = new Client([
 			'base_uri' => $smsGateway24BaseUrl,
-			'timeout' => 2.0,
+			'timeout' => 50.0,
 		]);
 
 		$paramsArr = [
@@ -178,7 +187,7 @@ function sendSms($phoneNumber, $message)
 			'sendto' => $phoneNumber,
 			'body' => $message,
 			'device_id' => '11297',
-			'sim' => '0',
+			'sim' => '1',
 			'urgent' => '1',
 		];
 
@@ -187,11 +196,15 @@ function sendSms($phoneNumber, $message)
 		try {
 			$response = $guzzleClient->request('POST', $smsGateway24Endpoint, $formParams);
 
-			// Example of a good answer:
-			// {"error":0,"sms_id":22074938,"message":"Sms has been saved successfully"}
-			return json_decode($response->getBody(), true);
-		} catch (RequestException $smsGateway24Exception) {
-			return null;
+			// $responseData = json_decode($response->getBody(), true);
+			// if (isset($responseData['error']) && $responseData['error'] === 0) {
+			// 	return ['success' => true, 'message' => 'SmsGateway24 SMS sent successfully'];
+			// } else {
+			// 	return ['success' => false, 'message' => 'SmsGateway24 SMS sending failed'];
+			// }
+		} catch (\GuzzleHttp\Exception\RequestException $smsGateway24Exception) {
+			error_log("Guzzle Exception: " . $smsGateway24Exception->getMessage());
+			return ['success' => false, 'message' => 'SmsGateway24 SMS sending failed'];
 		}
 	}
 }
@@ -217,5 +230,31 @@ function sendEmail($to, $subject, $body)
     return 'Email could not be sent. Please try again later';
   } else {
     return 'success';
+  }
+}
+
+function sendAppointmentNotifications($appointmentFormData, $data, $customMessage = null)
+{
+  $phoneNumber = $appointmentFormData['phone_number'];
+  $email = $appointmentFormData['email'];
+  $status = $appointmentFormData['status'];
+  $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
+  $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
+  $rootPath = ROOT;
+
+  if ($status === 'Approved') {
+		$message = $customMessage;
+    sendSms($phoneNumber, $message);
+
+    $subject = "Appointment Approved";
+    $body = $message;
+    sendEmail($email, $subject, $body);
+  } elseif ($status === 'Rejected') {
+    $message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
+    sendSms($phoneNumber, $message);
+
+    $subject = "Appointment Rejected";
+    $body = $message;
+    sendEmail($email, $subject, $body);
   }
 }

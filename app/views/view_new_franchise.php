@@ -49,6 +49,23 @@
                 </div>
               </div>
 
+              <?php if (strtolower($appointment->status) == 'rejected' && !empty($appointment->comments)): ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Appointment Rejection Comment</h6>
+                  </div>
+                  <div class="container mt-3">
+                    <div class="d-flex justify-content-center">
+                      <div class="row px-3 mt-2">
+                        <div class="col-md-12 text-center">
+                          <p><?php echo $appointment->comments; ?></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <?php endif; ?>
+                    
               <div class="content-container mt-4">
                 <div class="bckgrnd pt-2">
                   <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Tricycle Application Form Details</h6>

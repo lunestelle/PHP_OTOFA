@@ -36,6 +36,7 @@ class Edit_new_franchise
       'appointment_date' => $appointmentData->appointment_date,
       'appointment_time' => $appointmentData->appointment_time,
       'status' => $appointmentData->status,
+      'comments' => $appointmentData->comments,
       'operator_name' => $tricycleApplicationData->operator_name,
       'tricycle_phone_number' => $this->formatPhoneNumber($tricycleApplicationData->tricycle_phone_number),
       'address' => $tricycleApplicationData->address,
@@ -73,6 +74,7 @@ class Edit_new_franchise
         'appointment_date' => $_POST['appointment_date'] ?? '',
         'appointment_time' => $_POST['appointment_time'] ?? '',
         'status' => $_POST['status'] ?? '',
+        'comments' => $_POST['comments'] ?? '',
       ];
 
       $tricycleApplicationFormData = [
@@ -144,23 +146,29 @@ class Edit_new_franchise
 
           $fileUploads = $this->handleFileUploads($mtopRequirementFormData);
 
-          if ($fileUploads['success']) {
-            if ($appointmentModel->update(['appointment_id' => $appointmentId], $appointmentFormData) && $tricycleApplicationModel->update(['appointment_id' => $appointmentId], $tricycleApplicationFormData) && $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], $fileUploads['data'])) { 
-              set_flash_message("Scheduled appointment updated successfully.", "success");
-              redirect('appointments');
-            } else {
-              set_flash_message("Failed to update scheduled appointment. Please try again later.", "error");
-              redirect('appointments');
+          if ($appointmentModel->update(['appointment_id' => $appointmentId], $appointmentFormData) && $tricycleApplicationModel->update(['appointment_id' => $appointmentId], $tricycleApplicationFormData)) {
+
+            if (!empty($fileUploads)) {
+              $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], $fileUploads);
             }
+
+            $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
+            $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
+            $rootPath = ROOT;
+            
+            $customMessage = "Hello {$appointmentFormData['name']},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n\n1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT\n2. LTO Certificate of Registration (MC of New Unit) (2 copies)\n3. LTO Official Receipt (MC of New Unit) (2 copies)\n4. Plate authorization (MC of New Unit) (2 copies)\n5. Insurance Policy (TC) (New Owner) (2 copies)\n6. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)\n7. Sketch Location of Garage (2 copies)\n8. Affidavit of No Income Or Latest Income Tax Return (2 copies)\n9. Picture of New Unit (Front view & Side view) (2 copies)\n10. Driver's Certificate of Safety Driving Seminar (2 copies)\n11. Brown long envelope (1 pc.)\n\nFor more details, please check your appointment details on our website: {$rootPath}";
+
+            // sendAppointmentNotifications($appointmentFormData, $data, $customMessage);
+
+            set_flash_message("Scheduled appointment updated successfully.", "success");
+            redirect('appointments');;
           } else {
             set_flash_message("Failed to update scheduled appointment. Please try again later.", "error");
             redirect('appointments');
           }
         }
       }
-
     }
-
     echo $this->renderView('edit_new_franchise', true, $data);
   }
 
@@ -171,7 +179,7 @@ class Edit_new_franchise
     if (!empty($appointmentErrors)) {
       $errors['appointment'] = $appointmentErrors;
     }
-   
+
     $tricycleApplicationErrors = $tricycleApplicationModel->validate($tricycleApplicationFormData);
     if (!empty($tricycleApplicationErrors)) {
       $errors['tricycleApplication'] = $tricycleApplicationErrors;
@@ -188,19 +196,18 @@ class Edit_new_franchise
   {
     $uniqueId = uniqid();
     $uploadDirectory = 'public/uploads/mtop_requirements_images/' . $uniqueId;
+    $fileUploads = [];
 
-      foreach ($_FILES as $inputName => $file) {
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $columnName = $inputName . '_path';
-        $targetFile = $uploadDirectory . '_' . $inputName . '.' . $extension;
+    foreach ($_FILES as $inputName => $file) {
+      $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+      $columnName = $inputName . '_path';
+      $targetFile = $uploadDirectory . '_' . $inputName . '.' . $extension;
 
-        if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-          $mtopRequirementFormData[$columnName] = $targetFile;
-        } else {
-          return ['success' => false, 'error' => 'Failed to upload files. Please try again later.'];
-        }
+      if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+        $fileUploads[$columnName] = $targetFile;
       }
+    }
 
-    return ['success' => true, 'data' => $mtopRequirementFormData];
+    return $fileUploads;
   }
 }

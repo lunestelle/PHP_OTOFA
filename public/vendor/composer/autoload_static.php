@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitfb65d4fc145f3ad636b2d3f5623f228f
+class ComposerStaticInit02d8004940c785fe1ef05fa166ae9059
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -46,7 +46,6 @@ class ComposerStaticInitfb65d4fc145f3ad636b2d3f5623f228f
             'Symfony\\Component\\PropertyInfo\\' => 31,
             'Symfony\\Component\\PropertyAccess\\' => 33,
             'Symfony\\Component\\Cache\\' => 24,
-            'SmsGateWay24\\Phpexample\\' => 24,
         ),
         'P' => 
         array (
@@ -79,8 +78,8 @@ class ComposerStaticInitfb65d4fc145f3ad636b2d3f5623f228f
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -150,18 +149,14 @@ class ComposerStaticInitfb65d4fc145f3ad636b2d3f5623f228f
         array (
             0 => __DIR__ . '/..' . '/symfony/cache',
         ),
-        'SmsGateWay24\\Phpexample\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -233,9 +228,9 @@ class ComposerStaticInitfb65d4fc145f3ad636b2d3f5623f228f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitfb65d4fc145f3ad636b2d3f5623f228f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitfb65d4fc145f3ad636b2d3f5623f228f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitfb65d4fc145f3ad636b2d3f5623f228f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit02d8004940c785fe1ef05fa166ae9059::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit02d8004940c785fe1ef05fa166ae9059::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit02d8004940c785fe1ef05fa166ae9059::$classMap;
 
         }, null, ClassLoader::class);
     }
