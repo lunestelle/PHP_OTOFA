@@ -158,7 +158,7 @@ class Edit_new_franchise
             
             $customMessage = "Hello {$appointmentFormData['name']},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n\n1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT\n2. LTO Certificate of Registration (MC of New Unit) (2 copies)\n3. LTO Official Receipt (MC of New Unit) (2 copies)\n4. Plate authorization (MC of New Unit) (2 copies)\n5. Insurance Policy (TC) (New Owner) (2 copies)\n6. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)\n7. Sketch Location of Garage (2 copies)\n8. Affidavit of No Income Or Latest Income Tax Return (2 copies)\n9. Picture of New Unit (Front view & Side view) (2 copies)\n10. Driver's Certificate of Safety Driving Seminar (2 copies)\n11. Brown long envelope (1 pc.)\n\nFor more details, please check your appointment details on our website: {$rootPath}";
 
-            // sendAppointmentNotifications($appointmentFormData, $data, $customMessage);
+            sendAppointmentNotifications($appointmentFormData, $data, $customMessage);
 
             set_flash_message("Scheduled appointment updated successfully.", "success");
             redirect('appointments');;
@@ -191,6 +191,22 @@ class Edit_new_franchise
   private function formatPhoneNumber($phoneNumber) {
     return preg_replace('/[^0-9]/', '', str_replace('+63', '', $phoneNumber));
   }
+
+  private function getAvailablePlateNumbers($tricycleModel, $selectedPlateNumber)
+  {
+    // Get all plate numbers from the database
+    $allPlateNumbers = $tricycleModel->pluck('plate_no')->toArray();
+
+    // Include the selected plate number in the dropdown options
+    $availablePlateNumbers = [$selectedPlateNumber];
+
+    // Filter out plate numbers that are already taken or the selected one
+    $availablePlateNumbers = array_diff(range(1, 2000), $allPlateNumbers, [$selectedPlateNumber]);
+
+    sort($availablePlateNumbers);
+    return $availablePlateNumbers;
+  }
+  
 
   private function handleFileUploads($mtopRequirementFormData)
   {

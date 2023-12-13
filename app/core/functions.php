@@ -242,19 +242,32 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customMessag
   $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
   $rootPath = ROOT;
 
-  if ($status === 'Approved') {
-		$message = $customMessage;
-    sendSms($phoneNumber, $message);
-
+	if ($status === 'Approved') {
     $subject = "Appointment Approved";
-    $body = $message;
-    sendEmail($email, $subject, $body);
-  } elseif ($status === 'Rejected') {
-    $message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
-    sendSms($phoneNumber, $message);
+    $message = $customMessage ?: "Hello {$appointmentFormData['name']},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you. Kindly ensure you arrive 15 minutes early and bring along all the necessary documents. For more details, please check your appointment details on our website: {$rootPath}"; // Use custom message if provided, else use a default message
 
+		ob_start();
+		include_once "app/views/mailer/appointment_email_template.php";
+		$templateContent = ob_get_clean();
+
+		// Replace placeholders in the template with actual subject and body
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{Message}}', nl2br($message), $templateContent);
+
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
+  } elseif ($status === 'Rejected') {
     $subject = "Appointment Rejected";
-    $body = $message;
-    sendEmail($email, $subject, $body);
+    $message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
+
+		ob_start();
+		include_once "app/views/mailer/appointment_email_template.php";
+		$templateContent = ob_get_clean();
+
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{Message}}', nl2br($message), $templateContent);
+
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
   }
 }
