@@ -57,7 +57,7 @@
                   <div class="container mt-3">
                     <div class="d-flex justify-content-center">
                       <div class="row px-3 mt-2">
-                        <div class="col-md-12 text-center">
+                        <div class="col-md-12 text-start">
                           <p><?php echo $appointment->comments; ?></p>
                         </div>
                       </div>

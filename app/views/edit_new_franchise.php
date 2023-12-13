@@ -68,9 +68,9 @@
                         <?php endif; ?>
                       </div>
                       <?php if ($userRole === 'admin'): ?>
-                        <div class="col-8 px-5" id="rejection-comments-container" style="display: none;">
+                        <div class="col-8 px-5">
                           <label for="comments" class="form-label">Rejection Comments</label>
-                          <textarea class="form-control" id="comments" name="comments" rows="3"><?php echo isset($comments) ? $comments : ''; ?></textarea>
+                          <textarea class="form-control text-start" id="comments" name="comments" style="width: 580px;" rows="3"><?php echo isset($comments) ? $comments : ''; ?></textarea>
                         </div>
                       <?php endif; ?>
                     </div>
