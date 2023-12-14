@@ -16,3 +16,10 @@ CREATE TABLE password_resets (
 Update Tricycle Table on Database to include the user_id
 ALTER TABLE tricycles
 ADD COLUMN user_id INT AFTER tricycle_id;
+
+
+IMPLEMENT THIS!
+
+- on appointment once the status is completed the action can be done is ang view nalang and it should create a tricycle data automatically.
+- there is no new tricycle
+- update how CIN is being placed on the columns especially in apointment processes.
