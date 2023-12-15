@@ -6,9 +6,9 @@
     </a>
   </div>
   <nav class="navbar navbar-expand">
-    <a href="#home" class="nav-link">HOME</a>
-    <a href="#about" class="nav-link">ABOUT</a>
-    <a href="#contact" class="nav-link">CONTACT</a>
+    <a href="#home" class="nav-link text-white scrollto active">HOME</a>
+    <a href="#about" class="nav-link scrollto text-white">ABOUT</a>
+    <a href="#contact" class="nav-link scrollto text-white">CONTACT</a>
     <?php if (is_authenticated()): ?>
       <a href="dashboard" class="nav-link">DASHBOARD</a>
     <?php endif; ?>
@@ -28,8 +28,8 @@
   </div>
 </section>
 
-<div class="container">
-  <section id="about">
+<div class="container" id="about">
+  <section>
     <div class="about">
       <div class="about-top">
         <h1 class="about-title">ABOUT <span>US</span></h1>
@@ -139,3 +139,48 @@
     <a class="text-white" href="https://mdbootstrap.com/">wlcresearch2023.com</a>
   </div>
 </footer>
+<script>
+$(document).ready(function () {
+  // Smooth scrolling for anchor links
+  $("a.scrollto").on("click", function (event) {
+    event.preventDefault();
+    var targetId = $(this).attr("href");
+    var offset = $(targetId).offset().top;
+
+    $("html, body").animate({ scrollTop: offset }, 50);
+
+    // Update the browser URL without adding the anchor part
+    history.replaceState({}, document.title, window.location.pathname);
+  });
+
+  // Change text color based on scroll position
+  $(document).on("scroll", function () {
+    var scrollPos = $(document).scrollTop();
+    $(".scrollto").each(function () {
+      var currLink = $(this);
+      var refElement = $(currLink.attr("href"));
+      if (
+        refElement.position().top <= scrollPos &&
+        refElement.position().top + refElement.height() > scrollPos
+      ) {
+        $(".scrollto").removeClass("active");
+        currLink.addClass("active");
+      } else {
+        currLink.removeClass("active");
+      }
+    });
+  });
+  
+    // Scroll to top on page refresh
+  $(window).on("beforeunload", function () {
+    $(window).scrollTop(0);
+  });
+
+  // Scroll to home when the page is refreshed
+  $(document).ready(function () {
+    $("html, body").animate({ scrollTop: 0 }, 50);
+    $(".scrollto").removeClass("active");
+    $("a[href='#home']").addClass("active");
+  });
+});
+</script>
