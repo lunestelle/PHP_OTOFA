@@ -5,7 +5,7 @@
       <p>Sakay<span>cle</span></p>
     </a>
   </div>
-  <nav class="navbar navbar-expand">
+  <nav class="navbar navbar-expand" id="navbar">
     <a href="#home" class="nav-link text-white scrollto active">HOME</a>
     <a href="#about" class="nav-link scrollto text-white">ABOUT</a>
     <a href="#contact" class="nav-link scrollto text-white">CONTACT</a>
@@ -79,8 +79,8 @@
   </section>
 </div>
 
-<footer class="text-white text-center text-lg-start" id="contact">
-  <div class="p-4 m-auto gap-6 col-md-10">
+<footer class="text-white text-center text-lg-start" >
+  <div class="p-4 m-auto gap-6 col-md-10" id="contact">
     <div class="row mt-4">
       <div class="col-lg-5 col-md-12 mb-4 mb-md-0">
         <h5 class="text-uppercase mb-4">About department</h5>
@@ -136,51 +136,51 @@
   </div>
   <div class="text-center p-1 " style="background-color: #FF4200;">
     © 2023 Copyright:
-    <a class="text-white" href="https://mdbootstrap.com/">wlcresearch2023.com</a>
+    <a class="text-white" href="">wlcresearch2023.com</a>
   </div>
 </footer>
 <script>
-$(document).ready(function () {
-  // Smooth scrolling for anchor links
-  $("a.scrollto").on("click", function (event) {
-    event.preventDefault();
-    var targetId = $(this).attr("href");
-    var offset = $(targetId).offset().top;
-
-    $("html, body").animate({ scrollTop: offset }, 50);
-
-    // Update the browser URL without adding the anchor part
-    history.replaceState({}, document.title, window.location.pathname);
-  });
-
-  // Change text color based on scroll position
-  $(document).on("scroll", function () {
-    var scrollPos = $(document).scrollTop();
-    $(".scrollto").each(function () {
-      var currLink = $(this);
-      var refElement = $(currLink.attr("href"));
-      if (
-        refElement.position().top <= scrollPos &&
-        refElement.position().top + refElement.height() > scrollPos
-      ) {
-        $(".scrollto").removeClass("active");
-        currLink.addClass("active");
-      } else {
-        currLink.removeClass("active");
-      }
-    });
-  });
-  
-    // Scroll to top on page refresh
-  $(window).on("beforeunload", function () {
-    $(window).scrollTop(0);
-  });
-
-  // Scroll to home when the page is refreshed
   $(document).ready(function () {
+    // Smooth scrolling for anchor links
+    $("a.scrollto").on("click", function (event) {
+      event.preventDefault();
+      var targetId = $(this).attr("href");
+      var offset = $(targetId).offset().top;
+
+      $("html, body").animate({ scrollTop: offset }, 500, function () {
+        // Update the browser URL without adding the anchor part
+        history.replaceState({}, document.title, window.location.pathname);
+      });
+
+      // Add active class to the clicked link
+      $("a.scrollto").removeClass("active");
+      $(this).addClass("active");
+    });
+
+    // Highlight the current section when scrolling
+    $(window).on("scroll", function () {
+      var scrollPos = $(window).scrollTop();
+
+      $("a.scrollto").each(function () {
+        var targetId = $(this).attr("href");
+        var targetTop = $(targetId).offset().top;
+        var targetBottom = targetTop + $(targetId).outerHeight();
+
+        // Check if the scroll position is within the section
+        if (scrollPos >= targetTop && scrollPos < targetBottom) {
+          $("a.scrollto").removeClass("active");
+          $(this).addClass("active");
+        }
+      });
+    });
+
+    // Scroll to top on page refresh
+    $(window).on("beforeunload", function () {
+      $(window).scrollTop(0);
+    });
+
+    // Scroll to home when the page is refreshed
     $("html, body").animate({ scrollTop: 0 }, 50);
-    $(".scrollto").removeClass("active");
     $("a[href='#home']").addClass("active");
   });
-});
 </script>
