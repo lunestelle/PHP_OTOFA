@@ -36,6 +36,11 @@ class Manage_account
         'password_confirmation' => $_POST['password_confirmation'],
       ];
 
+      // Format the phone number if it's in the example format (09513662322)
+      if (preg_match('/^09[0-9]{9}$/', $postData['phone_number'])) {
+        $postData['phone_number'] = '+63' . substr($postData['phone_number'], 1);
+      }
+
       if (isset($_POST['profile_info_save_btn'])) {
         if ($user->validate_profile_info($postData)) {
           $this->profile_info($user, $postData);

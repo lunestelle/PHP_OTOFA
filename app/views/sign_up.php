@@ -1,9 +1,15 @@
 <div class="col-lg-12">
   <form class="default-form custom-form" id="sign-up-form" method="POST" action="">
+  <input type="hidden" name="verification_token" value="<?= bin2hex(random_bytes(8)) ?>">
     <div class="row">
       <div class="col-12">
         <div class="form-group mb-3">
-          <input class="form-control" autocomplete="email" type="text" name="email_or_phone" id="email_or_phone" placeholder="EMAIL OR PHONE NUMBER" autofocus required/>
+          <input class="form-control" autocomplete="email" type="text" name="email" id="email" placeholder="EMAIL ADDRESS" autofocus required/>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group mb-3">
+          <input class="form-control" autocomplete="phone_number" type="text" name="phone_number" id="phone_number" placeholder="PHONE NUMBER" autofocus required/>
         </div>
       </div>
       <div class="col-6 mb-3">

@@ -95,7 +95,7 @@
 
                 <div class="text-end my-3">
                   <button type="submit" class="sidebar-btnContent" name="update_maintenance_log">Update</button>
-                  <a href="./drivers" class="cancel-btn">Cancel</a>
+                  <a href="maintenance_logs" class="cancel-btn">Cancel</a>
                 </div>
               </form>
             </div>

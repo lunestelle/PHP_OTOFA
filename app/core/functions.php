@@ -211,26 +211,47 @@ function sendSms($phoneNumber, $message)
 
 function sendEmail($to, $subject, $body)
 {
-  $mailer = new PHPMailer;
-  $mailer->isSMTP();
-  $mailer->Host = 'smtp.gmail.com';
-  $mailer->Port = 465;
-  $mailer->SMTPSecure = 'ssl';
-  $mailer->SMTPAuth = true;
-  $mailer->Username = 'sakaycle@gmail.com';
-  $mailer->Password = 'hagfqeqlqdtyhqzi'; 
+	// Check if the code is running on localhost
+	if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_ADDR'] === '127.0.0.1') {
+		$mailerLocal = new PHPMailer;
+		$mailerLocal->isSMTP();
+		$mailerLocal->Host = 'smtp.gmail.com';
+		$mailerLocal->Port = 465;
+		$mailerLocal->SMTPSecure = 'ssl';
+		$mailerLocal->SMTPAuth = true;
+		$mailerLocal->Username = 'sakaycle@gmail.com';
+		$mailerLocal->Password = 'hagfqeqlqdtyhqzi';
 
-  $mailer->setFrom('sakaycle@gmail.com', 'Sakaycle');
-  $mailer->addAddress($to);
-  $mailer->Subject = $subject;
-  $mailer->Body = $body;
-  $mailer->isHTML(true);
+		$mailerLocal->setFrom('sakaycle@gmail.com', 'Sakaycle');
+		$mailerLocal->addAddress($to);
+		$mailerLocal->Subject = $subject;
+		$mailerLocal->Body = $body;
+		$mailerLocal->isHTML(true);
+	} else {
+		$mailerGoDaddy = new PHPMailer;
+		$mailerGoDaddy->isSMTP();
+		$mailerGoDaddy->Host = 'sg2plzcpnl503789.prod.sin2.secureserver.net';
+		$mailerGoDaddy->Port = 465;
+		$mailerGoDaddy->SMTPSecure = 'ssl';
+		$mailerGoDaddy->SMTPAuth = true;
+		$mailerGoDaddy->Username = 'info@sakaycle.wlccicte.com';
+		$mailerGoDaddy->Password = 'sakayclebusiness';
 
-  if (!$mailer->send()) {
-    return 'Email could not be sent. Please try again later';
-  } else {
-    return 'success';
-  }
+		$mailerGoDaddy->setFrom('info@sakaycle.wlccicte.com', 'Sakaycle');
+		$mailerGoDaddy->addAddress($to);
+		$mailerGoDaddy->Subject = $subject;
+		$mailerGoDaddy->Body = $body;
+		$mailerGoDaddy->isHTML(true);
+	}
+
+	// Use the appropriate mailer object
+	$mailer = isset($mailerLocal) ? $mailerLocal : $mailerGoDaddy;
+
+	if (!$mailer->send()) {
+		return 'Email could not be sent. Please try again later';
+	} else {
+		return 'success';
+	}
 }
 
 function sendAppointmentNotifications($appointmentFormData, $data, $customMessage = null)
@@ -243,29 +264,48 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customMessag
   $rootPath = ROOT;
 
 	if ($status === 'Approved') {
-    $subject = "Appointment Approved";
-    $message = $customMessage ?: "Hello {$appointmentFormData['name']},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you. Kindly ensure you arrive 15 minutes early and bring along all the necessary documents. For more details, please check your appointment details on our website: {$rootPath}"; // Use custom message if provided, else use a default message
+    $message = "Hello {$appointmentFormData['name']},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n\n1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT\n2. LTO Certificate of Registration (MC of New Unit) (2 copies)\n3. LTO Official Receipt (MC of New Unit) (2 copies)\n4. Plate authorization (MC of New Unit) (2 copies)\n5. Insurance Policy (TC) (New Owner) (2 copies)\n6. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)\n7. Sketch Location of Garage (2 copies)\n8. Affidavit of No Income Or Latest Income Tax Return (2 copies)\n9. Picture of New Unit (Front view & Side view) (2 copies)\n10. Driver's Certificate of Safety Driving Seminar (2 copies)\n11. Brown long envelope (1 pc.)\n\nFor more details, please check your appointment details on our website: {$rootPath}";
+
+		$subject = "Appointment Approved";
+		$user = "Hello {$appointmentFormData['name']},";
+		$emailMessage = "Congratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.";
+		$requirements = "1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT\n2. LTO Certificate of Registration (MC of New Unit) (2 copies)\n3. LTO Official Receipt (MC of New Unit) (2 copies)\n4. Plate authorization (MC of New Unit) (2 copies)\n5. Insurance Policy (TC) (New Owner) (2 copies)\n6. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)\n7. Sketch Location of Garage (2 copies)\n8. Affidavit of No Income Or Latest Income Tax Return (2 copies)\n9. Picture of New Unit (Front view & Side view) (2 copies)\n10. Driver's Certificate of Safety Driving Seminar (2 copies)\n11. Brown long envelope (1 pc.)";
+		$subMessage = "For more details, please check your appointment details on our website by clicking the button below.";
+		$buttonLink = "$rootPath";
 
 		ob_start();
-		include_once "app/views/mailer/appointment_email_template.php";
+		include_once "app/views/mailer/approved_appointment_email.php";
 		$templateContent = ob_get_clean();
 
 		// Replace placeholders in the template with actual subject and body
 		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
-		$templateContent = str_replace('{{Message}}', nl2br($message), $templateContent);
+		$templateContent = str_replace('{{User}}', $user, $templateContent);
+		$templateContent = str_replace('{{Message}}', nl2br($emailMessage), $templateContent);
+		$templateContent = str_replace('{{Requirements}}', nl2br($requirements), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+
 
 		// sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
   } elseif ($status === 'Rejected') {
-    $subject = "Appointment Rejected";
-    $message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
+    $message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
+
+		$subject = "Appointment Rejected";
+		$user = "Hello {$appointmentFormData['name']},";
+		$message = "We regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out by replying to this email. Additionally, please review the feedback or comment section on the website for more details about your appointment by clicking the button below.";
+		$buttonLink = "$rootPath";
+		$subMessage = "Thank you for your understanding and cooperation.";
 
 		ob_start();
-		include_once "app/views/mailer/appointment_email_template.php";
+		include_once "app/views/mailer/rejected_appointment_email.php";
 		$templateContent = ob_get_clean();
 
 		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
-		$templateContent = str_replace('{{Message}}', nl2br($message), $templateContent);
+		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
+		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 
 		// sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);

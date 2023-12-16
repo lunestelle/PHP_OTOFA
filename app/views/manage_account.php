@@ -77,15 +77,15 @@
                   </div>
                   <div class="col-md-8 mb-3">
                     <label for="phone_number" class="form-label">Phone Number</label>
-                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?php echo isset($phone_number) ? $phone_number : '' ?>">
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?php echo isset($phone_number) ? $phone_number : '' ?>" required>
                   </div>
                   <div class="col-md-8 mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($email) ? $email : '' ?>">
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($email) ? $email : '' ?>" required>
                   </div>
                   <div class="col-md-8">
                     <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" value="<?php echo isset($address) ? $address : '' ?>">
+                    <input type="text" class="form-control" id="address" name="address" value="<?php echo isset($address) ? $address : '' ?>" required>
                   </div>
                 </div>
               </div>
