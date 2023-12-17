@@ -22,13 +22,16 @@ class Tricycles
       // Fetch tricycles data based on the user ID for non-Admin users
       $whereConditions = ['user_id' => $_SESSION['USER']->user_id];
       if ($statusFilter === 'active') {
-        $whereConditions['tricycle_status'] = 'Active';
+        $whereConditions['status'] = 'Active';
       }
       $tricyclesData = $tricycleModel->where($whereConditions);
     }
 
     $userModel = new User();
     $usersData = $userModel->where(['role' => 'operator']);
+
+    $tricycleApplicationModel = new TricycleApplication();
+    $tricycleCinModel = new TricycleCinNumber();
 
     $data['tricycles'] = [];
     $data['index'] = 1;
@@ -43,18 +46,38 @@ class Tricycles
           }
         }
 
+        // Retrieve Tricycle Application data
+        $tricycleApplicationData = $tricycleApplicationModel->first(['tricycle_application_id' => $tricycle->tricycle_application_id]);
+
+        // Retrieve CIN data using the relationship method (replace 'yourRelationshipMethod' with the actual method name)
+        $tricycleCinData =  $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+
         $data['tricycles'][] = [
           'tricycle_id' => $tricycle->tricycle_id,
-          'plate_no' => $tricycle->plate_no,
-          'operator_name' => $userName,
-          'make_model' => $tricycle->make_model,
-          'year_acquired' => $tricycle->year_acquired,
-          'color_code' => $tricycle->color_code,
-          'route_area' => $tricycle->route_area,
-          'or_no' => $tricycle->or_no,
-          'or_date' => $tricycle->or_date,
-          'tricycle_status' => $tricycle->tricycle_status
+          'status' => $tricycle->status,
+          'cin' => $tricycleCinData ? $tricycleCinData->cin_number : 'N/A',
+          'tricycle_application_data' => $tricycleApplicationData,
         ];
+      }
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_tricycle_status'])) {
+      $updatedStatus = $_POST['status'];
+      $tricycleIdToUpdate = $_POST['tricycle_id'];
+  
+      if ($tricycleModel->update(['tricycle_id' => $tricycleIdToUpdate], ['status' => $updatedStatus])) {
+        $updatedData = $tricycleModel->first(['tricycle_id' => $tricycleIdToUpdate]);
+        
+        if ($updatedStatus === 'Dropped') {
+          $tricycleApplicationUpdate = $tricycleApplicationModel->first(['tricycle_application_id' => $updatedData->tricycle_application_id]);
+
+          $tricycleCinData =  $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationUpdate->tricycle_cin_number_id]);
+          
+          $tricycleCinModel->update(['tricycle_cin_number_id' =>  $tricycleCinData->cin_number], ['is_used' => 0, 'user_id' => null]);
+        }
+
+        set_flash_message("Successfully updated tricycle status.", "success");
+        redirect('tricycles');
       }
     }
 

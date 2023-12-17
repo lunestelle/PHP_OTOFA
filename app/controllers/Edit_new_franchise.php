@@ -24,6 +24,19 @@
       $tricycleApplicationModel = new TricycleApplication();
       $tricycleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointmentId]);
 
+      $tricycleCinNumberModel = new TricycleCinNumber();
+      $availableCinNumbers = $tricycleCinNumberModel->getAvailableCinNumbers();
+      
+      // Transform the availableCinNumbers to associate tricycle_cin_number_id with cin_number
+      $cinNumbersById = [];
+      foreach ($availableCinNumbers as $cinNumberId) {
+        $cinNumber = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $cinNumberId])->cin_number;
+        $cinNumbersById[$cinNumberId] = $cinNumber;
+      }
+      
+      // Sort the array in ascending order
+      asort($cinNumbersById);
+
       $mtopRequirementModel = new MtopRequirement();
       $mtopRequirementData = $mtopRequirementModel->first(['appointment_id' => $appointmentId]);
       $mtopRequirementId = $mtopRequirementData->mtop_requirement_id;
@@ -59,6 +72,7 @@
         'affidavit_of_income_tax_return_path' => $mtopRequirementData->affidavit_of_income_tax_return_path,
         'driver_cert_safety_driving_seminar_path' => $mtopRequirementData->driver_cert_safety_driving_seminar_path,
         'proof_of_id_path' => $mtopRequirementData->proof_of_id_path,
+        'availableCinNumbers' => $cinNumbersById,
       ];
 
       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -90,6 +104,7 @@
           'insurer' => $_POST['insurer'] ?? '',
           'coc_no' => $_POST['coc_no'] ?? '',
           'coc_no_expiry_date' => $_POST['coc_no_expiry_date'] ?? '',
+          'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id'] ?? '',
         ];
 
         if (isset($_POST['confirm_delete_image'])) {
@@ -116,7 +131,7 @@
         }
 
         if (isset($_POST['update_new_franchise'])) {
-          $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel);
+          $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers);
 
           if (!empty($formErrors)) {
             $firstError = reset($formErrors);
@@ -158,6 +173,29 @@
                 $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], $fileUploads);
               }
 
+              // Get the selected tricycle_cin_number_id
+              $selectedCinNumberId = $tricycleApplicationFormData['tricycle_cin_number_id'];
+
+              // Check if tricycle_cin_number_id is not empty and is in the availableCinNumbers
+              if (!empty($selectedCinNumberId) && in_array($selectedCinNumberId, $availableCinNumbers)) {
+                // Update the tricycle_cin_numbers table
+                $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $selectedCinNumberId], [
+                  'is_used' => true,
+                  'user_id' => $appointmentData->user_id,
+                ]);
+              }
+
+              if ($appointmentFormData['status'] === 'Completed') {
+                $tricycleModel = new Tricycle();
+                $tricycleData = [
+                  'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
+                  'status' => "Active",
+                  'user_id' => $appointmentData->user_id,
+                ];
+            
+                $tricycleModel->insert($tricycleData);
+              }
+
               sendAppointmentNotifications($appointmentFormData, $data);
 
               set_flash_message("Scheduled appointment updated successfully.", "success");
@@ -172,7 +210,7 @@
       echo $this->renderView('edit_new_franchise', true, $data);
     }
 
-    private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel) {
+    private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers) {
       $errors = array();
     
       $appointmentErrors = $appointmentModel->updateValidation($appointmentFormData);
@@ -193,6 +231,15 @@
           $errors['appointment'][] = 'Comments are required for rejected appointments.';
         }
       }
+      
+      if ($appointmentFormData['status'] === 'Completed' || $appointmentFormData['status'] === 'Approved') {
+        $cinNumber = trim($tricycleApplicationFormData['tricycle_cin_number_id']);
+        if (!empty($availableCinNumbers)) {
+          if (empty($cinNumber) || !in_array($cinNumber, $availableCinNumbers)) {
+            $errors['tricycleApplication'][] = 'Tricycle CIN number is required and must <br> be selected from the available options to <br> update this appointment request.';
+          }
+        }
+      }
 
       return $errors;
     }
@@ -200,22 +247,6 @@
     private function formatPhoneNumber($phoneNumber) {
       return preg_replace('/[^0-9]/', '', str_replace('+63', '', $phoneNumber));
     }
-
-    private function getAvailablePlateNumbers($tricycleModel, $selectedPlateNumber)
-    {
-      // Get all plate numbers from the database
-      $allPlateNumbers = $tricycleModel->pluck('plate_no')->toArray();
-
-      // Include the selected plate number in the dropdown options
-      $availablePlateNumbers = [$selectedPlateNumber];
-
-      // Filter out plate numbers that are already taken or the selected one
-      $availablePlateNumbers = array_diff(range(1, 2000), $allPlateNumbers, [$selectedPlateNumber]);
-
-      sort($availablePlateNumbers);
-      return $availablePlateNumbers;
-    }
-    
 
     private function handleFileUploads($mtopRequirementFormData)
     {

@@ -16,6 +16,9 @@ class View_tricycle
     $tricycleModel = new Tricycle();
     $tricycleData = $tricycleModel->first(['tricycle_id' => $tricycleId]);
 
+    $tricycleApplicationModel = new TricycleApplication();
+    $tricycleCinModel = new TricycleCinNumber();
+
     if (!$tricycleData) {
       set_flash_message("Tricycle not found.", "error");
       redirect('tricycles');
