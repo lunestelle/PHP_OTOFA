@@ -54,11 +54,11 @@
                   <div class="bckgrnd pt-2">
                     <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Appointment Rejection Comment</h6>
                   </div>
-                  <div class="container mt-3">
+                  <div class="container">
                     <div class="d-flex justify-content-center">
-                      <div class="row px-3 mt-2">
-                        <div class="col-md-12 text-start">
-                          <p><?php echo $appointment->comments; ?></p>
+                      <div class="row px-3">
+                        <div class="col-md-12 text-start rejection-comment ">
+                          <p class="rejection-comment "><?php echo $appointment->comments; ?></p>
                         </div>
                       </div>
                     </div>

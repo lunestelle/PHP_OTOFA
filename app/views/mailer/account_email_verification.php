@@ -36,7 +36,7 @@
                     </p>
                     <a href="<?= $_SESSION['verification_link']?>" style="display: inline-block; background-color: #FF4200; color: #fff; text-decoration: none !important; font-weight: 500; margin-top: 20px; text-transform: uppercase; font-size: 14px; padding: 10px 24px; border-radius: 50px; transition: background-color 0.3s ease; color: #fff;" class="btn reset-button">Verify Email</a>
                     
-                    <p style="color:#455056; font-size:15px;line-height:24px; margin:15px;">
+                    <p style="color:#455056; font-size:13px; font-weight: 600; line-height:24px; margin:15px;">
                       If you did not sign up for Sakaycle, please ignore this email. Someone may have entered your email address by mistake.
                     </p>
                     <p style="color:#455056; font-size:15px;line-height:24px; margin-top: 15px;">

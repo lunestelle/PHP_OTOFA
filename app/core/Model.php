@@ -4,7 +4,7 @@ Trait Model
 {
   use Database;
 
-  protected $order_type = "asc";
+  protected $order_type = "desc";
   public $errors = [];
 
   public function findAll()
