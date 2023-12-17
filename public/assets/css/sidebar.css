@@ -404,3 +404,5 @@ table > :not(caption) > * > * > :last-child {
   min-height: 40px;
   box-shadow: 2px 3px #00000009;
 }
+
+/* -- CANCEL APPOINTMENT MODAL -- */

@@ -104,9 +104,9 @@
                     <p>Are you sure you want to cancel the appointment for <span id="appointmentName"></span> on <span id="appointmentDate"></span> at <span id="appointmentTime"></span>?</p>
                   </div>
                   <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Keep Appointment</button>
-                    <form action="<?php echo 'cancel_appointment?appointment_id=' . $appointment['appointment_id'] ?>" method="post" id="cancelForm">
-                      <input type="submit" class="btn btn-danger" value="Yes, Cancel Appointment">
+                    <button type="button" class="sidebar-btnContent" style="width: 100%; margin:auto; margin: 0 4px; padding: 8px;" data-bs-dismiss="modal">No, Keep Appointment</button>
+                    <form action="<?php echo 'cancel_appointment?appointment_id=' . $appointment['appointment_id'] ?>" method="post" id="cancelForm" style="width: 100%;">
+                        <input type="submit" class="cancel-btn mt-1" style="width: 100%;  margin:auto; padding: 8px;" value="Yes, Cancel Appointment">
                     </form>
                   </div>
                 </div>

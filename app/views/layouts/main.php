@@ -26,6 +26,14 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
   {{css}}
 
   <!-- OFFLINE & ONLINE JS -->
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+  <!-- ScrollMagic -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/debug.addIndicators.min.js"></script>
+
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="public/assets/bootstrap/js/jquery.min.js"></script>
   <script src="public/assets/bootstrap/js/popper.min.js"></script>
