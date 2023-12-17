@@ -21,7 +21,7 @@ class New_appointment
             break;
 
           case 'Renewal of Franchise':
-            redirect('renewal_franchise');
+            redirect('renewal_of_franchise');
             break;
           
           case 'Change of Motorcycle':

@@ -8,7 +8,7 @@ class TricycleApplication
   protected $allowedColumns = [
     'appointment_id',
     'driver_id',
-    'tricycle_id',
+    'tricycle_cin_number_id',
     'operator_name',
     'tricycle_phone_number',
     'address',
@@ -91,19 +91,31 @@ class TricycleApplication
       }
     }
 
-    if (!empty($data['tricycle_id']) || !empty($data['plate_no'])) {
-      $requiredTricycleFields = [
-        'lto_cr_no' => 'LTO CR Number',
-        'lto_or_no' => 'LTO OR Number',
-      ];
+    // if (!empty($data['tricycle_cin_number_id'])) {
+    //   $requiredTricycleFields = [
+    //     'lto_cr_no' => 'LTO CR Number',
+    //     'lto_or_no' => 'LTO OR Number',
+    //   ];
 
-      foreach ($requiredTricycleFields as $field => $fieldName) {
-        if (empty($data[$field])) {
-          $errors[] = $fieldName . ' is required for the selected tricycle CIN.';
-        }
-      }
-    }
+    //   foreach ($requiredTricycleFields as $field => $fieldName) {
+    //     if (empty($data[$field])) {
+    //       $errors[] = $fieldName . ' is required for the selected tricycle CIN.';
+    //     }
+    //   }
+    // }
 
     return $errors;
+  }
+
+  public function pluck($column)
+  {
+    $query = "SELECT {$column} FROM {$this->table}";
+    $result = $this->query($query);
+
+    if ($result !== false) {
+      return array_column($result, $column);
+    } else {
+      return [];
+    }
   }
 }

@@ -17,7 +17,12 @@
                     <div class="col-12 d-flex mb-2">
                       <div class="col-4 px-5">
                         <label for="name" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($name) ? $name : ''; ?>" required>
+                        <div class="input-group">
+                          <input type="text" class="form-control phone-no" style="cursor: pointer;" id="name" name="name" value="<?php echo isset($name) ? $name : ''; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default appointment full name. This field is read-only. To update, please go to Manage Profile.">
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="col-4 px-5">
                         <label for="phone_number" class="form-label">Phone Number</label>
@@ -61,6 +66,7 @@
                             <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?>>Pending</option>
                             <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
                             <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                            <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?>>On Process</option>
                             <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
                           </select>
                         <?php else: ?>
@@ -85,7 +91,12 @@
                     <div class="col-12 d-flex mb-2">
                       <div class="col-4 px-5">
                         <label for="operator_name" class="form-label">Name of Operator</label>
-                        <input type="text" class="form-control" id="operator_name" name="operator_name" value="<?php echo isset($operator_name) ? $operator_name : ''; ?>" required>
+                        <div class="input-group">
+                          <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name" name="operator_name" value="<?php echo isset($operator_name) ? $operator_name : ''; ?>" readonly data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile.">
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="col-4 px-5">
                         <label for="tricycle_phone_number" class="form-label">Phone Number</label>
@@ -157,6 +168,28 @@
                         <label for="coc_no_expiry_date" class="form-label">C.O.C Expiry Date</label>
                         <input type="date" class="form-control" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?php echo isset($coc_no_expiry_date) ? $coc_no_expiry_date : ''; ?>" required>
                       </div>
+                      <?php if ($userRole === 'admin'): ?>
+                        <div class="col-4 px-5">
+                          <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
+                          <?php if (!empty($availableCinNumbers)): ?>
+                            <select class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" required>
+                              <option selected disabled>Please Select Here</option>
+                              <?php foreach ($availableCinNumbers as $cinNumberId => $cinNumber): ?>
+                                <option value="<?= $cinNumberId ?>" <?= (isset($_POST['tricycle_cin_number_id']) && $_POST['tricycle_cin_number_id'] == $cinNumberId) ? 'selected' : '' ?>>
+                                  <?= $cinNumber ?>
+                                </option>
+                              <?php endforeach; ?>
+                            </select>
+                          <?php else: ?>
+                            <div class="input-group">
+                              <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="No available CIN numbers" readonly data-toggle="tooltip" data-bs-placement="top" title="There is no CIN numbers available for New Franchise">
+                              <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                                <i class="fa-solid fa-info-circle"></i>
+                              </span>
+                            </div>
+                          <?php endif; ?>
+                        </div>
+                      <?php endif; ?>
                     </div>
                   </div>
                 </div>
