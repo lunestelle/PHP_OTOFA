@@ -15,7 +15,8 @@ class Appointment
     'appointment_date',
     'appointment_time',
     'status',
-    'comments'
+    'comments',
+    'date_created',
   ];
   protected $order_column = 'appointment_id';
 
