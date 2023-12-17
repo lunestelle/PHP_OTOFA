@@ -1,7 +1,7 @@
   <header>
     <div class="d-flex">
       <a href="<?=ROOT?>" class="d-flex text-decoration-none">
-        <img class="logo" src="public/assets/images/logo.png" alt="Sakaycle Logo">
+        <img class="logo-1" src="public/assets/images/logo.png" alt="Sakaycle Logo">
         <p>Sakay<span>cle</span></p>
       </a>
     </div>
@@ -18,8 +18,8 @@
 
   <section class="home" id="home">
     <div class="background container">
-      <img src="public/assets/images/oc_logo.png" alt="Ormoc Logo">
-      <div class="text-container">
+      <img class="logo" src="public/assets/images/oc_logo.png" alt="Ormoc Logo">
+      <div class="text-container mt-4">
         <h1 class="text-uppercase">Transportation Development Franchising <span></span></h1>
         <h1 class="text-uppercase">and Regulatory office<span></span></h1>
       </div>
@@ -29,7 +29,7 @@
     </div>
   </section>
 
-  <div class="animate-on-scroll animated-section container mt-5" id="about">
+  <div class="animate-on-scroll animated-section container color-code-container mt-5" id="about">
     <section class="">
       <div class="about">
         <div class="about-top">
@@ -82,9 +82,9 @@
 
   <div class="border border-2"></div>
 
-  <div class="animate-on-scroll animated-section mt-5 our-team-bg" id="team">
+  <div class="animate-on-scroll animated-section mt-5 our-team-bg color-code-container" id="team">
     <div class="container">
-      <section class="">
+      <section>
       <div class="row justify-content-center">
         <div class="col-12 col-sm-10 col-lg-12">
           <!-- Section Heading-->
@@ -97,7 +97,7 @@
         <div class="row">
           <div class="d-flex justify-content-center gap-5">
             <!-- Single Advisor-->
-            <div class="col-12 col-sm-9 col-lg-3">
+            <div class="col-12 col-sm-9 col-lg-3 me-5">
               <div class="single_advisor_profile wow fadeInUp dashed-border" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                 <!-- Team Thumb-->
                 <div class="advisor_thumb"><img src="public/assets/images/team-shaina.png" alt="" style="width:200px;">
@@ -162,7 +162,7 @@
               <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Aunubing St. Cogon, Ormoc City</span>
             </li>
             <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">ormoc_cityhall@gmail.com</span>
+              <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">info@sakaycle.com</span>
             </li>
             <li class="mb-3">
               <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">+ 561 2485 52416</span>
@@ -191,84 +191,174 @@
     </div>
     <div class="text-center p-1 " style="background-color: #FF4200;">
       © 2023 Copyright:
-      <a class="text-white" href="">wlcresearch2023.com</a>
+      <a class="text-white" href="#">wlcresearch2023.com</a>
     </div>
   </footer>
   <script>
-    $(document).ready(function () {
-      // Smooth scrolling for anchor links
-      $("a.scrollto").on("click", function (event) {
-        event.preventDefault();
-        var targetId = $(this).attr("href");
-        var offset = $(targetId).offset().top;
+  document.addEventListener('DOMContentLoaded', function () {
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a.scrollto').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
 
-        $("html, body").animate({ scrollTop: offset }, 500, function () {
-          // Update the browser URL without adding the anchor part
-          history.replaceState({}, document.title, window.location.pathname);
-        });
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
 
-        // Add active class to the clicked link
-        $("a.scrollto").removeClass("active");
-        $(this).addClass("active");
+        if (targetSection) {
+          targetSection.scrollIntoView({
+            behavior: 'smooth'
+          });
+
+          // Add 'active' class to the clicked link
+          document.querySelectorAll('a.scrollto').forEach(link => {
+            link.classList.remove('active');
+          });
+          this.classList.add('active');
+        }
       });
+    });
 
-      // Highlight the current section when scrolling
-      $(window).on("scroll", function () {
-        var scrollPos = $(window).scrollTop();
+    // Handle scroll animations for sections
+    function handleScrollAnimations() {
+      const elements = document.querySelectorAll('.animate-on-scroll');
 
-        $("a.scrollto").each(function () {
-          var targetId = $(this).attr("href");
-          var targetTop = $(targetId).offset().top;
-          var targetBottom = targetTop + $(targetId).outerHeight();
+      elements.forEach((el) => {
+        const elementPosition = el.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
 
-          // Check if the scroll position is within the section
-          if (scrollPos >= targetTop && scrollPos < targetBottom) {
-            $("a.scrollto").removeClass("active");
-            $(this).addClass("active");
+        if (elementPosition < windowHeight * 0.85) {
+          el.classList.add('visible');
+          const id = el.getAttribute('id');
+          const correspondingLink = document.querySelector(`a[href="#${id}"]`);
+          if (correspondingLink) {
+            document.querySelectorAll('a.scrollto').forEach(link => {
+              link.classList.remove('active');
+            });
+            correspondingLink.classList.add('active');
           }
-        });
+        }
       });
 
-      // Scroll to top on page refresh
-      $(window).on("beforeunload", function () {
-        $(window).scrollTop(0);
-      });
+      // Add 'active' class to HOME, ABOUT, TEAM, and CONTACT links based on sections
+      const homeSection = document.getElementById('home');
+      const aboutSection = document.getElementById('about');
+      const teamSection = document.getElementById('team');
+      const contactSection = document.getElementById('contact');
+      const homeLink = document.querySelector('a[href="#home"]');
+      const aboutLink = document.querySelector('a[href="#about"]');
+      const teamLink = document.querySelector('a[href="#team"]');
+      const contactLink = document.querySelector('a[href="#contact"]');
 
-      // Scroll to home when the page is refreshed
-      $("html, body").animate({ scrollTop: 0 }, 50);
-      $("a[href='#home']").addClass("active");
-    });
-
-    // Function to check if element is in view
-function isElementInViewport(el) {
-  const rect = el.getBoundingClientRect();
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
-}
-
-  // Function to handle scrolling animation
-  function handleScrollAnimations() {
-    const elements = document.querySelectorAll('.animate-on-scroll');
-
-    elements.forEach((el) => {
-      if (isElementInViewport(el)) {
-        el.classList.add('visible');
+      const activeSection = findActiveSection(homeSection, aboutSection, teamSection, contactSection);
+      
+      switch (activeSection) {
+        case 'home':
+          removeAllActiveClasses();
+          homeLink.classList.add('active');
+          break;
+        case 'about':
+          removeAllActiveClasses();
+          aboutLink.classList.add('active');
+          break;
+        case 'team':
+          removeAllActiveClasses();
+          teamLink.classList.add('active');
+          break;
+        case 'contact':
+          removeAllActiveClasses();
+          contactLink.classList.add('active');
+          break;
+        default:
+          break;
       }
+    }
+
+    // Function to find the active section based on visibility
+    function findActiveSection(homeSection, aboutSection, teamSection, contactSection) {
+      if (isElementInViewport(homeSection)) {
+        return 'home';
+      } else if (isElementInViewport(aboutSection)) {
+        return 'about';
+      } else if (isElementInViewport(teamSection)) {
+        return 'team';
+      } else if (isElementInViewport(contactSection)) {
+        return 'contact';
+      }
+      return '';
+    }
+
+    // Function to check if an element is in the viewport
+    function isElementInViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+      );
+    }
+
+    // Function to remove 'active' class from all links
+    function removeAllActiveClasses() {
+      document.querySelectorAll('a.scrollto').forEach(link => {
+        link.classList.remove('active');
+      });
+    }
+
+    // Event listener for scroll
+    window.addEventListener('scroll', () => {
+      handleScrollAnimations();
     });
-  }
 
-  // Event listener for scroll
-  window.addEventListener('scroll', () => {
-    handleScrollAnimations();
+    // Initial check on page load
+    window.addEventListener('load', () => {
+      handleScrollAnimations();
+    });
+
+    // Scroll to top on page refresh
+    window.addEventListener('beforeunload', () => {
+      window.scrollTo(0, 0);
+    });
+
+    // Simulate click on HOME link when the page is refreshed
+    const homeLink = document.querySelector('a[href="#home"]');
+    homeLink.classList.add('active');
+    homeLink.click();
   });
 
-  // Initial check on page load
-  window.addEventListener('load', () => {
-    handleScrollAnimations();
-  });
+  // ORMOC CITY LOGO
 
-  </script>
+  document.addEventListener('DOMContentLoaded', function () {
+  // Smooth scrolling and other functions as previously defined
+
+  // Function to play the logo animation
+    function playAnimation() {
+      const logo = document.querySelector('.logo');
+      logo.classList.add('rotate-animation');
+
+      setTimeout(() => {
+        logo.classList.remove('rotate-animation');
+        logo.classList.add('zoom-animation');
+      }, 1000); // Rotate for 1 second, then add zoom animation
+
+      setTimeout(() => {
+        logo.classList.remove('zoom-animation');
+        logo.classList.add('glow-animation');
+      }, 3000); // Zoom animation for 2 seconds, then add glow
+
+      setTimeout(() => {
+        logo.classList.remove('glow-animation');
+      }, 4000); // Remove glow after 1 second
+
+      setTimeout(() => {
+        logo.classList.add('zoomed-out'); // Set logo to initial state (if needed)
+      }, 11000); // Return to the initial state after 10 seconds
+    }
+
+    // Play the animation initially and then every 10 seconds
+    setInterval(() => {
+      playAnimation();
+    }, 10000); // Play the animation every 10 seconds
+
+    // Initial animation trigger
+    playAnimation();
+  });
+</script>
