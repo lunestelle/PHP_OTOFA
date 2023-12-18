@@ -254,7 +254,7 @@ function sendEmail($to, $subject, $body)
 	}
 }
 
-function sendAppointmentNotifications($appointmentFormData, $data, $customMessage = null)
+function sendAppointmentNotifications($appointmentFormData, $data, $customTextMessage = null, $customEmailMessage = null, $customRequirementMessage = null )
 {
   $phoneNumber = $appointmentFormData['phone_number'];
   $email = $appointmentFormData['email'];
@@ -263,72 +263,72 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customMessag
   $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
   $rootPath = ROOT;
 
-		if ($status === 'Approved') {
-			$message = "Hello {$appointmentFormData['name']},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n\n1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT\n2. LTO Certificate of Registration (MC of New Unit) (2 copies)\n3. LTO Official Receipt (MC of New Unit) (2 copies)\n4. Plate authorization (MC of New Unit) (2 copies)\n5. Insurance Policy (TC) (New Owner) (2 copies)\n6. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)\n7. Sketch Location of Garage (2 copies)\n8. Affidavit of No Income Or Latest Income Tax Return (2 copies)\n9. Picture of New Unit (Front view & Side view) (2 copies)\n10. Driver's Certificate of Safety Driving Seminar (2 copies)\n11. Brown long envelope (1 pc.)\n\nFor more details, please check your appointment details on our website: {$rootPath}";
+	if ($status === 'Approved') {
+		$message = $customTextMessage;
 
-			$subject = "Appointment Approved";
-			$user = "Hello {$appointmentFormData['name']},";
-			$emailMessage = "<div style='margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your appointment has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n\n <div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise. </div>";
-			$requirements = "<div style='text-align: start; color:#455056'>1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT<br>2. LTO Certificate of Registration (MC of New Unit) (2 copies)<br>3. LTO Official Receipt (MC of New Unit) (2 copies)<br>4. Plate authorization (MC of New Unit) (2 copies)<br>5. Insurance Policy (TC) (New Owner) (2 copies)<br>6. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)<br>7. Sketch Location of Garage (2 copies)<br>8. Affidavit of No Income Or Latest Income Tax Return (2 copies)<br>9. Picture of New Unit (Front view & Side view) (2 copies)<br>10. Driver's Certificate of Safety Driving Seminar (2 copies)<br>11. Brown long envelope (1 pc.)</div>";
-			$subMessage = "For more details, please check your appointment details on our website by clicking the button below.";
-			$buttonLink = "$rootPath";
+		$subject = "Appointment Approved";
+		$user = "Hello {$appointmentFormData['name']},";
+		$emailMessage = $customEmailMessage;
+		$requirements = $customRequirementMessage;
+		$subMessage = "For more details, please check your appointment details on our website by clicking the button below.";
+		$buttonLink = "$rootPath";
 
-			ob_start();
-			include_once "app/views/mailer/approved_appointment_email.php";
-			$templateContent = ob_get_clean();
+		ob_start();
+		include_once "app/views/mailer/approved_appointment_email.php";
+		$templateContent = ob_get_clean();
 
-			// Replace placeholders in the template with actual subject and body
-			$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
-			$templateContent = str_replace('{{User}}', $user, $templateContent);
-			$templateContent = str_replace('{{Message}}', nl2br($emailMessage), $templateContent);
-			$templateContent = str_replace('{{Requirements}}', nl2br($requirements), $templateContent);
-			$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
-			$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+		// Replace placeholders in the template with actual subject and body
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{User}}', $user, $templateContent);
+		$templateContent = str_replace('{{Message}}', nl2br($emailMessage), $templateContent);
+		$templateContent = str_replace('{{Requirements}}', nl2br($requirements), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 
-			// sendSms($phoneNumber, $message);
-			sendEmail($email, $subject, $templateContent);
-		} elseif ($status === 'Rejected') {
-			$message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
+	} elseif ($status === 'Rejected') {
+		$message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
 
-			$subject = "Appointment Rejected";
-			$user = "Hello {$appointmentFormData['name']},";
-			$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We regret to inform you that your request for an appointment on <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out by replying to this email. Additionally, please review the feedback or comment section on the website for more details about your appointment by clicking the button below.</div>";
-			$buttonLink = "$rootPath";
-			$subMessage = "Thank you for your understanding and cooperation.";
-		
-			ob_start();
-			include_once "app/views/mailer/rejected_appointment_email.php";
-			$templateContent = ob_get_clean();
-		
-			$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
-			$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
-			$templateContent = str_replace('{{Message}}', $message, $templateContent);
-			$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
-			$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
-		
-			// sendSms($phoneNumber, $message);
-			sendEmail($email, $subject, $templateContent);
-		} elseif ($status === 'On Process') {
-			$message = "Hello {$appointmentFormData['name']},\n\nI wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion.\n\nThank you for your understanding and cooperation.";
+		$subject = "Appointment Rejected";
+		$user = "Hello {$appointmentFormData['name']},";
+		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We regret to inform you that your request for an appointment on <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out by replying to this email. Additionally, please review the feedback or comment section on the website for more details about your appointment by clicking the button below.</div>";
+		$buttonLink = "$rootPath";
+		$subMessage = "Thank you for your understanding and cooperation.";
+	
+		ob_start();
+		include_once "app/views/mailer/rejected_appointment_email.php";
+		$templateContent = ob_get_clean();
+	
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
+		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+	
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
+	} elseif ($status === 'On Process') {
+		$message = "Hello {$appointmentFormData['name']},\n\nI wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion.\n\nThank you for your understanding and cooperation.";
 
-			$subject = "Appointment On Process";
-			$user = "Hello {$appointmentFormData['name']},";
-			$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>I wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion. 
-			</div>";
-			$buttonLink = "$rootPath";
-			$subMessage = "Thank you for your understanding and cooperation.";
-		
-			ob_start();
-			include_once "app/views/mailer/on_process_email.php";
-			$templateContent = ob_get_clean();
-		
-			$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
-			$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
-			$templateContent = str_replace('{{Message}}', $message, $templateContent);
-			$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
-			$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
-		
-			// sendSms($phoneNumber, $message);
-			sendEmail($email, $subject, $templateContent);
-	  } 
-	}
+		$subject = "Appointment On Process";
+		$user = "Hello {$appointmentFormData['name']},";
+		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>I wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion. 
+		</div>";
+		$buttonLink = "$rootPath";
+		$subMessage = "Thank you for your understanding and cooperation.";
+	
+		ob_start();
+		include_once "app/views/mailer/on_process_email.php";
+		$templateContent = ob_get_clean();
+	
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
+		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+	
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
+	} 
+}

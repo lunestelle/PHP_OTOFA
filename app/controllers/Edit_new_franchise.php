@@ -20,12 +20,23 @@
         set_flash_message("Appointment not found.", "error");
         redirect('appointments');
       }
-
+      
       $tricycleApplicationModel = new TricycleApplication();
       $tricycleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointmentId]);
-
+      
       $tricycleCinNumberModel = new TricycleCinNumber();
-      $availableCinNumbers = $tricycleCinNumberModel->getAvailableCinNumbers();
+      $selectedUserId = $appointmentData->user_id;
+      $selectedCinNumberId = $tricycleCinNumberModel->getCinNumberIdByUserId($selectedUserId);
+      
+      // If tricycle_cin_number_id is set, get the selected CIN number and other available CIN numbers
+      if (!empty($selectedCinNumberId)) {
+        $selectedCinNumber = $tricycleCinNumberModel->getCin($selectedCinNumberId);
+        $availableCinNumbers = $tricycleCinNumberModel->getAvailableCinNumbers();
+      } else {
+        // If tricycle_cin_number_id is not set, show all available CIN numbers where is_used is false
+        $availableCinNumbers = $tricycleCinNumberModel->getAvailableCinNumbers();
+        $selectedCinNumber = null; // No pre-selected CIN number
+      }
       
       // Transform the availableCinNumbers to associate tricycle_cin_number_id with cin_number
       $cinNumbersById = [];
@@ -73,6 +84,8 @@
         'driver_cert_safety_driving_seminar_path' => $mtopRequirementData->driver_cert_safety_driving_seminar_path,
         'proof_of_id_path' => $mtopRequirementData->proof_of_id_path,
         'availableCinNumbers' => $cinNumbersById,
+        'selectedCinNumberId' => $selectedCinNumberId,
+        'selectedCinNumber' => $selectedCinNumber,
       ];
 
       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -185,6 +198,16 @@
                 ]);
               }
 
+              // Update the previous selected CIN number
+              if (!empty($selectedCinNumberId) && !empty($tricycleApplicationData->tricycle_cin_number_id) &&
+              $selectedCinNumberId != $tricycleApplicationData->tricycle_cin_number_id) {
+                // Update the previous tricycle_cin_numbers entry
+                $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id], [
+                    'is_used' => false,
+                    'user_id' => null,
+                ]);
+              }
+
               if ($appointmentFormData['status'] === 'Completed') {
                 $tricycleModel = new Tricycle();
                 $tricycleData = [
@@ -196,7 +219,15 @@
                 $tricycleModel->insert($tricycleData);
               }
 
-              sendAppointmentNotifications($appointmentFormData, $data);
+              $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
+              $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
+              $rootPath = ROOT;
+
+              $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $formattedDate, $formattedTime, $rootPath);
+              $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime);
+              $customRequirementMessage = $this->generateCustomRequirementMessage();
+
+              sendAppointmentNotifications($appointmentFormData, $data, $customTextMessage, $customEmailMessage, $customRequirementMessage);
 
               set_flash_message("Scheduled appointment updated successfully.", "success");
               redirect('appointments');;
@@ -265,5 +296,32 @@
       }
 
       return $fileUploads;
+    }
+
+    private function generateCustomTextMessage($name, $formattedDate, $formattedTime, $rootPath)
+    {
+        $message = "Hello {$name},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
+        $message .= $this->generateRequirementList();
+        $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
+
+        return $message;
+    }
+
+    private function generateCustomEmailMessage($formattedDate, $formattedTime)
+    {
+        $message = "<div style='margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your appointment has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
+        $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise. </div>";
+
+        return $message;
+    }
+
+    private function generateCustomRequirementMessage()
+    {
+      return "<div style='text-align: start; color:#455056'>" . $this->generateRequirementList() . "</div>";
+    }
+
+    private function generateRequirementList()
+    {
+      return "1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT<br>2. LTO Certificate of Registration (MC of New Unit) (2 copies)<br>3. LTO Official Receipt (MC of New Unit) (2 copies)<br>4. Plate authorization (MC of New Unit) (2 copies)<br>5. Insurance Policy (TC) (New Owner) (2 copies)<br>6. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)<br>7. Sketch Location of Garage (2 copies)<br>8. Affidavit of No Income Or Latest Income Tax Return (2 copies)<br>9. Picture of New Unit (Front view & Side view) (2 copies)<br>10. Driver's Certificate of Safety Driving Seminar (2 copies)<br>11. Brown long envelope (1 pc.)";
     }
   }

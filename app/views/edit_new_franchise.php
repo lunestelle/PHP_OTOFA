@@ -174,10 +174,18 @@
                           <?php if (!empty($availableCinNumbers)): ?>
                             <select class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" required>
                               <option selected disabled>Please Select Here</option>
-                              <?php foreach ($availableCinNumbers as $cinNumberId => $cinNumber): ?>
-                                <option value="<?= $cinNumberId ?>" <?= (isset($_POST['tricycle_cin_number_id']) && $_POST['tricycle_cin_number_id'] == $cinNumberId) ? 'selected' : '' ?>>
-                                  <?= $cinNumber ?>
+                              <?php if (!empty($selectedCinNumberId)): ?>
+                                <option value="<?= $selectedCinNumberId ?>" selected>
+                                  <?= $selectedCinNumber ?>
                                 </option>
+                              <?php endif; ?>
+
+                              <?php foreach ($availableCinNumbers as $cinNumberId => $cinNumber): ?>
+                                <?php if ($cinNumberId !== $selectedCinNumberId): ?>
+                                  <option value="<?= $cinNumberId ?>">
+                                    <?= $cinNumber ?>
+                                  </option>
+                                <?php endif; ?>
                               <?php endforeach; ?>
                             </select>
                           <?php else: ?>
