@@ -16,7 +16,7 @@
               <thead class="thead-custom">
                 <tr class="text-center text-uppercase">
                   <th scope="col" class="text-center">#</th>
-                  <th scope="col" class="text-center">CIN</th>
+                  <th scope="col" class="text-center">Tricyle CIN</th>
                   <th scope="col" class="text-center">Driver's Name</th>
                   <th scope="col" class="text-center">Date</th>
                   <th scope="col" class="text-center">Total Expenses</th>

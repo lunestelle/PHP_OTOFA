@@ -11,6 +11,10 @@ class New_appointment
       redirect('');
     }
 
+    $cinModel = new TricycleCinNumber();
+    $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
+    
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (isset($_POST['appointmentType'])) {
         $appointmentType = $_POST['appointmentType'];
@@ -40,6 +44,6 @@ class New_appointment
       }
     }
 
-    echo $this->renderView('new_appointment', true);
+    echo $this->renderView('new_appointment', true, $data);
   }
 }

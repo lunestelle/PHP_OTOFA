@@ -145,17 +145,24 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 <a href="dashboard" class="nav-link text-white"><i class="fa-solid fa-list"></i><span class="ms-2">Dashboard</span></a>
               </li>
               <?php if ($userRole === 'operator') { ?>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-2">Drivers</span></a>
-                </li>
+                <?php
+                  // Check if the user has a CIN number
+                  $cinModel = new TricycleCinNumber();
+                  $userHasCin = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
+                ?>
+                <?php if ($userHasCin) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-2">Drivers</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="maintenance_logs"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
+                  </li>
+                <?php } ?>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="maintenance_logs"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
                 </li>
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">

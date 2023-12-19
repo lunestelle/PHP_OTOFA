@@ -26,7 +26,7 @@
       
       $tricycleCinNumberModel = new TricycleCinNumber();
       $selectedUserId = $appointmentData->user_id;
-      $selectedCinNumberId = $tricycleCinNumberModel->getCinNumberIdByUserId($selectedUserId);
+      $selectedCinNumberId = $tricycleApplicationData->tricycle_cin_number_id;
       
       // If tricycle_cin_number_id is set, get the selected CIN number and other available CIN numbers
       if (!empty($selectedCinNumberId)) {

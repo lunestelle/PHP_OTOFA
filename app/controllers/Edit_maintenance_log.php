@@ -15,21 +15,22 @@ class Edit_maintenance_log {
     $maintenanceLogModel = new MaintenanceLog();
     $maintenanceLogData = $maintenanceLogModel->first(['maintenance_log_id' => $maintenanceLogId]);
 
-    $tricycleModel = new Tricycle();
-    $tricycles = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinNumbers = $tricycleCinModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    $data['tricycleCinNumbers'] = [];
+    if (is_array($tricycleCinNumbers) || is_object($tricycleCinNumbers)) {
+      foreach ($tricycleCinNumbers as $cinNumberId) {
+        $data['tricycleCinNumbers'][$cinNumberId->tricycle_cin_number_id] = [
+          'cin_number' => $cinNumberId->tricycle_cin_number_id,
+        ];
+      }
+    } else {
+      $data['tricycleCinNumbers'] = [];
+    }
 
-    $data['tricycles'] = [];
-
-    if (is_array($tricycles) || is_object($tricycles)) {
-			foreach ($tricycles as $tricycle) {
-				$data['tricycles'][$tricycle->tricycle_id] = [
-					'tricycle_id' => $tricycle->tricycle_id,
-					'plate_no' => $tricycle->plate_no
-				];
-			}
-		} else {
-			$data['tricycles'] = [];
-		}
+    asort($data['tricycleCinNumbers']);
+    $selectedCinNumber = $maintenanceLogData->tricycle_cin_number_id;
+    $data['selectedCinNumberId'] = $selectedCinNumber ? $selectedCinNumber : null;
 
     $driverModel = new Driver();
     $drivers = $driverModel->where(['user_id' => $_SESSION['USER']->user_id]);
@@ -48,7 +49,7 @@ class Edit_maintenance_log {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $updatedData = [
-        'tricycle_id' => $_POST['tricycle_id'] ?? '',
+        'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id'] ?? '',
         'driver_id' => $_POST['driver_id'] ?? '',
         'expense_date' => $_POST['expense_date'] ?? '',
         'total_expenses' => $_POST['total_expenses'] ?? '',
@@ -98,10 +99,10 @@ class Edit_maintenance_log {
 
           if ($maintenanceLogModel->update(['maintenance_log_id' => $maintenanceLogId], $updatedData)) {
             set_flash_message("Maintenance Log Information updated successfully.", "success");
-            redirect('maintenance_log');
+            redirect('maintenance_logs');
           } else {
             set_flash_message("Failed updating maintenance log information. Please try again", "error");
-            redirect('maintenance_log');
+            redirect('maintenance_logs');
           }
         }
       }      
@@ -109,7 +110,7 @@ class Edit_maintenance_log {
 
     $data = array_merge($data, [
       'maintenanceLogData' => [
-        'tricycle_id' => $maintenanceLogData->tricycle_id,
+        'tricycle_cin_number_id' => $maintenanceLogData->tricycle_cin_number_id,
         'driver_id' => $maintenanceLogData->driver_id,
         'expense_date' => $maintenanceLogData->expense_date,
         'total_expenses' => $maintenanceLogData->total_expenses,

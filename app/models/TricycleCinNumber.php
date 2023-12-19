@@ -22,7 +22,7 @@ class TricycleCinNumber
     $result = $this->where(['is_used' => false]);
     return $result ? array_column($result, 'tricycle_cin_number_id') : [];
   }
-
+  
   // Function to get user ID of a specific CIN number
   public function getCinUserId($cinNumber) {
     $record = $this->first(['cin_number' => $cinNumber]);
@@ -39,4 +39,10 @@ class TricycleCinNumber
     return $this->update(['tricycle_cin_number_id' => $cinNumberId], ['user_id' => $userId, 'is_used' => $isUsed]);
   }
 
+  // Function to get CIN number by user ID
+  public function getCinNumberIdByUserId($userId)
+  {
+    $record = $this->first(['user_id' => $userId, 'is_used' => true]);
+    return $record ? $record->tricycle_cin_number_id : null;
+  }
 }

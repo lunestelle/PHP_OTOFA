@@ -8,6 +8,7 @@ class Tricycle
   protected $allowedColumns = [
     'user_id',
     'tricycle_application_id',
+    'previous_tricycle_application_id',
     'status',
   ];
 

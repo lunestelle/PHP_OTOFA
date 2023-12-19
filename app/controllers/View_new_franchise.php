@@ -22,6 +22,10 @@ class View_new_franchise
     $mtopRequirementModel = new MtopRequirement();
     $mtopRequirementData = $mtopRequirementModel->first(['appointment_id' => $appointmentData->appointment_id]);
 
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricyleApplicationData->tricycle_cin_number_id]);
+    $tricyclePlateNumber = $tricycleCinData !== false ? $tricycleCinData->cin_number : '';
+
     if (!$appointmentData) {
       set_flash_message("Appointment not found.", "error");
       redirect('appointments');
@@ -31,7 +35,8 @@ class View_new_franchise
       'appointment' => $appointmentData,
       'appointment_time' => $appointment_time,
       'tricycleApplication' => $tricyleApplicationData,
-      'mtopRequirement' => $mtopRequirementData
+      'mtopRequirement' => $mtopRequirementData,
+      'tricycle_cin' => $tricyclePlateNumber,
     ];
     echo $this->renderView('view_new_franchise', true, $data);
   }

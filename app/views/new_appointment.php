@@ -22,21 +22,25 @@
                               <input type="radio" id="newFranchise" name="appointmentType" value="New Franchise">
                               <label for="newFranchise">New Franchise</label>
                             </div>
-                            <div class="new-appointment-selection rounded-3">
-                              <input type="radio" id="renewalFranchise" name="appointmentType" value="Renewal of Franchise">
-                              <label for="renewalFranchise">Renewal of Franchise</label>
-                            </div>
+                            <?php if ($userHasCin) { ?>
+                              <div class="new-appointment-selection rounded-3">
+                                <input type="radio" id="renewalFranchise" name="appointmentType" value="Renewal of Franchise">
+                                <label for="renewalFranchise">Renewal of Franchise</label>
+                              </div>
+                            <?php } ?>
                           </div>
-                          <div class="row-2">
-                            <div class="new-appointment-selection rounded-3 mb-4">
-                              <input type="radio" id="changeMotorcycle" name="appointmentType" value="Change of Motorcycle">
-                              <label for="changeMotorcycle">Change of Motorcycle</label>
+                          <?php if ($userHasCin) { ?>
+                            <div class="row-2">
+                              <div class="new-appointment-selection rounded-3 mb-4">
+                                <input type="radio" id="changeMotorcycle" name="appointmentType" value="Change of Motorcycle">
+                                <label for="changeMotorcycle">Change of Motorcycle</label>
+                              </div>
+                              <div class="new-appointment-selection rounded-3">
+                                <input type="radio" id="transferOwnership" name="appointmentType" value="Transfer of Ownership">
+                                <label for="transferOwnership">Transfer of Ownership</label>
+                              </div>
                             </div>
-                            <div class="new-appointment-selection rounded-3">
-                              <input type="radio" id="transferOwnership" name="appointmentType" value="Transfer of Ownership">
-                              <label for="transferOwnership">Transfer of Ownership</label>
-                            </div>
-                          </div>
+                          <?php } ?>
                         </div>
                       </div>
                     </div>

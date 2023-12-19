@@ -25,6 +25,9 @@ class Dashboard
 		$driverModel = new Driver();
 		$data['userDriverCount'] = $driverModel->count(['user_id' => $_SESSION['USER']->user_id]);
 
+		$cinModel = new TricycleCinNumber();
+    $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
+
 		$taripaModel = new Taripas();
 		$rateAdjustmentModel = new RateAdjustment();
 

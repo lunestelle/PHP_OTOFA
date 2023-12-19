@@ -9,7 +9,7 @@ class MaintenanceLog
   protected $allowedColumns = [
     'maintenance_log_id',
     'user_id',
-    'tricycle_id',
+    'tricycle_cin_number_id',
     'driver_id',
     'expense_date',
     'total_expenses',
@@ -23,7 +23,7 @@ class MaintenanceLog
     $errors = [];
 
     $requiredFields = [
-      'tricycle_id' => 'Tricycle CIN',
+      'tricycle_cin_number_id' => 'Tricycle CIN',
       'driver_id' => 'Name of Driver',
       'expense_date' => 'Expense Date',
       'total_expenses' => 'Total Expenses',

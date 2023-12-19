@@ -70,21 +70,25 @@
                             <div class="col-4">
                               <label for="license_validity" class="form-label">License Validity</label>
                               <input type="text" class="form-control" id="license_validity" name="license_validity" value="<?php echo isset($driverData['license_validity']) ? $driverData['license_validity'] : ''; ?>" required>
-                            </div>
-
-                            <?php if (!empty($tricycles)): ?>
+                            </div>                             
+                            <?php if (!empty($tricycleCinNumbers)): ?>
                               <div class="col-4">
-                                <label for="tricycle_id" class="form-label">Tricycle CIN</label>
-                                <select class="form-control" id="tricycle_id" name="tricycle_id">
-                                  <option value="" disabled <?php echo (!isset($driverData['tricycle_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
-                                  <?php foreach ($data['tricycles'] as $tricycle): ?>
-                                    <option value="<?php echo $tricycle['tricycle_id']; ?>" <?php echo (isset($driverData['tricycle_id']) && $driverData['tricycle_id'] == $tricycle['tricycle_id']) ? 'selected' : ''; ?>>
-                                      <?php echo $tricycle['plate_no']; ?>
+                                <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
+                                <select class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" required>
+                                  <option value="" disabled <?= empty($selectedCinNumberId) ? 'selected' : ''; ?>>Please Select Here</option>
+                                  <?php foreach ($tricycleCinNumbers as $cinNumberId => $cinData): ?>
+                                    <option value="<?= $cinNumberId ?>" <?= ($cinNumberId == $selectedCinNumberId) ? 'selected' : ''; ?>>
+                                      <?= $cinData['cin_number'] ?>
                                     </option>
                                   <?php endforeach; ?>
                                 </select>
                               </div>
-                            <?php endif; ?> 
+                            <?php else: ?>
+                              <div class="col-4">
+                                <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
+                                <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                              </div>
+                            <?php endif; ?>
                           </div>
                         </div>
                       </div>

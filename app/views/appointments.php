@@ -30,6 +30,11 @@
               </thead>
               <tbody class="text-center">
                 <?php foreach ($appointments as $appointment): ?>
+                  <?php
+                    $appointmentDate = new DateTime($appointment['appointment_date']);
+                    $currentDate = new DateTime();
+                    $oneDayAhead = $currentDate->diff($appointmentDate)->days === 1;
+                  ?>
                   <tr>
                     <td><?php echo $index++; ?></td>
                     <td><?php echo $appointment['name']; ?></td>
@@ -72,76 +77,48 @@
                       <?php
                         if ($userRole === 'operator' && $appointment['status'] === "Pending") {
                           // Operator can edit only if the status is pending
-                          echo '<a href="' . (($appointment['appointment_type'] === 'New Franchise') ? 'edit_new_franchise?appointment_id=' : 'edit_renewal_franchise?appointment_id=') . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+                          echo '<a href="' . (($appointment['appointment_type'] === 'New Franchise') ? 'edit_new_franchise?appointment_id=' : 'edit_renewal_of_franchise?appointment_id=') . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
                         } elseif ($userRole === 'admin' && $appointment['status'] !== "Cancelled") {
-                          // Admin can edit any status except cancelled
-                          echo '<a href="' . (($appointment['appointment_type'] === 'New Franchise') ? 'edit_new_franchise?appointment_id=' : 'edit_renewal_franchise?appointment_id=') . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
-
+                          echo '<a href="' . (($appointment['appointment_type'] === 'New Franchise') ? 'edit_new_franchise?appointment_id=' : 'edit_renewal_of_franchise?appointment_id=') . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
                         }
                       ?>
-                      <?php if ($userRole === 'operator' && $appointment['status'] === "Pending"): ?>
-                        <a href="#" class="cancel_data px-1 me-1" style="color: red;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="updateModalContent('<?php echo $appointment['name']; ?>', '<?php echo $appointment['appointment_date']; ?>', '<?php echo $appointment['appointment_time']; ?>')">
+                      <?php if ($userRole === 'operator' && $appointment['status'] === "Pending" && !$oneDayAhead): ?>
+                        <a href="#" class="cancel_data px-1 me-1" style="color: red;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal-<?php echo $appointment['appointment_id']; ?>">
                           <i class="fa-solid fa-times fa-lg"></i>
                         </a>
-                      <?php endif; ?>  
+                      <?php endif; ?>
                     </td>
                   </tr>
+                  <!-- CANCEL APPOINTMENT MODAL for each appointment -->
+                  <div class="modal fade" id="cancelModal-<?php echo $appointment['appointment_id']; ?>" tabindex="-1" aria-labelledby="cancelModalLabel-<?php echo $appointment['appointment_id']; ?>" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header border-0">
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-title" id="cancelModalLabel-<?php echo $appointment['appointment_id']; ?>">
+                          <h5 class="modal-title text-center mt-2">Cancel Appointment</h5>
+                        </div>
+                        <div class="modal-body mx-2 text-center">
+                          <form id="cancelForm" action="<?php echo 'cancel_appointment?appointment_id=' . $appointment['appointment_id'] ?>" method="post">
+                            <p>Are you sure you want to cancel the appointment for <span id="appointmentName"><?php echo $appointment['name']; ?></span> on <span id="appointmentDate"><?php echo date('F j, Y', strtotime($appointment['appointment_date'])); ?></span> at <span id="appointmentTime"><?php echo date('g:i A', strtotime($appointment['appointment_time'])); ?></span>?</p>
+                            <input type="hidden" name="appointment_id" value="<?php echo $appointment['appointment_id']; ?>">
+                            <input type="hidden" name="status" value="Cancelled">
+                        </div>
+                        <div class="modal-footer border-0 mb-2">
+                          <button type="button" class="sidebar-btnContent" style="width: 100%; margin:auto; margin: 0 4px; padding: 8px;" data-bs-dismiss="modal">No, Keep Appointment</button>
+                          <button type="submit" form="cancelForm" class="cancel-btn mt-1" style="width: 100%;  margin:auto; margin: 0 4px; padding: 8px;" id="cancelAppointmentModalButton" name="cancelAppointmentModalButton">Yes, Cancel Appointment</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 <?php endforeach; ?>
               </tbody>
             </table>
-
-            <!-- Cancel Modal -->
-            <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header border-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-title" id="cancelModalLabel">
-                    <h5 class="modal-title text-center mt-2">Cancel Appointment</h5>
-                  </div>
-                  <div class="modal-body mx-2 text-center">
-                    <p>Are you sure you want to cancel the appointment for <span id="appointmentName"></span> on <span id="appointmentDate"></span> at <span id="appointmentTime"></span>?</p>
-                  </div>
-                  <div class="modal-footer border-0">
-                    <button type="button" class="sidebar-btnContent" style="width: 100%; margin:auto; margin: 0 4px; padding: 8px;" data-bs-dismiss="modal">No, Keep Appointment</button>
-                    <form action="<?php echo 'cancel_appointment?appointment_id=' . $appointment['appointment_id'] ?>" method="post" id="cancelForm" style="width: 100%;">
-                        <input type="submit" class="cancel-btn mt-1" style="width: 100%;  margin:auto; padding: 8px;" value="Yes, Cancel Appointment">
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </main>
-
-<script>
-  function updateModalContent(name, date, time) {
-    var appointmentName = document.getElementById('appointmentName');
-    var appointmentDate = document.getElementById('appointmentDate');
-    var appointmentTime = document.getElementById('appointmentTime');
-    var appointmentIdInput = document.getElementById('appointmentIdInput');
-    var cancelForm = document.getElementById('cancelForm');
-
-    appointmentName.textContent = name;
-    appointmentDate.textContent = date;
-    appointmentTime.textContent = time;
-    appointmentIdInput.value = appointmentId;
-
-    // Update the form action URL to include the appointment_id
-    cancelForm.action = 'cancel_appointment?appointment_id=' + <?php echo $appointment['appointment_id']; ?>;
-  }
-
-  function formatDate(date) {
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(date).toLocaleDateString(undefined, options);
-  }
-
-  function formatTime(time) {
-    return new Date('1970-01-01T' + time + 'Z').toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
-  }
-</script>

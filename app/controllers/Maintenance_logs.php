@@ -21,8 +21,8 @@ class Maintenance_logs
     $maintenanceLogModel = new MaintenanceLog();
     $maintenanceLogData = $maintenanceLogModel->where(['user_id' => $_SESSION['USER']->user_id]);
 
-    $tricycleModel = new Tricycle();
-    $tricyclesData = $tricycleModel->findAll();
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinData = $tricycleCinModel->findAll();
 
     $driverModel = new Driver();
     $driversData = $driverModel->findAll();
@@ -32,13 +32,13 @@ class Maintenance_logs
 
     if (!empty($maintenanceLogData)) {
       foreach ($maintenanceLogData as $maintenance) {
-        $tricyclePlateNo = '';
+        $cin = '';
         $driverName = '';
 
-        if (!empty($tricyclesData)) {
-          foreach ($tricyclesData as $tricycle) {
-            if ($maintenance->tricycle_id === $tricycle->tricycle_id) {
-              $tricyclePlateNo = $tricycle->plate_no;
+        if (!empty($tricycleCinData)) {
+          foreach ($tricycleCinData as $tricycle) {
+            if ($maintenance->tricycle_cin_number_id === $tricycle->tricycle_cin_number_id) {
+              $cin = $tricycle->cin_number;
               break;
             }
           }
@@ -55,7 +55,7 @@ class Maintenance_logs
 
         $data['maintenance_logs'][] = [
 					'maintenance_log_id' => $maintenance->maintenance_log_id,
-          'cin' => $tricyclePlateNo,
+          'cin' => $cin,
           'driver_name' => $driverName,
           'expense_date' => date('F d, Y h:i A', strtotime($maintenance->expense_date)),
           'total_expenses' => $maintenance->total_expenses,

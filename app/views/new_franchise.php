@@ -57,16 +57,6 @@
                         <input type="time" class="form-control" id="appointment_time" name="appointment_time" value="<?php echo isset($_POST['appointment_time']) ? $_POST['appointment_time'] : ''; ?>" required>
                       </div>
                     </div>
-                    <div class="col-12 d-flex">
-                      <div class="col-4 px-5" id="transferTypeSection" style="display: none;">
-                       <label for="transferType" class="form-label">Transfer Type (if applicable):</label>
-                       <select id="transferType" name="transferType" class="form-control">
-                         <option value="normal">Normal Transfer</option>
-                         <option value="deceased_owner">Transfer from Deceased Owner</option>
-                         <option value="intent_of_transfer">Intent of Transfer</option>
-                       </select>
-                      </div>
-                    </div>
                   </div>
                 </div>
 

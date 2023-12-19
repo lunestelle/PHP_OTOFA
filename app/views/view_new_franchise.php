@@ -81,6 +81,9 @@
                           <p><span class="fw-bolder mr-5 text-uppercase">Make Model:</span>
                           <p><span class="fw-bolder mr-5 text-uppercase">Motor Number:</span>
                           <p><span class="fw-bolder mr-5 text-uppercase">C.O.C Number:</span>
+                          <?php if ($appointment->status === "Completed"): ?>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Tricycle CIN:</span>
+                          <?php endif; ?>
                           <hr>
                         </div>
                       </div>
@@ -91,6 +94,9 @@
                         <?php echo ucwords(strtolower($tricycleApplication->make_model)); ?></p>
                         <?php echo ucwords(strtolower($tricycleApplication->motor_number)); ?></p>
                         <?php echo ucwords(strtolower($tricycleApplication->coc_no)); ?></p>
+                        <?php if ($appointment->status === "Completed"): ?>
+                          <?php echo $tricycle_cin; ?>
+                        <?php endif; ?>
                       </div>
                       <div class="col-md-6">
                         <div class="row mt-3">

@@ -14,8 +14,8 @@ class Drivers
   $driverModel = new Driver();
   $driversData = $driverModel->where(['user_id' => $_SESSION['USER']->user_id]);
 
-  $tricycleModel = new Tricycle();
-  $tricyclesData = $tricycleModel->findAll();
+  $tricycleCinModel = new TricycleCinNumber();
+  $tricycleCinData = $tricycleCinModel->findAll();
 
   $data['drivers'] = [];
   $data['index'] = 1;
@@ -24,10 +24,10 @@ class Drivers
     foreach ($driversData as $driver) {
       $tricyclePlateNo = '';
 
-      if (!empty($tricyclesData)){
-        foreach ($tricyclesData as $tricycle) {
-          if ($driver->tricycle_id === $tricycle->tricycle_id) {
-            $tricyclePlateNo = $tricycle->plate_no;
+      if (!empty($tricycleCinData)){
+        foreach ($tricycleCinData as $tricycle) {
+          if ($driver->tricycle_cin_number_id === $tricycle->tricycle_cin_number_id) {
+            $tricyclePlateNo = $tricycle->cin_number;
             break;
           }
         }

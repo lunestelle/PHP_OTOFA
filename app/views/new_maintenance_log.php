@@ -17,27 +17,32 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="row mt-3">
-                          <div class="col-4 px-5">
-                            <label for="tricycle_id" class="form-label">Tricycle CIN</label>
-                            <select class="form-control" id="tricycle_id" name="tricycle_id" required>
-                              <option <?php echo (!isset($_POST['tricycle_id'])) ? 'selected' : ''; ?> disabled>Please Select Here</option>
-                              <?php foreach ($tricycles as $tricycle): ?>
-                                <option value="<?php echo $tricycle['tricycle_id']; ?>" <?php echo (isset($_POST['tricycle_id']) && $_POST['tricycle_id'] == $tricycle['tricycle_id']) ? 'selected' : ''; ?>>
-                                  <?php echo $tricycle['plate_no']; ?>
-                                </option>
-                              <?php endforeach; ?>
-                            </select>
-                          </div>
+                          <?php if (!empty($tricycleCinNumbers)): ?>
+                            <div class="col-4 px-5">
+                              <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
+                              <select class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" required>
+                                <option selected disabled>Please Select Here</option>
+                                <?php foreach ($tricycleCinNumbers as $cinNumberId => $cinData): ?>
+                                  <option value="<?= $cinNumberId ?>"><?= $cinData['cin_number'] ?></option>
+                                <?php endforeach; ?>
+                              </select>
+                            </div>
+                          <?php else: ?>
+                            <div class="col-4 px-5">
+                              <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
+                              <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                            </div>
+                          <?php endif; ?>
                           <div class="col-4 px-5">
                             <label for="driver_id" class="form-label">Name of Driver</label>
                             <select class="form-control" id="driver_id" name="driver_id" required>
                             <option value="" disabled <?php echo (!isset($_POST['driver_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
-                            <?php foreach ($data['drivers'] as $driver): ?>
-                              <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($_POST['driver_id']) && $_POST['driver_id'] == $driver['driver_id']) ? 'selected' : ''; ?>>
-                                <?php echo $driver['name']; ?>
-                              </option>
-                            <?php endforeach; ?>
-                          </select>
+                              <?php foreach ($data['drivers'] as $driver): ?>
+                                <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($_POST['driver_id']) && $_POST['driver_id'] == $driver['driver_id']) ? 'selected' : ''; ?>>
+                                  <?php echo $driver['name']; ?>
+                                </option>
+                              <?php endforeach; ?>
+                            </select>
                           </div>
                           <div class="col-4 px-5">
                             <label for="date" class="form-label">Expense Date</label>
