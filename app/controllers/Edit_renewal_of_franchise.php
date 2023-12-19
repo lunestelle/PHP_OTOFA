@@ -200,18 +200,6 @@ class edit_renewal_of_franchise
               $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], $fileUploads);
             }
 
-            // Get the selected tricycle_cin_number_id
-            $selectedCinNumberId = $tricycleApplicationFormData['tricycle_cin_number_id'];
-
-            // Check if tricycle_cin_number_id is not empty and is in the availableCinNumbers
-            if (!empty($selectedCinNumberId) && in_array($selectedCinNumberId, $availableCinNumbers)) {
-              // Update the tricycle_cin_numbers table
-              $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $selectedCinNumberId], [
-                'is_used' => true,
-                'user_id' => $appointmentData->user_id,
-              ]);
-            }
-
             // Update the previous selected CIN number
             if (!empty($selectedCinNumberId) && !empty($tricycleApplicationData->tricycle_cin_number_id) &&
             $selectedCinNumberId != $tricycleApplicationData->tricycle_cin_number_id) {
@@ -224,14 +212,27 @@ class edit_renewal_of_franchise
 
             if ($appointmentFormData['status'] === 'Completed') {
               $tricycleModel = new Tricycle();
+
+              // Fetch the previous tricycle application data
+              $previousTricycleApplicationData = $tricycleApplicationModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+
+              // Extract the previous tricycle application ID
+              $previousTricycleApplicationId = $previousTricycleApplicationData->tricycle_application_id;
+              
+              $previousTricycleData = $tricycleModel->first(['tricycle_application_id' => $previousTricycleApplicationId]);
+          
+              // Prepare data for updating the Tricycle table
               $tricycleData = [
                 'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
+                'previous_tricycle_application_id' => $previousTricycleApplicationId,
                 'status' => "Active",
                 'user_id' => $appointmentData->user_id,
               ];
           
-              $tricycleModel->insert($tricycleData);
+              // Update the Tricycle table
+              $tricycleModel->update(['tricycle_id' => $previousTricycleData->tricycle_id], $tricycleData);
             }
+          
 
             $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
             $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
@@ -319,7 +320,7 @@ class edit_renewal_of_franchise
   private function generateCustomEmailMessage($formattedDate, $formattedTime)
   {
       $message = "<div style='margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your appointment has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
-      $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise. </div>";
+      $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for Renewal of Franchise. </div>";
 
       return $message;
   }
@@ -331,6 +332,6 @@ class edit_renewal_of_franchise
 
   private function generateRequirementList()
   {
-    return "1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT<br>2. LTO Certificate of Registration (MC of New Unit) (2 copies)<br>3. LTO Official Receipt (MC of New Unit) (2 copies)<br>4. Plate authorization (MC of New Unit) (2 copies)<br>5. Insurance Policy (TC) (New Owner) (2 copies)<br>6. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)<br>7. Sketch Location of Garage (2 copies)<br>8. Affidavit of No Income Or Latest Income Tax Return (2 copies)<br>9. Picture of New Unit (Front view & Side view) (2 copies)<br>10. Driver's Certificate of Safety Driving Seminar (2 copies)<br>11. Brown long envelope (1 pc.)";
+    return "1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT<br>2. LTO Certificate of Registration (TC) (2 copies)<br>3. LTO Official Receipt (TC) (2 copies)<br>4. Plate authorization (TC) (If No Plate Number) (2 copies)<br>5. Renewed Insurance Policy (TC) (2 copies)<br>6. Latest Franchise (2 copies)<br>7. Brown long envelope (1 pc.)";
   }
 }

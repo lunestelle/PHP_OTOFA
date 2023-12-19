@@ -73,7 +73,7 @@
                       <span class="badge status-badge text-uppercase p-2 <?php echo $badgeColor; ?>"><?php echo $status; ?></span>
                     </td>
                     <td>
-                      <a href="<?php echo (($appointment['appointment_type'] === 'New Franchise') ? 'view_new_franchise?appointment_id=' : 'view_renewal_franchise?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                      <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
                       <?php
                         if ($userRole === 'operator' && $appointment['status'] === "Pending") {
                           // Operator can edit only if the status is pending

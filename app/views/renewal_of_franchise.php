@@ -171,7 +171,7 @@
                         </div>
                         <div class="col-4 px-5">
                           <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                          <input type="date" class="form-control text-uppercase" id="lto_or_no" name="lto_or_no" value="<?php echo isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : ''; ?>" required>
+                          <input type="text" class="form-control text-uppercase" id="lto_or_no" name="lto_or_no" value="<?php echo isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : ''; ?>" required>
                         </div>
                         <div class="col-4 px-5">
                           <label for="driver_id" class="form-label">Name of Driver</label>

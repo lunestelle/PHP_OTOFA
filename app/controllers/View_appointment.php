@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 class View_appointment
 {
@@ -19,9 +19,15 @@ class View_appointment
     $tricycleApplicationModel = new TricycleApplication();
     $tricyleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointmentData->appointment_id]);
 
-    $tricycleModel = new Tricycle();
-    $tricycleData = $tricycleModel->first(['tricycle_id' => $tricyleApplicationData->tricycle_id]);
-    $tricyclePlateNumber = $tricycleData !== false ? $tricycleData->plate_no : '';
+    $mtopRequirementModel = new MtopRequirement();
+    $mtopRequirementData = $mtopRequirementModel->first(['appointment_id' => $appointmentData->appointment_id]);
+
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricyleApplicationData->tricycle_cin_number_id]);
+    $tricyclePlateNumber = $tricycleCinData !== false ? $tricycleCinData->cin_number : '';
+
+    $driverModel = new Driver();
+    $driverData = $driverModel->first(['driver_id' => $tricyleApplicationData->driver_id]);
 
     if (!$appointmentData) {
       set_flash_message("Appointment not found.", "error");
@@ -32,8 +38,14 @@ class View_appointment
       'appointment' => $appointmentData,
       'appointment_time' => $appointment_time,
       'tricycleApplication' => $tricyleApplicationData,
-      'tricycle_plate_number' => $tricyclePlateNumber
+      'mtopRequirement' => $mtopRequirementData,
+      'tricycle_cin' => $tricyclePlateNumber,
     ];
+    
+    if ($driverData) {
+      $data['driver_name'] = $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name;
+    }
+
     echo $this->renderView('view_appointment', true, $data);
   }
 }
