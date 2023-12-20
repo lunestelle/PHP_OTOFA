@@ -259,7 +259,28 @@
                     <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please ensure all uploaded images are clear for better processing.</p>
                   </div>
                   <div class="row px-3 p-4">
+                    <div class="text-center">
+                      <h6>Old Unit</h6>
+                    </div>
                     <div class="col-12 d-flex mb-2">
+                      <div class="text-center col-4 px-4">
+                        <label for="or_of_return_plate" class="form-label">OR of Return Plate</label>
+                        <?php
+                          if (isset($or_of_return_plate_path) && $or_of_return_plate_path) {
+                            echo '<div class="image-container position-relative">';
+                            echo '<img src="' . $or_of_return_plate_path . '" class="img-fluid rounded fixed-height-image" id="or_of_return_plate" alt="OR of Return Plate">';
+                            echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="or_of_return_plate" data-original-image="' . $or_of_return_plate_path . '"></button>';
+                            echo '</div>';
+                          } else {
+                            echo '<div class="image-container">';
+                            echo '<input class="form-control" type="file" name="or_of_return_plate" id="or_of_return_plate-input" accept="image/*" required>';
+                            echo '</div>';
+                          }
+                        ?>
+                        <?php
+                          echo '<input type="hidden" name="original_or_of_return_plate" value="' . ($or_of_return_plate_path ?? '') . '">';
+                        ?>
+                      </div>
                       <div class="text-center col-4 px-4">
                         <label for="tc_lto_certificate_of_registration" class="form-label">LTO Certificate of Registration (TC)</label>
                         <?php
@@ -296,44 +317,8 @@
                           echo '<input type="hidden" name="original_tc_lto_official_receipt" value="' . ($tc_lto_official_receipt_path ?? '') . '">';
                         ?>
                       </div>
-                      <div class="text-center col-4 px-4">
-                        <label for="tc_plate_authorization" class="form-label">Plate Authorization (TC) (If no Plate Number)</label>
-                        <?php
-                          if (isset($tc_plate_authorization_path) && $tc_plate_authorization_path) {
-                            echo '<div class="image-container position-relative">';
-                            echo '<img src="' . $tc_plate_authorization_path . '" class="img-fluid rounded fixed-height-image" id="tc_plate_authorization" alt="Plate Authorization (TC) (If no Plate Number)">';
-                            echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_plate_authorization" data-original-image="' . $tc_plate_authorization_path . '"></button>';
-                            echo '</div>';
-                          } else {
-                            echo '<div class="image-container">';
-                            echo '<input class="form-control" type="file" name="tc_plate_authorization" id="tc_plate_authorization-input" accept="image/*" required>';
-                            echo '</div>';
-                          }
-                        ?>
-                        <?php
-                          echo '<input type="hidden" name="original_tc_plate_authorization" value="' . ($tc_plate_authorization_path ?? '') . '">';
-                        ?>
-                      </div>
                     </div>
                     <div class="col-12 d-flex mb-2">
-                      <div class="text-center col-4 px-4">
-                        <label for="tc_renewed_insurance_policy" class="form-label">Renewed Insurance Policy (TC)</label>
-                        <?php
-                          if (isset($tc_renewed_insurance_policy_path) && $tc_renewed_insurance_policy_path) {
-                            echo '<div class="image-container position-relative">';
-                            echo '<img src="' . $tc_renewed_insurance_policy_path . '" class="img-fluid rounded fixed-height-image" id="tc_renewed_insurance_policy" alt="Renewed Insurance Policy (TC)">';
-                            echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_renewed_insurance_policy" data-original-image="' . $tc_renewed_insurance_policy_path . '"></button>';
-                            echo '</div>';
-                          } else {
-                            echo '<div class="image-container">';
-                            echo '<input class="form-control" type="file" name="tc_renewed_insurance_policy" id="tc_renewed_insurance_policy-input" accept="image/*" required>';
-                            echo '</div>';
-                          }
-                        ?>
-                        <?php
-                          echo '<input type="hidden" name="original_tc_renewed_insurance_policy" value="' . ($tc_renewed_insurance_policy_path ?? '') . '">';
-                        ?>
-                      </div>
                       <div class="text-center col-4 px-4">
                         <label for="latest_franchise" class="form-label">Latest Franchise</label>
                         <?php
@@ -344,7 +329,7 @@
                             echo '</div>';
                           } else {
                             echo '<div class="image-container">';
-                            echo '<input class="form-control" type="file" name="latest_franchise" id="unit_latest_franchise-input" accept="image/*" required>';
+                            echo '<input class="form-control" type="file" name="latest_franchise" id="latest_franchise-input" accept="image/*" required>';
                             echo '</div>';
                           }
                         ?>
@@ -354,10 +339,128 @@
                       </div>
                     </div>
                   </div>
+                  <div class="row px-3 p-4">
+                    <div class="text-center">
+                      <h6>New Unit</h6>
+                    </div>
+                    <div class="col-12 d-flex mb-2">
+                      <div class="text-center col-4 px-4">
+                        <label for="mc_lto_certificate_of_registration" class="form-label">LTO Certificate of Registration (MC of New Unit)</label>
+                        <?php
+                          if (isset($mc_lto_certificate_of_registration_path) && $mc_lto_certificate_of_registration_path) {
+                            echo '<div class="image-container position-relative">';
+                            echo '<img src="' . $mc_lto_certificate_of_registration_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_certificate_of_registration" alt="LTO Certificate of Registration (MC of New Unit)">';
+                            echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_certificate_of_registration" data-original-image="' . $mc_lto_certificate_of_registration_path . '"></button>';
+                            echo '</div>';
+                          } else {
+                            echo '<div class="image-container">';
+                            echo '<input class="form-control" type="file" name="mc_lto_certificate_of_registration" id="mc_lto_certificate_of_registration-input" accept="image/*" required>';
+                            echo '</div>';
+                          }
+                        ?>
+                        <?php
+                          echo '<input type="hidden" name="original_mc_lto_certificate_of_registration" value="' . ($mc_lto_certificate_of_registration_path ?? '') . '">';
+                        ?>
+                      </div>
+                      <div class="text-center col-4 px-4">
+                        <label for="mc_lto_official_receipt" class="form-label">LTO Official Receipt (MC of New Unit)</label>
+                        <?php
+                          if (isset($mc_lto_official_receipt_path) && $mc_lto_official_receipt_path) {
+                            echo '<div class="image-container position-relative">';
+                            echo '<img src="' . $mc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_official_receipt" alt="LTO Official Receipt (MC of New Unit)">';
+                            echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_official_receipt" data-original-image="' . $mc_lto_official_receipt_path . '"></button>';
+                            echo '</div>';
+                          } else {
+                            echo '<div class="image-container">';
+                            echo '<input class="form-control" type="file" name="mc_lto_official_receipt" id="mc_lto_official_receipt-input" accept="image/*" required>';
+                            echo '</div>';
+                          }
+                        ?>
+                        <?php
+                          echo '<input type="hidden" name="original_mc_lto_official_receipt" value="' . ($mc_lto_official_receipt_path ?? '') . '">';
+                        ?>
+                      </div>
+                      <div class="text-center col-4 px-4">
+                        <label for="mc_plate_authorization" class="form-label">Plate Authorization (MC of New Unit)</label>
+                        <?php
+                          if (isset($mc_plate_authorization_path) && $mc_plate_authorization_path) {
+                            echo '<div class="image-container position-relative">';
+                            echo '<img src="' . $mc_plate_authorization_path . '" class="img-fluid rounded fixed-height-image" id="mc_plate_authorization" alt="Plate Authorization (MC of New Unit)">';
+                            echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_plate_authorization" data-original-image="' . $mc_plate_authorization_path . '"></button>';
+                            echo '</div>';
+                          } else {
+                            echo '<div class="image-container">';
+                            echo '<input class="form-control" type="file" name="mc_plate_authorization" id="mc_plate_authorization-input" accept="image/*" required>';
+                            echo '</div>';
+                          }
+                        ?>
+                        <?php
+                          echo '<input type="hidden" name="original_mc_plate_authorization" value="' . ($mc_plate_authorization_path ?? '') . '">';
+                        ?>
+                      </div>
+                    </div>
+                    <div class="col-12 d-flex mb-2">
+                      <div class="text-center col-4 px-4">
+                        <label for="tc_insurance_policy" class="form-label">Insurance Policy (TC) (New Owner)</label>
+                        <?php
+                          if (isset($tc_insurance_policy_path) && $tc_insurance_policy_path) {
+                            echo '<div class="image-container position-relative">';
+                            echo '<img src="' . $tc_insurance_policy_path . '" class="img-fluid rounded fixed-height-image" id="tc_insurance_policy" alt="Latest Franchise">';
+                            echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_insurance_policy" data-original-image="' . $tc_insurance_policy_path . '"></button>';
+                            echo '</div>';
+                          } else {
+                            echo '<div class="image-container">';
+                            echo '<input class="form-control" type="file" name="tc_insurance_policy" id="tc_insurance_policy-input" accept="image/*" required>';
+                            echo '</div>';
+                          }
+                        ?>
+                        <?php
+                          echo '<input type="hidden" name="original_tc_insurance_policy" value="' . ($tc_insurance_policy_path ?? '') . '">';
+                        ?>
+                      </div>
+                      <div class="text-center col-4 px-4">
+                        <label for="unit_front_view_image" class="form-label">Picture of New Unit (Front View)</label>
+                        <?php
+                          if (isset($unit_front_view_image_path) && $unit_front_view_image_path) {
+                            echo '<div class="image-container position-relative">';
+                            echo '<img src="' . $unit_front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_front_view_image" alt="Latest Franchise">';
+                            echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_front_view_image" data-original-image="' . $unit_front_view_image_path . '"></button>';
+                            echo '</div>';
+                          } else {
+                            echo '<div class="image-container">';
+                            echo '<input class="form-control" type="file" name="unit_front_view_image" id="unit_front_view_image-input" accept="image/*" required>';
+                            echo '</div>';
+                          }
+                        ?>
+                        <?php
+                          echo '<input type="hidden" name="original_unit_front_view_image" value="' . ($unit_front_view_image_path ?? '') . '">';
+                        ?>
+                      </div>
+                      <div class="text-center col-4 px-4">
+                        <label for="unit_side_view_image" class="form-label">Picture of New Unit (Side View)</label>
+                        <?php
+                          if (isset($unit_side_view_image_path) && $unit_side_view_image_path) {
+                            echo '<div class="image-container position-relative">';
+                            echo '<img src="' . $unit_side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_side_view_image" alt="Latest Franchise">';
+                            echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_side_view_image" data-original-image="' . $unit_side_view_image_path . '"></button>';
+                            echo '</div>';
+                          } else {
+                            echo '<div class="image-container">';
+                            echo '<input class="form-control" type="file" name="unit_side_view_image" id="unit_side_view_image-input" accept="image/*" required>';
+                            echo '</div>';
+                          }
+                        ?>
+                        <?php
+                          echo '<input type="hidden" name="original_unit_side_view_image" value="' . ($unit_side_view_image_path ?? '') . '">';
+                        ?>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
 
                 <div class="text-end my-3">
-                  <button type="submit" class="sidebar-btnContent" name="update_renewal_franchise" id="update_renewal_franchise">Update</button>
+                  <button type="submit" class="sidebar-btnContent" name="update_change_of_motorcycle" id="update_change_of_motorcycle">Update</button>
                   <a href="./appointments" class="cancel-btn">Cancel</a>
                 </div>
               </form>

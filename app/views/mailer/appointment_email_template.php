@@ -1,4 +1,4 @@
-<div class="appointment-email">
+<div>
   <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8" style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
     <tr>
       <td>
@@ -25,9 +25,16 @@
                   <td style="padding:0 35px;">
                     <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">{{Subject}}</h1>
                     <span style="display:inline-block; vertical-align:middle; margin:2px 0 26px; border-bottom:1px solid #cecece; width:70%;"></span>
-                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0; text-align:justify;">
+                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
+                      {{User}}
+                    </p>
+                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
                       {{Message}}
                     </p>
+                    <p style="color:#455056; font-size:15px;line-height:24px; margin-top:15px;">
+                      {{SubMessage}}
+                    </p>
+                    <a href="{{SiteLink}}" style="display: inline-block; background-color: #FF4200; color: #fff; text-decoration: none !important; font-weight: 500; margin-top: 20px; text-transform: uppercase; font-size: 14px; padding: 10px 24px; border-radius: 50px; transition: background-color 0.3s ease; color: #fff;" class="btn reset-button">Sakaycle</a>
                   </td>
                 </tr>
                 <tr>

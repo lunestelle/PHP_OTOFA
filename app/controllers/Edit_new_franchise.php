@@ -211,7 +211,9 @@
               if ($appointmentFormData['status'] === 'Completed') {
                 $tricycleModel = new Tricycle();
                 $tricycleData = [
+                  'cin_id' => $tricycleApplicationData->tricycle_cin_number_id,
                   'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
+                  'mtop_requirements_new_franchise_id' => $mtopRequirementId,
                   'status' => "Active",
                   'user_id' => $appointmentData->user_id,
                 ];
@@ -264,11 +266,9 @@
       }
       
       if ($appointmentFormData['status'] === 'Completed' || $appointmentFormData['status'] === 'Approved') {
-        $cinNumber = trim($tricycleApplicationFormData['tricycle_cin_number_id']);
-        if (!empty($availableCinNumbers)) {
-          if (empty($cinNumber) || !in_array($cinNumber, $availableCinNumbers)) {
-            $errors['tricycleApplication'][] = 'Tricycle CIN number is required and must <br> be selected from the available options to <br> update this appointment request.';
-          }
+        $cinNumber = ($tricycleApplicationFormData['tricycle_cin_number_id']);
+        if (empty($cinNumber)) {
+          $errors['tricycleApplication'][] = 'Tricycle CIN number is required and must <br> be selected from the available options to <br> update this appointment request.';
         }
       }
 

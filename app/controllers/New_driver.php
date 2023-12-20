@@ -47,10 +47,7 @@ class New_driver
 			if (!empty($errors)) {
 				$errorMessage = $errors[0];
 				set_flash_message($errorMessage, "error");
-				$data['tricycle_cin_number_id'] = $_POST['tricycle_cin_number_id'] ?? '';
 				$data = array_merge($data, $formData);
-				echo $this->renderView('new_driver', true, $data);
-				return;
 			} else {
 				$formattedPhoneNumber = $formData['phone_no'];
 				$formData['phone_no'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);

@@ -23,10 +23,16 @@ class View_tricycle
     $tricycleCinData =  $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
 
     $mtopModel = new MtopRequirement();
-    $mtopData =  $mtopModel->first(['tricycle_application_id' => $tricycleApplicationData->tricycle_application_id]);
+    $mtopNewFranchiseData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_new_franchise_id]);
+    $mtopRenewalFranchiseData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_renewal_franchise_id]);
+    $mtopTransferOwnershipData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_transfer_ownership_id]);
+    $mtopChangeMotorcycleData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_change_motorcycle_id]);
 
     $appointmentModel = new Appointment();
     $appointmentData =  $appointmentModel->first(['appointment_id' => $tricycleApplicationData->appointment_id]);
+
+    $driverModel = new Driver();
+    $driverData = $driverModel->first(['driver_id' => $tricycleApplicationData->driver_id]);
 
     if (!$tricycleData) {
       set_flash_message("Tricycle not found.", "error");
@@ -36,8 +42,6 @@ class View_tricycle
       set_flash_message("Tricycle CIN data not found.", "error");
     } elseif (!$appointmentData) {
       set_flash_message("Appointment data not found.", "error");
-    } elseif (!$mtopData) {
-      set_flash_message("Mtop data not found.", "error");
     }
 
     if (!$tricycleData || !$tricycleApplicationData || !$tricycleCinData || !$appointmentData) {
@@ -54,8 +58,15 @@ class View_tricycle
       'cin' => $tricycleCinData ? $tricycleCinData->cin_number : 'N/A',
       'tricycleApplicationData' => $tricycleApplicationData,
       'appointmentType' => $appointmentData->appointment_type,
-      'mtopData' => $mtopData,
+      'mtopNewFranchiseData' => $mtopNewFranchiseData,
+      'mtopRenewalFranchiseData' => $mtopRenewalFranchiseData,
+      'mtopTransferOwnershipData' => $mtopTransferOwnershipData,
+      'mtopChangeMotorcycleData' => $mtopChangeMotorcycleData,
     ];
+
+    if ($driverData) {
+      $data['driver_name'] = $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name;
+    }
 
     $taripasModel = new Taripas();
     $rateAdjustmentModel = new RateAdjustment();

@@ -76,12 +76,36 @@
                       <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
                       <?php
                         if ($userRole === 'operator' && $appointment['status'] === "Pending") {
-                          // Operator can edit only if the status is pending
-                          echo '<a href="' . (($appointment['appointment_type'] === 'New Franchise') ? 'edit_new_franchise?appointment_id=' : 'edit_renewal_of_franchise?appointment_id=') . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+                          $editUrl = '';
+
+                          if ($appointment['appointment_type'] === 'New Franchise') {
+                            $editUrl = 'edit_new_franchise';
+                          } elseif ($appointment['appointment_type'] === 'Renewal of Franchise') {
+                            $editUrl = 'edit_renewal_of_franchise';
+                          } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
+                            $editUrl = 'edit_change_of_motorcycle';
+                          } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
+                            $editUrl = 'edit_transfer_of_ownership';
+                          }
+
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
                         } elseif ($userRole === 'admin' && $appointment['status'] !== "Cancelled") {
-                          echo '<a href="' . (($appointment['appointment_type'] === 'New Franchise') ? 'edit_new_franchise?appointment_id=' : 'edit_renewal_of_franchise?appointment_id=') . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+                          $editUrl = '';
+
+                          if ($appointment['appointment_type'] === 'New Franchise') {
+                            $editUrl = 'edit_new_franchise';
+                          } elseif ($appointment['appointment_type'] === 'Renewal of Franchise') {
+                            $editUrl = 'edit_renewal_of_franchise';
+                          } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
+                            $editUrl = 'edit_change_of_motorcycle';
+                          } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
+                            $editUrl = 'edit_transfer_of_ownership';
+                          }
+
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
                         }
                       ?>
+
                       <?php if ($userRole === 'operator' && $appointment['status'] === "Pending" && !$oneDayAhead): ?>
                         <a href="#" class="cancel_data px-1 me-1" style="color: red;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal-<?php echo $appointment['appointment_id']; ?>">
                           <i class="fa-solid fa-times fa-lg"></i>

@@ -1,6 +1,6 @@
 <?php
 
-class Edit_renewal_of_franchise
+class Edit_change_of_motorcycle
 {
   use Controller;
 
@@ -88,11 +88,16 @@ class Edit_renewal_of_franchise
       'lto_cr_no' => $tricycleApplicationData->lto_cr_no,
       'lto_or_no' => $tricycleApplicationData->lto_or_no,
       'driver_license_no' => $tricycleApplicationData->driver_license_no,'driver_license_expiry_date' => $tricycleApplicationData->driver_license_expiry_date,
+      'or_of_return_plate_path' => $mtopRequirementData->or_of_return_plate_path,
       'tc_lto_certificate_of_registration_path' => $mtopRequirementData->tc_lto_certificate_of_registration_path,
       'tc_lto_official_receipt_path' => $mtopRequirementData->tc_lto_official_receipt_path,
-      'tc_plate_authorization_path' => $mtopRequirementData->tc_plate_authorization_path,
-      'tc_renewed_insurance_policy_path' => $mtopRequirementData->tc_renewed_insurance_policy_path,
       'latest_franchise_path' => $mtopRequirementData->latest_franchise_path,
+      'mc_lto_certificate_of_registration_path' => $mtopRequirementData->mc_lto_certificate_of_registration_path,
+      'mc_lto_official_receipt_path' => $mtopRequirementData->mc_lto_official_receipt_path,
+      'mc_plate_authorization_path' => $mtopRequirementData->mc_plate_authorization_path,
+      'tc_insurance_policy_path' => $mtopRequirementData->tc_insurance_policy_path,
+      'unit_front_view_image_path' => $mtopRequirementData->unit_front_view_image_path,
+      'unit_side_view_image_path' => $mtopRequirementData->unit_side_view_image_path,
       'availableCinNumbers' => $availableCinNumbers,
       'selectedCinNumberId' => $selectedCinNumberId,
       'drivers' => $drivers,
@@ -146,25 +151,25 @@ class Edit_renewal_of_franchise
           if ($deleted) {
             $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], [$imagePathColumn => null]);
             set_flash_message("Image deleted successfully.", "success");
-            redirect('edit_renewal_of_franchise?appointment_id=' . $appointmentId);
+            redirect('edit_change_of_motorcycle?appointment_id=' . $appointmentId);
           } else {
             set_flash_message("Failed to delete the image.", "error");
-            redirect('edit_renewal_of_franchise?appointment_id=' . $appointmentId);
+            redirect('edit_change_of_motorcycle?appointment_id=' . $appointmentId);
           }
         } else {
           set_flash_message("File not found. Image may have been deleted already.", "error");
-          redirect('edit_renewal_of_franchise?appointment_id=' . $appointmentId);
+          redirect('edit_change_of_motorcycle?appointment_id=' . $appointmentId);
         }
       }
 
-      if (isset($_POST['update_renewal_franchise'])) {
+      if (isset($_POST['update_change_of_motorcycle'])) {
         $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers);
 
         if (!empty($formErrors)) {
           $firstError = reset($formErrors);
           set_flash_message($firstError[0], "error");
           $data = array_merge($data, $_POST);
-          echo $this->renderView('edit_renewal_of_franchise', true, $data);
+          echo $this->renderView('edit_change_of_motorcycle', true, $data);
           return;
         } else {
           $formattedPhoneNumber = $appointmentFormData['phone_number'];
@@ -202,7 +207,7 @@ class Edit_renewal_of_franchise
 
             if ($appointmentFormData['status'] === 'Completed') {
               $tricycleModel = new Tricycle();
-
+          
               $tricycleData = $tricycleModel->first(['cin_id' => $tricycleApplicationData->tricycle_cin_number_id]);
 
               $previousTricycleApplicationId = $tricycleData->tricycle_application_id;
@@ -210,15 +215,14 @@ class Edit_renewal_of_franchise
               $tricycleUpdateData = [
                 'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
                 'previous_tricycle_application_id' => $previousTricycleApplicationId,
-                'mtop_requirements_renewal_franchise_id' => $mtopRequirementId,
+                'mtop_requirements_change_motorcycle_id' => $mtopRequirementId,
                 'status' => "Active",
                 'user_id' => $appointmentData->user_id,
               ];
-          
+      
               $tricycleModel->update(['tricycle_id' => $tricycleData->tricycle_id], $tricycleUpdateData);
             }
           
-
             $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
             $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
             $rootPath = ROOT;
@@ -238,7 +242,7 @@ class Edit_renewal_of_franchise
         }
       }
     }
-    echo $this->renderView('edit_renewal_of_franchise', true, $data);
+    echo $this->renderView('edit_change_of_motorcycle', true, $data);
   }
 
   private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers) {
@@ -305,19 +309,62 @@ class Edit_renewal_of_franchise
 
   private function generateCustomTextMessage($name, $formattedDate, $formattedTime, $rootPath)
   {
-      $message = "Hello {$name},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for Renewal of Franchise.\n";
-      $message .= $this->generateRequirementList();
-      $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
+    $message = "Hello {$name},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form and prepare the following assessment fees.\n";
+    
+    // Assessment Fees
+    $message .= "\nAssessment Fees:\n";
+    
+    // Fees for Change of Motorcycle
+    $message .= "Fees for Change of Motorcycle:\n";
+    $message .= "a. Filing fee: P30.00\n";
+    $message .= "b. Confirmation Fee: P30.00\n";
+    $message .= "c. Supervision Fee: P0.00\n";
+    $message .= "Total: P60.00\n\n";
 
-      return $message;
+    // Fees for Confirmation
+    $message .= "Fees for Confirmation:\n";
+    $message .= "a. Filing fee: P30.00\n";
+    $message .= "b. Confirmation Fee: P0.00\n";
+    $message .= "c. Supervision Fee: P30.00\n";
+    $message .= "Total: P60.00\n\n";
+
+    $message .= "Please be informed that you are required to prepare the necessary amount in cash for the assessment fees. This will help expedite the processing of your request. Also, below is the list of requirements for Change of Motorcycle.";
+
+    $message .= $this->generateRequirementList();
+    $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
+
+    return $message;  
   }
+
 
   private function generateCustomEmailMessage($formattedDate, $formattedTime)
   {
-      $message = "<div style='margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your appointment has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
-      $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for Renewal of Franchise. </div>";
+    $message = "<div style='margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your appointment has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
+    $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form and prepare the following assessment fees.</div>";
+    $message .= "<br>";
 
-      return $message;
+    // Assessment Fees
+    $message .= "<div style='margin-top: 10px; text-align: start; color:#455056; font-size:15px; line-height:20px;'><strong>Assessment Fees:</strong></div>";
+    
+    // Fees for Change of Motorcycle
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'><strong>Fees for Change of Motorcycle:</strong></div>";
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>a. Filing fee: P30.00</div>";
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>b. Confirmation Fee: P30.00</div>";
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>c. Supervision Fee: P0.00</div>";
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>Total: P60.00</div>";
+    $message .= "<br>";
+
+    // Fees for Confirmation
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'><strong>Fees for Confirmation:</strong></div>";
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>a. Filing fee: P30.00</div>";
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>b. Confirmation Fee: P0.00</div>";
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>c. Supervision Fee: P30.00</div>";
+    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>Total: P60.00</div>";
+    $message .= "<br>";
+
+    // Additional information
+    $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>Please be informed that you are required to prepare the necessary amount in cash for the assessment fees. This will help expedite the processing of your request. Also, below is the list of requirements for Change of Motorcycle.</div>";
+    return $message;    
   }
 
   private function generateCustomRequirementMessage()
@@ -327,6 +374,18 @@ class Edit_renewal_of_franchise
 
   private function generateRequirementList()
   {
-    return "1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT<br>2. LTO Certificate of Registration (TC) (2 copies)<br>3. LTO Official Receipt (TC) (2 copies)<br>4. Plate authorization (TC) (If No Plate Number) (2 copies)<br>5. Renewed Insurance Policy (TC) (2 copies)<br>6. Latest Franchise (2 copies)<br>7. Brown long envelope (1 pc.)";
+    return "- TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT
+      NEW UNIT (1 copy each):<br>
+      - LTO Certificate of Registration (MC)<br>
+      - LTO Official Receipt (MC)<br>
+      - Plate Authorization (MC of New Unit)<br>
+      - Insurance Policy (TC)<br>
+      - Picture of New Unit (Front & Side View)<br><br>
+      
+      OLD UNIT (1 copy each):<br>
+      - OR of Return Plate<br>
+      - LTO Certificate of Registration (TC)<br>
+      - LTO Official Receipt (TC)<br>
+      - Latest Franchise";
   }
 }

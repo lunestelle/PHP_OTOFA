@@ -297,7 +297,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		$subMessage = "Thank you for your understanding and cooperation.";
 	
 		ob_start();
-		include_once "app/views/mailer/rejected_appointment_email.php";
+		include_once "app/views/mailer/appointment_email_template.php";
 		$templateContent = ob_get_clean();
 	
 		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
@@ -309,17 +309,17 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		// sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	} elseif ($status === 'On Process') {
-		$message = "Hello {$appointmentFormData['name']},\n\nI wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion.\n\nThank you for your understanding and cooperation.";
+		$message = "Hello {$appointmentFormData['name']},\n\nWe wanted to inform you that we have received your requirements and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion.\n\nThank you for your understanding and cooperation.";
 
 		$subject = "Appointment On Process";
 		$user = "Hello {$appointmentFormData['name']},";
-		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>I wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion. 
+		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion. 
 		</div>";
 		$buttonLink = "$rootPath";
 		$subMessage = "Thank you for your understanding and cooperation.";
 	
 		ob_start();
-		include_once "app/views/mailer/on_process_email.php";
+		include_once "app/views/mailer/appointment_email_template.php";
 		$templateContent = ob_get_clean();
 	
 		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
@@ -330,5 +330,26 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 	
 		// sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
-	} 
+	} elseif ($status === 'Completed') {
+		$message = "Hello {$appointmentFormData['name']},\n\nWe are pleased to inform you that your appointment scheduled for {$formattedDate} at {$formattedTime} has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.\n\nThank you for choosing our services.";
+
+		$subject = "Appointment Completed";
+		$user = "Hello {$appointmentFormData['name']},";
+		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We are pleased to inform you that your appointment scheduled for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.</div>";
+		$buttonLink = "$rootPath";
+		$subMessage = "Thank you for choosing our services.";
+	
+		ob_start();
+		include_once "app/views/mailer/appointment_email_template.php";
+		$templateContent = ob_get_clean();
+	
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
+		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+	
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
+	}
 }

@@ -70,7 +70,6 @@
                             <label for="license_validity" class="form-label">License Validity</label>
                             <input type="text" class="form-control" id="license_validity" name="license_validity" value="<?php echo isset($license_validity) ? $license_validity : ''; ?>" required>
                           </div>
-
                           <?php if (!empty($tricycleCinNumbers)): ?>
                             <div class="col-4 px-5">
                               <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
