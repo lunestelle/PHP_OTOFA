@@ -41,6 +41,7 @@ class Appointments
           'phone_number' => $appointment->phone_number,
           'email' => $appointment->email,
           'appointment_type' => $appointment->appointment_type,
+          'transfer_type' => $appointment->transfer_type,
           'appointment_date' => $appointment->appointment_date,
           'appointment_time' => $formattedAppointmentTime,
           'status' => $appointment->status

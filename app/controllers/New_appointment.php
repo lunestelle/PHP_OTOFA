@@ -33,10 +33,35 @@ class New_appointment
             break;
           
           case 'Transfer of Ownership':
-            redirect('transfer_of_ownership');
+            // Check if the transfer type is selected
+            if (isset($_POST['transferType'])) {
+              $transferType = $_POST['transferType'];
+
+              // Redirect based on the selected transfer type
+              switch ($transferType) {
+                case 'None':
+                  redirect('transfer_of_ownership');
+                  break;
+
+                case 'Intent of Transfer':
+                  redirect('intent_of_transfer');
+                  break;
+
+                case 'Transfer of Ownership from Deceased Owner':
+                  redirect('ownership_transfer_from_deceased_owner');
+                  break;
+
+                default:
+                  set_flash_message("Invalid transfer type selected.", "error");
+                  break;
+              }
+            } else {
+              set_flash_message("Please select a transfer type.", "error");
+            }
             break;
 
           default:
+            set_flash_message("Invalid appointment type selected.", "error");
             break;
         }
       } else {

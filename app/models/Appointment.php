@@ -12,6 +12,7 @@ class Appointment
     'phone_number',
     'email',
     'appointment_type',
+    'transfer_type',
     'appointment_date',
     'appointment_time',
     'status',
@@ -157,7 +158,12 @@ class Appointment
 
   private function isSlotTaken($date, $time)
   {
-    $existingAppointment = $this->first(['appointment_date' => $date, 'appointment_time' => $time]);
+    $existingAppointment = $this->first([
+      'appointment_date' => $date,
+      'appointment_time' => $time,
+      'status' => 'Pending',
+    ]);
+
     return !empty($existingAppointment);
   }
 

@@ -67,4 +67,8 @@ $(document).ready(function () {
   setActiveLink('edit_change_of_motorcycle', 'appointments');
   setActiveLink('transfer_of_ownership', 'appointments');
   setActiveLink('edit_transfer_of_ownership', 'appointments');
+  setActiveLink('intent_of_transfer', 'appointments');
+  setActiveLink('edit_intent_of_transfer', 'appointments');
+  setActiveLink('ownership_transfer_from_deceased_owner', 'appointments');
+  setActiveLink('edit_ownership_transfer_from_deceased_owner', 'appointments');
 });

@@ -14,6 +14,8 @@ class Tricycle
     'mtop_requirements_new_franchise_id',
     'mtop_requirements_renewal_franchise_id',
     'mtop_requirements_transfer_ownership_id',
+    'mtop_requirements_intent_of_transfer_id',
+    'mtop_requirements_transfer_from_deceased_id',
     'mtop_requirements_change_motorcycle_id',
   ];
 

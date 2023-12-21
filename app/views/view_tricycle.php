@@ -234,11 +234,21 @@
                   <h6 class="pl-2 text-uppercase text-center text-dark fs-6">CHANGE MOTORCYCLE MTOP REQUIREMENTS IMAGES</h6>
                 </div>
                 <div class="row justify-content-evenly px-3 p-3">
+                  <div class="text-center">
+                    <h6>Old Unit</h6>
+                  </div>
                   <?php
                     displayImage($mtopChangeMotorcycleData->or_of_return_plate_path, 'OR of Return Plate');
                     displayImage($mtopChangeMotorcycleData->tc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (TC)');
                     displayImage($mtopChangeMotorcycleData->tc_lto_official_receipt_path, 'LTO Official Receipt (TC)');
                     displayImage($mtopChangeMotorcycleData->latest_franchise_path, 'Latest Franchise (TC)');
+                  ?>
+                </div>
+                <div class="row justify-content-evenly px-3 p-3">
+                  <div class="text-center">
+                    <h6>New Unit</h6>
+                  </div>
+                  <?php
                     displayImage($mtopChangeMotorcycleData->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC)');
                     displayImage($mtopChangeMotorcycleData->mc_lto_official_receipt_path, 'LTO Official Receipt (MC)');
                     displayImage($mtopChangeMotorcycleData->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
@@ -252,36 +262,89 @@
 
             <?php if (!empty($mtopTransferOwnershipData)) : ?>
               <div class="content-container mt-4">
-                  <div class="bckgrnd pt-2">
-                      <h6 class="pl-2 text-uppercase text-center text-dark fs-6">TRANSFER OF OWNERSHIP MTOP REQUIREMENTS IMAGES</h6>
+                <div class="bckgrnd pt-2">
+                  <h6 class="pl-2 text-uppercase text-center text-dark fs-6">TRANSFER OF OWNERSHIP MTOP REQUIREMENTS IMAGES (NO TRANSFER TYPE)</h6>
+                </div>
+                <div class="row justify-content-evenly px-3 p-3">
+                  <?php
+                    displayImage($mtopTransferOwnershipData->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC of New Unit)');
+                    displayImage($mtopTransferOwnershipData->mc_lto_official_receipt_path, 'LTO Official Receipt (MC of New Unit)');
+                    displayImage($mtopTransferOwnershipData->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
+                    displayImage($mtopTransferOwnershipData->tc_insurance_policy_path, 'Insurance Policy (TC) (New Owner)');
+                    displayImage($mtopTransferOwnershipData->latest_franchise_path, 'Latest Franchise (TC)');
+                    displayImage($mtopTransferOwnershipData->proof_of_id_path, 'Proof of ID / Residence');
+                    displayImage($mtopTransferOwnershipData->sketch_location_of_garage_path, 'Sketch Location of Garage');
+                    displayImage($mtopTransferOwnershipData->affidavit_of_income_tax_return_path, 'Affidavit of No Income or Latest Income Tax Return');
+                    displayImage($mtopTransferOwnershipData->unit_front_view_image_path, 'Picture of New Unit (Front View)');
+                    displayImage($mtopTransferOwnershipData->unit_side_view_image_path, 'Picture of New Unit (Side View)');
+                    displayImage($mtopTransferOwnershipData->driver_cert_safety_driving_seminar_path, 'Driver\'s Certificate of Safety Driving Seminar');
+                  ?>
+                </div>
+              </div>
+            <?php endif; ?>
+
+            <?php if (!empty($mtopIntentTransferData)) : ?>
+              <div class="content-container mt-4">
+                <div class="bckgrnd pt-2">
+                  <h6 class="pl-2 text-uppercase text-center text-dark fs-6">TRANSFER OF OWNERSHIP MTOP REQUIREMENTS IMAGES (INTENT OF TRANSFER)</h6>
+                </div>
+                <div class="row justify-content-evenly px-3 p-3">
+                  <?php
+                    displayImage($mtopIntentTransferData->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC of New Unit)');
+                    displayImage($mtopIntentTransferData->mc_lto_official_receipt_path, 'LTO Official Receipt (MC of New Unit)');
+                    displayImage($mtopIntentTransferData->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
+                    displayImage($mtopIntentTransferData->tc_insurance_policy_path, 'Insurance Policy (TC) (New Owner)');
+                    displayImage($mtopIntentTransferData->latest_franchise_path, 'Latest Franchise (TC)');
+                    displayImage($mtopIntentTransferData->proof_of_id_path, 'Proof of ID / Residence');
+                    displayImage($mtopIntentTransferData->sketch_location_of_garage_path, 'Sketch Location of Garage');
+                    displayImage($mtopIntentTransferData->affidavit_of_income_tax_return_path, 'Affidavit of No Income or Latest Income Tax Return');
+                    displayImage($mtopIntentTransferData->unit_front_view_image_path, 'Picture of New Unit (Front View)');
+                    displayImage($mtopIntentTransferData->unit_side_view_image_path, 'Picture of New Unit (Side View)');
+                    displayImage($mtopIntentTransferData->driver_cert_safety_driving_seminar_path, 'Driver\'s Certificate of Safety Driving Seminar');
+                  ?>
+                </div>
+
+                <div class="row justify-content-evenly px-3 p-3">
+                  <div class="text-center">
+                    <h6>Additional Requirement</h6>
                   </div>
-                  <div class="row justify-content-evenly px-3 p-3">
-                    <?php
-                      displayImage($mtopTransferOwnershipData->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC of New Unit)');
-                      displayImage($mtopTransferOwnershipData->mc_lto_official_receipt_path, 'LTO Official Receipt (MC of New Unit)');
-                      displayImage($mtopTransferOwnershipData->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
-                      displayImage($mtopTransferOwnershipData->tc_insurance_policy_path, 'Insurance Policy (TC) (New Owner)');
-                      displayImage($mtopTransferOwnershipData->latest_franchise_path, 'Latest Franchise (TC)');
-                      displayImage($mtopTransferOwnershipData->proof_of_id_path, 'Proof of ID / Residence');
-                      displayImage($mtopTransferOwnershipData->sketch_location_of_garage_path, 'Sketch Location of Garage');
-                      displayImage($mtopTransferOwnershipData->affidavit_of_income_tax_return_path, 'Affidavit of No Income or Latest Income Tax Return');
-                      displayImage($mtopTransferOwnershipData->unit_front_view_image_path, 'Picture of New Unit (Front View)');
-                      displayImage($mtopTransferOwnershipData->unit_side_view_image_path, 'Picture of New Unit (Side View)');
-                      displayImage($mtopTransferOwnershipData->driver_cert_safety_driving_seminar_path, 'Driver\'s Certificate of Safety Driving Seminar');
+                  <?php
+                    displayImage($mtopIntentTransferData->deed_of_donation_or_deed_of_sale_path, 'Deed of Donation or Deed of Sale');
+                  ?>
+                </div>
+              </div>
+            <?php endif; ?>
 
-                      if (!empty($mtopTransferOwnershipData->death_certificate_path)) {
-                        displayImage($mtopTransferOwnershipData->death_certificate_path, 'Death Certificate');
-                      }
+            <?php if (!empty($mtopTransferFromDeceasedData)) : ?>
+              <div class="content-container mt-4">
+                <div class="bckgrnd pt-2">
+                  <h6 class="pl-2 text-uppercase text-center text-dark fs-6">TRANSFER OF OWNERSHIP MTOP REQUIREMENTS IMAGES (TRANSFER OF OWNERSHIP FROM DECEASED OWNER)</h6>
+                </div>
+                <div class="row justify-content-evenly px-3 p-3">
+                  <?php
+                    displayImage($mtopTransferFromDeceasedData->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC of New Unit)');
+                    displayImage($mtopTransferFromDeceasedData->mc_lto_official_receipt_path, 'LTO Official Receipt (MC of New Unit)');
+                    displayImage($mtopTransferFromDeceasedData->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
+                    displayImage($mtopTransferFromDeceasedData->tc_insurance_policy_path, 'Insurance Policy (TC) (New Owner)');
+                    displayImage($mtopTransferFromDeceasedData->latest_franchise_path, 'Latest Franchise (TC)');
+                    displayImage($mtopTransferFromDeceasedData->proof_of_id_path, 'Proof of ID / Residence');
+                    displayImage($mtopTransferFromDeceasedData->sketch_location_of_garage_path, 'Sketch Location of Garage');
+                    displayImage($mtopTransferFromDeceasedData->affidavit_of_income_tax_return_path, 'Affidavit of No Income or Latest Income Tax Return');
+                    displayImage($mtopTransferFromDeceasedData->unit_front_view_image_path, 'Picture of New Unit (Front View)');
+                    displayImage($mtopTransferFromDeceasedData->unit_side_view_image_path, 'Picture of New Unit (Side View)');
+                    displayImage($mtopTransferFromDeceasedData->driver_cert_safety_driving_seminar_path, 'Driver\'s Certificate of Safety Driving Seminar');
+                  ?>
+                </div>
 
-                      if (!empty($mtopTransferOwnershipData->agreement_amongst_heirs_path)) {
-                        displayImage($mtopTransferOwnershipData->agreement_amongst_heirs_path, 'Agreement Amongst Heirs');
-                      }
-
-                      if (!empty($mtopTransferOwnershipData->deed_of_donation_or_deed_of_sale_path)) {
-                        displayImage($mtopTransferOwnershipData->deed_of_donation_or_deed_of_sale_path, 'Deed of Donation or Deed of Sale');
-                      }
-                    ?>
+                <div class="row justify-content-evenly px-3 p-3">
+                  <div class="text-center">
+                    <h6>Additional Requirement</h6>
                   </div>
+                  <?php
+                    displayImage($mtopTransferFromDeceasedData->death_certificate_path, 'Death Certificate');
+                    displayImage($mtopTransferFromDeceasedData->agreement_amongst_heirs_path, 'Agreement Amongst Heirs');
+                  ?>
+                </div>
               </div>
             <?php endif; ?>
 

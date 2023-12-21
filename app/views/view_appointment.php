@@ -1,3 +1,21 @@
+<?php
+  function displayImage($imagePath, $imageAlt)
+  {
+    if ($imagePath) {
+      echo '<div class="col-md-4 text-center mb-3 p-2">';
+      echo '<p class="form-label fw-semibold">' . $imageAlt . '</p>';
+      echo '<div class="image-container position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">';
+      echo '<img src="' . $imagePath . '" class="img-fluid rounded fixed-height-image" alt="' . $imageAlt . '">';
+      echo '</div>';
+      echo '</div>';
+    } else {
+      echo '<div class="col-md-4 text-center mb-3 p-2">';
+      echo '<p class="form-label">' . $imageAlt . ' Image not available</p>';
+      echo '</div>';
+    }
+  }
+?>
+
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
     <div class="col-12 text-uppercase nav-top">
@@ -36,11 +54,17 @@
                             <p><span class="fw-bolder mr-5 text-uppercase">Email:</span>
                             <p><span class="fw-bolder mr-5 text-uppercase">Appointment Type:</span>
                             <p><span class="fw-bolder mr-5 text-uppercase">Preferred Time:</span> 
+                            <?php if (!empty($appointment->transfer_type) && $appointment->appointment_type === "Transfer of Ownership"): ?>
+                              <p><span class="fw-bolder mr-5 text-uppercase">Transfer Type:</span>
+                            <?php endif; ?>
                           </div>
                           <div class="col-md-6">
                             <?php echo ($appointment->email); ?></p>
                             <?php echo ucwords(strtolower($appointment->appointment_type)); ?></p>
                             <?php echo strtoupper($appointment_time); ?></p>
+                            <?php if (!empty($appointment->transfer_type) && $appointment->appointment_type === "Transfer of Ownership"): ?>
+                              <?php echo ucwords(strtolower($appointment->transfer_type)); ?></p>
+                            <?php endif; ?>
                           </div>
                         </div>
                       </div>                        
@@ -153,28 +177,13 @@
                 </div>
               </div>
 
-              <div class="content-container mt-4">
-                <div class="bckgrnd pt-2">
-                  <h6 class="pl-2 text-uppercase text-center text-dark fs-6">MTOP Requirements Images</h6>
-                </div>
-                <div class="row justify-content-evenly px-3 p-3">
-                  <?php
-                    function displayImage($imagePath, $imageAlt) {
-                      if ($imagePath) {
-                        echo '<div class="col-md-4 text-center mb-3 p-2">';
-                        echo '<p class="form-label fw-semibold">' . $imageAlt . '</p>';
-                        echo '<div class="image-container position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">';
-                        echo '<img src="' . $imagePath . '" class="img-fluid rounded fixed-height-image" alt="' . $imageAlt . '">';
-                        echo '</div>';
-                        echo '</div>';
-                      } else {
-                        echo '<div class="col-md-4 text-center mb-3 p-2">';
-                        echo '<p class="form-label">' . $imageAlt . ' Image not available</p>';
-                        echo '</div>';
-                      }
-                    }
-
-                    if ($appointment->appointment_type === "New Franchise") {
+              <?php if ($appointment->appointment_type === "New Franchise") { ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">MTOP Requirements Images</h6>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <?php
                       displayImage($mtopRequirement->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC of New Unit)');
                       displayImage($mtopRequirement->mc_lto_official_receipt_path, 'LTO Official Receipt (MC of New Unit)');
                       displayImage($mtopRequirement->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
@@ -185,16 +194,97 @@
                       displayImage($mtopRequirement->affidavit_of_income_tax_return_path, 'Affidavit of No Income or Latest Income Tax Return');
                       displayImage($mtopRequirement->driver_cert_safety_driving_seminar_path, 'Driver\'s Certificate of Safety Driving Seminar');
                       displayImage($mtopRequirement->proof_of_id_path, 'Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)');
-                    } elseif ($appointment->appointment_type === "Renewal of Franchise") {
+                    ?>
+                  </div>
+                </div>
+              <?php } elseif ($appointment->appointment_type === "Renewal of Franchise") { ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">MTOP Requirements Images</h6>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <?php
                       displayImage($mtopRequirement->tc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (TC)');
                       displayImage($mtopRequirement->tc_lto_official_receipt_path, 'LTO Official Receipt (TC)');
                       displayImage($mtopRequirement->tc_plate_authorization_path, 'Plate Authorization (TC)');
                       displayImage($mtopRequirement->tc_renewed_insurance_policy_path, 'Renewed Insurance Policy (TC)');
                       displayImage($mtopRequirement->latest_franchise_path, 'Latest Franchise (TC)');
-                    }
-                  ?>
+                    ?>
+                  </div>
                 </div>
-              </div>
+              <?php } elseif ($appointment->appointment_type === "Change of Motorcycle") { ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">MTOP Requirements Images</h6>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <div class="text-center">
+                      <h6>Old Unit</h6>
+                    </div>
+                    <?php
+                      displayImage($mtopRequirement->or_of_return_plate_path, 'OR of Return Plate');
+                      displayImage($mtopRequirement->tc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (TC)');
+                      displayImage($mtopRequirement->tc_lto_official_receipt_path, 'LTO Official Receipt (TC)');
+                      displayImage($mtopRequirement->latest_franchise_path, 'Latest Franchise (TC)');
+                    ?>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <div class="text-center">
+                      <h6>New Unit</h6>
+                    </div>
+                    <?php
+                      displayImage($mtopRequirement->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC)');
+                      displayImage($mtopRequirement->mc_lto_official_receipt_path, 'LTO Official Receipt (MC)');
+                      displayImage($mtopRequirement->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
+                      displayImage($mtopRequirement->tc_insurance_policy_path, 'Insurance Policy (TC)');
+                      displayImage($mtopRequirement->unit_front_view_image_path, 'Picture of New Unit (Front View)');
+                      displayImage($mtopRequirement->unit_side_view_image_path, 'Picture of New Unit (Side View)');
+                    ?>
+                  </div>
+                </div>
+              <?php } elseif ($appointment->appointment_type === "Transfer of Ownership") { ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">MTOP Requirements Images</h6>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <?php
+                      displayImage($mtopRequirement->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC of New Unit)');
+                      displayImage($mtopRequirement->mc_lto_official_receipt_path, 'LTO Official Receipt (MC of New Unit)');
+                      displayImage($mtopRequirement->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
+                      displayImage($mtopRequirement->tc_insurance_policy_path, 'Insurance Policy (TC) (New Owner)');
+                      displayImage($mtopRequirement->latest_franchise_path, 'Latest Franchise (TC)');
+                      displayImage($mtopRequirement->proof_of_id_path, 'Proof of ID / Residence');
+                      displayImage($mtopRequirement->sketch_location_of_garage_path, 'Sketch Location of Garage');
+                      displayImage($mtopRequirement->affidavit_of_income_tax_return_path, 'Affidavit of No Income or Latest Income Tax Return');
+                      displayImage($mtopRequirement->driver_cert_safety_driving_seminar_path, 'Driver\'s Certificate of Safety Driving Seminar');
+                      displayImage($mtopRequirement->unit_front_view_image_path, 'Picture of New Unit (Front View)');
+                      displayImage($mtopRequirement->unit_side_view_image_path, 'Picture of New Unit (Side View)');
+                    ?>
+
+                    <?php if ($appointment->transfer_type === "Transfer of Ownership from Deceased Owner" && !empty($mtopRequirement->death_certificate_path) && !empty($mtopRequirement->agreement_amongst_heirs_path)) { ?>
+                      <div class="row justify-content-evenly px-3 p-3">
+                        <div class="text-center">
+                          <h6>Additional Requirements</h6>
+                        </div>
+                        <?php
+                          displayImage($mtopRequirement->death_certificate_path, 'Death Certificate');
+                          displayImage($mtopRequirement->agreement_amongst_heirs_path, 'Agreement Amongst Heirs');
+                        ?>
+                      </div>
+                    <?php } elseif ($appointment->transfer_type === "Intent of Transfer" && !empty($mtopRequirement->deed_of_donation_or_deed_of_sale_path)) { ?>
+                      <div class="row justify-content-evenly px-3 p-3">
+                        <div class="text-center">
+                          <h6>Additional Requirement</h6>
+                        </div>
+                        <?php
+                          displayImage($mtopRequirement->deed_of_donation_or_deed_of_sale_path, 'Deed of Donation or Deed of Sale');
+                        ?>
+                      </div>
+                    <?php } ?>
+                  </div>
+                </div>
+              <?php } ?>
 
               <!-- Bootstrap Modal -->
               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

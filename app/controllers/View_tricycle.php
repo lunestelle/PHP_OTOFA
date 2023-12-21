@@ -26,6 +26,8 @@ class View_tricycle
     $mtopNewFranchiseData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_new_franchise_id]);
     $mtopRenewalFranchiseData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_renewal_franchise_id]);
     $mtopTransferOwnershipData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_transfer_ownership_id]);
+    $mtopIntentTransferData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_intent_of_transfer_id]);
+    $mtopTransferFromDeceasedData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_transfer_from_deceased_id]);
     $mtopChangeMotorcycleData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_change_motorcycle_id]);
 
     $appointmentModel = new Appointment();
@@ -58,9 +60,12 @@ class View_tricycle
       'cin' => $tricycleCinData ? $tricycleCinData->cin_number : 'N/A',
       'tricycleApplicationData' => $tricycleApplicationData,
       'appointmentType' => $appointmentData->appointment_type,
+      'transferType' => $appointmentData->transfer_type,
       'mtopNewFranchiseData' => $mtopNewFranchiseData,
       'mtopRenewalFranchiseData' => $mtopRenewalFranchiseData,
       'mtopTransferOwnershipData' => $mtopTransferOwnershipData,
+      'mtopIntentTransferData' => $mtopIntentTransferData,
+      'mtopTransferFromDeceasedData' => $mtopTransferFromDeceasedData,
       'mtopChangeMotorcycleData' => $mtopChangeMotorcycleData,
     ];
 

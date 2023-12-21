@@ -85,7 +85,13 @@
                           } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
                             $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
-                            $editUrl = 'edit_transfer_of_ownership';
+                            if ($appointment['transfer_type'] === 'None') {
+                              $editUrl = 'edit_transfer_of_ownership';
+                            } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
+                              $editUrl = 'edit_intent_of_transfer';
+                            } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
+                              $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                            }
                           }
 
                           echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
@@ -99,7 +105,13 @@
                           } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
                             $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
-                            $editUrl = 'edit_transfer_of_ownership';
+                            if ($appointment['transfer_type'] === 'None') {
+                              $editUrl = 'edit_transfer_of_ownership';
+                            } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
+                              $editUrl = 'edit_intent_of_transfer';
+                            } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
+                              $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                            }
                           }
 
                           echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
