@@ -78,13 +78,13 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
 
   div.tricycle-status-selection-modal label {
     cursor: pointer;
-    padding: 10px;
+    padding: 10px 14px;
     display: block;
     background-color: #EBB803;
-    border: 2px solid rgb(201, 159, 6);
+    border: 2px solid black;
     border-radius: 5px;
     margin-bottom: 8px;
-    color: rgb(73, 73, 73);
+    color: black;
     font-weight: 600;
     transition: background-color 0.2s ease-in-out;
   }
