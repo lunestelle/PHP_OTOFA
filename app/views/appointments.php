@@ -124,7 +124,7 @@
                         </a>
                       <?php endif; ?>
 
-                      <?php if ($userRole === 'operator' && $appointment['status'] === "Approved"): ?>
+                      <?php if ($userRole === 'admin' && $appointment['status'] === "Approved"): ?>
                         <button id="printButton" class="sidebar-btnContent text-white px-3 mt-4" onclick="printAppointment()">Print</button>
                         <button id="downloadPdfButton" class="sidebar-btnContent text-white px-3 mt-4" onclick="downloadPdf()">Download PDF</button>
                       <?php endif; ?>
