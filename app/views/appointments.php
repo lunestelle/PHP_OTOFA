@@ -123,7 +123,11 @@
                           <i class="fa-solid fa-times fa-lg"></i>
                         </a>
                       <?php endif; ?>
-                      <button id="printButton" class="sidebar-btnContent text-white px-3 mt-4" onclick="printAppointment()">Print</button>
+
+                      <?php if ($userRole === 'operator' && $appointment['status'] === "Approved"): ?>
+                        <button id="printButton" class="sidebar-btnContent text-white px-3 mt-4" onclick="printAppointment()">Print</button>
+                        <button id="downloadPdfButton" class="sidebar-btnContent text-white px-3 mt-4" onclick="downloadPdf()">Download PDF</button>
+                      <?php endif; ?>
                     </td>
                   </tr>
                   <!-- CANCEL APPOINTMENT MODAL for each appointment -->
@@ -159,21 +163,68 @@
     </div>
   </div>
 </main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   function printAppointment() {
+    // Create a hidden iframe
+    var printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.top = '-1000px'; // Move the iframe off-screen
+
+    // Append the iframe to the document body
+    document.body.appendChild(printFrame);
+
     // Use AJAX to fetch content from print_content.php
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'print_content', true);
 
     xhr.onload = function () {
       if (xhr.status === 200) {
-        // Open a new window and write the content
-        var printWindow = window.open('', '_blank');
-        printWindow.document.write('<html><head><title>Print Document</title><link rel="stylesheet" type="text/css" href="public/assets/css/print.css" /></head><body>');
-        printWindow.document.write(xhr.responseText);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.print();
+        // Write the content to the iframe
+        var printDocument = printFrame.contentDocument || printFrame.contentWindow.document;
+        printDocument.write('<html><head><title>Tricycle Application Form</title><link rel="stylesheet" type="text/css" href="public/assets/css/print.css" media="print"/></head><body>');
+        printDocument.write(xhr.responseText);
+        printDocument.write('</body></html>');
+        printDocument.close();
+
+        // Focus on the iframe and print
+        printFrame.focus();
+        printFrame.contentWindow.print();
+
+        // Remove the iframe after printing
+        document.body.removeChild(printFrame);
+      }
+    };
+
+    xhr.send();
+  }
+
+  function downloadPdf() {
+    // Use AJAX to fetch content from print_content.php
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'print_content', true);
+
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        // Create a hidden iframe to convert and download as PDF
+        var pdfFrame = document.createElement('iframe');
+        pdfFrame.style.position = 'fixed';
+        pdfFrame.style.top = '-1000px'; // Move the iframe off-screen
+
+        // Append the iframe to the document body
+        document.body.appendChild(pdfFrame);
+
+        // Convert the HTML content to PDF and download
+        html2pdf(xhr.responseText, {
+          margin: 10,
+          filename: 'tricycle_application_form.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        }).from(pdfFrame.contentWindow.document.body).save();
+
+        // Remove the iframe after downloading
+        document.body.removeChild(pdfFrame);
       }
     };
 

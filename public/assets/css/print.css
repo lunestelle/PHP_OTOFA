@@ -17,3 +17,15 @@ body {
 }
 
 /* Customize other styles as needed */
+@media print {
+  /* Add styles to hide unwanted elements */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Add more styles as needed */
+}
+@page {
+  size: auto;   /* auto is the default value */
+}
