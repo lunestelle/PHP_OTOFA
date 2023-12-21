@@ -405,4 +405,22 @@ table > :not(caption) > * > * > :last-child {
   box-shadow: 2px 3px #00000009;
 }
 
-/* -- CANCEL APPOINTMENT MODAL -- */
+/* --- UPDATE STATUS BUTTON --- */
+
+.update-status-btn {
+  padding: 5px 18px;
+  background-color: rgb(0, 0, 0);
+  border: #000000 1px solid;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  float: right;
+  margin-right: 3px;
+}
+
+.update-status-btn:hover {
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+}

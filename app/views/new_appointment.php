@@ -14,9 +14,9 @@
                     <h6 class="text-uppercase text-center text-light fs-6">Select Appointment Type</h6>
                   </div>
                   <div class="row px-3 p-4">
-                    <div class="col-12 d-flex mb- py-3">
+                    <div class="col-12 d-flex py-3 px-5">
                       <div class="col-12 px-5">
-                        <div class="d-flex gap-5 text-center">
+                        <div class="d-flex gap-5 text-center px-2">
                           <div class="row-1">
                             <div class="new-appointment-selection rounded-3 mb-4">
                               <input type="radio" id="newFranchise" name="appointmentType" value="New Franchise">

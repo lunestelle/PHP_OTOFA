@@ -592,3 +592,28 @@ body .reset-email {
 .glow-animation {
   animation: glow 1s ease-in-out forwards;
 }
+
+/* --- PRINT CONTENT --- */
+.print-content {
+  overflow-x: hidden;
+  margin: 20px 0;
+}
+
+.header-print {
+  line-height: 4px;
+}
+
+.application-form {
+  font-size: 13px;
+  line-height: 10px;
+}
+
+.inspection-report {
+  font-size: 11px;
+  line-height: 8px;
+  font-weight: 700;
+}
+
+.signature {
+  font-size: 13px;
+}
