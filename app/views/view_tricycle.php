@@ -396,7 +396,7 @@
               </div>
             </div>
             <div class="text-end my-3">
-              <a href="./tricycles"><button class="sidebar-btnContent">Back</button></a>
+              <a href="tricycles"><button class="sidebar-btnContent">Back</button></a>
             </div>
           </div>
         </div>

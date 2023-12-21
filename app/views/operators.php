@@ -24,7 +24,7 @@
                   <tr>
                     <td><?php echo $user['full_name']; ?></td>
                     <td><?php echo empty($user['phone_number']) ? '----------------' : $user['phone_number']; ?></td>
-                    <td><?php echo empty($user['email']) ? '----------------' : $user['email']; ?></td>
+                    <td style="text-transform: lowercase;"><?php echo empty($user['email']) ? '' : $user['email']; ?></td>
                     <td><?php echo empty($user['address']) ? '----------------' : $user['address']; ?></td>
                     <td>
                       <?php if (empty($user['tricycles'])): ?>
