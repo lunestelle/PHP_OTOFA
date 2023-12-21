@@ -1,0 +1,19 @@
+/* print.css */
+
+/* Define styles for the printed document */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  color: #000;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+/* Customize other styles as needed */

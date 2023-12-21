@@ -123,6 +123,7 @@
                           <i class="fa-solid fa-times fa-lg"></i>
                         </a>
                       <?php endif; ?>
+                      <button id="printButton" class="sidebar-btnContent text-white px-3 mt-4" onclick="printAppointment()">Print</button>
                     </td>
                   </tr>
                   <!-- CANCEL APPOINTMENT MODAL for each appointment -->
@@ -158,3 +159,24 @@
     </div>
   </div>
 </main>
+<script>
+  function printAppointment() {
+    // Use AJAX to fetch content from print_content.php
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'print_content', true);
+
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        // Open a new window and write the content
+        var printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Print Document</title><link rel="stylesheet" type="text/css" href="public/assets/css/print.css" /></head><body>');
+        printWindow.document.write(xhr.responseText);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+      }
+    };
+
+    xhr.send();
+  }
+</script>

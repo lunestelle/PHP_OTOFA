@@ -48,6 +48,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
   <script src="public/assets/js/modal.js"></script>
   <script src="public/assets/js/modal_submission.js"></script>
   <script src="public/assets/js/active_links.js"></script>
+  <script src="public/assets/js/print.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <style>
