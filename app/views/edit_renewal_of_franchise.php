@@ -63,11 +63,17 @@
                           <label for="status" class="form-label">Status</label>
                           <select class="form-control appointment-status-select fw-bold" id="status" name="status">
                             <option value="" selected disabled>Select Appointment Status</option>
-                            <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?>>Pending</option>
-                            <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
-                            <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
-                            <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?>>On Process</option>
-                            <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                            <?php if ($status === 'Pending'): ?>
+                              <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?> disabled>Pending</option>
+                              <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
+                              <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                            <?php elseif ($status === "Approved"): ?>
+                              <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?> disabled>Approved</option>
+                              <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?>>On Process</option>
+                            <?php elseif ($status === "On Process"): ?>
+                              <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?> disabled>On Process</option>
+                              <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                            <?php endif; ?>
                           </select>
                         <?php else: ?>
                           <input type="hidden" name="status" value="<?php echo isset($status) ? $status : ''; ?>">
