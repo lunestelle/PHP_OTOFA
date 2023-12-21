@@ -327,6 +327,6 @@ class Edit_renewal_of_franchise
 
   private function generateRequirementList()
   {
-    return "1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT<br>2. LTO Certificate of Registration (TC) (2 copies)<br>3. LTO Official Receipt (TC) (2 copies)<br>4. Plate authorization (TC) (If No Plate Number) (2 copies)<br>5. Renewed Insurance Policy (TC) (2 copies)<br>6. Latest Franchise (2 copies)<br>7. Brown long envelope (1 pc.)";
+    return "1. LTO Certificate of Registration (TC) (2 copies)<br>2. LTO Official Receipt (TC) (2 copies)<br>3. Plate authorization (TC) (If No Plate Number) (2 copies)<br>4. Renewed Insurance Policy (TC) (2 copies)<br>5. Latest Franchise (2 copies)<br>6. Brown long envelope (1 pc.)";
   }
 }

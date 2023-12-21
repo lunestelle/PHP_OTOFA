@@ -374,8 +374,7 @@ class Edit_change_of_motorcycle
 
   private function generateRequirementList()
   {
-    return "- TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT
-      NEW UNIT (1 copy each):<br>
+    return "NEW UNIT (1 copy each):<br>
       - LTO Certificate of Registration (MC)<br>
       - LTO Official Receipt (MC)<br>
       - Plate Authorization (MC of New Unit)<br>

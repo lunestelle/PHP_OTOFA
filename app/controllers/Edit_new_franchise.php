@@ -322,6 +322,7 @@
 
     private function generateRequirementList()
     {
-      return "1. TRICYCLE APPLICATION FORM/SAFETY INSPECTION REPORT<br>2. LTO Certificate of Registration (MC of New Unit) (2 copies)<br>3. LTO Official Receipt (MC of New Unit) (2 copies)<br>4. Plate authorization (MC of New Unit) (2 copies)<br>5. Insurance Policy (TC) (New Owner) (2 copies)<br>6. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)<br>7. Sketch Location of Garage (2 copies)<br>8. Affidavit of No Income Or Latest Income Tax Return (2 copies)<br>9. Picture of New Unit (Front view & Side view) (2 copies)<br>10. Driver's Certificate of Safety Driving Seminar (2 copies)<br>11. Brown long envelope (1 pc.)";
+      return "1. LTO Certificate of Registration (MC of New Unit) (2 copies)<br>2. LTO Official Receipt (MC of New Unit) (2 copies)<br>3. Plate authorization (MC of New Unit) (2 copies)<br>4. Insurance Policy (TC) (New Owner) (2 copies)<br>5. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)<br>6. Sketch Location of Garage (2 copies)<br>7. Affidavit of No Income Or Latest Income Tax Return (2 copies)<br>8. Picture of New Unit (Front view & Side view) (2 copies)<br>9. Driver's Certificate of Safety Driving Seminar (2 copies)<br>10. Brown long envelope (1 pc.)";
     }
+    
   }
