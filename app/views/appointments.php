@@ -95,7 +95,7 @@
                           }
 
                           echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
-                        } elseif ($userRole === 'admin' && $appointment['status'] !== "Cancelled") {
+                        } elseif ($userRole === 'admin' && $appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process") {
                           $editUrl = '';
 
                           if ($appointment['appointment_type'] === 'New Franchise') {
