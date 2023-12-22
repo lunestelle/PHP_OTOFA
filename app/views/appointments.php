@@ -124,11 +124,10 @@
                         </a>
                       <?php endif; ?>
 
-                      <button class="sidebar-btnContent text-white px-3 mt-4" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
-
-
-                        <button id="downloadPdfButton" class="sidebar-btnContent text-white px-3 mt-4" onclick="downloadPdf()">Download PDF</button>
-   
+                      <?php if ($userRole === 'admin' && $appointment['status'] === "Approved"): ?>
+                        <button class="sidebar-btnContent text-white px-3 mt-4" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
+                        <button id="downloadPdfButton" class="sidebar-btnContent text-white px-3 mt-4" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="downloadPdf()">Download PDF</button>
+                      <?php endif; ?>
                     </td>
                   </tr>
                   <!-- CANCEL APPOINTMENT MODAL for each appointment -->
@@ -166,84 +165,69 @@
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+  function printAppointment(event) {
+    // Create the iframe
+    let printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.top = '-1000px';
 
-function printAppointment(event) {
-  // Create the iframe
-  var printFrame = document.createElement('iframe');
-  printFrame.style.position = 'fixed';
-  printFrame.style.top = '-1000px';
+    document.body.appendChild(printFrame);
+    let appointmentId = event.currentTarget.getAttribute("data-appointmentId");
 
-  // Append the iframe to the body
-  document.body.appendChild(printFrame);
-  
-  // Get the appointmentId from the button's data attribute
-  var appointmentId = event.currentTarget.getAttribute("data-appointmentId");
+    $.ajax({
+      url: 'print_content?appointment_id=' + appointmentId,
+      type: 'GET',
+      dataType: 'html',
+      success: function(data) {
+        // Set the content of the iframe's document
+        let doc = printFrame.contentDocument || printFrame.contentWindow.document;
+        doc.open();
 
-  // Use AJAX to fetch the content of print_content.php
-  $.ajax({
-    url: 'print_content?appointment_id=' + appointmentId,
-    type: 'GET',
-    dataType: 'html',
-    success: function(data) {
-      // Set the content of the iframe's document
-      var doc = printFrame.contentDocument || printFrame.contentWindow.document;
-      doc.open();
+        doc.write('<html><head><style>@media print { @page { size: legal !important; margin: 1.27cm; } body { color: black !important; } .label { display: inline-block; width: 150px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 2px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>');
 
-      doc.write('<html><head><style>@media print { @page { size: legal; } body { color: black; } .label { display: inline-block; width: 150px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>');
+        doc.write(data);
+        doc.write('</body></html>');
 
-      doc.write(data);
-      doc.write('</body></html>');
+        doc.close();
 
-      doc.close();
+        // Wait for the iframe to load
+        printFrame.onload = function() {
+          // Focus on the iframe and print
+          printFrame.contentWindow.focus();
+          printFrame.contentWindow.print();
 
-      // Wait for the iframe to load
-      printFrame.onload = function() {
-        // Focus on the iframe and print
-        printFrame.contentWindow.focus();
-        printFrame.contentWindow.print();
-
-        // Remove the iframe after printing
+          // Remove the iframe after printing
+          document.body.removeChild(printFrame);
+        };
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error('Error fetching print_content:', textStatus, errorThrown);
         document.body.removeChild(printFrame);
-      };
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-      console.error('Error fetching print_content:', textStatus, errorThrown);
-      // If there is an error, make sure to remove the iframe
-      document.body.removeChild(printFrame);
-    }
-  });
-}
-
+      }
+    });
+  }
 
   function downloadPdf() {
-    // Use AJAX to fetch content from print_content.php
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'print_content', true);
+    let appointmentId = event.currentTarget.getAttribute("data-appointmentId");
 
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        // Create a hidden iframe to convert and download as PDF
-        var pdfFrame = document.createElement('iframe');
-        pdfFrame.style.position = 'fixed';
-        pdfFrame.style.top = '-1000px'; // Move the iframe off-screen
+    $.ajax({
+      url: 'print_content?appointment_id=' + appointmentId,
+      type: 'GET',
+      dataType: 'html',
+      success: function (data) {
+        let styledData = '<html><head><style>body { color: black !important; } .label { display: inline-block; width: 150px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 2px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } .print-content { max-width: 100%; margin: 0; } .header-print { line-height: 3px; } .application-form { font-size: 10px; line-height: 11px; } .inspection-report { font-size: 10px; line-height: 5px; font-weight: 700; } .signature { font-size: 11px; }</style></head><body>';
 
-        // Append the iframe to the document body
-        document.body.appendChild(pdfFrame);
-
-        // Convert the HTML content to PDF and download
-        html2pdf(xhr.responseText, {
-          margin: 10,
+        html2pdf(styledData + data + '</body></html>', {
+          margin: 0.1,
           filename: 'tricycle_application_form.pdf',
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { scale: 2 },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        }).from(pdfFrame.contentWindow.document.body).save();
-
-        // Remove the iframe after downloading
-        document.body.removeChild(pdfFrame);
+          jsPDF: { unit: 'in', format: 'legal', orientation: 'portrait' }
+        });
+      },
+      error: function () {
+        console.error('Error fetching content. Please try again.');
       }
-    };
-
-    xhr.send();
+    });
   }
 </script>

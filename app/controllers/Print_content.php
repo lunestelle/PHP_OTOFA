@@ -6,7 +6,11 @@ class Print_content
 
 	public function index()
 	{
-
+		if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+      set_flash_message("Invalid request method.", "error");
+      redirect('');
+    }
+		
 		$appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
 
 		$appointmentModel = new Appointment();
