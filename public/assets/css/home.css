@@ -595,8 +595,8 @@ body .reset-email {
 
 /* --- PRINT CONTENT --- */
 .print-content {
-  overflow-x: hidden;
-  margin: 20px 0;
+  max-width: 100%;
+  margin: 0;
 }
 
 .header-print {
@@ -604,13 +604,13 @@ body .reset-email {
 }
 
 .application-form {
-  font-size: 13px;
-  line-height: 10px;
+  font-size: 14px;
+  line-height: 12px;
 }
 
 .inspection-report {
-  font-size: 11px;
-  line-height: 8px;
+  font-size: 12px;
+  line-height: 5px;
   font-weight: 700;
 }
 
