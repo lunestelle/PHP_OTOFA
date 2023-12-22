@@ -119,7 +119,7 @@ class Edit_intent_of_transfer
         'transfer_type' => $_POST['transfer_type'],
         'appointment_date' => $_POST['appointment_date'] ?? '',
         'appointment_time' => $_POST['appointment_time'] ?? '',
-        'status' => $_POST['status'] ?? '',
+        'status' => $_POST['status'] ?? $appointmentData->status,
         'comments' => $_POST['comments'] ?? '',
       ];
 

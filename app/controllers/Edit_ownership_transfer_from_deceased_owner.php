@@ -120,7 +120,7 @@ class Edit_ownership_transfer_from_deceased_owner
         'transfer_type' => $_POST['transfer_type'],
         'appointment_date' => $_POST['appointment_date'] ?? '',
         'appointment_time' => $_POST['appointment_time'] ?? '',
-        'status' => $_POST['status'] ?? '',
+        'status' => $_POST['status'] ?? $appointmentData->status,
         'comments' => $_POST['comments'] ?? '',
       ];
 

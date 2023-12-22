@@ -100,7 +100,7 @@
           'appointment_type' => $_POST['appointment_type'] ?? '',
           'appointment_date' => $_POST['appointment_date'] ?? '',
           'appointment_time' => $_POST['appointment_time'] ?? '',
-          'status' => $_POST['status'] ?? '',
+          'status' => $_POST['status'] ?? $appointmentData->status,
           'comments' => $_POST['comments'] ?? '',
         ];
 
