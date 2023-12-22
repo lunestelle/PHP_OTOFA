@@ -1,109 +1,120 @@
-<!-- print_content.php -->
-<div class="print-content row">
-  <div class="col-lg-12 mx-auto mt-4">
+<div id="print-content" class="print-content row">
+  <div class="col-lg-12 mx-auto mt-2">
     <div class="row">
       <div class="col-12">
         <div class="container-1">
-          <div class="text-center header-print">
+          <div class="text-center header-print" style="font-size: 12px;">
             <p>Republic of the Philippines</p>
             <p>Office of the City Mayor</p>
             <p class="fw-bold">Transportation Development Franchising and Regulatory Office</p>
             <p>Ormoc city</p>
           </div>
-          <div class="mt-5">
-            <h4>TRICYCLE APPLICATION FORM</h4>
+          <div class="mt-2">
+            <h5>TRICYCLE APPLICATION FORM</h5>
           </div>
           <div class="application-form col-12 mt-3">
             <div class="d-flex">
               <div class="col-8">
-                <p>Name of Operator:______________________________________________________________________________________________________________</p>
+                <p><span class="label">Name of Operator:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->operator_name) ? ucwords(strtolower($tricycleApplication->operator_name)) : ''; ?></span></p>
               </div>
               <div class="col-4">
-                <p>Contact:_______________________________________</p>
+                <p><span class="label">Contact:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->tricycle_phone_number) ? $tricycleApplication->tricycle_phone_number : ''; ?></span></p>
               </div>
             </div>
             <div class="d-flex">
               <div class="col-12">
-              <p>Address:__________________________________________________________________________________________________________________________________________________________________________________________________________</p>
+                <p><span class="label">Address:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->address) ? ucwords(strtolower($tricycleApplication->address)) : ''; ?></span></p>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="col-3">
+                <p><span class="label">MTOP No:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->mtop_no) ? $tricycleApplication->mtop_no : ''; ?></span></p>
+              </div>
+              <div class="col-5">
+                <p><span class="label">Route/Zone:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->route_area) ? ucwords(strtolower($tricycleApplication->route_area)) : ''; ?></span></p>
+              </div>
+              <div class="col-4">
+                <p><span class="label">Make Model:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->make_model) ? ucwords(strtolower($tricycleApplication->make_model)) : ''; ?></span></p>
               </div>
             </div>
             <div class="d-flex">
               <div class="col-4">
-                <p>MTOP No:_____________________________________</p>
+                <p><span class="label">Expiry Date:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->make_model_expiry_date) ? ($tricycleApplication->make_model_expiry_date) : ''; ?></span></p>
               </div>
               <div class="col-4">
-                <p>Route/Zone:____________________________________</p>
+                <p><span class="label">Color Code:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->color_code) ? ucwords(strtolower($tricycleApplication->color_code)) : ''; ?></span></p>
               </div>
               <div class="col-4">
-                <p>Make Model:_________________________________</p>
-              </div>
-            </div>
-            <div class="d-flex">
-              <div class="col-4">
-                <p>Expiry Date:____________________________________</p>
-              </div>
-              <div class="col-4">
-                <p>Color Code:_____________________________________</p>
-              </div>
-              <div class="col-4">
-                <p>Motor Number:_______________________________</p>
+                <p><span class="label">Motor Number:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->motor_number) ? ($tricycleApplication->motor_number) : ''; ?></span></p>
               </div>
             </div>
             <div class="d-flex">
               <div class="col-8">
-                <p>Insurer: __________________________________________________________________________________________________________________________</p>
+                <p><span class="label">Insurer:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->insurer) ? ($tricycleApplication->insurer) : ''; ?></span></p>
               </div>
               <div class="col-4">
-                <p>Chasis Number:_______________________________</p>
+                <p><span class="label">Chasis Number:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->chasis_no) ? ($tricycleApplication->chasis_no) : ''; ?></span></p>
               </div>
             </div>
             <div class="d-flex">
               <div class="col-4">
-                <p>C.O.C No.:______________________________________</p>
+                <p><span class="label">C.O.C No.:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->coc_no) ? ($tricycleApplication->coc_no) : ''; ?></span></p>
               </div>
               <div class="col-4">
-                <p>Expiry Date:_____________________________________</p>
+                <p><span class="label">Expiry Date:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->coc_no_expiry_date) ? ($tricycleApplication->coc_no_expiry_date) : ''; ?></span></p>
               </div>
               <div class="col-4">
-                <p>Plate Number:________________________________</p>
+                <p><span class="label">Plate Number:</span> <span class="form-input-line"><?php echo isset($cin) ? ($cin) : ''; ?></span></p>
               </div>
             </div>
             <div class="d-flex">
               <div class="col-5">
-                <p>LTO CR No.:_________________________________________________________</p>
+                <p><span class="label">LTO CR No.:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->lto_cr_no) ? ($tricycleApplication->lto_cr_no) : ''; ?></span></p>
               </div>
               <div class="col-2">
               </div>
               <div class="col-4 ms-3">
                 <div class="ms-5">
-                  <input type="checkbox">
-                  <label for="new">New</label>
-                  <input type="checkbox">
-                  <label for="new">Renewal</label>
+                  <input type="checkbox" id="newCheckbox" <?php echo ($appointment_type == 'New Franchise' || $appointment_type == 'NEW') ? 'checked' : ''; ?>>
+                  <label for="newCheckbox">New</label>
+                  <input type="checkbox" id="renewalCheckbox" <?php echo ($appointment_type == 'Renewal of Franchise' || $appointment_type == 'RENEWAL') ? 'checked' : ''; ?>>
+                  <label for="renewalCheckbox">Renewal</label>
                 </div>
               </div>
             </div>
             <div class="d-flex">
               <div class="col-5">
-                <p>Name of Driver:_____________________________________________________</p>
+                <p><span class="label">LTO OR No.:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->lto_or_no) ? ($tricycleApplication->lto_or_no) : ''; ?></span></p>
               </div>
               <div class="col-7">
               </div>
             </div>
             <div class="d-flex">
               <div class="col-5">
-                <p>Driver's License:_____________________________________________________</p>
+                <p><span class="label">Name of Driver:</span> <span class="form-input-line"><?php echo isset($driver_name) ? ($driver_name) : ''; ?></span></p>
               </div>
-              <div class="col-5 text-start">
-                <p>Expiry Date:______________________</p>
+              <div class="col-7">
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="col-5">
+                <p><span class="label">Driver's License:</span> <span class="form-input-line"><?php echo isset($tricycleApplication->driver_license_no) ? ($tricycleApplication->driver_license_no) : ''; ?></span></p>
+              </div>
+              <div class="col-5">
+                <?php
+                  $expiryDate = isset($tricycleApplication->driver_license_expiry_date) ? $tricycleApplication->driver_license_expiry_date : '';
+
+                  $expiryDate = ($expiryDate === '0000-00-00') ? '' : $expiryDate;
+                ?>
+                <p><span class="label">Expiry Date:</span> <span class="form-input-line"><?php echo $expiryDate; ?></span></p>
               </div>
             </div>
           </div>
         </div>
         <div class="container-1 mt-2">
-          <div class="mx-5">
-            <small class="mx-5 fw-bold text-justify">I DECLARE, under penalties of perjury, that this application has been made in good faith, verified by me, and to the best of my knowledge and belief, is true and correct, pursuant to the provision of the Ormoc City Tax Ordinance 34-92 and Ordinance 153-99 as amended and the regulation issued under authority thereof.</small>
-          </div>
+          <small class=" fw-bold" style="text-align: justify; font-size: 11px; display: block; text-align-last: left;">
+            <span class="mx-5">  I DECLARE, under penalties of perjury, that this application has been made in good faith, verified by me, and to the best of my knowledge and belief, is true and correct, pursuant to the provision of the Ormoc City Tax Ordinance 34-92 and Ordinance 153-99 as amended and the regulation issued under authority thereof.</span>
+          </small>
           <div class="d-flex">
             <div class="col-12 mt-3">
               <div class="row">

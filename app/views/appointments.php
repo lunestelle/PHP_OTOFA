@@ -124,10 +124,11 @@
                         </a>
                       <?php endif; ?>
 
-                      <?php if ($userRole === 'admin' && $appointment['status'] === "Approved"): ?>
-                        <button id="printButton" class="sidebar-btnContent text-white px-3 mt-4" onclick="printAppointment()">Print</button>
+                      <button class="sidebar-btnContent text-white px-3 mt-4" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
+
+
                         <button id="downloadPdfButton" class="sidebar-btnContent text-white px-3 mt-4" onclick="downloadPdf()">Download PDF</button>
-                      <?php endif; ?>
+   
                     </td>
                   </tr>
                   <!-- CANCEL APPOINTMENT MODAL for each appointment -->
@@ -165,39 +166,54 @@
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-  function printAppointment() {
-    // Create a hidden iframe
-    var printFrame = document.createElement('iframe');
-    printFrame.style.position = 'fixed';
-    printFrame.style.top = '-1000px'; // Move the iframe off-screen
 
-    // Append the iframe to the document body
-    document.body.appendChild(printFrame);
+function printAppointment(event) {
+  // Create the iframe
+  var printFrame = document.createElement('iframe');
+  printFrame.style.position = 'fixed';
+  printFrame.style.top = '-1000px';
 
-    // Use AJAX to fetch content from print_content.php
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'print_content', true);
+  // Append the iframe to the body
+  document.body.appendChild(printFrame);
+  
+  // Get the appointmentId from the button's data attribute
+  var appointmentId = event.currentTarget.getAttribute("data-appointmentId");
 
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        // Write the content to the iframe
-        var printDocument = printFrame.contentDocument || printFrame.contentWindow.document;
-        printDocument.write('<html><head><title>Tricycle Application Form</title><link rel="stylesheet" type="text/css" href="public/assets/css/print.css" media="print"/></head><body>');
-        printDocument.write(xhr.responseText);
-        printDocument.write('</body></html>');
-        printDocument.close();
+  // Use AJAX to fetch the content of print_content.php
+  $.ajax({
+    url: 'print_content?appointment_id=' + appointmentId,
+    type: 'GET',
+    dataType: 'html',
+    success: function(data) {
+      // Set the content of the iframe's document
+      var doc = printFrame.contentDocument || printFrame.contentWindow.document;
+      doc.open();
 
+      doc.write('<html><head><style>@media print { @page { size: legal; } body { color: black; } .label { display: inline-block; width: 150px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>');
+
+      doc.write(data);
+      doc.write('</body></html>');
+
+      doc.close();
+
+      // Wait for the iframe to load
+      printFrame.onload = function() {
         // Focus on the iframe and print
-        printFrame.focus();
+        printFrame.contentWindow.focus();
         printFrame.contentWindow.print();
 
         // Remove the iframe after printing
         document.body.removeChild(printFrame);
-      }
-    };
+      };
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error('Error fetching print_content:', textStatus, errorThrown);
+      // If there is an error, make sure to remove the iframe
+      document.body.removeChild(printFrame);
+    }
+  });
+}
 
-    xhr.send();
-  }
 
   function downloadPdf() {
     // Use AJAX to fetch content from print_content.php
