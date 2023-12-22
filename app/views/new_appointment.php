@@ -54,27 +54,31 @@
                   <div class="row px-3 p-4" id="transferTypeOptions">
                     <div class="col-12 d-flex mb- py-3">
                       <div class="col-12 px-5">
-                        <div class="d-flex gap-5 text-center" >
-                          <div class="row-1">
-                            <div class="new-appointment-selection rounded-3 mb-4">
-                              <input type="radio" id="none" name="transferType" value="None">
-                              <label for="none">None</label>
+                        <div class="d-flex gap-5 text-center">
+                          <div class="col-6">
+                            <div class="row-1">
+                              <div class="new-appointment-selection rounded-3 mb-4">
+                                <input type="radio" id="none" name="transferType" value="None">
+                                <label for="none">None</label>
+                              </div>
+                              <?php if ($userHasCin) { ?>
+                                <div class="new-appointment-selection rounded-3">
+                                  <input type="radio" id="intent_of_transfer" name="transferType" value="Intent of Transfer">
+                                  <label for="intent_of_transfer">Intent of Transfer</label>
+                                </div>
+                              <?php } ?>
                             </div>
+                          </div>
+                          <div class="col-5">
                             <?php if ($userHasCin) { ?>
-                              <div class="new-appointment-selection rounded-3">
-                                <input type="radio" id="intent_of_transfer" name="transferType" value="Intent of Transfer">
-                                <label for="intent_of_transfer">Intent of Transfer</label>
+                              <div class="row-2">
+                                <div class="new-appointment-selection rounded-3 mb-4">
+                                  <input type="radio" id="transfer_deceased" name="transferType" value="Transfer of Ownership from Deceased Owner">
+                                  <label for="transfer_deceased">Transfer of Ownership <br> from Deceased Owner</label>
+                                </div>
                               </div>
                             <?php } ?>
                           </div>
-                          <?php if ($userHasCin) { ?>
-                            <div class="row-2">
-                              <div class="new-appointment-selection rounded-3 mb-4">
-                                <input type="radio" id="transfer_deceased" name="transferType" value="Transfer of Ownership from Deceased Owner">
-                                <label for="transfer_deceased">Transfer of Ownership <br> from Deceased Owner</label>
-                              </div>
-                            </div>
-                          <?php } ?>
                         </div>
                       </div>
                     </div>

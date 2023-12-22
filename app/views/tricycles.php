@@ -56,7 +56,7 @@
                       <?php if ($userRole === 'admin'): ?>  
                         <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Operator Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
                         <?php if ($tricycle['status'] != 'Dropped'): ?>  
-                          <button type="button" class="update-status-btn" data-bs-toggle="modal" data-bs-target="#statusModal-<?php echo $tricycle['tricycle_id']; ?>">
+                          <button type="button" class="update-status-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Update Status
                           </button>
                         <?php endif; ?> 
@@ -65,6 +65,84 @@
                       <?php endif; ?>  
                     </td>
                   </tr>
+
+                  <!-- UPDATE STATUS MODAL -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header m-0 border-0">
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <h5 class="modal-title text-uppercase text-center mx-auto mb-3" id="statusModalLabel">Update Status</h5>
+                          <form id="statusForm-<?php echo $tricycle['tricycle_id']; ?>" action="" method="post">
+                            <div class="row">
+                              <div class="col-12 d-flex py-3">
+                                <div class="d-flex gap-5 text-center mx-1">
+                                  <div class="col-6">
+                                    <div class="row-1">
+                                      <?php if ($tricycle['status'] != 'Active'): ?>  
+                                        <div class="tricycle-status-selection-modal rounded-3 mb-4">
+                                          <input type="radio" id="Active" name="status" value="Active">
+                                          <label for="Active">Active</label>
+                                        </div>
+                                      <?php else: ?>
+                                        <div class="tricycle-status-disabled-modal rounded-3 mb-4">
+                                          <input type="radio" id="Active" name="status" value="Active" disabled>
+                                          <label for="Active" data-bs-toggle="tooltip" data-bs-placement="top" title="This option is disabled because the status is already Active">Active</label>
+                                        </div>
+                                      <?php endif; ?>
+                                      <?php if ($tricycle['status'] != 'Change Motor Required'): ?>  
+                                        <div class="tricycle-status-selection-modal rounded-3 mb-4">
+                                          <input type="radio" id="Change Motor Required" name="status" value="Change Motor Required">
+                                          <label for="Change Motor Required">Change Motor Required</label>
+                                        </div>
+                                      <?php else: ?>
+                                        <div class="tricycle-status-disabled-modal rounded-3 mb-4">
+                                          <input type="radio" id="Change Motor Required" name="status" value="Change Motor Required" disabled>
+                                          <label for="Change Motor Required" data-bs-toggle="tooltip" data-bs-placement="top" title="This option is disabled because the status is already Change Motor Required">Change Motor Required</label>
+                                        </div>
+                                      <?php endif; ?>
+                                    </div>
+                                  </div>
+                                  <div class="col-6">
+                                    <div class="row-2">
+                                      <?php if ($tricycle['status'] != 'Dropped'): ?>  
+                                        <div class="tricycle-status-selection-modal rounded-3 mb-4">
+                                          <input type="radio" id="Dropped" name="status" value="Dropped">
+                                          <label for="Dropped">Dropped</label>
+                                        </div>
+                                      <?php else: ?>
+                                        <div class="tricycle-status-disabled-modal rounded-3 mb-4">
+                                          <input type="radio" id="Dropped" name="status" value="Dropped" disabled>
+                                          <label for="Dropped" data-bs-toggle="tooltip" data-bs-placement="top" title="This option is disabled because the status is already Dropped">Dropped</label>
+                                        </div>
+                                      <?php endif; ?>
+                                      <?php if ($tricycle['status'] != 'Renewal Required'): ?>  
+                                        <div class="tricycle-status-selection-modal rounded-3 mb-4">
+                                          <input type="radio" id="renewalRequired" name="status" value="Renewal Required">
+                                          <label for="renewalRequired">Renewal Required</label>
+                                        </div>
+                                      <?php else: ?>
+                                        <div class="tricycle-status-disabled-modal rounded-3 mb-4">
+                                          <input type="radio" id="renewalRequired" name="status" value="Renewal Required" disabled>
+                                          <label for="renewalRequired" data-bs-toggle="tooltip" data-bs-placement="top" title="This option is disabled because the status is already Renewal Required">Renewal Required</label>
+                                        </div>
+                                      <?php endif; ?>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="text-end my-3">
+                              <input type="hidden" name="tricycle_id" value="<?php echo $tricycle['tricycle_id']; ?>">
+                              <button type="submit" class="sidebar-btnContent" name="update_tricycle_status" id="update_tricycle_status">Update</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 <?php endforeach; ?>
               </tbody>
             </table>
@@ -74,52 +152,10 @@
     </div>
   </div>
 </main>
-<!-- UPDATE STATUS MODAL -->
-<div class="modal fade" id="statusModal-<?php echo $tricycle['tricycle_id']; ?>" tabindex="-1" aria-labelledby="statusModalLabel-<?php echo $tricycle['tricycle_id']; ?>" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header m-0 border-0">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h5 class="modal-title text-uppercase text-center mx-auto mb-3" id="statusModalLabel-<?php echo $tricycle['tricycle_id']; ?>">Update Status</h5>
-        <form id="statusForm-<?php echo $tricycle['tricycle_id']; ?>" action="" method="post">
-          <div class="row">
-            <div class="col-12 d-flex py-3">
-              <div class="d-flex gap-5 text-center mx-1">
-              <div class="col-6">
-                <div class="row-1">
-                  <div class="tricycle-status-selection-modal rounded-3 mb-4">
-                    <input type="radio" id="active" name="status" value="Active">
-                    <label for="active">Active</label>
-                  </div>
-                  <div class="tricycle-status-selection-modal rounded-3">
-                    <input type="radio" id="changeMotorRequired" name="status" value="Change Motor Required">
-                    <label for="changeMotorRequired">Change Motor Required</label>
-                  </div>
-                </div>
-              </div>
-                <div class="col-6">
-                  <div class="row-2">
-                    <div class="tricycle-status-selection-modal rounded-3 mb-4">
-                      <input type="radio" id="dropped" name="status" value="dropped">
-                      <label for="dropped">Dropped</label>
-                    </div>
-                    <div class="tricycle-status-selection-modal rounded-3">
-                      <input type="radio" id="renewalRequired" name="status" value="Renewal Required">
-                      <label for="renewalRequired">Renewal Required</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="text-end my-3">
-            <input type="hidden" name="tricycle_id" value="<?php echo $tricycle['tricycle_id']; ?>">
-            <button type="submit" class="sidebar-btnContent" name="update_tricycle_status" id="update_tricycle_status">Update</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+<script>
+  // Initialize Bootstrap tooltips
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+</script>

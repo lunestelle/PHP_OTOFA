@@ -72,15 +72,28 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
     border-color: red;
   }
 
-  div.tricycle-status-selection-modal input {
-  display: none;
-}
+  div.tricycle-status-selection-modal input, div.tricycle-status-disabled-modal input {
+    display: none;
+  }
 
   div.tricycle-status-selection-modal label {
     cursor: pointer;
     padding: 10px 14px;
     display: block;
     background-color: #EBB803;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    color: black;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  div.tricycle-status-disabled-modal label {
+    cursor: pointer;
+    padding: 10px 14px;
+    display: block;
+    background-color: #999;
     border: 2px solid black;
     border-radius: 5px;
     margin-bottom: 8px;
