@@ -1,6 +1,6 @@
 <?php
 $current_page = $_SERVER['REQUEST_URI'];
-$current_page_is_maintenance = strpos($current_page, 'taripa') !== false || strpos($current_page, 'maintenance_regulation_tracker') !== false || strpos($current_page, 'export') !== false;
+$current_page_is_maintenance = strpos($current_page, 'appointments_reports') !== false || strpos($current_page, 'maintenance_regulation_tracker') !== false || strpos($current_page, 'tricycles_reports') !== false;
 
 $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USER']->generated_profile_photo_path;
 ?>
@@ -187,15 +187,18 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 <li class="nav-item">
                   <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="taripa"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Taripa</span></a>
+                </li>
                 <li class="nav-item" id="maintenanceDropdown">
-                  <a class="nav-link text-white d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
+                  <a class="nav-link text-white d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Reports</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
                   <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-warning <?php if ($current_page_is_maintenance) echo 'show'; ?>">
                   <div>
                       <li class="nav-item mt-2 pt-1 px-2">
-                        <a class="nav-link text-white fw-bold" href="taripa">Taripa</a>
+                        <a class="nav-link text-white fw-bold reports" style="font-size: 11px;" href="appointments_reports">Appointments Reports</a>
                       </li>
                       <li class="nav-item mb-2 pb-1 px-2">
-                        <a class="nav-link text-white fw-bold" href="export">Export</a>
+                        <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="tricycles_reports">Tricycles Reports</a>
                       </li>
                   </div>
                   </ul>     
