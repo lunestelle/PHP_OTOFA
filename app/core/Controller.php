@@ -100,12 +100,10 @@ trait Controller
 			if (file_exists($filePath)) {
 				include_once $filePath;
 			} else {
-				header("Location: " . BASE_URL . "404.php");
-				exit();
+				include_once "app/views/404.php";
 			}
     } else {
-			header("Location: " . BASE_URL . "404.php");
-			exit();
+			include_once "app/views/404.php";
 		} 
 
     return ob_get_clean();

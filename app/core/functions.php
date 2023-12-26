@@ -353,3 +353,17 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		sendEmail($email, $subject, $templateContent);
 	}
 }
+
+function downloadCsv($data, $filename)
+{
+	header('Content-Type: text/csv; charset=UTF-8');
+	header('Content-Disposition: attachment; filename="' . $filename . '.csv"');
+
+	$output = fopen('php://output', 'w');
+	foreach ($data as $row) {
+			fputcsv($output, $row);
+	}
+	fclose($output);
+
+	exit();
+}

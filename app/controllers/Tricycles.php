@@ -79,7 +79,26 @@ class Tricycles
         set_flash_message("Successfully updated tricycle status.", "success");
         redirect('tricycles');
       }
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
+      $csvData = [];
+      $csvData[] = ['Tricycles'];
+      $csvData[] = ['Tricycle CIN', "Operator's Name", 'Make / Model', 'Motor Number', 'Color Code', 'Route Area', 'Status'];
+
+      foreach ($data['tricycles'] as $tricycle) {
+        $csvData[] = [
+          $tricycle['cin'],
+          $tricycle['tricycle_application_data']->operator_name,
+          $tricycle['tricycle_application_data']->make_model,
+          $tricycle['tricycle_application_data']->motor_number,
+          $tricycle['tricycle_application_data']->color_code,
+          $tricycle['tricycle_application_data']->route_area,
+          $tricycle['status'],
+        ];
+      }
+
+      downloadCsv($csvData, 'Tricycles_Export');
     }
+
 
     echo $this->renderView('tricycles', true, $data);
   }

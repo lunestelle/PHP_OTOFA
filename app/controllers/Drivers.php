@@ -46,6 +46,28 @@ class Drivers
     }
   }
 
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
+    $csvData = [];
+    $csvData[] = ['Drivers'];
+    $csvData[] = [
+      'Name', 'Birthdate', 'Address', 'Phone No.', 'License No.', 'License Validity', 'Tricycle Plate No.'
+    ];
+
+    foreach ($data['drivers'] as $driver) {
+      $csvData[] = [
+        $driver['name'],
+        $driver['birthdate'],
+        $driver['address'],
+        $driver['phone_no'],
+        $driver['license_no'],
+        $driver['license_validity'],
+        $driver['tricycle_plate_number'],
+      ];
+    }
+
+    downloadCsv($csvData, 'Drivers_Export');
+  }
+
     echo $this->renderView('drivers', true, $data);
   }
 }

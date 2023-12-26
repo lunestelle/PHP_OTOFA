@@ -64,6 +64,24 @@ class Maintenance_logs
       }
     }
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
+      $csvData = [];
+      $csvData[] = ['Maintenance Logs'];
+      $csvData[] = ['Tricycle CIN', "Driver's Name", 'Date', 'Total Expenses', 'Description'];
+
+      foreach ($data['maintenance_logs'] as $maintenance) {
+          $csvData[] = [
+              $maintenance['cin'],
+              $maintenance['driver_name'],
+              $maintenance['expense_date'],
+              $maintenance['total_expenses'],
+              $maintenance['description']
+          ];
+      }
+
+      downloadCsv($csvData, 'Maintenance_Logs_Export');
+    }
+
     echo $this->renderView('maintenance_logs', true, $data);
   }
 }

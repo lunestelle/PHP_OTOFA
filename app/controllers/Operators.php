@@ -70,6 +70,28 @@ class Operators
 				}
 			}
 		}
+
+		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
+			$csvData = [];
+			$csvData[] = ['Operators'];
+			$csvData[] = ['Full Name', 'Phone Number', 'Email', 'Address', 'Tricycles CIN', 'Drivers'];
+
+			foreach ($data['users'] as $user) {
+					$tricyclesCsv = empty($user['tricycles']) ? 'No Registered Tricycle' : implode(", ", array_column($user['tricycles'], 'plate_no'));
+					$driversCsv = empty($user['drivers']) ? 'No Registered Driver' : implode(", ", array_column($user['drivers'], 'driver_name'));
+					$csvData[] = [
+						$user['full_name'],
+						empty($user['phone_number']) ? '----------------' : $user['phone_number'],
+						empty($user['email']) ? '' : $user['email'],
+						empty($user['address']) ? '----------------' : $user['address'],
+						$tricyclesCsv,
+						$driversCsv,
+					];
+			}
+
+			downloadCsv($csvData, 'Operators_Export');
+		}
+
 		echo $this->renderView('operators', true, $data);
 	}
 }

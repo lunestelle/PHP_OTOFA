@@ -152,6 +152,33 @@ class Taripa
       }
     }
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
+      $csvData = [];
+      $csvData[] = [$year . ' Taripa'];
+      $csvData[] = ['Route Area', 'Barangay', 'Regular Rate', 'Student Rate', 'Senior Citizen & PWD Rate'];
+  
+      // Sort the taripasData by Route Area and then alphabetically by Barangay
+      usort($taripasData, function ($a, $b) {
+        $routeAreaOrder = [
+          'Free Zone / Zone 1', 'Zone 2', 'Zone 3', 'Zone 4'
+        ];
+        $routeAreaComparison = array_search($a['route_area'], $routeAreaOrder) - array_search($b['route_area'], $routeAreaOrder);
+        return $routeAreaComparison !== 0 ? $routeAreaComparison : strnatcasecmp($a['barangay'], $b['barangay']);
+      });
+  
+      foreach ($taripasData as $taripa) {
+        $csvData[] = [
+          $taripa['route_area'],
+          $taripa['barangay'],
+          number_format($taripa['regular_rate'], 2),
+          number_format($taripa['student_rate'], 2),
+          number_format($taripa['senior_and_pwd_rate'], 2),
+        ];
+      }
+      
+      downloadCsv($csvData, $year . '_Taripa_Export');
+    }
+  
     $data['selectedFilter'] = $selectedFilter;
     $data['years'] = $years;
     echo $this->renderView('taripa', true, $data);
