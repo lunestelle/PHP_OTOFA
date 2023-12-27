@@ -424,3 +424,107 @@ table > :not(caption) > * > * > :last-child {
   color: rgb(0, 0, 0);
   background-color: #ffffff;
 }
+
+
+/* --- EXPORT BUTTON --- */
+
+.export-btn {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  color: white;
+  background-color: #7C4700;
+  border: 1px solid #7C4700;
+  padding: 5px 18px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+
+.export-btn:hover {
+  color: #7C4700;
+  background-color: white;
+}
+
+/* --- EXPORT BUTTON FOR TARIPA --- */
+
+.export-btn-taripa {
+  color: white;
+  background-color: #7C4700;
+  border: 1px solid #7C4700;
+  padding: 5px 18px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+  position: relative;
+  right: 30px;
+  top: 10px;
+}
+
+
+.export-btn-taripa:hover {
+  color: #7C4700;
+  background-color: white;
+}
+
+/* --- EXPORT BUTTON FOR DRIVERS/MAINTENANCE LOGS PAGE--- */
+
+.export-btn-operator {
+  position: absolute;
+  top: 5px;
+  right: 100px;
+  color: #7C4700;
+  background-color: white;
+
+  border: 1px solid #7C4700;
+  padding: 5px 18px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.export-btn-operator:hover {
+  color: white;
+  background-color: #7c4600b7;
+}
+
+/* --- BUTTON FOR PRINT --- */
+
+.btn-print {
+  padding: 5px 37px;
+  color: #FF4200;
+  background-color: white;
+  border: #FF4200 1px solid;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  float: right;
+}
+
+.btn-print:hover {
+  background-color: #ffa585bd;
+  color: white;
+}
+
+.btn-download-pdf {
+  padding: 5px 10px;
+  color: white;
+  background-color: #FF4200;
+  border: #FF4200 1px solid;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  float: right;
+}
+
+.btn-download-pdf:hover {
+  background-color: #ffc5b0;
+  border: #FF4200 1px solid;
+  color: #FF4200;
+}

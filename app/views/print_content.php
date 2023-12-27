@@ -1,4 +1,4 @@
-<div id="print-content" class="print-content row">
+<div id="print-content" class="print-content row mt-4">
   <div class="col-lg-12 mx-auto">
     <div class="row">
       <div class="col-12">

@@ -33,7 +33,7 @@
       <?php if (!empty($taripas)): ?>
         <div class="mt-3 text-end">
           <form method="post" action="">
-            <button type="submit" id="exportCsv" name="exportCsv" class="btn btn-primary">Export as CSV</button>
+            <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-taripa">Export as CSV</button>
           </form>
         </div>
       <?php endif; ?>
