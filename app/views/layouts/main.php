@@ -1,6 +1,6 @@
 <?php
 $current_page = $_SERVER['REQUEST_URI'];
-$current_page_is_maintenance = strpos($current_page, 'appointments_reports') !== false || strpos($current_page, 'maintenance_regulation_tracker') !== false || strpos($current_page, 'tricycles_reports') !== false;
+$current_page_is_maintenance = strpos($current_page, 'appointments_reports') !== false || strpos($current_page, 'cin_reports') !== false || strpos($current_page, 'tricycles_reports') !== false;
 
 $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USER']->generated_profile_photo_path;
 ?>
@@ -199,6 +199,9 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                       </li>
                       <li class="nav-item mb-2 pb-1 px-2">
                         <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="tricycles_reports">Tricycles Reports</a>
+                      </li>
+                      <li class="nav-item mb-2 pb-1 px-2">
+                        <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="cin_reports">CIN Reports</a>
                       </li>
                   </div>
                   </ul>     
