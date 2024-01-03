@@ -56,6 +56,7 @@ class Tricycles
           'tricycle_id' => $tricycle->tricycle_id,
           'status' => $tricycle->status,
           'cin' => $tricycleCinData ? $tricycleCinData->cin_number : 'N/A',
+          'operator_name' => $userName,
           'tricycle_application_data' => $tricycleApplicationData,
         ];
       }
@@ -87,7 +88,7 @@ class Tricycles
       foreach ($data['tricycles'] as $tricycle) {
         $csvData[] = [
           $tricycle['cin'],
-          $tricycle['tricycle_application_data']->operator_name,
+          $tricycle['operator_name'],
           $tricycle['tricycle_application_data']->make_model,
           $tricycle['tricycle_application_data']->motor_number,
           $tricycle['tricycle_application_data']->color_code,

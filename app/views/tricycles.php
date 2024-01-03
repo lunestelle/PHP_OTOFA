@@ -33,7 +33,7 @@
                   <tr>
                   <td><?php echo $index++; ?></td>
                   <td><?php echo $tricycle['cin']; ?></td>
-                  <td><?php echo $tricycle['tricycle_application_data']->operator_name; ?></td>
+                  <td><?php echo $tricycle['operator_name']; ?></td>
                   <td><?php echo $tricycle['tricycle_application_data']->make_model; ?></td>
                   <td><?php echo $tricycle['tricycle_application_data']->motor_number; ?></td>
                   <td><?php echo $tricycle['tricycle_application_data']->color_code; ?></td>
