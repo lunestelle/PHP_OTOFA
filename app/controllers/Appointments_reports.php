@@ -17,44 +17,49 @@ class Appointments_reports
     // Fetch operators and their appointments reports
     $operatorsData = $userModel->where(['role' => 'operator']);
 
-    $data['appointmentsReports'] = [];
     $data['index'] = 1;
 
-    if (!empty($operatorsData)) {
-      foreach ($operatorsData as $operator) {
-        $totalAppointments = $appointmentModel->count(['user_id' => $operator->user_id]);
-        $pendingAppointments = $appointmentModel->count(['user_id' => $operator->user_id, 'status' => 'Pending']);
-        $completedAppointments = $appointmentModel->count(['user_id' => $operator->user_id, 'status' => 'Completed']);
+    // Retrieve unique years from the appointment dates
+    $uniqueYears = $appointmentModel->getUniqueYears();
 
+    // Set the default selected year
+    $selectedYear = isset($_GET['year']) ? $_GET['year'] : $uniqueYears[0];
+
+    // Retrieve appointments reports based on the selected year
+    $appointmentsReportsData = $appointmentModel->getAppointmentsReports($selectedYear);
+
+    if (!empty($appointmentsReportsData)) {
+      foreach ($appointmentsReportsData as $report) {
         $data['appointmentsReports'][] = [
-          'operator_name' => $operator->first_name . ' ' . $operator->last_name,
-          'email' => $operator->email,
-          'phone_number' => $operator->phone_number,
-          'total_appointments' => $totalAppointments,
-          'pending_appointments' => $pendingAppointments,
-          'completed_appointments' => $completedAppointments,
+          'operator_name' => $report->first_name . ' ' . $report->last_name,
+          'phone_number' => $report->phone_number,
+          'total_appointments' => $report->total_appointments,
+          'pending_appointments' => $report->pending_appointments,
+          'completed_appointments' => $report->completed_appointments,
         ];
       }
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
       $csvData = [];
-      $csvData[] = ['Appointments Reports'];
-      $csvData[] = ['Operator\'s Name', 'Email', 'Phone Number', 'Pending Appointments', 'Completed Appointments'];
-
-      foreach ($data['appointmentsReports'] as $report) {
+      $csvData[] = ['Appointments Reports for Year ' . $selectedYear];
+      $csvData[] = ['Operator\'s Name', 'Phone Number', 'Total Appointments', 'Pending Appointments', 'Completed Appointments'];
+  
+      foreach ($appointmentsReportsData as $report) {
         $csvData[] = [
-          $report['operator_name'],
-          $report['email'],
-          $report['phone_number'],
-          $report['total_appointments'],
-          $report['pending_appointments'],
-          $report['completed_appointments'],
+          $report->first_name . ' ' . $report->last_name,
+          $report->phone_number,
+          $report->total_appointments,
+          $report->pending_appointments,
+          $report->completed_appointments,
         ];
       }
-
+  
       downloadCsv($csvData, 'Appointments_Reports_Export');
     }
+
+    $data['years'] = $uniqueYears;
+    $data['selectedFilter'] = $selectedYear;
 
     echo $this->renderView('appointments_reports', true, $data);
   }

@@ -11,13 +11,20 @@
           </form>
         </div>
       <?php endif; ?>
+      <div class="col-6 mt-3">
+        <label for="yearFilter" class="fw-bold">Filter By Year:</label>
+        <select id="yearFilter" class="form-select">
+          <?php foreach ($years as $year): ?>
+            <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
       <div class="table-responsive pt-4">
         <table class="table table-hover" id="systemTable">
           <thead class="thead-custom">
             <tr class="text-uppercase">
               <th scope="col" class="text-center">#</th>
-              <th scope="col" class="text-center">Operator's Name</th>
-              <th scope="col" class="text-center">Email</th>
+              <th scope="col" class="text-center">Operator Name</th>
               <th scope="col" class="text-center">Phone Number</th>
               <th scope="col" class="text-center">Total Appointments</th>
               <th scope="col" class="text-center">Pending Appointments</th>
@@ -29,7 +36,6 @@
               <tr>
                 <td><?php echo $index++; ?></td>
                 <td><?php echo $report['operator_name']; ?></td>
-                <td style="text-transform: lowercase;"><?php echo $report['email']; ?></td>
                 <td><?php echo $report['phone_number']; ?></td>
                 <td><?php echo $report['total_appointments']; ?></td>
                 <td><?php echo $report['pending_appointments']; ?></td>
@@ -42,3 +48,11 @@
     </div>
   </div>
 </main>
+<script>
+  $(document).ready(function () {
+    $("#yearFilter").change(function () {
+      var selectedYear = $(this).val();
+      window.location.href = "appointments_reports?year=" + selectedYear;
+    });
+  });
+</script>

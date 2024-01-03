@@ -276,4 +276,37 @@ class Appointment
     $blackoutDates = ['2023-12-25', '2023-12-31'];
     return in_array($date, $blackoutDates);
   }
+
+  public function getUniqueYears()
+  {
+    $query = "SELECT DISTINCT YEAR(appointment_date) AS year FROM {$this->table} ORDER BY year DESC";
+    $result = $this->query($query);
+
+    $years = [];
+    foreach ($result as $row) {
+      $years[] = $row->year;
+    }
+
+    return $years;
+  }
+
+  public function getAppointmentsReports($selectedYear)
+  {
+    $query = "
+      SELECT
+        a.user_id,
+        o.first_name,
+        o.last_name,
+        a.phone_number,
+        COUNT(*) AS total_appointments,
+        SUM(CASE WHEN a.status = 'Pending' THEN 1 ELSE 0 END) AS pending_appointments,
+        SUM(CASE WHEN a.status = 'Completed' THEN 1 ELSE 0 END) AS completed_appointments
+      FROM {$this->table} a
+      JOIN users o ON a.user_id = o.user_id
+      WHERE YEAR(a.appointment_date) = :selectedYear
+      GROUP BY a.user_id
+      ORDER BY a.user_id";
+
+    return $this->query($query, ['selectedYear' => $selectedYear]);
+  }
 }

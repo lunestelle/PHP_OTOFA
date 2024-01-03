@@ -38,6 +38,10 @@ $(document).ready(function () {
       (
         currentUrl.href.includes('view_operator') &&
         linkUrl.includes('operators')
+      ) ||
+      (
+        currentUrl.href.includes('appointments_reports') && 
+        linkUrl.includes('appointments_reports')
       );
 
     if (isActive) {
