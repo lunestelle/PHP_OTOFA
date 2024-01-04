@@ -42,6 +42,12 @@ $(document).ready(function () {
       (
         currentUrl.href.includes('appointments_reports') && 
         linkUrl.includes('appointments_reports')
+      ) ||
+      (
+        currentUrl.href.includes('view_calculations') &&
+        linkUrl.includes('maintenance_tracker') &&
+        currentUrl.searchParams.has('year') &&
+        currentUrl.searchParams.has('cin')
       );
 
     if (isActive) {
