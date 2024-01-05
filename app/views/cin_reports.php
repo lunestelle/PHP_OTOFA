@@ -12,12 +12,15 @@
         </div>
 
         <?php foreach ($cinReports as $report): ?>
-          <div class="mt-3 mb-2">
-            <strong>Total of Available CIN Numbers:</strong> <?php echo $report['total_available_cin_numbers']; ?>
+          <div class="d-flex gap-5">
+            <div class="mt-3 mb-2">
+              <strong>Total of Available CIN Numbers:</strong> <span class="text-danger border border-2 rounded-3 px-3"><?php echo $report['total_available_cin_numbers']; ?></span>
+            </div>
+            <div class="mt-3 ms-5">
+              <strong>Total of Used CIN Numbers:</strong> <span class="text-danger border border-2 rounded--3p-x13"><?php echo $report['total_used_cin_numbers']; ?></span>
+            </div>
           </div>
-          <div class="mt-3">
-            <strong>Total of Used CIN Numbers:</strong> <?php echo $report['total_used_cin_numbers']; ?>
-          </div>
+
         <?php endforeach; ?>
       <?php endif; ?>
       <div class="table-responsive pt-4">

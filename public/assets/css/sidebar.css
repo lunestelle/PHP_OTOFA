@@ -9,6 +9,22 @@
   display: flex;
   flex-direction: column;
   background-color: #090C1B;
+  overflow-y: auto; /* Enable vertical scrollbar */
+  max-height: calc(100vh - 60px); /* Set a maximum height to fit within the viewport */
+}
+
+/* Hide the scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar width */
+}
+
+/* Optional: You can also style scrollbar track and thumb */
+.sidebar::-webkit-scrollbar-track {
+  background: transparent; /* Set a background color for the scrollbar track */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: transparent; /* Set a background color for the scrollbar thumb */
 }
 
 .sidebar .nav-link {
