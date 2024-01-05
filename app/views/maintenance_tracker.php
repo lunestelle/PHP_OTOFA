@@ -9,7 +9,7 @@
           <?php if (!empty($maintenance_trackers)): ?>
             <div class="mt-3 text-end">
               <form method="post" action="">
-                <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-operator">Export as CSV</button>
+                <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
               </form>
             </div>
           <?php endif; ?>
@@ -41,7 +41,7 @@
                   <td><?php echo $maintenance->operator_name; ?></td>
                   <td><?php echo $maintenance->driver_name; ?></td>
                   <td><?php echo $maintenance->yearly_total_expenses; ?></td>
-                  <td><a href="#" onclick="viewCalculations(<?php echo $maintenance->year; ?>, '<?php echo $maintenance->cin_number; ?>')">View</a></td>
+                  <td><a class="view-maintenance-tracker-btn" href="#" onclick="viewCalculations(<?php echo $maintenance->year; ?>, '<?php echo $maintenance->cin_number; ?>')">View</a></td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>

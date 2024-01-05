@@ -451,23 +451,23 @@ table > :not(caption) > * > * > :last-child {
 /* --- EXPORT BUTTON FOR TARIPA --- */
 
 .export-btn-taripa {
-  color: white;
-  background-color: #7C4700;
+  color: #7C4700;
+  background-color: white;
   border: 1px solid #7C4700;
   padding: 5px 18px;
   letter-spacing: 2px;
   text-decoration: none;
   border-radius: 10px;
   font-size: 12px;
-  position: relative;
-  right: 30px;
-  top: 10px;
+  position: absolute;
+  right: 100px;
+  top: 5px;
 }
 
 
 .export-btn-taripa:hover {
-  color: #7C4700;
-  background-color: white;
+  color: white;
+  background-color: #7C4700;
 }
 
 /* --- EXPORT BUTTON FOR DRIVERS/MAINTENANCE LOGS PAGE--- */
@@ -478,18 +478,12 @@ table > :not(caption) > * > * > :last-child {
   right: 100px;
   color: #7C4700;
   background-color: white;
-
   border: 1px solid #7C4700;
   padding: 5px 18px;
   letter-spacing: 2px;
   text-decoration: none;
   border-radius: 10px;
   font-size: 12px;
-}
-
-.export-btn-operator:hover {
-  color: white;
-  background-color: #7c4600b7;
 }
 
 /* --- BUTTON FOR PRINT --- */
@@ -527,4 +521,18 @@ table > :not(caption) > * > * > :last-child {
   background-color: #ffc5b0;
   border: #FF4200 1px solid;
   color: #FF4200;
+}
+
+.view-maintenance-tracker-btn {
+  color: white;
+  background-color: green;
+  border: 1px solid green;
+  padding: 3px 15px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.view-maintenance-tracker-btn:hover {
+  color: green;
+  background-color: white;
 }

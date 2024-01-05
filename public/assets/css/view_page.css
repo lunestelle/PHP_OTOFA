@@ -152,3 +152,12 @@ input[type=file]::file-selector-button {
 .rejection-comment {
   white-space: pre-wrap;
 }
+
+/* VIEW MAINTENANCE CALCULATIONS */
+
+.header-view-calculations {
+  background-color: #7C4700;
+  padding: 5px;
+  text-align: center;
+  color: white;
+}

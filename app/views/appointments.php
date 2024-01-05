@@ -16,7 +16,7 @@
           <?php if (!empty($appointments)): ?>
             <div class="mt-3 text-end">
               <form method="post" action="">
-                <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
+                <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-operator">Export as CSV</button>
               </form>
             </div>
           <?php endif; ?>
@@ -33,7 +33,6 @@
                   <th scope="col" class="text-center">Time</th>
                   <th scope="col" class="text-center">Status</th>
                   <th scope="col" class="text-center">Actions</th>
-                  <th scope="col" class="text-center"></th>
                 </tr>
               </thead>
               <tbody class="text-center">
@@ -131,13 +130,12 @@
                           <i class="fa-solid fa-times fa-lg"></i>
                         </a>
                       <?php endif; ?>
-                    </td>
-                    <td class="col-md-1">
                       <?php if ($userRole === 'admin' && $appointment['status'] === "Approved"): ?>
                         <button class="btn-print me-4" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
                         <button id="downloadPdfButton" class="btn-download-pdf mt-1 me-4" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="downloadPdf()">Download PDF</button>
                       <?php endif; ?>
                     </td>
+                   
                   </tr>
                   <!-- CANCEL APPOINTMENT MODAL for each appointment -->
                   <div class="modal fade" id="cancelModal-<?php echo $appointment['appointment_id']; ?>" tabindex="-1" aria-labelledby="cancelModalLabel-<?php echo $appointment['appointment_id']; ?>" aria-hidden="true">
