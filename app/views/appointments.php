@@ -10,16 +10,26 @@
             <div class="mt-3">
               <a href="new_appointment" class="text-uppercase sidebar-btnContent new-button">New</a>
             </div>
+            <?php if (!empty($appointments)): ?>
+              <div class="mt-3 text-end">
+                <form method="post" action="">
+                  <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-operator">Export as CSV</button>
+                </form>
+              </div>
+            <?php endif; ?>
+          </div>
+        <?php elseif ($userRole === 'admin'): ?>
+          <div class="col-12">
+            <?php if (!empty($appointments)): ?>
+              <div class="mt-3 text-end">
+                <form method="post" action="">
+                  <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
+                </form>
+              </div>
+            <?php endif; ?>
           </div>
         <?php endif; ?>  
         <div class="col-12">
-          <?php if (!empty($appointments)): ?>
-            <div class="mt-3 text-end">
-              <form method="post" action="">
-                <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-operator">Export as CSV</button>
-              </form>
-            </div>
-          <?php endif; ?>
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
               <thead class="thead-custom">
