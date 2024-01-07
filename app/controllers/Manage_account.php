@@ -21,6 +21,7 @@ class Manage_account
       'address' => $userData->address,
       'phone_number' => $userData->phone_number,
       'profile_photo' => $userData->uploaded_profile_photo_path ?: $userData->generated_profile_photo_path,
+      'phone_status' => $userData->phone_number_status,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
