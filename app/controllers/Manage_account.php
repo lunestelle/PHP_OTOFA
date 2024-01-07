@@ -107,15 +107,27 @@ class Manage_account
         }
         
         if ($updateUser) {
-          $_SESSION['USER']->email = $updateData['email'];
-          $_SESSION['USER']->phone_number = $updateData['phone_number'];
-          $_SESSION['USER']->first_name = $updateData['first_name'];
-          $_SESSION['USER']->last_name = $updateData['last_name'];
-          $_SESSION['USER']->address = $updateData['address'];
-          $_SESSION['USER']->uploaded_profile_photo_path = $uploadedFilePath;
+          if ($_SESSION['USER']->email !== $updateData['email']) {
+            // Change the verification status to not_verified
+            $user->update(['user_id' => $_SESSION['USER']->user_id], ['verification_status' => 'not_verified']);
+            
+            // Log out the user by unsetting the specific session variable
+            unset($_SESSION['USER']);
+            unset($_SESSION['authenticated']);
 
-          set_flash_message("Profile information has been updated successfully.", "success");
-          redirect("manage_account");
+            set_flash_message("Profile Information has updated successfully. <br> Please sign in again to verify the updated email.", "success");
+            redirect('');
+          } else {
+            $_SESSION['USER']->email = $updateData['email'];
+            $_SESSION['USER']->phone_number = $updateData['phone_number'];
+            $_SESSION['USER']->first_name = $updateData['first_name'];
+            $_SESSION['USER']->last_name = $updateData['last_name'];
+            $_SESSION['USER']->address = $updateData['address'];
+            $_SESSION['USER']->uploaded_profile_photo_path = $uploadedFilePath;
+
+            set_flash_message("Profile information has been updated successfully.", "success");
+            redirect("manage_account");
+          }
         } else {
           set_flash_message("Error updating profile information. Please try again.", "error");
           redirect("manage_account");
@@ -135,12 +147,24 @@ class Manage_account
       }
         
       if ($updateUser) {
-        $_SESSION['USER']->email = $updateData['email'];
-        $_SESSION['USER']->first_name = $updateData['first_name'];
-        $_SESSION['USER']->last_name = $updateData['last_name'];
+        if ($_SESSION['USER']->email !== $updateData['email']) {
+          // Change the verification status to not_verified
+          $user->update(['user_id' => $_SESSION['USER']->user_id], ['verification_status' => 'not_verified']);
+            
+          // Log out the user by unsetting the specific session variable
+          unset($_SESSION['USER']);
+          unset($_SESSION['authenticated']);
+          
+          set_flash_message("Profile Information has updated successfully. <br> Please sign in again to verify the updated email.", "success");
+          redirect('');
+        } else {
+          $_SESSION['USER']->email = $updateData['email'];
+          $_SESSION['USER']->first_name = $updateData['first_name'];
+          $_SESSION['USER']->last_name = $updateData['last_name'];
 
-        set_flash_message("Profile information has been updated successfully.", "success");
-        redirect("manage_account");
+          set_flash_message("Profile information has been updated successfully.", "success");
+          redirect("manage_account");
+        }
       } else {
         set_flash_message("Error updating profile information. Please try again.", "error");
         redirect("manage_account");
