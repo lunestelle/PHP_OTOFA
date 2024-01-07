@@ -152,7 +152,7 @@
 </div>
 
 
-<div class="m-3">
+<div class="m-3 pb-3">
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-md-4 col-sm-12 card-details">
@@ -193,7 +193,7 @@
   </div>
 </div>
 
-<div class="d-none d-lg-block">
+<!-- <div class="d-none d-lg-block">
   <div class="py-3 mx-3">
     <div class="divider"></div>
   </div>
@@ -274,7 +274,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <script>
   document.querySelector('.select-photo-btn').addEventListener('click', function() {
