@@ -71,6 +71,7 @@ function modal_submission() {
             });
           }, 2000);
         } else {
+          _el.addClass('alert alert-danger');
           _el.text(resp.msg);
           _el.hide();
           _this.prepend(_el);

@@ -14,8 +14,8 @@ class Drivers
   $driverModel = new Driver();
   $driversData = $driverModel->where(['user_id' => $_SESSION['USER']->user_id]);
 
-  $tricycleModel = new Tricycle();
-  $tricyclesData = $tricycleModel->findAll();
+  $tricycleCinModel = new TricycleCinNumber();
+  $tricycleCinData = $tricycleCinModel->findAll();
 
   $data['drivers'] = [];
   $data['index'] = 1;
@@ -24,10 +24,10 @@ class Drivers
     foreach ($driversData as $driver) {
       $tricyclePlateNo = '';
 
-      if (!empty($tricyclesData)){
-        foreach ($tricyclesData as $tricycle) {
-          if ($driver->tricycle_id === $tricycle->tricycle_id) {
-            $tricyclePlateNo = $tricycle->plate_no;
+      if (!empty($tricycleCinData)){
+        foreach ($tricycleCinData as $tricycle) {
+          if ($driver->tricycle_cin_number_id === $tricycle->tricycle_cin_number_id) {
+            $tricyclePlateNo = $tricycle->cin_number;
             break;
           }
         }
@@ -44,6 +44,28 @@ class Drivers
         'tricycle_plate_number' => $tricyclePlateNo ?? '',
       ];
     }
+  }
+
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
+    $csvData = [];
+    $csvData[] = ['Drivers'];
+    $csvData[] = [
+      'Name', 'Birthdate', 'Address', 'Phone No.', 'License No.', 'License Validity', 'Tricycle Plate No.'
+    ];
+
+    foreach ($data['drivers'] as $driver) {
+      $csvData[] = [
+        $driver['name'],
+        $driver['birthdate'],
+        $driver['address'],
+        $driver['phone_no'],
+        $driver['license_no'],
+        $driver['license_validity'],
+        $driver['tricycle_plate_number'],
+      ];
+    }
+
+    downloadCsv($csvData, 'Drivers_Export');
   }
 
     echo $this->renderView('drivers', true, $data);

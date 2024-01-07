@@ -6,6 +6,13 @@
     <div class="col-lg-12">
       <div class="row">
         <div class="col-12">
+          <?php if (!empty($users)): ?>
+            <div class="mt-3 text-end">
+              <form method="post" action="">
+                <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
+              </form>
+            </div>
+          <?php endif; ?>
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
               <thead class="thead-custom">
@@ -24,7 +31,7 @@
                   <tr>
                     <td><?php echo $user['full_name']; ?></td>
                     <td><?php echo empty($user['phone_number']) ? '----------------' : $user['phone_number']; ?></td>
-                    <td><?php echo empty($user['email']) ? '----------------' : $user['email']; ?></td>
+                    <td style="text-transform: lowercase;"><?php echo empty($user['email']) ? '' : $user['email']; ?></td>
                     <td><?php echo empty($user['address']) ? '----------------' : $user['address']; ?></td>
                     <td>
                       <?php if (empty($user['tricycles'])): ?>

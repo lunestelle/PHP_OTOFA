@@ -12,9 +12,12 @@ class Appointment
     'phone_number',
     'email',
     'appointment_type',
+    'transfer_type',
     'appointment_date',
     'appointment_time',
-    'status'
+    'status',
+    'comments',
+    'date_created',
   ];
   protected $order_column = 'appointment_id';
 
@@ -24,6 +27,7 @@ class Appointment
 
     $requiredFields = [
       'name' => 'Full Name',
+      'email' => 'Email',
       'appointment_type' => 'Appointment Type',
       'appointment_date' => 'Preferred Date',
       'appointment_time' => 'Preferred Time'
@@ -95,6 +99,7 @@ class Appointment
 
     $requiredFields = [
       'name' => 'Full Name',
+      'email' => 'Email',
       'appointment_type' => 'Appointment Type',
       'appointment_date' => 'Preferred Date',
       'appointment_time' => 'Preferred Time'
@@ -133,7 +138,7 @@ class Appointment
     } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
       $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
-      $errors[] = 'Appointments cannot be scheduled more than <br> 30 days in advance.';
+      $errors[] = 'Appointments cannot be scheduled more than <br> 15 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
       $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
     }
@@ -153,7 +158,12 @@ class Appointment
 
   private function isSlotTaken($date, $time)
   {
-    $existingAppointment = $this->first(['appointment_date' => $date, 'appointment_time' => $time]);
+    $existingAppointment = $this->first([
+      'appointment_date' => $date,
+      'appointment_time' => $time,
+      'status' => 'Pending',
+    ]);
+
     return !empty($existingAppointment);
   }
 
@@ -236,7 +246,7 @@ class Appointment
   private function hasMaximumDailyAppointments($date)
   {
     // Assuming the appointments are in 1-hour intervals
-    $totalSlots = 12; // Total available slots in a day
+    $totalSlots = 30; // Total available slots in a day
     $appointments = $this->where(['appointment_date' => $date]);
 
     // Check if $appointments is a valid result set (array or object)
@@ -265,5 +275,38 @@ class Appointment
     // Check if the date is in the array of blackout dates (e.g., holidays, maintenance days)
     $blackoutDates = ['2023-12-25', '2023-12-31'];
     return in_array($date, $blackoutDates);
+  }
+
+  public function getUniqueYears()
+  {
+    $query = "SELECT DISTINCT YEAR(appointment_date) AS year FROM {$this->table} ORDER BY year DESC";
+    $result = $this->query($query);
+
+    $years = [];
+    foreach ($result as $row) {
+      $years[] = $row->year;
+    }
+
+    return $years;
+  }
+
+  public function getAppointmentsReports($selectedYear)
+  {
+    $query = "
+      SELECT
+        a.user_id,
+        o.first_name,
+        o.last_name,
+        a.phone_number,
+        COUNT(*) AS total_appointments,
+        SUM(CASE WHEN a.status = 'Pending' THEN 1 ELSE 0 END) AS pending_appointments,
+        SUM(CASE WHEN a.status = 'Completed' THEN 1 ELSE 0 END) AS completed_appointments
+      FROM {$this->table} a
+      JOIN users o ON a.user_id = o.user_id
+      WHERE YEAR(a.appointment_date) = :selectedYear
+      GROUP BY a.user_id
+      ORDER BY a.user_id";
+
+    return $this->query($query, ['selectedYear' => $selectedYear]);
   }
 }

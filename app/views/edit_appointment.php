@@ -27,9 +27,9 @@
                         </div>
                       </div>
                       <div class="col-4 px-5">
-                        <label for="email" class="form-label">Email (Optional)</label>
+                        <label for="email" class="form-label">Email</label>
                         <div class="input-group">
-                          <input type="email" class="form-control phone-no" id="email" name="email" value="<?php echo isset($email) ? $email : ''; ?>">
+                          <input type="email" class="form-control phone-no" id="email" name="email" value="<?php echo isset($email) ? $email : ''; ?>" required>
                         </div>
                       </div>
                     </div>
@@ -65,6 +65,8 @@
                               <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
                               <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
                             </select>
+                          <?php else: ?>
+                            <input type="hidden" name="status" value="<?php echo isset($status) ? $status : ''; ?>">
                           <?php endif; ?>
                         </div>
                       </div>
@@ -153,40 +155,77 @@
                     </div>
 
                     <div class="col-12 d-flex mb-2">
-                      <div class="col-4 px-5">
-                        <label for="plate_number" class="form-label">Plate Number</label>
-                        <input type="text" class="form-control" id="plate_number" name="plate_number" value="<?php echo isset($plate_number) ? $plate_number : ''; ?>" min="0" required>
-                      </div>
-                      <div class="col-4 px-5">
-                        <label for="lto_cr_no" class="form-label">LTO CR Number</label>
-                        <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?php echo isset($lto_cr_no) ? $lto_cr_no : ''; ?>" required>
-                      </div>
-                      <div class="col-4 px-5">
-                        <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                        <input type="text" class="form-control" id="lto_or_no" name="lto_or_no" value="<?php echo isset($lto_or_no) ? $lto_or_no : ''; ?>" required>
-                      </div>
+                      <?php if (!empty($tricycles)): ?>
+                        <div class="col-4 px-5">
+                          <label for="plate_number" class="form-label">Tricycle CIN</label>
+                          <select class="form-control" id="tricycle_id" name="tricycle_id">
+                            <option value="" disabled <?php echo (!isset($tricycleApplicationFormData['tricycle_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
+                            <?php foreach ($data['tricycles'] as $tricycle): ?>
+                              <option value="<?php echo $tricycle['tricycle_id']; ?>" <?php echo (isset($tricycleApplicationFormData['tricycle_id']) && $tricycleApplicationFormData['tricycle_id'] == $tricycle['tricycle_id']) ? 'selected' : ''; ?>>
+                                <?php echo $tricycle['plate_no']; ?>
+                              </option>
+                            <?php endforeach; ?>
+                          </select>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="lto_cr_no" class="form-label">LTO CR Number</label>
+                          <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?php echo isset($lto_cr_no) ? $lto_cr_no : ''; ?>" required>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="lto_or_no" class="form-label">LTO OR Number</label>
+                          <input type="text" class="form-control" id="lto_or_no" name="lto_or_no" value="<?php echo isset($lto_or_no) ? $lto_or_no : ''; ?>" required>
+                        </div>
+                      <?php else: ?>
+                        <div class="col-4 px-5">
+                          <label for="tricycle_id" class="form-label">Tricycle CIN</label>
+                          <input type="text" class="form-control" id="tricycle_id" name="tricycle_id" value="" min="0" disabled>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="lto_cr_no" class="form-label">LTO CR Number</label>
+                          <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="" disabled>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="lto_or_no" class="form-label">LTO OR Number</label>
+                          <input type="text" class="form-control" id="lto_or_no" name="lto_or_no" value="" disabled>
+                        </div>
+                      <?php endif; ?>
                     </div>
 
                     <div class="col-12 d-flex mb-2">
-                      <div class="col-4 px-5">
-                        <label for="driver_id" class="form-label">Name of Driver</label>
-                        <select class="form-control" id="driver_id" name="driver_id">
-                          <option value="" disabled <?php echo (!isset($driver_id)) ? 'selected' : ''; ?>>Please Select Here</option>
-                          <?php foreach ($drivers as $driver): ?>
-                            <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($driver_id) && $driver_id == $driver['driver_id']) ? 'selected' : ''; ?>>
-                              <?php echo $driver['name']; ?>
-                            </option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-                      <div class="col-4 px-5">
-                        <label for="driver_license_no" class="form-label">Driver License Number</label>
-                        <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?php echo isset($driver_license_no) ? $driver_license_no : ''; ?>">
-                      </div>
-                      <div class="col-4 px-5">
-                        <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
-                        <input type="date" class="form-control" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?php echo isset($driver_license_expiry_date) ? $driver_license_expiry_date : ''; ?>">
-                      </div>
+                      <?php if (!empty($tricycles)): ?>
+                        <div class="col-4 px-5">
+                          <label for="driver_id" class="form-label">Name of Driver</label>
+                          <select class="form-control" id="driver_id" name="driver_id">
+                            <option value="" disabled <?php echo (!isset($driver_id)) ? 'selected' : ''; ?>>Please Select Here</option>
+                            <?php foreach ($drivers as $driver): ?>
+                              <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($driver_id) && $driver_id == $driver['driver_id']) ? 'selected' : ''; ?>>
+                                <?php echo $driver['name']; ?>
+                              </option>
+                            <?php endforeach; ?>
+                          </select>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="driver_license_no" class="form-label">Driver License Number</label>
+                          <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?php echo isset($driver_license_no) ? $driver_license_no : ''; ?>">
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
+                          <input type="date" class="form-control" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?php echo isset($driver_license_expiry_date) ? $driver_license_expiry_date : ''; ?>">
+                        </div>
+                        <?php else: ?>
+                        <div class="col-4 px-5">
+                          <label for="driver_id" class="form-label">Name of Driver</label>
+                          <input type="text" class="form-control" id="driver_id" name="driver_id" value="" disabled>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="driver_license_no" class="form-label">Driver License Number</label>
+                          <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="" disabled>
+                        </div>
+                        <div class="col-4 px-5">
+                          <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
+                          <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="" disabled>
+                        </div>
+                      <?php endif; ?>
                     </div>
                   </div>
                 </div>

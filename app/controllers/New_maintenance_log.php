@@ -11,20 +11,20 @@ class New_maintenance_log
 			redirect('');
 		}
 
-    $tricycleModel = new Tricycle();
-		$tricycles = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
-		$data['tricycles'] = [];
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinNumbers = $tricycleCinModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    $data['tricycleCinNumbers'] = [];
+    if (is_array($tricycleCinNumbers) || is_object($tricycleCinNumbers)) {
+      foreach ($tricycleCinNumbers as $cinNumberId) {
+        $data['tricycleCinNumbers'][$cinNumberId->tricycle_cin_number_id] = [
+          'cin_number' => $cinNumberId->tricycle_cin_number_id,
+        ];
+      }
+    } else {
+      $data['tricycleCinNumbers'] = [];
+    }
 
-		if (is_array($tricycles) || is_object($tricycles)) {
-			foreach ($tricycles as $tricycle) {
-				$data['tricycles'][$tricycle->tricycle_id] = [
-					'tricycle_id' => $tricycle->tricycle_id,
-					'plate_no' => $tricycle->plate_no
-				];
-			}
-		} else {
-			$data['tricycles'] = [];
-		}
+    asort($data['tricycleCinNumbers']);
 
     $driverModel = new Driver();
     $drivers = $driverModel->where(['user_id' => $_SESSION['USER']->user_id]);
@@ -44,7 +44,7 @@ class New_maintenance_log
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$userId = $_SESSION['USER']->user_id;
       $logData = [
-        'tricycle_id' => $_POST['tricycle_id'] ?? '',
+        'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id'] ?? '',
         'driver_id' => $_POST['driver_id'] ?? '',
         'expense_date' => $_POST['date'] ?? '',
         'total_expenses' => $_POST['total_expenses'] ?? '',
@@ -58,28 +58,28 @@ class New_maintenance_log
 			if (!empty($errors)) {
         $errorMessage = $errors[0];
         set_flash_message($errorMessage, "error");
-        $data['logData'] = $logData;
+        $data = array_merge($data, $logData);
       } else {
 				if (!empty($_FILES['expenses_receipt_image']['name'])) {
 					$imagePaths = $this->handleFileUploads($logData);
 
           if ($imagePaths === false) {
             set_flash_message("Failed to upload images.", "error");
-            redirect('maintenance_log');
+            redirect('maintenance_logs');
           }
 
           $logData['expenses_receipt_image_path'] = $imagePaths['expenses_receipt_image'];
 
 					if ($maintenanceLogModel->insert($logData)) {
 						set_flash_message("Maintenance Log added successfully.", "success");
-            redirect('maintenance_log');
+            redirect('maintenance_logs');
           } else {
             set_flash_message("Failed to add Maintenance Log. Please try again.", "error");
           }
 				} else {
 					if ($maintenanceLogModel->insert($logData)) {
 						set_flash_message("Maintenance Log added successfully.", "success");
-            redirect('maintenance_log');
+            redirect('maintenance_logs');
           } else {
             set_flash_message("Failed to add Maintenance Log. Please try again.", "error");
           }

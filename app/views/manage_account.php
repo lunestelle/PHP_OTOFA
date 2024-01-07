@@ -76,16 +76,21 @@
                     <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo isset($last_name) ? $last_name : '' ?>" required>
                   </div>
                   <div class="col-md-8 mb-3">
+                    <div class="phone_verification_flash_msg"></div>
                     <label for="phone_number" class="form-label">Phone Number</label>
-                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?php echo isset($phone_number) ? $phone_number : '' ?>">
+                    <?php if ($phone_status === 'Not Verified') { ?>
+                      <span class="badge bg-danger text-white">NOT VERIFIED</span>
+                      <button type="button" class="btn btn-primary" id="verifyPhoneNumberBtn">Verify</button>
+                    <?php } ?>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?php echo isset($phone_number) ? $phone_number : '' ?>" required>
                   </div>
                   <div class="col-md-8 mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($email) ? $email : '' ?>">
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($email) ? $email : '' ?>" required>
                   </div>
                   <div class="col-md-8">
                     <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" value="<?php echo isset($address) ? $address : '' ?>">
+                    <input type="text" class="form-control" id="address" name="address" value="<?php echo isset($address) ? $address : '' ?>" required>
                   </div>
                 </div>
               </div>
@@ -106,7 +111,48 @@
   </div>
 </div>
 
-<div class="m-3">
+<div class="verification-container">
+  <div class="verification-section" style="display: none;">
+    <div class="m-3">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-md-4 col-12 card-details">
+            <h6>Verify Phone Number</h6>
+            <p>Verify your account phone number.</p>
+          </div>
+          <div class="col-md-8 col-12">
+            <div class="card card-container">
+              <div class="card-body card-col">
+                <form method="POST" action="<?=ROOT?>/verify_phone_number">
+                  <div class="row">
+                    <div class="col-md-12 col-12">
+                      <div class="col-md-8 mb-3">
+                        <label for="verification_code" class="form-label">Verification Code</label>
+                        <input type="text" class="form-control" id="verification_code" name="verification_code" required>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="text-end mt-1">
+                    <button type="submit" class="btn manage-save-btn" name="phone_no_verification_code_btn">Save</button>
+                    <button type="button" class="btn manage-save-btn" name="cancel_verification_btn">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block">
+      <div class="py-3 mx-3">
+        <div class="divider"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="m-3 pb-3">
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-md-4 col-sm-12 card-details">
@@ -147,7 +193,7 @@
   </div>
 </div>
 
-<div class="d-none d-lg-block">
+<!-- <div class="d-none d-lg-block">
   <div class="py-3 mx-3">
     <div class="divider"></div>
   </div>
@@ -228,7 +274,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <script>
   document.querySelector('.select-photo-btn').addEventListener('click', function() {
@@ -248,7 +294,75 @@
       }
     };
     input.click();
-  }); 
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const verificationSection = document.querySelector('.verification-section');
+    const verifyPhoneNumberBtn = document.getElementById('verifyPhoneNumberBtn');
+    const verificationCodeInput = document.getElementById('verification_code');
+    const cancelBtn = document.querySelector('[name="cancel_verification_btn"]');
+    const phoneVerifiedBadge = document.querySelector('.badge.bg-success');
+    const phoneNumberInput = document.getElementById('phone_number');
+    const phoneVerified = <?php echo $phone_status === 'Verified' ? 'true' : 'false' ?>;
+
+    // Function to show the verification section
+    function showVerificationSection() {
+      verificationSection.style.display = 'block';
+      verifyPhoneNumberBtn.style.display = 'none';
+    }
+
+    // Function to hide the verification section
+    function hideVerificationSection() {
+      verificationSection.style.display = 'none';
+      verifyPhoneNumberBtn.style.display = 'block';
+    }
+
+    // Function to handle verification button click
+    if (!phoneVerified) {
+      verifyPhoneNumberBtn.addEventListener('click', function () {
+        showVerificationSection();
+
+        const phoneNumber = phoneNumberInput.value;
+
+        $.ajax({
+          url: 'verify_phone_number',
+          method: 'POST',
+          data: { phoneNumber: phoneNumber },
+          dataType: 'JSON',
+          success: function(response) {
+            if (response.status == 'success') {
+              console.log('Verification code sent successfully');
+
+            const phoneVerificationMessage = document.querySelector('.phone_verification_flash_msg');
+
+            phoneVerificationMessage.className = 'alert alert-success mt-2';
+            phoneVerificationMessage.textContent = response.message;
+
+            setTimeout(function () {
+                phoneVerificationMessage.className = '';
+                phoneVerificationMessage.textContent = '';
+              }, 5000);
+
+            } else {
+              console.log('Failed to send verification code. Please try again.');
+            }
+          },
+          error: function(err) {
+            console.log(err);
+            var errorElement = document.createElement('div');
+            errorElement.textContent = "An error occurred.";
+          },
+        });
+      });
+    }
+
+    cancelBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      hideVerificationSection();
+    });
+
+    if (phoneVerified) {
+      hideVerificationSection();
+    }
+  });
 </script>
-
-

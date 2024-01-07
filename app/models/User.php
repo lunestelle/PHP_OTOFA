@@ -14,7 +14,12 @@ class User
 		'address',
 		'password',
 		'uploaded_profile_photo_path',
-		'generated_profile_photo_path'
+		'generated_profile_photo_path',
+		'verification_token',
+		'verification_status',
+		'token_expiration',
+		'phone_verification_code',
+		'phone_number_status',
 	];
 	protected $order_column = 'user_id';
 	public $errors = [];
@@ -24,11 +29,14 @@ class User
 		$first_name = $data['first_name'];
 		$last_name = $data['last_name'];
 		$address = $data['address'];
-		$emailOrPhone = $data['email_or_phone'];
+		$email = $data['email'];
+		$phone_number = $data['phone_number'];
 		$password = $data['password'];
 		$password_confirmation = $data['password_confirmation'];
+		$verification_token = $data['verification_token'];
 
-		$this->validateEmailOrPhone($emailOrPhone);
+		$this->validateEmail($email);
+		$this->validatePhoneNumber($phone_number);
 		$this->validatePassword($password, $password_confirmation);
 
 		if (empty($first_name) && empty($last_name)) {
@@ -42,6 +50,12 @@ class User
 			$this->addError('address', 'Address is required.');
 		}
 
+		if (empty($verification_token)) {
+			$this->addError('verification_token', 'Verification token is required.');
+		} elseif ($this->isVerificationTokenUsed($verification_token)) {
+			$this->addError('verification_token', 'Verification token has already been used.');
+		}
+
 		// Return false if there are any errors
 		if (!empty($this->errors)) {
 			return false;
@@ -49,6 +63,14 @@ class User
 
 		return true;
 	}
+
+	public function isVerificationTokenUsed($verification_token)
+	{
+			// Check if the token has already been used by verifying the verification_status
+			$result = $this->where(['verification_token' => $verification_token, 'verification_status' => 'verified']);
+			return !empty($result);
+	}
+	
 
 	public function validateEmailOrPhone($emailOrPhone)
 	{
@@ -60,6 +82,29 @@ class User
 			$this->addError('email_or_phone', "The email address '$emailOrPhone' has already been taken.");
 		} elseif (preg_match('/^(?:\+639[0-9]{9}|09[0-9]{9})$/', $emailOrPhone) && !empty($this->where(['phone_number' => $emailOrPhone]))) {
 			$this->addError('email_or_phone', "The phone number '$emailOrPhone' has already been taken.");
+		}
+	}
+
+	private function validatePhoneNumber($phone_number)
+	{
+		if (empty($phone_number)) {
+			$this->addError('phone_number', 'Phone number is required.');
+		} elseif (!preg_match('/^(?:\+639[0-9]{9}|09[0-9]{9})$/', $phone_number)) {
+			$this->addError('phone_number', 'Invalid phone number format.');
+		} elseif (!empty($this->where(['phone_number' => $phone_number]))) {
+			$this->addError('phone_number', "The phone number '$emailOrPhone' has already been taken.");
+		}
+	}
+
+
+	private function validateEmail($email)
+	{
+		if (empty($email)) {
+			$this->addError('email', 'Email is required.');
+		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$this->addError('email', 'Invalid email format.');
+		} elseif ($this->emailExists($email)) {
+			$this->addError('email', 'Email is already taken.');
 		}
 	}
 
@@ -79,37 +124,61 @@ class User
 	public function validate_profile_info($data)
 	{
 		$sessionEmail = $_SESSION['USER']->email;
-    $email = $data['email'];
-    $phone_number = $data['phone_number'];
-    $first_name = $data['first_name'];
-    $last_name = $data['last_name'];
+		$sessionPhone = $_SESSION['USER']->phone_number;
+		$email = $data['email'];
+		$phone_number = $data['phone_number'];
+		$first_name = $data['first_name'];
+		$last_name = $data['last_name'];
+		$address = $data['address'];
 
-    if (empty($email) && empty($phone_number)) {
-			$this->addError('email_or_phone', 'Please provide either an email address or a phone number.');
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			$this->addError('email', 'Invalid email format.');
-    } elseif (empty($first_name) && empty($last_name)) {
+		if (empty($address)) {
+			$this->addError('address', 'Address is required.');
+		} elseif (empty($first_name) && empty($last_name)) {
 			$this->addError('first_name', 'First name and last name are required.');
-    } else {
+		} else {
 			$this->validateRequired($first_name, 'first_name');
 			$this->validateRequired($last_name, 'last_name');
-    }
-
-    if ($sessionEmail !== $email) {
-			$existingUser = $this->where(['email' => $email]);
-			if (!empty($existingUser)) {
-				$this->addError('email', 'This email is already in use by another user.');
+		}
+	
+		if (empty($this->errors)) {
+			if (!empty($email)) {
+				if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+					$this->addError('email', 'Invalid email format.');
+				} elseif ($sessionEmail !== $email) {
+					$existingUser = $this->where(['email' => $email]);
+					if (!empty($existingUser)) {
+						$this->addError('email', 'This email is already in use by another user.');
+					}
+				}
+			} else {
+				$this->addError('email', 'Email is required.');
 			}
-    }
+		}
+	
+		if (empty($this->errors)) {
+			if (!empty($phone_number)) {
+				if (!preg_match('/^(?:\+639[0-9]{9}|09[0-9]{9})$/', $phone_number)) {
+					$this->addError('phone_number', "Invalid phone number format. Please make sure <br> to enter a valid 10-digit number after '+63'.");
+				} elseif ($sessionPhone !== $phone_number) {
+					$existingUser = $this->first(['phone_number' => $phone_number]); // Use first() to get a single result
 
-    if (!empty($this->errors)) {
+					// Check if the phone number is in use by another user
+					if (!empty($existingUser) && $existingUser->user_id !== $_SESSION['USER']->user_id) {
+						$this->addError('phone_number', 'This phone number is already in use by another user.');
+					}
+				}
+			} else {
+				$this->addError('phone_number', 'Phone number is required.');
+			}
+		}
+
+		if (!empty($this->errors)) {
 			return false;
-    }
+		}
 
-    return true;
+		return true;
 	}
-
-
+	
 	public function getErrors()
 	{
 		return $this->errors;
@@ -153,16 +222,6 @@ class User
 		return true;
 	}
 
-	private function validateEmail($email)
-	{
-		if (empty($email)) {
-			$this->addError('email', 'Email is required.');
-		} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			$this->addError('email', 'Invalid email format.');
-		} elseif ($this->emailExists($email)) {
-			$this->addError('email', 'Email is already taken.');
-		}
-	}
 
 	private function validateRequired($value, $field)
 	{

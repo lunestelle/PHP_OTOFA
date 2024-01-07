@@ -9,22 +9,24 @@
           <div class="col-12">
             <div class="overview-wrapper">
               <div class="container gap-5 px-5 mb-4 pb-3">
-                <a href="./tricycles?status=active" class="text-black">
-                  <div class="overview-container">
-                    <div class="image-bg rounded-circle"> </div>
-                    <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
-                    <h5><?php echo $userTricycleCount; ?></h5>
-                    <p>Active Tricycles</p>
-                  </div>
-                </a>
-                <a href="./drivers" class="text-black">
-                  <div class="overview-container">
-                    <div class="image-bg rounded-circle"> </div>
-                    <i class="fa-solid fa-user fa-2xl" style="color: #ffffff;"></i>
-                    <h5><?php echo $userDriverCount; ?></h5>
-                    <p>Drivers</p>
-                  </div>
-                </a>
+                <?php if ($userHasCin) { ?>
+                  <a href="./tricycles?status=active" class="text-black">
+                    <div class="overview-container">
+                      <div class="image-bg rounded-circle"> </div>
+                      <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
+                      <h5><?php echo $userTricycleCount; ?></h5>
+                      <p>Active Tricycles</p>
+                    </div>
+                  </a>
+                  <a href="./drivers" class="text-black">
+                    <div class="overview-container">
+                      <div class="image-bg rounded-circle"> </div>
+                      <i class="fa-solid fa-user fa-2xl" style="color: #ffffff;"></i>
+                      <h5><?php echo $userDriverCount; ?></h5>
+                      <p>Drivers</p>
+                    </div>
+                  </a>
+                <?php } ?>
                 <a href="./appointments?status=pending" class="text-black">
                  <div class="overview-container">
                     <div class="image-bg rounded-circle"> </div>

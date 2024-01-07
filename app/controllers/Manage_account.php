@@ -21,6 +21,7 @@ class Manage_account
       'address' => $userData->address,
       'phone_number' => $userData->phone_number,
       'profile_photo' => $userData->uploaded_profile_photo_path ?: $userData->generated_profile_photo_path,
+      'phone_status' => $userData->phone_number_status,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -35,6 +36,11 @@ class Manage_account
         'new_password' => $_POST['new_password'],
         'password_confirmation' => $_POST['password_confirmation'],
       ];
+
+      // Format the phone number if it's in the example format (09513662322)
+      if (preg_match('/^09[0-9]{9}$/', $postData['phone_number'])) {
+        $postData['phone_number'] = '+63' . substr($postData['phone_number'], 1);
+      }
 
       if (isset($_POST['profile_info_save_btn'])) {
         if ($user->validate_profile_info($postData)) {
@@ -102,8 +108,10 @@ class Manage_account
         
         if ($updateUser) {
           $_SESSION['USER']->email = $updateData['email'];
+          $_SESSION['USER']->phone_number = $updateData['phone_number'];
           $_SESSION['USER']->first_name = $updateData['first_name'];
           $_SESSION['USER']->last_name = $updateData['last_name'];
+          $_SESSION['USER']->address = $updateData['address'];
           $_SESSION['USER']->uploaded_profile_photo_path = $uploadedFilePath;
 
           set_flash_message("Profile information has been updated successfully.", "success");

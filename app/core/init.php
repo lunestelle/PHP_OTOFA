@@ -1,4 +1,5 @@
 <?php 
+date_default_timezone_set('Asia/Manila'); 
 
 spl_autoload_register(function($classname){
 	require $filename = "app/models/".ucfirst($classname).".php";

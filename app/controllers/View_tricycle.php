@@ -16,33 +16,68 @@ class View_tricycle
     $tricycleModel = new Tricycle();
     $tricycleData = $tricycleModel->first(['tricycle_id' => $tricycleId]);
 
+    $tricycleApplicationModel = new TricycleApplication();
+    $tricycleApplicationData = $tricycleApplicationModel->first(['tricycle_application_id' => $tricycleData->tricycle_application_id]);
+
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinData =  $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+
+    $mtopModel = new MtopRequirement();
+    $mtopNewFranchiseData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_new_franchise_id]);
+    $mtopRenewalFranchiseData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_renewal_franchise_id]);
+    $mtopTransferOwnershipData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_transfer_ownership_id]);
+    $mtopIntentTransferData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_intent_of_transfer_id]);
+    $mtopTransferFromDeceasedData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_transfer_from_deceased_id]);
+    $mtopChangeMotorcycleData =  $mtopModel->first(['mtop_requirement_id' => $tricycleData->mtop_requirements_change_motorcycle_id]);
+
+    $appointmentModel = new Appointment();
+    $appointmentData =  $appointmentModel->first(['appointment_id' => $tricycleApplicationData->appointment_id]);
+
+    $driverModel = new Driver();
+    $driverData = $driverModel->first(['driver_id' => $tricycleApplicationData->driver_id]);
+
     if (!$tricycleData) {
       set_flash_message("Tricycle not found.", "error");
+    } elseif (!$tricycleApplicationData) {
+      set_flash_message("Tricycle application data not found.", "error");
+    } elseif (!$tricycleCinData) {
+      set_flash_message("Tricycle CIN data not found.", "error");
+    } elseif (!$appointmentData) {
+      set_flash_message("Appointment data not found.", "error");
+    }
+
+    if (!$tricycleData || !$tricycleApplicationData || !$tricycleCinData || !$appointmentData) {
       redirect('tricycles');
     }
+
 
     $userModel = new User();
     $userData = $userModel->first(['user_id' => $tricycleData->user_id]);
 
     $data = [
-      'plate_no' => $tricycleData->plate_no,
-      'make_model' => $tricycleData->make_model,
-      'year_acquired' => $tricycleData->year_acquired,
-      'color_code' => $tricycleData->color_code,
-      'route_area' => $tricycleData->route_area,
-      'tricycle_status' => $tricycleData->tricycle_status,
-      'user_name' => isset($userData) ? $userData->first_name . ' ' . $userData->last_name : '',
-      'or_no' => $tricycleData->or_no,
-      'or_date' => $tricycleData->or_date,
-      'front_view_image_path' => $tricycleData->front_view_image_path,
-      'side_view_image_path' => $tricycleData->side_view_image_path,
+      'tricycle_id' => $tricycleData->tricycle_id,
+      'status' => $tricycleData->status,
+      'cin' => $tricycleCinData ? $tricycleCinData->cin_number : 'N/A',
+      'tricycleApplicationData' => $tricycleApplicationData,
+      'appointmentType' => $appointmentData->appointment_type,
+      'transferType' => $appointmentData->transfer_type,
+      'mtopNewFranchiseData' => $mtopNewFranchiseData,
+      'mtopRenewalFranchiseData' => $mtopRenewalFranchiseData,
+      'mtopTransferOwnershipData' => $mtopTransferOwnershipData,
+      'mtopIntentTransferData' => $mtopIntentTransferData,
+      'mtopTransferFromDeceasedData' => $mtopTransferFromDeceasedData,
+      'mtopChangeMotorcycleData' => $mtopChangeMotorcycleData,
     ];
+
+    if ($driverData) {
+      $data['driver_name'] = $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name;
+    }
 
     $taripasModel = new Taripas();
     $rateAdjustmentModel = new RateAdjustment();
     $recentTaripaData = [];
     $rate_adjustments_years = [];
-    $routeArea = $data['route_area'];
+    $routeArea = $tricycleApplicationData->route_area;
 
     if ($routeArea === 'Free Zone & Zone 2') {
       $taripaData = $taripasModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 2']);

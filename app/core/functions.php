@@ -1,15 +1,22 @@
 <?php
 
-use Infobip\Configuration;
+require 'public/phpmailer/src/Exception.php';
+require 'public/phpmailer/src/PHPMailer.php';
+require 'public/phpmailer/src/SMTP.php';
+
+require 'public/vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 use Infobip\Api\SmsApi;
+use Infobip\Configuration;
+use Infobip\Model\SmsAdvancedTextualRequest;
 use Infobip\Model\SmsDestination;
 use Infobip\Model\SmsTextualMessage;
-use Infobip\Model\SmsAdvancedTextualRequest;
-use Twilio\Rest\Client;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\RequestException;
 
-require "public/vendor/autoload.php";
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 
 function show($stuff)
 {
@@ -77,7 +84,7 @@ function display_flash_message()
 
 function checkInactivityTimeout()
 {
-	$timeoutDuration = 900; // 15 minutes in seconds
+	$timeoutDuration = 3600; // 1 hr in seconds
 
 	if (is_authenticated()) {
 		if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeoutDuration) {
@@ -140,31 +147,39 @@ function generateProfilePicture($initials) {
 
 function sendSms($phoneNumber, $message)
 {
-	// First SMS Gateway (Infobip)
-	$infobipBaseUrl = "xl9v6g.api.infobip.com";
+	$infobipBaseUrl = "https://xl9v6g.api.infobip.com";
 	$infobipApiKey = "99213ffff87a1b97867d5365edfdac3b-8d2c3f10-e175-4afd-8307-d6940b95fc26";
 
 	$infobipConfiguration = new Configuration(host: $infobipBaseUrl, apiKey: $infobipApiKey);
-	$infobipApi = new SmsApi(config: $infobipConfiguration);
+	$infobipSmsApi = new SmsApi(config: $infobipConfiguration);
 	$infobipDestination = new SmsDestination(to: $phoneNumber);
 	$infobipMessage = new SmsTextualMessage(
 		destinations: [$infobipDestination],
 		text: $message,
-		from: "sakaycle.com"
+		from: "Sakaycle"
 	);
 	$infobipRequest = new SmsAdvancedTextualRequest(messages: [$infobipMessage]);
 
 	try {
-		return $infobipApi->sendSmsMessage($infobipRequest);
+		return $infobipSmsApi->sendSmsMessage($infobipRequest);
+		
+		// Check if the Infobip SMS was sent successfully
+		// $smsResponse = $infobipSmsApi->sendSmsMessage($infobipRequest);
+		// if ($smsResponse->getMessages()[0]->getStatus()->getName() === 'DELIVERED') {
+		// 	return ['success' => true, 'message' => 'Infobip SMS sent successfully'];
+		// } else {
+		// 		return ['success' => false, 'message' => 'Infobip SMS sending failed'];
+		// }
 	} catch (\Exception $infobipException) {
-		// Second SMS Gateway (SmsGateway24)
+		// echo("HTTP Code: " . $infobipException->getCode() . "\n");
+
 		$smsGateway24BaseUrl = "https://smsgateway24.com";
 		$smsGateway24Endpoint = "/getdata/addsms";
 		$smsGateway24ApiKey = "02936db9235ef9d923ff9cb9661784a6"; 
 
 		$guzzleClient = new Client([
 			'base_uri' => $smsGateway24BaseUrl,
-			'timeout' => 2.0,
+			'timeout' => 50.0,
 		]);
 
 		$paramsArr = [
@@ -172,7 +187,7 @@ function sendSms($phoneNumber, $message)
 			'sendto' => $phoneNumber,
 			'body' => $message,
 			'device_id' => '11297',
-			'sim' => '0',
+			'sim' => '1',
 			'urgent' => '1',
 		];
 
@@ -181,11 +196,174 @@ function sendSms($phoneNumber, $message)
 		try {
 			$response = $guzzleClient->request('POST', $smsGateway24Endpoint, $formParams);
 
-			// Example of a good answer:
-			// {"error":0,"sms_id":22074938,"message":"Sms has been saved successfully"}
-			return json_decode($response->getBody(), true);
-		} catch (RequestException $smsGateway24Exception) {
-			return null;
+			// $responseData = json_decode($response->getBody(), true);
+			// if (isset($responseData['error']) && $responseData['error'] === 0) {
+			// 	return ['success' => true, 'message' => 'SmsGateway24 SMS sent successfully'];
+			// } else {
+			// 	return ['success' => false, 'message' => 'SmsGateway24 SMS sending failed'];
+			// }
+		} catch (\GuzzleHttp\Exception\RequestException $smsGateway24Exception) {
+			error_log("Guzzle Exception: " . $smsGateway24Exception->getMessage());
+			return ['success' => false, 'message' => 'SmsGateway24 SMS sending failed'];
 		}
 	}
+}
+
+function sendEmail($to, $subject, $body)
+{
+	// Check if the code is running on localhost
+	if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_ADDR'] === '127.0.0.1') {
+		$mailerLocal = new PHPMailer;
+		$mailerLocal->isSMTP();
+		$mailerLocal->Host = 'smtp.gmail.com';
+		$mailerLocal->Port = 465;
+		$mailerLocal->SMTPSecure = 'ssl';
+		$mailerLocal->SMTPAuth = true;
+		$mailerLocal->Username = 'sakaycle@gmail.com';
+		$mailerLocal->Password = 'hagfqeqlqdtyhqzi';
+
+		$mailerLocal->setFrom('sakaycle@gmail.com', 'Sakaycle');
+		$mailerLocal->addAddress($to);
+		$mailerLocal->Subject = $subject;
+		$mailerLocal->Body = $body;
+		$mailerLocal->isHTML(true);
+	} else {
+		$mailerGoDaddy = new PHPMailer;
+		$mailerGoDaddy->isSMTP();
+		$mailerGoDaddy->Host = 'sg2plzcpnl503789.prod.sin2.secureserver.net';
+		$mailerGoDaddy->Port = 465;
+		$mailerGoDaddy->SMTPSecure = 'ssl';
+		$mailerGoDaddy->SMTPAuth = true;
+		$mailerGoDaddy->Username = 'info@sakaycle.wlccicte.com';
+		$mailerGoDaddy->Password = 'sakayclebusiness';
+
+		$mailerGoDaddy->setFrom('info@sakaycle.wlccicte.com', 'Sakaycle');
+		$mailerGoDaddy->addAddress($to);
+		$mailerGoDaddy->Subject = $subject;
+		$mailerGoDaddy->Body = $body;
+		$mailerGoDaddy->isHTML(true);
+	}
+
+	// Use the appropriate mailer object
+	$mailer = isset($mailerLocal) ? $mailerLocal : $mailerGoDaddy;
+
+	if (!$mailer->send()) {
+		return 'Email could not be sent. Please try again later';
+	} else {
+		return 'success';
+	}
+}
+
+function sendAppointmentNotifications($appointmentFormData, $data, $customTextMessage = null, $customEmailMessage = null, $customRequirementMessage = null )
+{
+  $phoneNumber = $appointmentFormData['phone_number'];
+  $email = $appointmentFormData['email'];
+  $status = $appointmentFormData['status'];
+  $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
+  $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
+  $rootPath = ROOT;
+
+	if ($status === 'Approved') {
+		$message = $customTextMessage;
+
+		$subject = "Appointment Approved";
+		$user = "Hello {$appointmentFormData['name']},";
+		$emailMessage = $customEmailMessage;
+		$requirements = $customRequirementMessage;
+		$subMessage = "For more details, please check your appointment details on our website by clicking the button below.";
+		$buttonLink = "$rootPath";
+
+		ob_start();
+		include_once "app/views/mailer/approved_appointment_email.php";
+		$templateContent = ob_get_clean();
+
+		// Replace placeholders in the template with actual subject and body
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{User}}', $user, $templateContent);
+		$templateContent = str_replace('{{Message}}', nl2br($emailMessage), $templateContent);
+		$templateContent = str_replace('{{Requirements}}', nl2br($requirements), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
+	} elseif ($status === 'Rejected') {
+		$message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
+
+		$subject = "Appointment Rejected";
+		$user = "Hello {$appointmentFormData['name']},";
+		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We regret to inform you that your request for an appointment on <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out by replying to this email. Additionally, please review the feedback or comment section on the website for more details about your appointment by clicking the button below.</div>";
+		$buttonLink = "$rootPath";
+		$subMessage = "Thank you for your understanding and cooperation.";
+	
+		ob_start();
+		include_once "app/views/mailer/appointment_email_template.php";
+		$templateContent = ob_get_clean();
+	
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
+		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+	
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
+	} elseif ($status === 'On Process') {
+		$message = "Hello {$appointmentFormData['name']},\n\nWe wanted to inform you that we have received your requirements and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion.\n\nThank you for your understanding and cooperation.";
+
+		$subject = "Appointment On Process";
+		$user = "Hello {$appointmentFormData['name']},";
+		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion. 
+		</div>";
+		$buttonLink = "$rootPath";
+		$subMessage = "Thank you for your understanding and cooperation.";
+	
+		ob_start();
+		include_once "app/views/mailer/appointment_email_template.php";
+		$templateContent = ob_get_clean();
+	
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
+		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+	
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
+	} elseif ($status === 'Completed') {
+		$message = "Hello {$appointmentFormData['name']},\n\nWe are pleased to inform you that your appointment scheduled for {$formattedDate} at {$formattedTime} has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.\n\nThank you for choosing our services.";
+
+		$subject = "Appointment Completed";
+		$user = "Hello {$appointmentFormData['name']},";
+		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We are pleased to inform you that your appointment scheduled for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.</div>";
+		$buttonLink = "$rootPath";
+		$subMessage = "Thank you for choosing our services.";
+	
+		ob_start();
+		include_once "app/views/mailer/appointment_email_template.php";
+		$templateContent = ob_get_clean();
+	
+		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
+		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+	
+		// sendSms($phoneNumber, $message);
+		sendEmail($email, $subject, $templateContent);
+	}
+}
+
+function downloadCsv($data, $filename)
+{
+	header('Content-Type: text/csv; charset=UTF-8');
+	header('Content-Disposition: attachment; filename="' . $filename . '.csv"');
+
+	$output = fopen('php://output', 'w');
+	foreach ($data as $row) {
+			fputcsv($output, $row);
+	}
+	fclose($output);
+
+	exit();
 }

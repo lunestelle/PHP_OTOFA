@@ -1,12 +1,5 @@
 <?php
 
-// require '../vendor/autoload.php';
-
-// use SMSGatewayMe\Client\ApiClient;
-// use SMSGatewayMe\Client\Configuration;
-// use SMSGatewayMe\Client\Api\MessageApi;
-// use SMSGatewayMe\Client\Model\SendMessageRequest;
-
 class New_appointment
 {
   use Controller;
@@ -18,155 +11,64 @@ class New_appointment
       redirect('');
     }
 
-    $driverModel = new Driver();
-    $drivers = $driverModel->where(['user_id' => $_SESSION['USER']->user_id]);
-    $data['drivers'] = [];
+    $cinModel = new TricycleCinNumber();
+    $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
+    
 
-    if (is_array($drivers) || is_object($drivers)) {
-      foreach ($drivers as $driver) {
-        $data['drivers'][$driver->driver_id] = [
-          'driver_id' => $driver->driver_id,
-          'name' => $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name,
-        ];
-      }
-    } else {
-      $data['drivers'] = [];
-    }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      if (isset($_POST['appointmentType'])) {
+        $appointmentType = $_POST['appointmentType'];
 
-    $tricycleModel = new Tricycle();
-		$tricycles = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
-		$data['tricycles'] = [];
+        switch ($appointmentType) {
+          case 'New Franchise':
+            redirect('new_franchise');
+            break;
 
-		if (is_array($tricycles) || is_object($tricycles)) {
-			foreach ($tricycles as $tricycle) {
-				$data['tricycles'][$tricycle->tricycle_id] = [
-					'tricycle_id' => $tricycle->tricycle_id,
-					'plate_no' => $tricycle->plate_no
-				];
-			}
-		} else {
-			$data['tricycles'] = [];
-		}
+          case 'Renewal of Franchise':
+            redirect('renewal_of_franchise');
+            break;
+          
+          case 'Change of Motorcycle':
+            redirect('change_of_motorcycle');
+            break;
+          
+          case 'Transfer of Ownership':
+            // Check if the transfer type is selected
+            if (isset($_POST['transferType'])) {
+              $transferType = $_POST['transferType'];
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
-      $appointmentModel = new Appointment();
-      $tricycleApplicationModel = new TricycleApplication();
+              // Redirect based on the selected transfer type
+              switch ($transferType) {
+                case 'None':
+                  redirect('transfer_of_ownership');
+                  break;
 
-      $appointmentFormData = [
-        'name' => $_POST['name'] ?? '',
-        'phone_number' => $_POST['phone_number'] ?? '',
-        'email' => $_POST['email'] ?? '',
-        'appointment_type' => $_POST['appointment_type'] ?? '',
-        'appointment_date' => $_POST['appointment_date'] ?? '',
-        'appointment_time' => $_POST['appointment_time'] ?? '',
-        'status' => 'Pending',
-        'user_id' => $_SESSION['USER']->user_id,
-      ];
+                case 'Intent of Transfer':
+                  redirect('intent_of_transfer');
+                  break;
 
-      $tricycleApplicationFormData = [
-        'operator_name' => $_POST['operator_name'] ?? '',
-        'tricycle_phone_number' => $_POST['tricycle_phone_number'] ?? '',
-        'address' => $_POST['address'] ?? '',
-        'mtop_no' => $_POST['mtop_no'] ?? '',
-        'route_area' => $_POST['route_area'] ?? '',
-        'color_code' => $_POST['color_code'] ?? '',
-        'make_model' => $_POST['make_model'] ?? '',
-        'make_model_expiry_date' => $_POST['make_model_expiry_date'] ?? '',
-        'motor_number' => $_POST['motor_number'] ?? '',
-        'insurer' => $_POST['insurer'] ?? '',
-        'chasis_number' => $_POST['chasis_number'] ?? '',
-        'coc_no' => $_POST['coc_no'] ?? '',
-        'coc_no_expiry_date' => $_POST['coc_no_expiry_date'] ?? '',
-        'tricycle_id' => $_POST['tricycle_id'] ?? '',
-        'lto_cr_no' => $_POST['lto_cr_no'] ?? '',
-        'lto_or_no' => $_POST['lto_or_no'] ?? '',
-        'driver_id' => $_POST['driver_id'] ?? '',
-        'driver_license_no' => $_POST['driver_license_no'] ?? '',
-        'driver_license_expiry_date' => $_POST['driver_license_expiry_date'] ?? '',
-      ];
+                case 'Transfer of Ownership from Deceased Owner':
+                  redirect('ownership_transfer_from_deceased_owner');
+                  break;
 
-      $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel);
-   
-      if (!empty($formErrors)) {
-        $firstError = reset($formErrors);
-        set_flash_message($firstError[0], "error");
-        $data = array_merge($data, $_POST);
-        echo $this->renderView('new_appointment', true, $data);
-        return;
-      } else {
-        $formattedPhoneNumber = $appointmentFormData['phone_number'];
-				$appointmentFormData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
-
-        if (!empty($_FILES['mc_lto_certificate_of_registration']['name']) && !empty($_FILES['mc_lto_official_receipt']['name']) && !empty($_FILES['mc_plate_authorization']['name']) && !empty($_FILES['tc_insurance_policy']['name']) && !empty($_FILES['front_view_image']['name']) && !empty($_FILES['side_view_image']['name']) && !empty($_FILES['sketch_location_of_garage']['name']) && !empty($_FILES['affidavit_of_income_tax_return']['name']) && !empty($_FILES['driver_cert_safety_driving_seminar']['name']) && !empty($_FILES['proof_of_id']['name'])) {
-          $imagePaths = $this->handleFileUploads($formData);
-
-          if ($imagePaths === false) {
-            set_flash_message("Failed to upload images.", "error");
-            redirect('tricycles');
-          }
-
-          $formData['mc_lto_certificate_of_registration_path'] = $imagePaths['mc_lto_certificate_of_registration'];
-          $formData['mc_lto_official_receipt_path'] = $imagePaths['mc_lto_official_receipt'];
-          $formData['mc_plate_authorization_path'] = $imagePaths['mc_plate_authorization'];
-          $formData['tc_insurance_policy_path'] = $imagePaths['tc_insurance_policy'];
-
-          if ($appointmentModel->insert($appointmentFormData)) {
-            $lastId = $appointmentModel->getLastInsertedRecord()[0]->appointment_id;
-            $tricycleApplicationFormData['appointment_id'] = $lastId;
-            
-            $formattedPhoneNumber = $tricycleApplicationFormData['tricycle_phone_number'];
-            $tricycleApplicationFormData['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
-  
-            if ($tricycleApplicationModel->insert($tricycleApplicationFormData)){
-              set_flash_message("Appointment scheduled successfully.", "success");
-              redirect('appointments');
+                default:
+                  set_flash_message("Invalid transfer type selected.", "error");
+                  break;
+              }
             } else {
-              $appointmentModel->delete($lastId);
-              set_flash_message("Failed to schedule appointment. Please try again later.", "error");
-              redirect('appointments');
+              set_flash_message("Please select a transfer type.", "error");
             }
-          } else {
-            set_flash_message("Failed to schedule appointment. Please try again later.", "error");
-            redirect('appointments');
-          }
-        }
+            break;
 
-       
+          default:
+            set_flash_message("Invalid appointment type selected.", "error");
+            break;
+        }
+      } else {
+        set_flash_message("Appointment type is not set in the form. Please select <br> an appointment type before submitting the form.", "error");
       }
     }
 
     echo $this->renderView('new_appointment', true, $data);
-  }
-
-  private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel) {
-    $errors = array();
-   
-    $appointmentErrors = $appointmentModel->validate($appointmentFormData);
-    if (!empty($appointmentErrors)) {
-      $errors['appointment'] = $appointmentErrors;
-    }
-   
-    $tricycleApplicationErrors = $tricycleApplicationModel->validate($tricycleApplicationFormData);
-    if (!empty($tricycleApplicationErrors)) {
-      $errors['tricycleApplication'] = $tricycleApplicationErrors;
-    }
-   
-    return $errors;
-  }
-
-  private function sendSMS($to, $message) {
-    $accountSid = 'your_twilio_account_sid';
-    $authToken  = 'your_twilio_auth_token';
-    $twilioNumber = 'your_twilio_phone_number';
-
-    $client = new Client($accountSid, $authToken);
-
-    $client->messages->create(
-      $to,
-      [
-        'from' => $twilioNumber,
-        'body' => $message,
-      ]
-    );
   }
 }

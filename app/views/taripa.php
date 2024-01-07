@@ -30,6 +30,13 @@
     </div>
     
     <div class="col-12">
+      <?php if (!empty($taripas)): ?>
+        <div class="mt-3 text-end">
+          <form method="post" action="">
+            <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-taripa">Export as CSV</button>
+          </form>
+        </div>
+      <?php endif; ?>
       <div class="table-responsive pt-4 mx-4">
         <table class="table table-hover" id="systemTable">
           <thead>

@@ -5,7 +5,7 @@ class Driver
   use Model;
 
   protected $table = 'drivers';
-  protected $allowedColumns = ['first_name', 'last_name', 'middle_name', 'address', 'phone_no', 'birth_date', 'license_no', 'license_validity', 'user_id', 'tricycle_id'];
+  protected $allowedColumns = ['first_name', 'last_name', 'middle_name', 'address', 'phone_no', 'birth_date', 'license_no', 'license_validity', 'user_id', 'tricycle_cin_number_id'];
   protected $order_column = 'driver_id';
 
   public function validateData($formData)

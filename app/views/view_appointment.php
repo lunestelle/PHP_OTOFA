@@ -1,3 +1,21 @@
+<?php
+  function displayImage($imagePath, $imageAlt)
+  {
+    if ($imagePath) {
+      echo '<div class="col-md-4 text-center mb-3 p-2">';
+      echo '<p class="form-label fw-semibold">' . $imageAlt . '</p>';
+      echo '<div class="image-container position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">';
+      echo '<img src="' . $imagePath . '" class="img-fluid rounded fixed-height-image" alt="' . $imageAlt . '">';
+      echo '</div>';
+      echo '</div>';
+    } else {
+      echo '<div class="col-md-4 text-center mb-3 p-2">';
+      echo '<p class="form-label">' . $imageAlt . ' Image not available</p>';
+      echo '</div>';
+    }
+  }
+?>
+
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
     <div class="col-12 text-uppercase nav-top">
@@ -7,194 +25,284 @@
       <div class="row">
         <div class="col-12 pt-2">
           <div class="container pt-4">
-            <div id="newAppointmentForm">
-              <form class="default-form" method="POST" action="">
-                <div class="content-container">
-                  <div class="bckgrnd pt-2">
-                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Appointment Details</h6>
-                  </div>
-                  <div class="container mt-3">
-                    <div class="d-flex justify-content-center">
-                      <div class="row px-3">
-                        <div class="col-md-3">
-                          <div class="row mt-3">
-                            <p> <span class="fw-bolder mr-5">Name:</span> 
-                            <p><span class="fw-bolder mr-5">Phone Number:</span> 
-                            <p><span class="fw-bolder mr-5">Appointment Type:</span> 
-                            <p><span class="fw-bolder mr-5">Date:</span> 
-                            <p><span class="fw-bolder mr-5">Time:</span> 
-                            <hr>
-                          </div>
+            <div>
+              <div class="content-container">
+                <div class="bckgrnd pt-2">
+                  <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Appointment Details</h6>
+                </div>
+                <div class="container mt-3">
+                  <div class="d-flex justify-content-center">
+                    <div class="row px-3">
+                      <div class="col-md-3">
+                        <div class="row mt-3">
+                          <p> <span class="fw-bolder mr-5 text-uppercase">Full Name:</span> 
+                          <p><span class="fw-bolder mr-5 text-uppercase">Phone Number:</span> 
+                          <p><span class="fw-bolder mr-5 text-uppercase">Preferred Date:</span> 
+                          <p><span class="fw-bolder mr-5 text-uppercase">Status:</span> 
+                          <hr>
                         </div>
-                        <!-- Second Column -->
-                        <div class="col-md-3 mt-3">
-                          <?php echo strtoupper($appointment->name); ?></p>
-                          <?php echo strtoupper($appointment->phone_number); ?></p>
-                          <?php echo strtoupper($appointment->appointment_type); ?></p>
-                          <?php echo strtoupper($appointment->appointment_date); ?></p>
-                          <?php echo strtoupper($appointment_time); ?></p>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row mt-3">
-                            <?php
-                              if (!empty($tricycleApplication)) {
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Name of Operator:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->operator_name . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Address:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->address  . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Color Code:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->color_code  . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Route Area:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->route_area . '</p>';
-                                echo '</div>';
-                            } else {
-                                echo '<p class="d-flex align-items-center">Tricycle application not available</p>';
-                            }
-                            ?>
-                          </div>
-                        </div>                        
                       </div>
+                      <div class="col-md-3 mt-3">
+                        <?php echo ucwords(strtolower($appointment->name)); ?></p>
+                        <?php echo ($appointment->phone_number); ?></p>
+                        <?php echo strtoupper($appointment->appointment_date); ?></p>
+                        <?php echo ucwords(strtolower($appointment->status)); ?></p>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row mt-3">
+                          <div class="col-md-6">
+                            <p><span class="fw-bolder mr-5 text-uppercase">Email:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Appointment Type:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Preferred Time:</span> 
+                            <?php if (!empty($appointment->transfer_type) && $appointment->appointment_type === "Transfer of Ownership"): ?>
+                              <p><span class="fw-bolder mr-5 text-uppercase">Transfer Type:</span>
+                            <?php endif; ?>
+                          </div>
+                          <div class="col-md-6">
+                            <?php echo ($appointment->email); ?></p>
+                            <?php echo ucwords(strtolower($appointment->appointment_type)); ?></p>
+                            <?php echo strtoupper($appointment_time); ?></p>
+                            <?php if (!empty($appointment->transfer_type) && $appointment->appointment_type === "Transfer of Ownership"): ?>
+                              <?php echo ucwords(strtolower($appointment->transfer_type)); ?></p>
+                            <?php endif; ?>
+                          </div>
+                        </div>
+                      </div>                        
                     </div>
                   </div>
-                  <hr class="my-2" style="border-width: 1px; color: #000; background-color: #000;">
+                </div>
+              </div>
+
+              <?php if (strtolower($appointment->status) == 'rejected' && !empty($appointment->comments)): ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Appointment Rejection Comment</h6>
+                  </div>
                   <div class="container">
                     <div class="d-flex justify-content-center">
                       <div class="row px-3">
-                        <div class="col-md-6">
-                          <div class="row mt-3">
-                            <?php
-                              if (!empty($tricycleApplication)) {
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Motor Number:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->motor_number . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Insurer:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->insurer  . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Chasis Number:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->chasis_number  . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">COC Number:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->coc_no . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">COC Expiry Date:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->coc_no_expiry_date . '</p>';
-                                echo '</div>';
-                            } else {
-                                echo '<p class="d-flex align-items-center">Tricycle application not available</p>';
-                            }
-                            ?>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row mt-3">
-                            <?php
-                              if (!empty($tricycleApplication)) {
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Plate Number:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->plate_number . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">LTO CR Number:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->lto_or_no . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">LTO OR Number:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->lto_or_no  . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Name of Driver:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->operator_name. '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">Driver License Number:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->driver_license_no . '</p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p><span class="fw-bolder mr-5">License Expiry Date:</span></p>';
-                                echo '</div>';
-
-                                echo '<div class="col-md-6">';
-                                echo '<p>' . $tricycleApplication->driver_license_expiry_date . '</p>';
-                                echo '</div>';
-                            } else {
-                                echo '<p class="d-flex align-items-center">Tricycle application not available</p>';
-                            }
-                            ?>
-                          </div>
+                        <div class="col-md-12 text-start rejection-comment ">
+                          <p class="rejection-comment "><?php echo $appointment->comments; ?></p>
                         </div>
                       </div>
                     </div>
                   </div>
-                <div>
-                  <a href="./appointments" class="sidebar-btnContent text-white px-3 mt-4">Back</a>
                 </div>
-              </form>
+              <?php endif; ?>
+                    
+              <div class="content-container mt-4">
+                <div class="bckgrnd pt-2">
+                  <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Tricycle Application Form Details</h6>
+                </div>
+                <div class="container mt-3">
+                  <div class="d-flex justify-content-center">
+                    <div class="row px-3">
+                      <div class="col-md-3">
+                        <div class="row mt-3">
+                          <p> <span class="fw-bolder mr-5 text-uppercase">Name of Operator:</span> 
+                          <p><span class="fw-bolder mr-5 text-uppercase">Phone Number:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">Color Code:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">Make Model:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">Motor Number:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">C.O.C Number:</span>
+                          <?php if ($appointment->status === "Completed" || !empty($appointment->status)): ?>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Tricycle CIN:</span>
+                          <?php endif; ?>
+                          <?php if (!empty($tricycleApplication->lto_or_no)): ?>
+                            <p><span class="fw-bolder mr-5 text-uppercase">LTO OR Number:</span>
+                          <?php endif; ?>
+                          <?php if (!empty($tricycleApplication->driver_license_no)): ?>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Driver License Number:</span>
+                          <?php endif; ?>
+                          <hr>
+                        </div>
+                      </div>
+                      <div class="col-md-3 mt-3">
+                        <?php echo ucwords(strtolower($tricycleApplication->operator_name)); ?></p>
+                        <?php echo ($tricycleApplication->tricycle_phone_number); ?></p>
+                        <?php echo ucwords(strtolower($tricycleApplication->color_code)); ?></p>
+                        <?php echo ucwords(strtolower($tricycleApplication->make_model)); ?></p>
+                        <?php echo ucwords(strtolower($tricycleApplication->motor_number)); ?></p>
+                        <?php echo ucwords(strtolower($tricycleApplication->coc_no)); ?></p>
+                        <?php if ($appointment->status === "Completed" || !empty($appointment->status)): ?>
+                          <?php echo $tricycle_cin; ?></p>
+                        <?php endif; ?>
+                        <?php if (!empty($tricycleApplication->lto_or_no)): ?>
+                          <?php echo $tricycleApplication->lto_or_no; ?></p>
+                        <?php endif; ?>
+                        <?php if (!empty($tricycleApplication->driver_license_no)): ?>
+                          <?php echo $tricycleApplication->driver_license_no; ?></p>
+                        <?php endif; ?>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row mt-3">
+                          <div class="col-md-6">
+                            <p><span class="fw-bolder mr-5 text-uppercase">Address:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">MTOP Number:</span> 
+                            <p><span class="fw-bolder mr-5 text-uppercase">Route Area:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Model Expiry Date:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Insurer:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">C.O.C Expiry Date:</span>
+                            <?php if (!empty($tricycleApplication->lto_cr_no)): ?>
+                              <p><span class="fw-bolder mr-5 text-uppercase">LTO CR Number:</span>
+                            <?php endif; ?>
+                            <?php if (!empty($driver_name)): ?>
+                              <p><span class="fw-bolder mr-5 text-uppercase">Name of Driver:</span>
+                            <?php endif; ?>
+                            <?php if (!empty($tricycleApplication->driver_license_expiry_date) && $tricycleApplication->driver_license_expiry_date != "0000-00-00"): ?>
+                              <p><span class="fw-bolder mr-5 text-uppercase">License Expiry Date:</span>
+                            <?php endif; ?>
+                          </div>
+                          <div class="col-md-6">
+                            <p style="overflow: hidden; white-space: nowrap;"><?php echo ucwords(strtolower($tricycleApplication->address)); ?></p>
+                            <?php echo strtoupper($tricycleApplication->mtop_no); ?></p>
+                            <?php echo ($tricycleApplication->route_area); ?></p>
+                            <?php echo ($tricycleApplication->make_model_expiry_date); ?></p>
+                            <p class="text-capitalize"><?php echo ($tricycleApplication->insurer); ?></p>
+                            <?php echo ($tricycleApplication->coc_no_expiry_date); ?></p>
+                            <?php if (!empty($tricycleApplication->lto_cr_no)): ?>
+                              <?php echo ($tricycleApplication->lto_cr_no); ?></p>
+                            <?php endif; ?>
+                            <?php if (!empty($driver_name)): ?>
+                              <?php echo ($driver_name); ?></p>
+                            <?php endif; ?>
+                            <?php if (!empty($tricycleApplication->driver_license_expiry_date && $tricycleApplication->driver_license_expiry_date != "0000-00-00")): ?>
+                              <?php echo ($tricycleApplication->driver_license_expiry_date); ?></p>
+                            <?php endif; ?>
+                          </div>
+                        </div>
+                      </div>                        
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <?php if ($appointment->appointment_type === "New Franchise") { ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">MTOP Requirements Images</h6>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <?php
+                      displayImage($mtopRequirement->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC of New Unit)');
+                      displayImage($mtopRequirement->mc_lto_official_receipt_path, 'LTO Official Receipt (MC of New Unit)');
+                      displayImage($mtopRequirement->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
+                      displayImage($mtopRequirement->tc_insurance_policy_path, 'Insurance Policy (TC) (New Owner)');
+                      displayImage($mtopRequirement->unit_front_view_image_path, 'Picture of New Unit (Front View)');
+                      displayImage($mtopRequirement->unit_side_view_image_path, 'Picture of New Unit (Side View)');
+                      displayImage($mtopRequirement->sketch_location_of_garage_path, 'Sketch Location of Garage');
+                      displayImage($mtopRequirement->affidavit_of_income_tax_return_path, 'Affidavit of No Income or Latest Income Tax Return');
+                      displayImage($mtopRequirement->driver_cert_safety_driving_seminar_path, 'Driver\'s Certificate of Safety Driving Seminar');
+                      displayImage($mtopRequirement->proof_of_id_path, 'Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)');
+                    ?>
+                  </div>
+                </div>
+              <?php } elseif ($appointment->appointment_type === "Renewal of Franchise") { ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">MTOP Requirements Images</h6>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <?php
+                      displayImage($mtopRequirement->tc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (TC)');
+                      displayImage($mtopRequirement->tc_lto_official_receipt_path, 'LTO Official Receipt (TC)');
+                      displayImage($mtopRequirement->tc_plate_authorization_path, 'Plate Authorization (TC)');
+                      displayImage($mtopRequirement->tc_renewed_insurance_policy_path, 'Renewed Insurance Policy (TC)');
+                      displayImage($mtopRequirement->latest_franchise_path, 'Latest Franchise (TC)');
+                    ?>
+                  </div>
+                </div>
+              <?php } elseif ($appointment->appointment_type === "Change of Motorcycle") { ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">MTOP Requirements Images</h6>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <div class="text-center">
+                      <h6>Old Unit</h6>
+                    </div>
+                    <?php
+                      displayImage($mtopRequirement->or_of_return_plate_path, 'OR of Return Plate');
+                      displayImage($mtopRequirement->tc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (TC)');
+                      displayImage($mtopRequirement->tc_lto_official_receipt_path, 'LTO Official Receipt (TC)');
+                      displayImage($mtopRequirement->latest_franchise_path, 'Latest Franchise (TC)');
+                    ?>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <div class="text-center">
+                      <h6>New Unit</h6>
+                    </div>
+                    <?php
+                      displayImage($mtopRequirement->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC)');
+                      displayImage($mtopRequirement->mc_lto_official_receipt_path, 'LTO Official Receipt (MC)');
+                      displayImage($mtopRequirement->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
+                      displayImage($mtopRequirement->tc_insurance_policy_path, 'Insurance Policy (TC)');
+                      displayImage($mtopRequirement->unit_front_view_image_path, 'Picture of New Unit (Front View)');
+                      displayImage($mtopRequirement->unit_side_view_image_path, 'Picture of New Unit (Side View)');
+                    ?>
+                  </div>
+                </div>
+              <?php } elseif ($appointment->appointment_type === "Transfer of Ownership") { ?>
+                <div class="content-container mt-4">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="pl-2 text-uppercase text-center text-dark fs-6">MTOP Requirements Images</h6>
+                  </div>
+                  <div class="row justify-content-evenly px-3 p-3">
+                    <?php
+                      displayImage($mtopRequirement->mc_lto_certificate_of_registration_path, 'LTO Certificate of Registration (MC of New Unit)');
+                      displayImage($mtopRequirement->mc_lto_official_receipt_path, 'LTO Official Receipt (MC of New Unit)');
+                      displayImage($mtopRequirement->mc_plate_authorization_path, 'Plate Authorization (MC of New Unit)');
+                      displayImage($mtopRequirement->tc_insurance_policy_path, 'Insurance Policy (TC) (New Owner)');
+                      displayImage($mtopRequirement->latest_franchise_path, 'Latest Franchise (TC)');
+                      displayImage($mtopRequirement->proof_of_id_path, 'Proof of ID / Residence');
+                      displayImage($mtopRequirement->sketch_location_of_garage_path, 'Sketch Location of Garage');
+                      displayImage($mtopRequirement->affidavit_of_income_tax_return_path, 'Affidavit of No Income or Latest Income Tax Return');
+                      displayImage($mtopRequirement->driver_cert_safety_driving_seminar_path, 'Driver\'s Certificate of Safety Driving Seminar');
+                      displayImage($mtopRequirement->unit_front_view_image_path, 'Picture of New Unit (Front View)');
+                      displayImage($mtopRequirement->unit_side_view_image_path, 'Picture of New Unit (Side View)');
+                    ?>
+
+                    <?php if ($appointment->transfer_type === "Transfer of Ownership from Deceased Owner" && !empty($mtopRequirement->death_certificate_path) && !empty($mtopRequirement->agreement_amongst_heirs_path)) { ?>
+                      <div class="row justify-content-evenly px-3 p-3">
+                        <div class="text-center">
+                          <h6>Additional Requirements</h6>
+                        </div>
+                        <?php
+                          displayImage($mtopRequirement->death_certificate_path, 'Death Certificate');
+                          displayImage($mtopRequirement->agreement_amongst_heirs_path, 'Agreement Amongst Heirs');
+                        ?>
+                      </div>
+                    <?php } elseif ($appointment->transfer_type === "Intent of Transfer" && !empty($mtopRequirement->deed_of_donation_or_deed_of_sale_path)) { ?>
+                      <div class="row justify-content-evenly px-3 p-3">
+                        <div class="text-center">
+                          <h6>Additional Requirement</h6>
+                        </div>
+                        <?php
+                          displayImage($mtopRequirement->deed_of_donation_or_deed_of_sale_path, 'Deed of Donation or Deed of Sale');
+                        ?>
+                      </div>
+                    <?php } ?>
+                  </div>
+                </div>
+              <?php } ?>
+
+              <!-- Bootstrap Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header border-0">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mx-auto">
+                      <img src="" class="img-fluid" id="modalImage" alt="Enlarged Image">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <a href="./appointments" class="sidebar-btnContent text-white px-3 mt-4">Back</a>
+              </div>
             </div>
           </div>
         </div>
@@ -202,3 +310,11 @@
     </div>
   </div>
 </main>
+<script>
+  document.querySelectorAll('.image-container').forEach(function (container) {
+    container.addEventListener('click', function () {
+      var imageSrc = this.querySelector('img').src;
+      document.getElementById('modalImage').src = imageSrc;
+    });
+  });
+</script>

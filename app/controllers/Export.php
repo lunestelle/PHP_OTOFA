@@ -2,53 +2,43 @@
 
 class Export
 {
-  use Controller;
+    use Controller;
 
-  public function index()
-  {
-    if (!is_authenticated()) {
-      set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
-      redirect('');
+    public function index()
+    {
+        if (!is_authenticated()) {
+            set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
+            redirect('');
+        }
+
+        $data = [];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+          $exportData = $_POST['export_data'];
+
+          switch ($exportData) {
+              case 'operators':
+                  $data = $this->fetchOperatorsData();
+                  break;
+              case 'drivers':
+                  $data = $this->fetchDriversData();
+                  break;
+              case 'taripa':
+                  $data = $this->fetchTaripaData();
+                  break;
+              default:
+                  $data = $this->fetchOperatorsData(); // Default to operators
+          }
+
+          // Return the data as JSON
+          echo json_encode($data);
+          exit();
+      }
+  
+    
+
+        echo $this->renderView('export', true, $data);
     }
-
-    $selectedData = isset($_POST['export_data']) ? $_POST['export_data'] : 'operators';
-
-    $showOperatorFilter = true;
-    $showDriverFilter = true;
-    $showTaripaFilter = true;
-
-    switch ($selectedData) {
-      case 'operators':
-        $exportData = $this->fetchOperatorsData();
-        $showDriverFilter = false; // Hide Driver filter
-        $showTaripaFilter = false; // Hide Taripa filter
-        break;
-      case 'drivers':
-        $exportData = $this->fetchDriversData();
-        $showOperatorFilter = false; // Hide Operator filter
-        $showTaripaFilter = false; // Hide Taripa filter
-        break;
-      case 'taripa':
-        $exportData = $this->fetchTaripaData();
-        $showOperatorFilter = false; // Hide Operator filter
-        $showDriverFilter = false; // Hide Driver filter
-        break;
-      default:
-        $showOperatorFilter = true;
-        $showDriverFilter = true;
-        $showTaripaFilter = true;
-    }
-
-    $data = [
-      'selectedData' => $selectedData,
-      'exportData' => $exportData,
-      'showOperatorFilter' => $showOperatorFilter,
-      'showDriverFilter' => $showDriverFilter,
-      'showTaripaFilter' => $showTaripaFilter,
-    ];
-
-    echo $this->renderView('export', true, $data);
-  }
 
 
 
@@ -97,9 +87,23 @@ class Export
     $taripaModel = new Taripas();
     $taripasData = $taripaModel->findAll();
 
+    $customOrder = [
+      'Free Zone / Zone 1',
+      'Zone 2',
+      'Zone 3',
+      'Zone 4',
+    ];
+
     $exportData = [];
 
     if (!empty($taripasData)) {
+      // Sort the data based on custom order
+      usort($taripasData, function ($a, $b) use ($customOrder) {
+        $aIndex = array_search($a->route_area, $customOrder);
+        $bIndex = array_search($b->route_area, $customOrder);
+        return $aIndex - $bIndex;
+      });
+
       foreach ($taripasData as $taripa) {
         $exportData[] = [
           'route_area' => $taripa->route_area,
@@ -113,4 +117,30 @@ class Export
 
     return $exportData;
   }
+
+
+  private function exportDataToCSV($data)
+    {
+        // Implement logic to export data to CSV format
+        // You can use fputcsv() function or any CSV library for this purpose
+
+        // Example:
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="exported_data.csv"');
+
+        $output = fopen('php://output', 'w');
+
+        // Output CSV headers
+        fputcsv($output, array_keys($data[0]));
+
+        // Output CSV data
+        foreach ($data as $row) {
+            fputcsv($output, $row);
+        }
+
+        fclose($output);
+
+        // Terminate script after exporting data
+        exit();
+    }
 }

@@ -15,22 +15,24 @@ class Edit_driver {
     $driverModel = new Driver();
     $driverData = $driverModel->first(['driver_id' => $driverId]);
 
-    $tricycleModel = new Tricycle();
-    $tricycles = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinNumbers = $tricycleCinModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    $data['tricycleCinNumbers'] = [];
+    if (is_array($tricycleCinNumbers) || is_object($tricycleCinNumbers)) {
+      foreach ($tricycleCinNumbers as $cinNumberId) {
+        $data['tricycleCinNumbers'][$cinNumberId->tricycle_cin_number_id] = [
+          'cin_number' => $cinNumberId->tricycle_cin_number_id,
+        ];
+      }
+    } else {
+      $data['tricycleCinNumbers'] = [];
+    }
 
+    // Sort the array in ascending order
+    asort($data['tricycleCinNumbers']);
 
-    $data['tricycles'] = [];
-
-    if (is_array($tricycles) || is_object($tricycles)) {
-			foreach ($tricycles as $tricycle) {
-				$data['tricycles'][$tricycle->tricycle_id] = [
-					'tricycle_id' => $tricycle->tricycle_id,
-					'plate_no' => $tricycle->plate_no
-				];
-			}
-		} else {
-			$data['tricycles'] = [];
-		}
+    $selectedCinNumber = $driverData->tricycle_cin_number_id;
+    $data['selectedCinNumberId'] = $selectedCinNumber ? $selectedCinNumber : null;
 
     if (!$driverData) {
       set_flash_message("Driver not found.", "error");
@@ -47,7 +49,7 @@ class Edit_driver {
         'birth_date' => $_POST['birth_date'] ?? '',
         'license_no' => $_POST['license_no'] ?? '',
         'license_validity' => $_POST['license_validity'] ?? '',
-        'tricycle_id' => $_POST['tricycle_id'] ?? '',
+        'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id'] ?? '',
       ];
 
       $errors = $driverModel->validateData($updatedData );
@@ -82,7 +84,7 @@ class Edit_driver {
         'birth_date' => $driverData->birth_date,
         'license_no' => $driverData->license_no,
         'license_validity' => $driverData->license_validity,
-        'tricycle_id' => $driverData->tricycle_id,
+        'tricycle_cin_number_id' => $driverData->tricycle_cin_number_id,
       ],
       'driverId' => $driverId,
     ]);

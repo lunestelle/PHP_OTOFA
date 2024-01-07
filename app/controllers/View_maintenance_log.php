@@ -23,9 +23,9 @@ class View_maintenance_log
     $maintenanceLogModel = new MaintenanceLog();
     $maintenanceLogData = $maintenanceLogModel->first(['maintenance_log_id' => $maintenanceLogId]);
 
-    $tricycleModel = new Tricycle();
-    $tricycleData = $tricycleModel->first(['tricycle_id' => $maintenanceLogData->tricycle_id]);
-    $tricyclePlateNumber = $tricycleData !== false ? $tricycleData->plate_no : '';
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $maintenanceLogData->tricycle_cin_number_id]);
+    $tricyclePlateNumber = $tricycleCinData !== false ? $tricycleCinData->cin_number : '';
     
     $driverModel = new Driver();
     $driverData = $driverModel->first(['driver_id' => $maintenanceLogData->driver_id]);

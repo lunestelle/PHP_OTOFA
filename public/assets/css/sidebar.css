@@ -9,6 +9,22 @@
   display: flex;
   flex-direction: column;
   background-color: #090C1B;
+  overflow-y: auto; /* Enable vertical scrollbar */
+  max-height: calc(100vh - 60px); /* Set a maximum height to fit within the viewport */
+}
+
+/* Hide the scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar width */
+}
+
+/* Optional: You can also style scrollbar track and thumb */
+.sidebar::-webkit-scrollbar-track {
+  background: transparent; /* Set a background color for the scrollbar track */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: transparent; /* Set a background color for the scrollbar thumb */
 }
 
 .sidebar .nav-link {
@@ -403,4 +419,136 @@ table > :not(caption) > * > * > :last-child {
   background-color: #ffffff;
   min-height: 40px;
   box-shadow: 2px 3px #00000009;
+}
+
+/* --- UPDATE STATUS BUTTON --- */
+
+.update-status-btn {
+  padding: 5px 18px;
+  background-color: rgb(0, 0, 0);
+  border: #000000 1px solid;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  float: right;
+  margin-right: 3px;
+}
+
+.update-status-btn:hover {
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+}
+
+
+/* --- EXPORT BUTTON --- */
+
+.export-btn {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  color: white;
+  background-color: #7C4700;
+  border: 1px solid #7C4700;
+  padding: 5px 18px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+
+.export-btn:hover {
+  color: #7C4700;
+  background-color: white;
+}
+
+/* --- EXPORT BUTTON FOR TARIPA --- */
+
+.export-btn-taripa {
+  color: #7C4700;
+  background-color: white;
+  border: 1px solid #7C4700;
+  padding: 5px 18px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+  position: absolute;
+  right: 100px;
+  top: 5px;
+}
+
+
+.export-btn-taripa:hover {
+  color: white;
+  background-color: #7C4700;
+}
+
+/* --- EXPORT BUTTON FOR DRIVERS/MAINTENANCE LOGS PAGE--- */
+
+.export-btn-operator {
+  position: absolute;
+  top: 5px;
+  right: 100px;
+  color: #7C4700;
+  background-color: white;
+  border: 1px solid #7C4700;
+  padding: 5px 18px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+/* --- BUTTON FOR PRINT --- */
+
+.btn-print {
+  padding: 5px 37px;
+  color: #FF4200;
+  background-color: white;
+  border: #FF4200 1px solid;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  float: right;
+}
+
+.btn-print:hover {
+  background-color: #ffa585bd;
+  color: white;
+}
+
+.btn-download-pdf {
+  padding: 5px 10px;
+  color: white;
+  background-color: #FF4200;
+  border: #FF4200 1px solid;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  float: right;
+}
+
+.btn-download-pdf:hover {
+  background-color: #ffc5b0;
+  border: #FF4200 1px solid;
+  color: #FF4200;
+}
+
+.view-maintenance-tracker-btn {
+  color: white;
+  background-color: green;
+  border: 1px solid green;
+  padding: 3px 15px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.view-maintenance-tracker-btn:hover {
+  color: green;
+  background-color: white;
 }

@@ -11,20 +11,20 @@ class New_driver
 			redirect('');
 		}
 
-		$tricycleModel = new Tricycle();
-		$tricycles = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
-		$data['tricycles'] = [];
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinNumbers = $tricycleCinModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    $data['tricycleCinNumbers'] = [];
+    if (is_array($tricycleCinNumbers) || is_object($tricycleCinNumbers)) {
+      foreach ($tricycleCinNumbers as $cinNumberId) {
+        $data['tricycleCinNumbers'][$cinNumberId->tricycle_cin_number_id] = [
+          'cin_number' => $cinNumberId->tricycle_cin_number_id,
+        ];
+      }
+    } else {
+      $data['tricycleCinNumbers'] = [];
+    }
 
-		if (is_array($tricycles) || is_object($tricycles)) {
-			foreach ($tricycles as $tricycle) {
-				$data['tricycles'][$tricycle->tricycle_id] = [
-					'tricycle_id' => $tricycle->tricycle_id,
-					'plate_no' => $tricycle->plate_no
-				];
-			}
-		} else {
-			$data['tricycles'] = [];
-		}
+		asort($data['tricycleCinNumbers']);
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$userId = $_SESSION['USER']->user_id;
@@ -38,7 +38,7 @@ class New_driver
 				'license_no' => $_POST['license_no'] ?? '',
 				'license_validity' => $_POST['license_validity'] ?? '',
 				'user_id' => $userId ?? '',
-				'tricycle_id' => $_POST['tricycle_id'] ?? '',
+				'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id'] ?? '',
 			];
 
 			$driverModel = new Driver();
@@ -47,10 +47,7 @@ class New_driver
 			if (!empty($errors)) {
 				$errorMessage = $errors[0];
 				set_flash_message($errorMessage, "error");
-				$data['tricycle_id'] = $_POST['tricycle_id'] ?? '';
 				$data = array_merge($data, $formData);
-				echo $this->renderView('new_driver', true, $data);
-				return;
 			} else {
 				$formattedPhoneNumber = $formData['phone_no'];
 				$formData['phone_no'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);

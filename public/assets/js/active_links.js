@@ -1,70 +1,84 @@
-$(document).ready(function() {
-  let currentUrl = new URL(window.location.href);
-  let navLinks = $('.sidebar .nav-link');
+$(document).ready(function () {
+  const currentUrl = new URL(window.location.href);
+  const navLinks = $('.sidebar .nav-link');
 
-  navLinks.each(function() {
-    let linkUrl = $(this).attr('href');
+  navLinks.each(function () {
+    const linkUrl = $(this).attr('href');
+    const isActive =
+      (linkUrl.includes('taripa') && currentUrl.href.includes(linkUrl)) ||
+      (
+        (currentUrl.href.includes('new_tricycle') ||
+          currentUrl.href.includes('edit_tricycle') ||
+          currentUrl.href.includes('view_tricycle')) &&
+        linkUrl.includes('tricycles')
+      ) ||
+      (
+        (currentUrl.href.includes('new_driver') ||
+          currentUrl.href.includes('edit_driver') ||
+          currentUrl.href.includes('view_driver')) &&
+        linkUrl.includes('drivers')
+      ) ||
+      (
+        (currentUrl.href.includes('new_appointment') ||
+          currentUrl.href.includes('edit_appointment') ||
+          currentUrl.href.includes('view_appointment')) &&
+        linkUrl.includes('appointment')
+      ) ||
+      (
+        (currentUrl.href.includes('new_taripa')) &&
+        linkUrl.includes('taripa')
+      ) ||
+      (
+        (currentUrl.href.includes('new_maintenance_log') ||
+          currentUrl.href.includes('edit_maintenance_log') ||
+          currentUrl.href.includes('view_maintenance_log')) &&
+        linkUrl.includes('maintenance_logs')
+      ) ||
+      currentUrl.href.endsWith(linkUrl) ||
+      (
+        currentUrl.href.includes('view_operator') &&
+        linkUrl.includes('operators')
+      ) ||
+      (
+        currentUrl.href.includes('appointments_reports') && 
+        linkUrl.includes('appointments_reports')
+      ) ||
+      (
+        currentUrl.href.includes('view_calculations') &&
+        linkUrl.includes('maintenance_tracker') &&
+        currentUrl.searchParams.has('year') &&
+        currentUrl.searchParams.has('cin')
+      );
 
-    if (linkUrl.includes('taripa')) {
-      if (currentUrl.href.includes(linkUrl)) {
-        $(this).addClass('nav-link-active');
-      } else {
-        $(this).removeClass('nav-link-active');
-      }
+    if (isActive) {
+      $(this).addClass('nav-link-active');
     } else {
-      if (currentUrl.href.includes('new_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('edit_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('view_tricycle') && linkUrl.includes('tricycles') || currentUrl.href.includes('new_driver') && linkUrl.includes('drivers') || currentUrl.href.includes('view_driver') && linkUrl.includes('drivers') || currentUrl.href.includes('edit_driver') && linkUrl.includes('drivers') || currentUrl.href.includes('new_appointment') && linkUrl.includes('appointment') || currentUrl.href.includes('view_appointment') && linkUrl.includes('appointment') || currentUrl.href.includes('edit_appointment') && linkUrl.includes('appointment') || currentUrl.href.includes('new_taripa') && linkUrl.includes('taripa') || currentUrl.href.includes('new_maintenance_log') && linkUrl.includes('maintenance_logs') || currentUrl.href.includes('edit_maintenance_log') && linkUrl.includes('maintenance_logs') || currentUrl.href.includes('view_maintenance_log') && linkUrl.includes('maintenance_logs') || currentUrl.href.endsWith(linkUrl) || currentUrl.href.includes('view_operator') && linkUrl.includes('operators')) {
-        $(this).addClass('nav-link-active');
-      } else {
-        $(this).removeClass('nav-link-active');
-      }
+      $(this).removeClass('nav-link-active');
     }
   });
 
-  if (currentUrl.href.includes('red_trike_info')) {
-    $('.sidebar a[href="dashboard"]').addClass('nav-link-active');
-    return;
-  } else if (currentUrl.href.includes('blue_trike_info')) {
-    $('.sidebar a[href="dashboard"]').addClass('nav-link-active');
-    return;
-  } else if (currentUrl.href.includes('yellow_trike_info')) {
-    $('.sidebar a[href="dashboard"]').addClass('nav-link-active');
-    return;
-  } else if (currentUrl.href.includes('green_trike_info')) {
-    $('.sidebar a[href="dashboard"]').addClass('nav-link-active');
-    return;
-  } else if (currentUrl.href.includes('tricycles?status=active')) {
-    $('.sidebar a[href="tricycles"]').addClass('nav-link-active');
-    return;
-  } else if (currentUrl.href.includes('appointments?status=pending')) {
-    $('.sidebar a[href="appointments"]').addClass('nav-link-active');
-    return;
-  }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  let currentUrl = window.location.href;
-  let isHome = currentUrl.endsWith('/');
-  let navLinks = document.querySelectorAll('.nav-link');
-  navLinks.forEach(function(link) {
-    if ((link.getAttribute('href') === '#home' && isHome) || (link.getAttribute('href') === '#home' && !isHome && window.location.hash === '#home')) {
-      link.classList.add('active');
+  const setActiveLink = (keyword, href) => {
+    if (currentUrl.href.includes(keyword)) {
+      $('.sidebar a[href="' + href + '"]').addClass('nav-link-active');
     }
-  });
+  };
 
-  // Listen for hash changes and update the active class accordingly
-  window.addEventListener('hashchange', function() {
-    // Remove the 'active' class from all links
-    navLinks.forEach(function(link) {
-      link.classList.remove('active');
-    });
-
-    // Get the new anchor part of the URL
-    let newAnchor = window.location.hash.substr(1);
-
-    navLinks.forEach(function(link) {
-      if (link.getAttribute('href') === '#' + newAnchor) {
-        link.classList.add('active');
-      }
-    });
-  });
+  setActiveLink('red_trike_info', 'dashboard');
+  setActiveLink('blue_trike_info', 'dashboard');
+  setActiveLink('yellow_trike_info', 'dashboard');
+  setActiveLink('green_trike_info', 'dashboard');
+  setActiveLink('tricycles?status=active', 'tricycles');
+  setActiveLink('appointments?status=pending', 'appointments');
+  setActiveLink('new_franchise', 'appointments');
+  setActiveLink('edit_new_franchise', 'appointments');
+  setActiveLink('renewal_of_franchise', 'appointments');
+  setActiveLink('edit_renewal_of_franchise', 'appointments');
+  setActiveLink('change_of_motorcycle', 'appointments');
+  setActiveLink('edit_change_of_motorcycle', 'appointments');
+  setActiveLink('transfer_of_ownership', 'appointments');
+  setActiveLink('edit_transfer_of_ownership', 'appointments');
+  setActiveLink('intent_of_transfer', 'appointments');
+  setActiveLink('edit_intent_of_transfer', 'appointments');
+  setActiveLink('ownership_transfer_from_deceased_owner', 'appointments');
+  setActiveLink('edit_ownership_transfer_from_deceased_owner', 'appointments');
 });

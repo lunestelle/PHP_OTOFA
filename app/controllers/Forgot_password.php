@@ -1,12 +1,5 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'public/phpmailer/src/Exception.php';
-require 'public/phpmailer/src/PHPMailer.php';
-require 'public/phpmailer/src/SMTP.php';
-
 class Forgot_password
 {
   use Controller;
@@ -65,26 +58,11 @@ class Forgot_password
       $_SESSION['reset_link'] = ROOT . '?email=' . urlencode($_SESSION['reset_email']) . '&token=' . urlencode($_SESSION['reset_token']) . '&reset=true';
 
       $emailContent = $this->renderView('mailer/reset_password_email', false, $data);
+      $subject = "Password Reset";
 
-      $mail = new PHPMailer();
-      $mail->isSMTP();
-      $mail->Host = 'smtp.gmail.com';
-      $mail->Port = 465;
-      $mail->SMTPSecure = 'ssl';
-      $mail->SMTPAuth = true;
-      $mail->Username = 'sakaycle@gmail.com';
-      $mail->Password = 'hagfqeqlqdtyhqzi'; 
+      $result = sendEmail($email, $subject, $emailContent);
 
-      $mail->setFrom('sakaycle@gmail.com', 'Sakaycle');
-      $mail->addAddress($email); // Recipient email
-      $mail->isHTML(true);
-      $mail->Subject = 'Password Reset';
-      $mail->Body = $emailContent;
-
-      if (!$mail->send()) {
-        echo json_encode(['status' => 'error', 'msg' => 'Email could not be sent. Please try again later.']);
-				exit;
-      } else {
+      if ($result === 'success') {
         if (isset($_SESSION['reset_token'])) {
           unset($_SESSION['reset_token']);
         }
@@ -94,9 +72,14 @@ class Forgot_password
         if (isset($_SESSION['reset_link'])) {
           unset($_SESSION['reset_link']);
         }
+
         $message = 'If your email address is correct, you will <br> receive an email with instructions for how to <br> reset your password in a few minutes.';
         $formattedMessage = str_replace('<br>', '', $message);
         $response = ['status' => 'success', 'msg' => $formattedMessage, 'redirect_url' => ''];
+        echo json_encode($response);
+        exit;
+      } else {
+        $response = ['status' => 'error', 'msg' => $result];
         echo json_encode($response);
         exit;
       }

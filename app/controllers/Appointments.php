@@ -41,11 +41,33 @@ class Appointments
           'phone_number' => $appointment->phone_number,
           'email' => $appointment->email,
           'appointment_type' => $appointment->appointment_type,
+          'transfer_type' => $appointment->transfer_type,
           'appointment_date' => $appointment->appointment_date,
           'appointment_time' => $formattedAppointmentTime,
           'status' => $appointment->status
         ];
       }
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
+      $csvData = [];
+      $csvData[] = ['Appointments'];
+      $csvData[] = ['Name', 'Phone Number', 'Email', 'Appointment Type', 'Transfer Type', 'Appointment Date', 'Appointment Time', 'Status'];
+
+      foreach ($data['appointments'] as $appointment) {
+        $csvData[] = [
+          $appointment['name'],
+          $appointment['phone_number'],
+          $appointment['email'],
+          $appointment['appointment_type'],
+          $appointment['transfer_type'],
+          $appointment['appointment_date'],
+          $appointment['appointment_time'],
+          $appointment['status'],
+        ];
+      }
+
+      downloadCsv($csvData, 'Appointments_Export');
     }
 
     echo $this->renderView('appointments', true, $data);

@@ -230,3 +230,35 @@ input[type=number] {
 #color_code option {
   padding: 5px;
 }
+
+.new-appointment-selection input {
+  display: none;
+}
+
+.new-appointment-selection label {
+  cursor: pointer;
+  padding: 10px 15px;
+  display: block;
+  background-color: #EBB803;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  margin-bottom: 8px;
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out; /* Add transition for smooth effect */
+}
+
+.new-appointment-selection:hover label {
+  background-color: #ff4400;
+  color: white;
+}
+
+.new-appointment-selection input:checked + label {
+  box-shadow: none;
+  background-color: #ff4400;
+  color: white;
+}
+
+.appointment-label {
+  color: rgb(100, 100, 100);
+}

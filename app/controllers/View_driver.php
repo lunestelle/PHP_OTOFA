@@ -16,9 +16,9 @@ class View_driver
     $driverModel = new Driver();
     $driverData = $driverModel->first(['driver_id' => $driverId]);
 
-    $tricycleModel = new Tricycle();
-    $tricycleData = $tricycleModel->first(['tricycle_id' => $driverData->tricycle_id]);
-    $tricyclePlateNumber = $tricycleData !== false ? $tricycleData->plate_no : '';
+    $tricycleCinModel = new TricycleCinNumber();
+    $tricycleCinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $driverData->tricycle_cin_number_id]);
+    $tricyclePlateNumber = $tricycleCinData !== false ? $tricycleCinData->cin_number : '';
 
     if (!$driverData) {
       set_flash_message("Driver not found.", "error");

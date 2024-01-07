@@ -1,6 +1,6 @@
 <?php
 $current_page = $_SERVER['REQUEST_URI'];
-$current_page_is_maintenance = strpos($current_page, 'taripa') !== false || strpos($current_page, 'maintenance_regulation_tracker') !== false || strpos($current_page, 'export') !== false;
+$current_page_is_maintenance = strpos($current_page, 'appointments_reports') !== false || strpos($current_page, 'cin_reports') !== false || strpos($current_page, 'tricycles_reports') !== false;
 
 $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USER']->generated_profile_photo_path;
 ?>
@@ -9,7 +9,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SAKAYCLE | A Web-based Tricycle Management</title>
+  <title>SAKAYCLE | A Web-based Management System for Tricycle Franchise Appointment</title>
   <link rel="icon" href="public/assets/images/logo.png" type="image/x-icon">
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
@@ -26,6 +26,14 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
   {{css}}
 
   <!-- OFFLINE & ONLINE JS -->
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+  <!-- ScrollMagic -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/debug.addIndicators.min.js"></script>
+
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="public/assets/bootstrap/js/jquery.min.js"></script>
   <script src="public/assets/bootstrap/js/popper.min.js"></script>
@@ -61,6 +69,47 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
 
   .error-field {
     border-color: red;
+  }
+
+  div.tricycle-status-selection-modal input, div.tricycle-status-disabled-modal input {
+    display: none;
+  }
+
+  div.tricycle-status-selection-modal label {
+    cursor: pointer;
+    padding: 10px 14px;
+    display: block;
+    background-color: #EBB803;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    color: black;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  div.tricycle-status-disabled-modal label {
+    cursor: pointer;
+    padding: 10px 14px;
+    display: block;
+    background-color: #999;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    color: black;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  div.tricycle-status-selection-modal:hover label {
+    background-color: #ff4400;
+    color: white;
+  }
+
+  div.tricycle-status-selection-modal input:checked + label {
+    box-shadow: none;
+    background-color: #ff4400;
+    color: white;
   }
 </style>
 <body>
@@ -109,17 +158,24 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 <a href="dashboard" class="nav-link text-white"><i class="fa-solid fa-list"></i><span class="ms-2">Dashboard</span></a>
               </li>
               <?php if ($userRole === 'operator') { ?>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-2">Drivers</span></a>
-                </li>
+                <?php
+                  // Check if the user has a CIN number
+                  $cinModel = new TricycleCinNumber();
+                  $userHasCin = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
+                ?>
+                <?php if ($userHasCin) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="drivers"><i class="fa-regular fa-id-card"></i><span class="ms-2">Drivers</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="maintenance_logs"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
+                  </li>
+                <?php } ?>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="maintenance_logs"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
                 </li>
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">
@@ -131,15 +187,24 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 <li class="nav-item">
                   <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="taripa"><i class="fa-solid fa-peso-sign"></i><span class="ms-2">Taripa</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="maintenance_tracker"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Tracker</span></a>
+                </li>
                 <li class="nav-item" id="maintenanceDropdown">
-                  <a class="nav-link text-white d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-screwdriver-wrench text-white"></i><span class="ms-2 text-white">Maintenance</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
+                  <a class="nav-link text-white d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-file text-white"></i><span class="ms-2 text-white">Reports</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
                   <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-warning <?php if ($current_page_is_maintenance) echo 'show'; ?>">
                   <div>
                       <li class="nav-item mt-2 pt-1 px-2">
-                        <a class="nav-link text-white fw-bold" href="taripa">Taripa</a>
+                        <a class="nav-link text-white fw-bold reports" style="font-size: 11px;" href="appointments_reports">Appointments Reports</a>
                       </li>
                       <li class="nav-item mb-2 pb-1 px-2">
-                        <a class="nav-link text-white fw-bold" href="export">Export</a>
+                        <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="tricycles_reports">Tricycles Reports</a>
+                      </li>
+                      <li class="nav-item mb-2 pb-1 px-2">
+                        <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="cin_reports">CIN Reports</a>
                       </li>
                   </div>
                   </ul>     
