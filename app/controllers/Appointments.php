@@ -14,6 +14,7 @@ class Appointments
     $statusFilter = isset($_GET['status']) ? $_GET['status'] : '';
 
     $appointmentModel = new Appointment();
+    $userModel = new User();
 
     if ($_SESSION['USER']->role === 'admin') {
       // Fetch all tricycles data for Admin
@@ -49,25 +50,36 @@ class Appointments
       }
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
-      $csvData = [];
-      $csvData[] = ['Appointments'];
-      $csvData[] = ['Name', 'Phone Number', 'Email', 'Appointment Type', 'Transfer Type', 'Appointment Date', 'Appointment Time', 'Status'];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+      if (isset($_POST['exportCsv'])) {
+        $csvData = [];
+        $csvData[] = ['Appointments'];
+        $csvData[] = ['Name', 'Phone Number', 'Email', 'Appointment Type', 'Transfer Type', 'Appointment Date', 'Appointment Time', 'Status'];
 
-      foreach ($data['appointments'] as $appointment) {
-        $csvData[] = [
-          $appointment['name'],
-          $appointment['phone_number'],
-          $appointment['email'],
-          $appointment['appointment_type'],
-          $appointment['transfer_type'],
-          $appointment['appointment_date'],
-          $appointment['appointment_time'],
-          $appointment['status'],
-        ];
+        foreach ($data['appointments'] as $appointment) {
+          $csvData[] = [
+            $appointment['name'],
+            $appointment['phone_number'],
+            $appointment['email'],
+            $appointment['appointment_type'],
+            $appointment['transfer_type'],
+            $appointment['appointment_date'],
+            $appointment['appointment_time'],
+            $appointment['status'],
+          ];
+        }
+
+        downloadCsv($csvData, 'Appointments_Export');
+      } elseif (isset($_POST['newAppointment'])){
+        $userData = $userModel->first(['user_id' => $_SESSION['USER']->user_id]);
+
+        if ($userData && $userData->phone_number_status === 'Verified') {
+          redirect("new_appointment");
+        } else {
+          set_flash_message("Sorry, you need to verify your phone number before <br> setting an appointment. Please verify your phone <br> number in the Manage Account page.", "error");
+          redirect("manage_account");
+        }
       }
-
-      downloadCsv($csvData, 'Appointments_Export');
     }
 
     echo $this->renderView('appointments', true, $data);
