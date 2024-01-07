@@ -53,6 +53,9 @@
                           case 'Renewal Required':
                             $badgeColor = 'bg-warning';
                             break;
+                          case 'Change Motor Required':
+                            $badgeColor = 'bg-info';
+                            break;
                           default:
                             break;
                         }
@@ -63,7 +66,7 @@
                       <?php if ($userRole === 'admin'): ?>  
                         <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Operator Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
                         <?php if ($tricycle['status'] != 'Dropped'): ?>  
-                          <button type="button" class="update-status-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          <button type="button" class="update-status-btn" data-bs-toggle="modal" data-bs-target="#exampleModal-<?php echo $tricycle['tricycle_id']; ?>">
                             Update Status
                           </button>
                         <?php endif; ?> 
@@ -74,7 +77,7 @@
                   </tr>
 
                   <!-- UPDATE STATUS MODAL -->
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal fade" id="exampleModal-<?php echo $tricycle['tricycle_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header m-0 border-0">
@@ -89,9 +92,10 @@
                                   <div class="col-6">
                                     <div class="row-1">
                                       <?php if ($tricycle['status'] != 'Active'): ?>  
+           
                                         <div class="tricycle-status-selection-modal rounded-3 mb-4">
-                                          <input type="radio" id="Active" name="status" value="Active">
-                                          <label for="Active">Active</label>
+                                          <input type="radio" id="Active-<?php echo $tricycle['tricycle_id']; ?>" name="status" value="Active" <?php echo ($tricycle['status'] != 'Active') ? '' : 'disabled'; ?>>
+                                          <label for="Active-<?php echo $tricycle['tricycle_id']; ?>">Active</label>
                                         </div>
                                       <?php else: ?>
                                         <div class="tricycle-status-disabled-modal rounded-3 mb-4">
@@ -101,8 +105,8 @@
                                       <?php endif; ?>
                                       <?php if ($tricycle['status'] != 'Change Motor Required'): ?>  
                                         <div class="tricycle-status-selection-modal rounded-3 mb-4">
-                                          <input type="radio" id="Change Motor Required" name="status" value="Change Motor Required">
-                                          <label for="Change Motor Required">Change Motor Required</label>
+                                          <input type="radio" id="ChangeMotorRequired-<?php echo $tricycle['tricycle_id']; ?>" name="status" value="Change Motor Required" <?php echo ($tricycle['status'] != 'Change Motor Required') ? '' : 'disabled'; ?>>
+                                          <label for="ChangeMotorRequired-<?php echo $tricycle['tricycle_id']; ?>">Change Motor Required</label>
                                         </div>
                                       <?php else: ?>
                                         <div class="tricycle-status-disabled-modal rounded-3 mb-4">
@@ -116,8 +120,8 @@
                                     <div class="row-2">
                                       <?php if ($tricycle['status'] != 'Dropped'): ?>  
                                         <div class="tricycle-status-selection-modal rounded-3 mb-4">
-                                          <input type="radio" id="Dropped" name="status" value="Dropped">
-                                          <label for="Dropped">Dropped</label>
+                                          <input type="radio" id="Dropped-<?php echo $tricycle['tricycle_id']; ?>" name="status" value="Dropped" <?php echo ($tricycle['status'] != 'Dropped') ? '' : 'disabled'; ?>>
+                                          <label for="Dropped-<?php echo $tricycle['tricycle_id']; ?>">Dropped</label>
                                         </div>
                                       <?php else: ?>
                                         <div class="tricycle-status-disabled-modal rounded-3 mb-4">
@@ -127,8 +131,8 @@
                                       <?php endif; ?>
                                       <?php if ($tricycle['status'] != 'Renewal Required'): ?>  
                                         <div class="tricycle-status-selection-modal rounded-3 mb-4">
-                                          <input type="radio" id="renewalRequired" name="status" value="Renewal Required">
-                                          <label for="renewalRequired">Renewal Required</label>
+                                          <input type="radio" id="RenewalRequired-<?php echo $tricycle['tricycle_id']; ?>" name="status" value="Renewal Required" <?php echo ($tricycle['status'] != 'Renewal Required') ? '' : 'disabled'; ?>>
+                                          <label for="RenewalRequired-<?php echo $tricycle['tricycle_id']; ?>">Renewal Required</label>
                                         </div>
                                       <?php else: ?>
                                         <div class="tricycle-status-disabled-modal rounded-3 mb-4">
