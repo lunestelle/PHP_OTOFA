@@ -39,7 +39,6 @@
                           <p><span class="fw-bolder mr-5 text-uppercase">Phone Number:</span> 
                           <p><span class="fw-bolder mr-5 text-uppercase">Preferred Date:</span> 
                           <p><span class="fw-bolder mr-5 text-uppercase">Status:</span> 
-                          <hr>
                         </div>
                       </div>
                       <div class="col-md-3 mt-3">
@@ -103,7 +102,7 @@
                           <p><span class="fw-bolder mr-5 text-uppercase">Phone Number:</span>
                           <p><span class="fw-bolder mr-5 text-uppercase">Color Code:</span>
                           <p><span class="fw-bolder mr-5 text-uppercase">Make Model:</span>
-                          <p><span class="fw-bolder mr-5 text-uppercase">Motor Number:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">Model Year Acquired:</span>
                           <p><span class="fw-bolder mr-5 text-uppercase">C.O.C Number:</span>
                           <?php if ($appointment->status === "Completed" || !empty($appointment->status)): ?>
                             <p><span class="fw-bolder mr-5 text-uppercase">Tricycle CIN:</span>
@@ -114,7 +113,6 @@
                           <?php if (!empty($tricycleApplication->driver_license_no)): ?>
                             <p><span class="fw-bolder mr-5 text-uppercase">Driver License Number:</span>
                           <?php endif; ?>
-                          <hr>
                         </div>
                       </div>
                       <div class="col-md-3 mt-3">
@@ -122,7 +120,7 @@
                         <?php echo ($tricycleApplication->tricycle_phone_number); ?></p>
                         <?php echo ucwords(strtolower($tricycleApplication->color_code)); ?></p>
                         <?php echo ucwords(strtolower($tricycleApplication->make_model)); ?></p>
-                        <?php echo ucwords(strtolower($tricycleApplication->motor_number)); ?></p>
+                        <?php echo($tricycleApplication->make_model_year_acquired); ?></p>
                         <?php echo ucwords(strtolower($tricycleApplication->coc_no)); ?></p>
                         <?php if ($appointment->status === "Completed" || !empty($appointment->status)): ?>
                           <?php echo $tricycle_cin; ?></p>
@@ -141,8 +139,9 @@
                             <p><span class="fw-bolder mr-5 text-uppercase">MTOP Number:</span> 
                             <p><span class="fw-bolder mr-5 text-uppercase">Route Area:</span>
                             <p><span class="fw-bolder mr-5 text-uppercase">Model Expiry Date:</span>
-                            <p><span class="fw-bolder mr-5 text-uppercase">Insurer:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Motor Number:</span>
                             <p><span class="fw-bolder mr-5 text-uppercase">C.O.C Expiry Date:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Insurer:</span>
                             <?php if (!empty($tricycleApplication->lto_cr_no)): ?>
                               <p><span class="fw-bolder mr-5 text-uppercase">LTO CR Number:</span>
                             <?php endif; ?>
@@ -158,8 +157,9 @@
                             <?php echo strtoupper($tricycleApplication->mtop_no); ?></p>
                             <?php echo ($tricycleApplication->route_area); ?></p>
                             <?php echo ($tricycleApplication->make_model_expiry_date); ?></p>
-                            <p class="text-capitalize"><?php echo ($tricycleApplication->insurer); ?></p>
+                            <?php echo ucwords(strtolower($tricycleApplication->motor_number)); ?></p>
                             <?php echo ($tricycleApplication->coc_no_expiry_date); ?></p>
+                            <?php echo ($tricycleApplication->insurer); ?></p>
                             <?php if (!empty($tricycleApplication->lto_cr_no)): ?>
                               <?php echo ($tricycleApplication->lto_cr_no); ?></p>
                             <?php endif; ?>

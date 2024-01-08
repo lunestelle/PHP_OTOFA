@@ -136,8 +136,8 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 <ul class="dropdown-menu shadow" aria-labelledby="accountDropdown">
                   <li><h6 class="dropdown-header text-white text-start fs-6">Manage Account</h6></li>
                   <li><a class="dropdown-item  mt-2" href="manage_account"><i class="fa-solid fa-gear"></i>Profile</a></li>
-                  <li><a class="dropdown-item  mt-2" href="notification"><i class="fa-solid fa-bell"></i>Notifications</a></li>
-                  <li><hr class="dropdown-divider"></li>
+                  <!-- <li><a class="dropdown-item  mt-2" href="notification"><i class="fa-solid fa-bell"></i>Notifications</a></li> -->
+                  <!-- <li><hr class="dropdown-divider"></li> -->
                   <li>
                     <form action="<?= ROOT ?>/sign_out" method="post" id="sign-out-form">
                       <input type="hidden" name="sign_out" value="1">

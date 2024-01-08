@@ -134,6 +134,10 @@
                         <input type="text" class="form-control" id="make_model" name="make_model" value="<?php echo isset($_POST['make_model']) ? $_POST['make_model'] : ''; ?>" required>
                       </div>
                       <div class="col-4 px-5">
+                        <label for="make_model_year_acquired" class="form-label">Model Year Acquired</label>
+                        <input type="text" class="form-control text-uppercase" id="make_model_year_acquired" name="make_model_year_acquired" value="<?php echo isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ''; ?>" required>
+                      </div>
+                      <div class="col-4 px-5">
                         <label for="make_model_expiry_date" class="form-label">Model Expiry Date</label>
                         <input type="date" class="form-control text-uppercase" id="make_model_expiry_date" name="make_model_expiry_date" value="<?php echo isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ''; ?>" required>
                       </div>

@@ -17,6 +17,7 @@ class TricycleApplication
     'color_code',
     'make_model',
     'make_model_expiry_date',
+    'make_model_year_acquired',
     'motor_number',
     'insurer',
     'coc_no',
@@ -38,6 +39,7 @@ class TricycleApplication
       'mtop_no' => 'MTOP Number',
       'make_model' => 'Make Model',
       'make_model_expiry_date' => 'Model Expiry Date',
+      'make_model_year_acquired' => 'Model Year Acquired',
       'motor_number' => 'Motor Number',
       'insurer' => 'Insurer',
       // 'chasis_number' => 'Chassis Number',
@@ -103,6 +105,21 @@ class TricycleApplication
     //     }
     //   }
     // }
+
+    // Validate Model Year Acquired
+    if (!empty($data['make_model_year_acquired'])) {
+      $currentYear = date('Y');
+      $modelYearAcquired = intval($data['make_model_year_acquired']);
+
+      if (!preg_match('/^\d{4}$/', $data['make_model_year_acquired'])) {
+        $errors[] = 'Model Year Acquired must be a valid 4-digit year.';
+      } elseif ($modelYearAcquired > $currentYear) {
+        $errors[] = 'Model Year Acquired cannot be in the future.';
+      } elseif ($modelYearAcquired < 1900) {
+        $errors[] = 'Model Year Acquired cannot be earlier than 1900.';
+      }
+    }
+
 
     return $errors;
   }
