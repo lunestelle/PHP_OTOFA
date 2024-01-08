@@ -354,6 +354,30 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 	}
 }
 
+function systemNotifications($phoneNumber, $userName, $email, $subject, $customTextMessage = null, $customEmailMessage = null)
+{
+	$rootPath = ROOT;
+	$message = $customTextMessage;
+
+	$user = "Hello {$userName},";
+	$emailMessage = $customEmailMessage;
+	$subMessage = "For more details, please check the website by clicking the button below.";
+	$buttonLink = "$rootPath";
+
+	ob_start();
+	include_once "app/views/mailer/appointment_email_template.php";
+	$templateContent = ob_get_clean();
+
+	$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
+	$templateContent = str_replace('{{User}}', $user, $templateContent);
+	$templateContent = str_replace('{{Message}}', nl2br($emailMessage), $templateContent);
+	$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
+	$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
+
+	sendSms($phoneNumber, $message);
+	sendEmail($email, $subject, $templateContent);
+}
+
 function downloadCsv($data, $filename)
 {
 	header('Content-Type: text/csv; charset=UTF-8');
