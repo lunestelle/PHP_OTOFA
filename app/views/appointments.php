@@ -8,7 +8,9 @@
         <?php if ($userRole === 'operator'): ?>  
           <div class="col-12">
             <div class="mt-3">
-              <a href="new_appointment" class="text-uppercase sidebar-btnContent new-button">New</a>
+              <form method="post" action="">
+                <button type="submit" name="newAppointment" class="text-uppercase sidebar-btnContent new-button">New</button>
+              </form>
             </div>
             <?php if (!empty($appointments)): ?>
               <div class="mt-3 text-end">

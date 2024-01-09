@@ -41,7 +41,7 @@ class New_franchise
         'route_area' => $_POST['route_area'] ?? '',
         'color_code' => $_POST['color_code'] ?? '',
         'make_model' => $_POST['make_model'] ?? '',
-        'make_model_expiry_date' => $_POST['make_model_expiry_date'] ?? '',
+        'make_model_expiry_date' => $_POST['make_model_expiry_date'] ?? '','make_model_year_acquired' => $_POST['make_model_year_acquired'] ?? '',
         'motor_number' => $_POST['motor_number'] ?? '',
         'insurer' => $_POST['insurer'] ?? '',
         'coc_no' => $_POST['coc_no'] ?? '',
