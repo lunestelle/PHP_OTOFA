@@ -73,7 +73,7 @@ class TricycleApplication
       }
     }
 
-    foreach (['make_model_expiry_date', 'coc_no_expiry_date', 'driver_license_expiry_date'] as $dateField) {
+    foreach (['coc_no_expiry_date', 'driver_license_expiry_date'] as $dateField) {
       if (!empty($data[$dateField]) && !strtotime($data[$dateField])) {
         $errors[] = ucfirst(str_replace('_', ' ', $dateField)) . ' must be a valid date.';
       }
@@ -120,6 +120,20 @@ class TricycleApplication
       }
     }
 
+    // Validate Model Expiry Date based on Model Year Acquired
+    if (!empty($data['make_model_expiry_date'])) {
+      if (!strtotime($data['make_model_expiry_date'])) {
+        $errors[] = 'Model Expiry Date must be a valid date.';
+      } else {
+        $expiryYear = date('Y', strtotime($data['make_model_expiry_date']));
+        $acquiredYear = intval($data['make_model_year_acquired']);
+
+        // Validate that Model Expiry Date year should be 10 years from the Model Year Acquired
+        if ($expiryYear !== ($acquiredYear + 10)) {
+          $errors[] = 'Model Expiry Date year should be 10 years <br> from the Model Year Acquired.';
+        }
+      }
+    }
 
     return $errors;
   }

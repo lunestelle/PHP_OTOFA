@@ -212,7 +212,7 @@ class Appointment
   {
     date_default_timezone_set('Asia/Manila');
     $startTime = strtotime('08:00 AM');
-    $endTime = strtotime('05:00 PM');
+    $endTime = strtotime('04:30 PM');
     $appointmentTime = strtotime($time);
 
     return ($appointmentTime >= $startTime && $appointmentTime <= $endTime);
@@ -246,7 +246,7 @@ class Appointment
   private function hasMaximumDailyAppointments($date)
   {
     // Assuming the appointments are in 1-hour intervals
-    $totalSlots = 30; // Total available slots in a day
+    $totalSlots = 50; // Total available slots in a day
     $appointments = $this->where(['appointment_date' => $date]);
 
     // Check if $appointments is a valid result set (array or object)
@@ -273,10 +273,31 @@ class Appointment
   private function isBlackoutDate($date)
   {
     // Check if the date is in the array of blackout dates (e.g., holidays, maintenance days)
-    $blackoutDates = ['2023-12-25', '2023-12-31'];
-    return in_array($date, $blackoutDates);
-  }
+    $blackoutDates = [
+      '01-01', // New Year’s Day
+      '01-02', // New Year’s Day
+      '03-28', // Maundy Thursday
+      '03-29', // Good Friday
+      '04-09', // Araw ng Kagitingan
+      '05-01', // Labor Day
+      '06-12', // Independence Day
+      '08-26', // National Heroes Day
+      '11-30', // Bonifacio Day
+      '12-25', // Christmas Day
+      '12-26', // Christmas Day
+      '12-30'  // Rizal Day
+    ];
 
+    $currentYear = date('Y');
+
+    // Append the current year to blackout dates for comparison
+    $blackoutDatesWithYear = array_map(function ($day) use ($currentYear) {
+      return $currentYear . '-' . $day;
+    }, $blackoutDates);
+
+    return in_array($date, $blackoutDatesWithYear);
+  }
+  
   public function getUniqueYears()
   {
     $query = "SELECT DISTINCT YEAR(appointment_date) AS year FROM {$this->table} ORDER BY year DESC";
