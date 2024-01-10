@@ -11,6 +11,8 @@ class New_franchise
       redirect('');
     }
 
+    $data = [];
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
       $appointmentModel = new Appointment();
       $tricycleApplicationModel = new TricycleApplication();

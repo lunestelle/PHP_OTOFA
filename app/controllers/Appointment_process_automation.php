@@ -58,9 +58,15 @@ class Appointment_process_automation
       $formattedDate = date('F j, Y', strtotime($appointment->appointment_date));
       $formattedTime = date('h:i A', strtotime($appointment->appointment_time));
 
-      $customTextMessage = "Dear {$userName}, Your appointment is scheduled for {$formattedDate} at {$formattedTime}. Please ensure that you are prepared for the appointment.";
+      $customTextMessage = "Hello {$userName}, Your appointment is scheduled for {$formattedDate} at {$formattedTime}. Please ensure that you are prepared for the appointment.";
 
-      $customEmailMessage = "Your appointment is scheduled for {$formattedDate} at {$formattedTime}. Please ensure that you are prepared for the appointment.";
+      $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your appointment is scheduled for {$formattedDate} at {$formattedTime}. Please ensure that you are prepared for the appointment.";
+
+      // Check if the appointment type is "Renewal of Franchise" and the appointment date is past January 20
+      if ($appointment->appointment_type === 'Renewal of Franchise' && strtotime($appointment->appointment_date) > strtotime(date('Y-01-20'))) {
+        $customTextMessage .= "\n\n <div style='margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Please be informed that your appointment is past the renewal period for the tricycle franchise, which occurred from December 20 to January 20. Please be aware that a penalty of ₱150.00 is applicable due to late renewal.</div>\n";
+        $customEmailMessage .= "\n\n <div style='margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Please be informed that your appointment is past the renewal period for the tricycle franchise, which occurred from December 20 to January 20. Please be aware that a penalty of ₱150.00 is applicable due to late renewal.</div>\n";
+      }
 
       $subject = "Appointment Reminder";
 
