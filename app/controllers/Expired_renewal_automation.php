@@ -7,7 +7,7 @@ class Expired_renewal_automation
   public function index()
   {
     $currentDate = date('Y-m-d');
-    $deadlineEnd = date('Y') . "-01-08";
+    $deadlineEnd = date('Y') . "-01-20";
 
     $tricyclesModel = new Tricycle();
     $userModel = new User();
