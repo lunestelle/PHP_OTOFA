@@ -147,8 +147,8 @@ function generateProfilePicture($initials) {
 
 function sendSms($phoneNumber, $message)
 {
-	$infobipBaseUrl = "https://xl9v6g.api.infobip.com";
-	$infobipApiKey = "99213ffff87a1b97867d5365edfdac3b-8d2c3f10-e175-4afd-8307-d6940b95fc26";
+	$infobipBaseUrl = "https://8gxme3.api.infobip.com";
+	$infobipApiKey = "eb5bd5210a9dff83a809c48a30e70c0a-d3f8e3b8-eadb-4485-bf04-9985c65492fc";
 
 	$infobipConfiguration = new Configuration(host: $infobipBaseUrl, apiKey: $infobipApiKey);
 	$infobipSmsApi = new SmsApi(config: $infobipConfiguration);
@@ -259,20 +259,28 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
   $phoneNumber = $appointmentFormData['phone_number'];
   $email = $appointmentFormData['email'];
   $status = $appointmentFormData['status'];
-  $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
+  $appointmentDate = strtotime($appointmentFormData['appointment_date']);
+  $formattedDate = date('F j, Y', $appointmentDate);
   $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
   $rootPath = ROOT;
 
 	if ($status === 'Approved') {
-		$message = $customTextMessage;
+    $message = $customTextMessage;
+    $subject = "Appointment Approved";
+    $user = "Hello {$appointmentFormData['name']},";
+    $emailMessage = $customEmailMessage;
+    $requirements = $customRequirementMessage;
+    $subMessage = "For more details, please check your appointment details on our website by clicking the button below.";
+    $buttonLink = "$rootPath";
 
-		$subject = "Appointment Approved";
-		$user = "Hello {$appointmentFormData['name']},";
-		$emailMessage = $customEmailMessage;
-		$requirements = $customRequirementMessage;
-		$subMessage = "For more details, please check your appointment details on our website by clicking the button below.";
-		$buttonLink = "$rootPath";
-
+		if ($appointmentFormData['appointment_type'] === 'Renewal of Franchise'){
+			// Check if the appointment date is past January 20
+			if ($appointmentDate > strtotime(date('Y-01-20'))) {
+				$requirements .= "\n<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Please be informed that your appointment is past the renewal period for the tricycle franchise, which occurred from December 20 to January 20 and a penalty of ₱150.00 is applicable due to late renewal.</div>";
+				$message .= "\n\nNote: Please be informed that your appointment is past the renewal period for the tricycle franchise, which occurred from December 20 to January 20 and a penalty of ₱150.00 is applicable due to late renewal.\n";
+			}
+		}
+		
 		ob_start();
 		include_once "app/views/mailer/approved_appointment_email.php";
 		$templateContent = ob_get_clean();

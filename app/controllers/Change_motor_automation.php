@@ -33,9 +33,9 @@ class Change_motor_automation
         $userName = $user->first_name . ' ' . $user->last_name;
         $email = $user->email;
 
-        $customTextMessage = "Dear {$userName}, Your tricycle is due for a change of motor. Kindly set an appointment through Sakaycle before the deadline to facilitate the process and avoid any inconveniences. To ensure a smooth process, please prepare for the requirements in advance. ";
+        $customTextMessage = "Hello {$userName}, Your tricycle is due for a change of motor. Kindly set an appointment through Sakaycle before the deadline to facilitate the process and avoid any inconveniences. \n\nTo ensure a smooth process, please prepare for the requirements in advance.\n\nYour prompt attention to this matter is greatly appreciated. Thank you for your cooperation.";
 
-        $customEmailMessage = "Your tricycle is due for a change of motor. Kindly set an appointment through Sakaycle before the deadline to facilitate the process and avoid any inconveniences. To ensure a smooth process, please prepare for the requirements in advance.";
+        $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your tricycle is due for a change of motor. Kindly set an appointment through Sakaycle before the deadline to facilitate the process and avoid any inconveniences. To ensure a smooth process, please prepare for the requirements in advance. Your prompt attention to this matter is greatly appreciated. Thank you for your cooperation.</div>";
 
         $subject = "Tricycle Change Motor Reminder";
 
