@@ -48,6 +48,8 @@ $(document).ready(function () {
         linkUrl.includes('maintenance_tracker') &&
         currentUrl.searchParams.has('year') &&
         currentUrl.searchParams.has('cin')
+      ) ||
+      (linkUrl.includes('maintenance_tracker') && currentUrl.href.includes(linkUrl)
       );
 
     if (isActive) {

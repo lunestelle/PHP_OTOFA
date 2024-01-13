@@ -24,7 +24,6 @@ class MaintenanceLog
 
     $requiredFields = [
       'tricycle_cin_number_id' => 'Tricycle CIN',
-      'driver_id' => 'Name of Driver',
       'expense_date' => 'Expense Date',
       'total_expenses' => 'Total Expenses',
       'description' => 'Description'
@@ -54,12 +53,12 @@ class MaintenanceLog
 
   public function getMaintenanceData($selectedYear)
   {
-    $whereClause = ($selectedYear != '') ? "WHERE YEAR(expense_date) = $selectedYear" : "";
+    $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(expense_date) = $selectedYear" : "";
     $query = "SELECT tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name) AS operator_name, CONCAT(drivers.first_name, ' ', drivers.middle_name, ' ', drivers.last_name) AS driver_name, YEAR(expense_date) AS year, SUM(total_expenses) AS yearly_total_expenses
               FROM $this->table
               JOIN tricycle_cin_numbers ON maintenance_logs.tricycle_cin_number_id = tricycle_cin_numbers.tricycle_cin_number_id
               JOIN users ON tricycle_cin_numbers.user_id = users.user_id
-              JOIN drivers ON maintenance_logs.driver_id = drivers.driver_id
+              LEFT JOIN drivers ON maintenance_logs.driver_id = drivers.driver_id
               $whereClause
               GROUP BY tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name), drivers.first_name, YEAR(expense_date)
               ORDER BY YEAR(expense_date) DESC";

@@ -142,7 +142,7 @@
                           <i class="fa-solid fa-times fa-lg"></i>
                         </a>
                       <?php endif; ?>
-                      <?php if ($userRole === 'admin' && $appointment['status'] === "Approved"): ?>
+                      <?php if ($userRole === 'admin'): ?>
                         <button class="btn-print me-4" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
                         <button id="downloadPdfButton" class="btn-download-pdf mt-1 me-4" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="downloadPdf()">Download PDF</button>
                       <?php endif; ?>

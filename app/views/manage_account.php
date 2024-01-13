@@ -79,8 +79,8 @@
                     <div class="phone_verification_flash_msg"></div>
                     <label for="phone_number" class="form-label">Phone Number</label>
                     <?php if ($phone_status === 'Not Verified') { ?>
-                      <span class="badge bg-danger text-white">NOT VERIFIED</span>
-                      <button type="button" class="btn btn-primary" id="verifyPhoneNumberBtn">Verify</button>
+                      <span class="badge bg-danger text-white not-verified-badge">NOT VERIFIED</span>
+                      <button type="button" class="verify-btn" id="verifyPhoneNumberBtn">Verify</button>
                     <?php } ?>
                     <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?php echo isset($phone_number) ? $phone_number : '' ?>" required>
                   </div>
@@ -333,10 +333,10 @@
             if (response.status == 'success') {
               console.log('Verification code sent successfully');
 
-            const phoneVerificationMessage = document.querySelector('.phone_verification_flash_msg');
+              const phoneVerificationMessage = document.querySelector('.phone_verification_flash_msg');
 
-            phoneVerificationMessage.className = 'alert alert-success mt-2';
-            phoneVerificationMessage.textContent = response.message;
+              phoneVerificationMessage.className = 'alert alert-success mt-2';
+              phoneVerificationMessage.textContent = response.message;
 
             setTimeout(function () {
                 phoneVerificationMessage.className = '';

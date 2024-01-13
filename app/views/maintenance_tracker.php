@@ -16,6 +16,7 @@
           <div class="col-6 mt-3">
             <label for="yearFilter" class="fw-bold">Filter By Year:</label>
             <select id="yearFilter" class="form-select">
+              <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
               <?php foreach ($years as $year): ?>
                 <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
               <?php endforeach; ?>
@@ -30,6 +31,9 @@
                   <th scope="col" class="text-center">Operator's Name</th>
                   <th scope="col" class="text-center">Driver's Name</th>
                   <th scope="col" class="text-center">Yearly Total Expenses</th>
+                  <?php if ($selectedFilter == 'all'): ?>
+                    <th scope="col" class="text-center">Expense Year</th>
+                  <?php endif; ?>
                   <th scope="col" class="text-center">View Calculations</th>
                 </tr>
               </thead>
@@ -39,8 +43,11 @@
                   <td><?php echo $index++; ?></td>
                   <td><?php echo $maintenance->cin_number; ?></td>
                   <td><?php echo $maintenance->operator_name; ?></td>
-                  <td><?php echo $maintenance->driver_name; ?></td>
-                  <td><?php echo $maintenance->yearly_total_expenses; ?></td>
+                  <td><?php echo empty($maintenance->driver_name) ? '----------------' : $maintenance->driver_name; ?></td>
+                  <td><?php echo '₱' . number_format($maintenance->yearly_total_expenses, 2, '.', ''); ?></td>
+                  <?php if ($selectedFilter == 'all'): ?>
+                    <td><?php echo $maintenance->year; ?></td>
+                  <?php endif; ?>
                   <td><a class="view-maintenance-tracker-btn" href="#" onclick="viewCalculations(<?php echo $maintenance->year; ?>, '<?php echo $maintenance->cin_number; ?>')">View</a></td>
                   </tr>
                 <?php endforeach; ?>
@@ -59,8 +66,13 @@
 
   $(document).ready(function () {
     $("#yearFilter").change(function () {
-      var selectedYear = $(this).val();
-      window.location.href = "maintenance_tracker?year=" + selectedYear;
+      const selectedYear = $("#yearFilter").val();
+      if (selectedYear === 'all') {
+        // Redirect to the page without a specific year filter
+        window.location.href = "maintenance_tracker";
+      } else {
+        window.location.href = "maintenance_tracker?year=" + selectedYear;
+      }
     });
   });
 </script>

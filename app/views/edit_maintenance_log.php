@@ -37,15 +37,9 @@
                               </div>
                             <?php endif; ?>
                             <div class="col-4">
-                              <label for="driver_id" class="form-label">Name of Driver</label>
-                              <select class="form-control" id="driver_id" name="driver_id" required>
-                                <option <?php echo (!isset($maintenanceLogData['driver_id'])) ? 'selected' : ''; ?> disabled>Please Select Here</option>
-                                <?php foreach ($drivers as $driver): ?>
-                                <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($maintenanceLogData['driver_id']) && $maintenanceLogData['driver_id'] == $driver['driver_id']) ? 'selected' : ''; ?>>
-                                  <?php echo $driver['name']; ?>
-                                </option>
-                                <?php endforeach; ?>
-                              </select>
+                              <label for="driver_name" class="form-label">Name of Driver</label>
+                              <input type="text" class="form-control" style="cursor: pointer;" id="driver_name" name="driver_name" placeholder="Select CIN first" readonly data-toggle="tooltip" data-bs-placement="right" value="" title="Please choose a Tricycle CIN to determine the Driver Name">
+                              <input type="hidden" id="driver_id" name="driver_id" value="">
                             </div>
                             <div class="col-4">
                               <label for="expense_date" class="form-label">Expense expense_date</label>
@@ -143,5 +137,45 @@
       $("#imageTypeInput").val(imageType);
       $("#originalImagePathInput").val(originalImagePath);
     });
+  });
+
+  $(document).ready(function () {
+    const tricycleCinSelect = $('#tricycle_cin_number_id');
+    const driverNameInput = $('#driver_name');
+
+    function updateDriverName() {
+      let selectedCinId = tricycleCinSelect.val();
+      let driverData = <?= json_encode($data['drivers']) ?>;
+      
+      // Find the driver data for the selected CIN
+      let selectedDriver = driverData[selectedCinId];
+
+      if (selectedCinId && selectedDriver) {
+        $('#driver_id').val(selectedDriver['driver_id'])
+        driverNameInput.val(selectedDriver['name']);
+        driverNameInput.tooltip('hide').attr('data-bs-original-title', '');
+      } else if (selectedCinId) {
+        $('#driver_id').val('');
+        driverNameInput.val('Selected CIN has no driver');
+        driverNameInput.tooltip('hide').attr('data-bs-original-title', 'Selected CIN has no driver');
+      } else {
+        $('#driver_id').val('');
+        driverNameInput.val('Select CIN first');
+        driverNameInput.tooltip('hide').attr('data-bs-original-title', 'Please choose a Tricycle CIN to determine the Driver Name');
+      }
+
+      driverNameInput.tooltip('dispose');
+      driverNameInput.tooltip({
+        placement: 'right',
+        trigger: 'hover',
+      });
+
+    }
+
+    tricycleCinSelect.change(function () {
+      updateDriverName();
+    });
+
+    updateDriverName();
   });
 </script>

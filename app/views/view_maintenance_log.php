@@ -32,7 +32,7 @@ $backUrl = isset($_SESSION['prev_page']) ? $_SESSION['prev_page'] : './maintenan
                           <div class="col-4 px-5">
                             <p class="form-label">Name of Driver</p>
                             <div class="form-control">
-                              <?php echo isset($driver_name) ? $driver_name : ''; ?>
+                              <?php echo !empty($driver_name) ? $driver_name : 'No Driver'; ?>
                             </div>
                           </div>
                           <div class="col-4 px-5">

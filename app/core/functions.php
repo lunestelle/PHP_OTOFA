@@ -300,7 +300,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 
 		$subject = "Appointment Rejected";
 		$user = "Hello {$appointmentFormData['name']},";
-		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We regret to inform you that your request for an appointment on <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out by replying to this email. Additionally, please review the feedback or comment section on the website for more details about your appointment by clicking the button below.</div>";
+		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We regret to inform you that your request for an appointment on <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out by replying to this email. Additionally, please review the feedback or comment section on the website for more details about your appointment by clicking the button below.</div>";
 		$buttonLink = "$rootPath";
 		$subMessage = "Thank you for your understanding and cooperation.";
 	
@@ -310,7 +310,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 	
 		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
 		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
-		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{Message}}', $emailMessage, $templateContent);
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	
@@ -321,7 +321,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 
 		$subject = "Appointment On Process";
 		$user = "Hello {$appointmentFormData['name']},";
-		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion. 
+		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We wanted to inform you that we have received your requirement and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion. 
 		</div>";
 		$buttonLink = "$rootPath";
 		$subMessage = "Thank you for your understanding and cooperation.";
@@ -332,7 +332,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 	
 		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
 		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
-		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{Message}}', $emailMessage, $templateContent);
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	
@@ -343,7 +343,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 
 		$subject = "Appointment Completed";
 		$user = "Hello {$appointmentFormData['name']},";
-		$message = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We are pleased to inform you that your appointment scheduled for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.</div>";
+		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We are pleased to inform you that your appointment scheduled for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.</div>";
 		$buttonLink = "$rootPath";
 		$subMessage = "Thank you for choosing our services.";
 	
@@ -353,7 +353,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 	
 		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
 		$templateContent = str_replace('{{User}}', nl2br($user), $templateContent);
-		$templateContent = str_replace('{{Message}}', $message, $templateContent);
+		$templateContent = str_replace('{{Message}}', $emailMessage, $templateContent);
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	
@@ -393,7 +393,7 @@ function downloadCsv($data, $filename)
 
 	$output = fopen('php://output', 'w');
 	foreach ($data as $row) {
-			fputcsv($output, $row);
+		fputcsv($output, $row);
 	}
 	fclose($output);
 
