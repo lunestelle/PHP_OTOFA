@@ -647,4 +647,5 @@ body .reset-email {
 .message::placeholder {
   font-weight: bold;
   color: gray;
+  font-size: 12px;
 }
