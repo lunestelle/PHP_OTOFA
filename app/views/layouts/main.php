@@ -179,7 +179,7 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                 </li>
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">
-                  <a class="nav-link text-white" href="inquiries"><i class="fas fa-envelope"></i><span class="ms-2">Inquiry</span></a>
+                  <a class="nav-link text-white" href="inquiries"><i class="fas fa-envelope"></i><span class="ms-2">Inquiries</span></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
