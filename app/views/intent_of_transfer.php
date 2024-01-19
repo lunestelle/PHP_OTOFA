@@ -176,7 +176,12 @@
                       <?php else: ?>
                         <div class="col-4 px-5">
                           <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                          <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                              <i class="fa-solid fa-info-circle"></i>
+                            </span>
+                          </div>
                         </div>
                       <?php endif; ?>
                     </div>

@@ -156,7 +156,7 @@
                         <div class="col-4 px-5">
                           <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>                          
                           <div class="input-group">
-                            <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="<?= $cin_number ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
+                            <input type="text" class="form-control" style="cursor: pointer;"  id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="<?= $cin_number ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
                             <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                               <i class="fa-solid fa-info-circle"></i>
                             </span>
@@ -165,7 +165,12 @@
                       <?php else: ?>
                         <div class="col-4 px-5">
                           <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                          <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                              <i class="fa-solid fa-info-circle"></i>
+                            </span>
+                          </div>
                         </div>
                       <?php endif; ?>
                     </div>
@@ -196,7 +201,7 @@
                           <div class="col-4 px-5">
                             <label for="driver_id" class="form-label">Name of Driver</label>
                             <div class="input-group">
-                              <input type="text" class="form-control" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
+                              <input type="text" class="form-control" style="cursor: pointer;" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
                               <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                                 <i class="fa-solid fa-info-circle"></i>
                               </span>
@@ -206,7 +211,7 @@
                           <div class="col-4 px-5">
                             <label for="driver_id" class="form-label">Name of Driver</label>
                             <div class="input-group">
-                              <input type="text" class="form-control" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly required>
+                              <input type="text" class="form-control" id="driver_id" style="cursor: pointer;" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly required>
                               <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                                 <i class="fa-solid fa-info-circle"></i>
                               </span>
@@ -220,7 +225,7 @@
                         </div>
                         <div class="col-4 px-5">
                           <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                          <input type="date" class="form-control text-uppercase" id="lto_or_no" name="lto_or_no" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
+                          <input type="date" class="form-control text-uppercase" style="cursor: pointer;" id="lto_or_no" name="lto_or_no" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
                         </div>
                         <div class="col-4 px-5">
                           <label for="driver_id" class="form-label">Name of Driver</label>

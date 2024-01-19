@@ -11,9 +11,12 @@ class Edit_renewal_of_franchise
       redirect('');
     }
 
-    $appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
-
+    $driverModel = new Driver();
     $appointmentModel = new Appointment();
+    $tricycleApplicationModel = new TricycleApplication();
+    $tricycleCinNumberModel = new TricycleCinNumber();
+
+    $appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
     $appointmentData = $appointmentModel->first(['appointment_id' => $appointmentId]);
 
     if (!$appointmentData) {
@@ -21,42 +24,16 @@ class Edit_renewal_of_franchise
       redirect('appointments');
     }
     
-    $tricycleApplicationModel = new TricycleApplication();
     $tricycleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointmentId]);
-    
-    $tricycleCinNumberModel = new TricycleCinNumber();
     $selectedUserId = $appointmentData->user_id;
     $selectedCinNumber = $tricycleApplicationData->tricycle_cin_number_id;
+    $cinData = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumber]);
+    $driverData = $driverModel->first(['tricycle_cin_number_id' => $cinData->tricycle_cin_number_id]);
 
-    $tricycleCinModel = new TricycleCinNumber();
-    $tricycleCinNumbers = $tricycleCinModel->where(['user_id' =>  $appointmentData->user_id]);
-    $availableCinNumbers = [];
-    if (is_array($tricycleCinNumbers) || is_object($tricycleCinNumbers)) {
-      foreach ($tricycleCinNumbers as $cinNumberId) {
-        $availableCinNumbers[$cinNumberId->tricycle_cin_number_id] = [
-          'cin_number' => $cinNumberId->tricycle_cin_number_id,
-        ];
-      }
+    if (!empty($driverData)) {
+      $driver_name = $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name;
     } else {
-      $availableCinNumbers = [];
-    }
-
-    $selectedCinNumber = $tricycleApplicationData->tricycle_cin_number_id;
-    $selectedCinNumberId= $selectedCinNumber ? $selectedCinNumber : null;
-
-    asort($availableCinNumbers);
-
-    $driverModel = new Driver();
-    $driversData = $driverModel->where(['user_id' => $selectedUserId]);
-    
-    $drivers = [];
-    if (!empty($driversData)) {
-      foreach ($driversData as $driver) {
-        $drivers[$driver->driver_id] = [
-          'driver_id' => $driver->driver_id,
-          'name' => $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name,
-        ];
-      }
+      $driver_name = 'Selected CIN has no driver';
     }
     
     $mtopRequirementModel = new MtopRequirement();
@@ -94,9 +71,9 @@ class Edit_renewal_of_franchise
       'tc_plate_authorization_path' => $mtopRequirementData->tc_plate_authorization_path,
       'tc_renewed_insurance_policy_path' => $mtopRequirementData->tc_renewed_insurance_policy_path,
       'latest_franchise_path' => $mtopRequirementData->latest_franchise_path,
-      'availableCinNumbers' => $availableCinNumbers,
-      'selectedCinNumberId' => $selectedCinNumberId,
-      'drivers' => $drivers,
+      'cin_number' => $cinData->cin_number,
+      'driverData' => $driverData,
+      'driver_name' => $driver_name,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
