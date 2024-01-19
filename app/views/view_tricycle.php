@@ -145,7 +145,7 @@
                       </div>
                     </div>
                   <?php endif; ?>
-                  <?php if (empty($tricycleApplicationData->driver_license_no) && !empty($status)): ?>
+                  <?php if (empty($tricycleApplicationData->driver_license_no) && !empty($statuses)): ?>
                     <div class="col-3">
                       <p for="coc_no_expiry_date" class="form-label">COC Expiry Date</p>
                       <div class="form-control">
@@ -155,21 +155,18 @@
                     <div class="col-3 px-2">
                     <p for="status" class="form-label">Tricycle Status</p>
                     <div class="form-control">
-                      <?php echo isset($status) ? $status : ''; ?>
+                      <?php echo isset($statuses) ? $statuses : ''; ?>
                     </div>
                   </div>
                   <?php endif; ?>
-                  <?php if (!empty($tricycleApplicationData->driver_license_no) && (!empty($tricycleApplicationData->driver_license_expiry_date) && $tricycleApplicationData->driver_license_expiry_date != "0000-00-00") && !empty($status)) : ?>
+                  <?php if (!empty($tricycleApplicationData->driver_license_no) && (!empty($tricycleApplicationData->driver_license_expiry_date) && $tricycleApplicationData->driver_license_expiry_date != "0000-00-00") && !empty($statuses)) : ?>
                     <div class="col-3 px-4 mx-1">
                       <p for="status" class="form-label">Tricycle Status</p>
                       <div class="form-control">
-                        <?php echo isset($status) ? $status : ''; ?>
+                        <?php echo isset($statuses) ? $statuses : ''; ?>
                       </div>
                     </div>
                   <?php endif; ?>
-                </div>
-
-
                 </div>
               </div>
             </div>

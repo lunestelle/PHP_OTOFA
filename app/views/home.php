@@ -196,13 +196,16 @@
             <h5 class="text-white text-uppercase mb-2">Sent Us Message</h5>
             <small class="text-secondary">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within a matter of hours to help you.</small>
             <div class="py-2 mt-3">
-              <input type="text" placeholder="Full Name" class="message-us">
+              <input type="text" placeholder="Full Name" class="message-us" style="width: 100%;">
             </div>
             <div class="py-2">
-              <input type="text" placeholder="Email" class="message-us">
+              <input type="text" placeholder="Email" class="message-us" style="width: 100%;">
             </div>
             <div class="py-2">
-              <textarea placeholder="Message" class="message"></textarea>
+              <textarea placeholder="Message" class="message" style="width: 100%;"></textarea>
+            </div>
+            <div class="py-2">
+              <button type="button" class="btn btn-primary" style="width: 100%;">Send Message</button>
             </div>
           </div>
         </div>

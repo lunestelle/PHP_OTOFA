@@ -10,8 +10,8 @@ class Renewal_automation
     $currentDate = date('Y-m-d');
 
     if ($currentDate === $renewalDate) {
-      $tricycleModel = new Tricycle();
-      $tricyclesForRenewal = $tricycleModel->where(['status' => 'Active']);
+      $tricycleStatusesModel = new TricycleStatuses();
+      $tricyclesForRenewal = $tricycleStatusesModel->where(['status' => 'Active']);
 
       if (!empty($tricyclesForRenewal)) {
         foreach ($tricyclesForRenewal as $tricycle) {
@@ -29,9 +29,7 @@ class Renewal_automation
           $subject = "Tricycle Renewal Reminder";
     
           systemNotifications($phoneNumber, $userName, $email, $subject, $customTextMessage, $customEmailMessage);
-    
-          // Update tricycle status to "Renewal Required"
-          $tricycleModel->update(['tricycle_id' => $tricycle->tricycle_id], ['status' => 'Renewal Required']);
+          $tricycleStatusesModel->insert(['tricycle_id' => $$tricycle->tricycle_id, 'user_id' => $tricycle->user_id, 'status' => 'Renewal Required']);
         }
 
         echo "Tricycle renewal notifications sent successfully."; 

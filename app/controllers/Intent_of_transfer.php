@@ -11,40 +11,30 @@ class Intent_of_transfer
       redirect('');
     }
 
-    $driverModel = new Driver();
-    $drivers = $driverModel->where(['user_id' => $_SESSION['USER']->user_id]);
-    $data['drivers'] = [];
-    if (is_array($drivers) || is_object($drivers)) {
-      foreach ($drivers as $driver) {
-        $data['drivers'][$driver->driver_id] = [
-          'driver_id' => $driver->driver_id,
-          'name' => $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name,
-        ];
-      }
-    } else {
-      $data['drivers'] = [];
-    }
+    $data = [];
+
+    $tricycleCin = isset($_GET['tricycleCin']) ? $_GET['tricycleCin'] : '';
 
     $tricycleCinModel = new TricycleCinNumber();
-    $tricycleCinNumbers = $tricycleCinModel->where(['user_id' => $_SESSION['USER']->user_id]);
-    $data['tricycleCinNumbers'] = [];
-    if (is_array($tricycleCinNumbers) || is_object($tricycleCinNumbers)) {
-      foreach ($tricycleCinNumbers as $cinNumberId) {
-        $data['tricycleCinNumbers'][$cinNumberId->tricycle_cin_number_id] = [
-          'cin_number' => $cinNumberId->tricycle_cin_number_id,
-        ];
-      }
+    $tricycleModel = new Tricycle();
+    $driverModel = new Driver();
+    $appointmentModel = new Appointment();
+    $tricycleApplicationModel = new TricycleApplication();
+    $mtopRequirementModel = new MtopRequirement();
+
+    $cinData = $tricycleCinModel->first(['cin_number' => $tricycleCin]);
+    $existingTricycleData = $tricycleModel->first(['cin_id' => $cinData->tricycle_cin_number_id]);
+    $data['driverData'] = $driverModel->first(['tricycle_cin_number_id' => $cinData->tricycle_cin_number_id]);
+    $data['existingTricycleApplicationData'] = $tricycleApplicationModel->first(['tricycle_application_id' => $existingTricycleData->tricycle_application_id]);
+    $data['cin_number'] = $cinData->cin_number;
+
+    if (!empty($data['driverData'])) {
+      $data['driver_name'] = $data['driverData']->first_name . ' ' . $data['driverData']->middle_name . ' ' . $data['driverData']->last_name;
     } else {
-      $data['tricycleCinNumbers'] = [];
+      $data['driver_name'] = 'Selected CIN has no driver';
     }
 
-    asort($data['tricycleCinNumbers']);
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
-      $appointmentModel = new Appointment();
-      $tricycleApplicationModel = new TricycleApplication();
-      $mtopRequirementModel = new MtopRequirement();
-
       $appointmentFormData = [
         'name' => $_POST['name'] ?? '',
         'phone_number' => $_POST['phone_number'] ?? '',

@@ -10,7 +10,6 @@ class Tricycle
     'cin_id',
     'tricycle_application_id',
     'previous_tricycle_application_id',
-    'status',
     'mtop_requirements_new_franchise_id',
     'mtop_requirements_renewal_franchise_id',
     'mtop_requirements_transfer_ownership_id',

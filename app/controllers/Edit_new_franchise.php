@@ -211,15 +211,22 @@
 
               if ($appointmentFormData['status'] === 'Completed') {
                 $tricycleModel = new Tricycle();
-                $tricycleData = [
-                  'cin_id' => $tricycleApplicationData->tricycle_cin_number_id,
-                  'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
-                  'mtop_requirements_new_franchise_id' => $mtopRequirementId,
-                  'status' => "Active",
-                  'user_id' => $appointmentData->user_id,
-                ];
-            
-                $tricycleModel->insert($tricycleData);
+                $tricycleStatusesModel = new TricycleStatuses;
+
+                if (!empty($tricycleData)) {
+                  $tricycleData = [
+                    'cin_id' => $tricycleApplicationData->tricycle_cin_number_id,
+                    'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
+                    'mtop_requirements_new_franchise_id' => $mtopRequirementId,
+                    'user_id' => $appointmentData->user_id,
+                  ];
+              
+                  if ($tricycleModel->insert($tricycleData)) {
+                    $tricycleId = $tricycleModel->getLastInsertedRecord()[0]->tricycle_id;
+                    $tricycleStatusesModel->insert(['tricycle_id' => $tricycleId, 'user_id' => $appointmentData->user_id, 'status' => 'Active']);
+  
+                  }
+                }
               }
 
               $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));

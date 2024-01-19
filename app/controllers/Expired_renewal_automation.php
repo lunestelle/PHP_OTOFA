@@ -9,11 +9,11 @@ class Expired_renewal_automation
     $currentDate = date('Y-m-d');
     $deadlineEnd = date('Y') . "-01-20";
 
-    $tricyclesModel = new Tricycle();
+    $tricycleStatusesModel = new TricycleStatuses();
     $userModel = new User();
 
-    $query = "SELECT * FROM tricycles WHERE status = 'Renewal Required' AND '{$currentDate}' > '{$deadlineEnd}'";
-    $tricyclesExpiredRenewal = $tricyclesModel->query($query);
+    $query = "SELECT * FROM tricycle_statuses WHERE status = 'Renewal Required' AND '{$currentDate}' > '{$deadlineEnd}'";
+    $tricyclesExpiredRenewal = $tricycleStatusesModel->query($query);
 
     if (!empty($tricyclesExpiredRenewal)) {
       foreach ($tricyclesExpiredRenewal as $tricycle) {

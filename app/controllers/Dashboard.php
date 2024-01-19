@@ -15,8 +15,9 @@ class Dashboard
     $data['operatorCount'] = $userModel->count(['role' => 'operator']);
 
     $tricycleModel = new Tricycle();
-    $data['activeTricycleCount'] = $tricycleModel->count(['status' => 'Active']);
-		$data['userTricycleCount'] = $tricycleModel->count(['status' => 'Active', 'user_id' => $_SESSION['USER']->user_id]);
+		$tricycleStatusesModel = new TricycleStatuses;
+    $data['activeTricycleCount'] = $tricycleStatusesModel->count(['status' => 'Active']);
+		$data['userTricycleCount'] = $tricycleStatusesModel->count(['status' => 'Active', 'user_id' => $_SESSION['USER']->user_id]);
 
 		$appointmentModel = new Appointment();
     $data['pendingAppointmentCount'] = $appointmentModel->count(['status' => 'Pending']);

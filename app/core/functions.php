@@ -145,6 +145,24 @@ function generateProfilePicture($initials) {
 	return $path;
 }
 
+function hasStatus($statuses, $targetStatus) {
+	foreach ($statuses as $status) {
+		if ($status['status'] == $targetStatus) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function hasStatusToUpdate($statuses) {
+	foreach ($statuses as $status) {
+		if ($status['status'] !== 'Dropped') {
+			return true;
+		}
+	}
+	return false;
+}
+
 function sendSms($phoneNumber, $message)
 {
 	$infobipBaseUrl = "https://8gxme3.api.infobip.com";
@@ -285,7 +303,6 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		include_once "app/views/mailer/approved_appointment_email.php";
 		$templateContent = ob_get_clean();
 
-		// Replace placeholders in the template with actual subject and body
 		$templateContent = str_replace('{{Subject}}', $subject, $templateContent);
 		$templateContent = str_replace('{{User}}', $user, $templateContent);
 		$templateContent = str_replace('{{Message}}', nl2br($emailMessage), $templateContent);
@@ -293,7 +310,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 
-		// sendSms($phoneNumber, $message);
+		sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	} elseif ($status === 'Rejected') {
 		$message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
@@ -314,7 +331,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	
-		// sendSms($phoneNumber, $message);
+		sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	} elseif ($status === 'On Process') {
 		$message = "Hello {$appointmentFormData['name']},\n\nWe wanted to inform you that we have received your requirements and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion.\n\nThank you for your understanding and cooperation.";
@@ -336,7 +353,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	
-		// sendSms($phoneNumber, $message);
+		sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	} elseif ($status === 'Completed') {
 		$message = "Hello {$appointmentFormData['name']},\n\nWe are pleased to inform you that your appointment scheduled for {$formattedDate} at {$formattedTime} has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.\n\nThank you for choosing our services.";
@@ -357,7 +374,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	
-		// sendSms($phoneNumber, $message);
+		sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	}
 }
@@ -382,7 +399,7 @@ function systemNotifications($phoneNumber, $userName, $email, $subject, $customT
 	$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 
-	sendSms($phoneNumber, $message);
+	// sendSms($phoneNumber, $message);
 	sendEmail($email, $subject, $templateContent);
 }
 

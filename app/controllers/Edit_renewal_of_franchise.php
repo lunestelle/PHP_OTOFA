@@ -203,22 +203,24 @@ class Edit_renewal_of_franchise
 
             if ($appointmentFormData['status'] === 'Completed') {
               $tricycleModel = new Tricycle();
-
+              $tricycleStatusesModel = new TricycleStatuses;
               $tricycleData = $tricycleModel->first(['cin_id' => $tricycleApplicationData->tricycle_cin_number_id]);
 
-              $previousTricycleApplicationId = $tricycleData->tricycle_application_id;
+              if (!empty($tricycleData)) {
+                $previousTricycleApplicationId = $tricycleData->tricycle_application_id;
           
-              $tricycleUpdateData = [
-                'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
-                'previous_tricycle_application_id' => $previousTricycleApplicationId,
-                'mtop_requirements_renewal_franchise_id' => $mtopRequirementId,
-                'status' => "Active",
-                'user_id' => $appointmentData->user_id,
-              ];
+                $tricycleUpdateData = [
+                  'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
+                  'previous_tricycle_application_id' => $previousTricycleApplicationId,
+                  'mtop_requirements_renewal_franchise_id' => $mtopRequirementId,
+                  'user_id' => $appointmentData->user_id,
+                ];
           
-              $tricycleModel->update(['tricycle_id' => $tricycleData->tricycle_id], $tricycleUpdateData);
+                if ($tricycleModel->update(['tricycle_id' => $tricycleData->tricycle_id], $tricycleUpdateData)) {
+                  $tricycleStatusesModel->deleteStatus($tricycleData->tricycle_id, $appointmentData->user_id, "Renewal Required");
+                }
+              }
             }
-          
 
             $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
             $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));

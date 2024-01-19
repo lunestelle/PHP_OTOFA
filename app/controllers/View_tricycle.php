@@ -36,6 +36,17 @@ class View_tricycle
     $driverModel = new Driver();
     $driverData = $driverModel->first(['driver_id' => $tricycleApplicationData->driver_id]);
 
+    $tricycleStatusesModel = new TricycleStatuses();
+    $tricycleStatusesData = $tricycleStatusesModel->where(['tricycle_id' => $tricycleData->tricycle_id]);
+    
+    $statuses = [];
+    foreach ($tricycleStatusesData as $tricycleStatusData) {
+      $status = $tricycleStatusData->status;
+      $statuses[] = $status;
+    }
+    
+    $statusText = (count($statuses) > 1) ? implode(', ', $statuses) : (count($statuses) == 1 ? $statuses[0] : 'No Status');
+    
     if (!$tricycleData) {
       set_flash_message("Tricycle not found.", "error");
     } elseif (!$tricycleApplicationData) {
@@ -50,13 +61,12 @@ class View_tricycle
       redirect('tricycles');
     }
 
-
     $userModel = new User();
     $userData = $userModel->first(['user_id' => $tricycleData->user_id]);
 
     $data = [
       'tricycle_id' => $tricycleData->tricycle_id,
-      'status' => $tricycleData->status,
+      'statuses' => $statusText,
       'cin' => $tricycleCinData ? $tricycleCinData->cin_number : 'N/A',
       'tricycleApplicationData' => $tricycleApplicationData,
       'appointmentType' => $appointmentData->appointment_type,
