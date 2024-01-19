@@ -62,6 +62,9 @@ $(document).ready(function () {
   const setActiveLink = (keyword, href) => {
     if (currentUrl.href.includes(keyword)) {
       $('.sidebar a[href="' + href + '"]').addClass('nav-link-active');
+    } else if (currentUrl.href.includes(keyword) && keyword === 'appointments' && currentUrl.searchParams.has('startDate') && currentUrl.searchParams.has('endDate')) {
+      // Check for 'appointments' with startDate and endDate
+      $('.sidebar a[href="' + href + '"]').addClass('nav-link-active');
     }
   };
 
@@ -71,6 +74,7 @@ $(document).ready(function () {
   setActiveLink('green_trike_info', 'dashboard');
   setActiveLink('tricycles?status=active', 'tricycles');
   setActiveLink('appointments?status=pending', 'appointments');
+  setActiveLink('appointments', 'appointments');
   setActiveLink('new_franchise', 'appointments');
   setActiveLink('edit_new_franchise', 'appointments');
   setActiveLink('renewal_of_franchise', 'appointments');

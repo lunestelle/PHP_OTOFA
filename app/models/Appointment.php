@@ -313,6 +313,7 @@ class Appointment
 
   public function getAppointmentsReports($selectedYear)
   {
+    $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(a.appointment_date) = $selectedYear" : "";
     $query = "
       SELECT
         a.user_id,
@@ -321,13 +322,30 @@ class Appointment
         a.phone_number,
         COUNT(*) AS total_appointments,
         SUM(CASE WHEN a.status = 'Pending' THEN 1 ELSE 0 END) AS pending_appointments,
-        SUM(CASE WHEN a.status = 'Completed' THEN 1 ELSE 0 END) AS completed_appointments
+        SUM(CASE WHEN a.status = 'Completed' THEN 1 ELSE 0 END) AS completed_appointments,
+        YEAR(a.appointment_date) AS year
       FROM {$this->table} a
       JOIN users o ON a.user_id = o.user_id
-      WHERE YEAR(a.appointment_date) = :selectedYear
+      $whereClause
       GROUP BY a.user_id
       ORDER BY a.user_id";
 
-    return $this->query($query, ['selectedYear' => $selectedYear]);
+    return $this->query($query);
+  }
+
+  public function getAppointmentsByDateRange($statusFilter, $startDate, $endDate)
+  {
+    $whereClause = '';
+
+    if ($statusFilter !== '') {
+      $whereClause .= "AND status = '$statusFilter'";
+    }
+
+    if (!empty($startDate) && !empty($endDate)) {
+      $whereClause .= "AND appointment_date BETWEEN '$startDate' AND '$endDate'";
+    }
+
+    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause";
+    return $this->query($query);
   }
 }

@@ -14,6 +14,7 @@
       <div class="col-6 mt-3">
         <label for="yearFilter" class="fw-bold">Filter By Year:</label>
         <select id="yearFilter" class="form-select">
+          <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
           <?php foreach ($years as $year): ?>
             <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
           <?php endforeach; ?>
@@ -29,6 +30,9 @@
               <th scope="col" class="text-center">Total Appointments</th>
               <th scope="col" class="text-center">Pending Appointments</th>
               <th scope="col" class="text-center">Completed Appointments</th>
+              <?php if ($selectedFilter == 'all'): ?>
+                <th scope="col" class="text-center">Appointment Year</th>
+              <?php endif; ?>
             </tr>
           </thead>
           <tbody class="text-center text-capitalize">
@@ -40,6 +44,9 @@
                 <td><?php echo $report['total_appointments']; ?></td>
                 <td><?php echo $report['pending_appointments']; ?></td>
                 <td><?php echo $report['completed_appointments']; ?></td>
+                <?php if ($selectedFilter == 'all'): ?>
+                  <td><?php echo $report['year']; ?></td>
+                <?php endif; ?>
               </tr>
             <?php endforeach; ?>
           </tbody>
@@ -51,8 +58,12 @@
 <script>
   $(document).ready(function () {
     $("#yearFilter").change(function () {
-      var selectedYear = $(this).val();
-      window.location.href = "appointments_reports?year=" + selectedYear;
+      const selectedYear = $("#yearFilter").val();
+      if (selectedYear === 'all') {
+        window.location.href = "appointments_reports";
+      } else {
+        window.location.href = "appointments_reports?year=" + selectedYear;
+      }
     });
   });
 </script>

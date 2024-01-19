@@ -14,16 +14,18 @@ class Appointments_reports
     $appointmentModel = new Appointment();
     $userModel = new User();
 
-    // Fetch operators and their appointments reports
     $operatorsData = $userModel->where(['role' => 'operator']);
 
     $data['index'] = 1;
 
     // Retrieve unique years from the appointment dates
-    $uniqueYears = $appointmentModel->getUniqueYears();
+    $years = $appointmentModel->getUniqueYears();
+    if (empty($years)) {
+      // Handle the case where $years is empty or null
+      $years = []; // Set a default value, an empty array in this case
+    }
 
-    // Set the default selected year
-    $selectedYear = isset($_GET['year']) ? $_GET['year'] : $uniqueYears[0];
+    $selectedYear = isset($_GET['year']) ? $_GET['year'] : (empty($years) ? null : 'all');
 
     // Retrieve appointments reports based on the selected year
     $appointmentsReportsData = $appointmentModel->getAppointmentsReports($selectedYear);
@@ -36,29 +38,47 @@ class Appointments_reports
           'total_appointments' => $report->total_appointments,
           'pending_appointments' => $report->pending_appointments,
           'completed_appointments' => $report->completed_appointments,
+          'year' => $report->year,
         ];
       }
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
       $csvData = [];
-      $csvData[] = ['Appointments Reports for Year ' . $selectedYear];
+
+      if ($selectedYear == 'all') {
+        $csvData[] = ['All Appointments Reports'];
+      } else {
+        $csvData[] = ['Appointments Reports for the Year ' . $selectedYear];
+      }
+
       $csvData[] = ['Operator\'s Name', 'Phone Number', 'Total Appointments', 'Pending Appointments', 'Completed Appointments'];
+
+      // Add "Appointment Year" column header only if the filter is 'all'
+      if ($selectedYear == 'all') {
+        $csvData[1][] = 'Appointment Year';
+      }
   
       foreach ($appointmentsReportsData as $report) {
-        $csvData[] = [
+        $rowData = [
           $report->first_name . ' ' . $report->last_name,
           $report->phone_number,
           $report->total_appointments,
           $report->pending_appointments,
           $report->completed_appointments,
         ];
+
+        if ($selectedYear == 'all') {
+          $rowData[] = $report->year;
+        }
+
+        $csvData[] = $rowData;
       }
   
       downloadCsv($csvData, 'Appointments_Reports_Export');
     }
 
-    $data['years'] = $uniqueYears;
+    $data['years'] = $years;
     $data['selectedFilter'] = $selectedYear;
 
     echo $this->renderView('appointments_reports', true, $data);
