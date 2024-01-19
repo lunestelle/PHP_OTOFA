@@ -1,4 +1,13 @@
-  <header>
+<?php
+// Add JavaScript script to scroll to the 'Sent Us A Message' section if there are errors
+  if (!empty($validationErrors)) {
+    echo '<script>';
+    echo 'document.getElementById("contact").scrollIntoView({ behavior: "smooth", block: "start" });';
+    echo '</script>';
+  }
+?>
+
+ <header>
     <div class="d-flex">
       <a href="<?=ROOT?>" class="d-flex text-decoration-none">
         <img class="logo-1" src="public/assets/images/logo.png" alt="Sakaycle Logo">
@@ -193,20 +202,22 @@
         </div>
         <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
           <div class="inquiries">
-            <h5 class="text-white text-uppercase mb-2">Sent Us Message</h5>
+            <h5 class="text-white text-uppercase mb-2">Sent Us A Message</h5>
             <small class="text-secondary">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within a matter of hours to help you.</small>
-            <div class="py-2 mt-3">
-              <input type="text" placeholder="Full Name" class="message-us" style="width: 100%;">
-            </div>
-            <div class="py-2">
-              <input type="text" placeholder="Email" class="message-us" style="width: 100%;">
-            </div>
-            <div class="py-2">
-              <textarea placeholder="Message" class="message" style="width: 100%;"></textarea>
-            </div>
-            <div class="py-2">
-              <button type="button" class="btn btn-primary" style="width: 100%;">Send Message</button>
-            </div>
+            <form method="post" action="">
+              <div class="py-2 mt-3">
+                <input type="text" name="full_name" placeholder="Full Name" class="message-us" style="width: 100%;" value="<?php echo isset($_POST['full_name']) ? $_POST['full_name'] : ''; ?>" required>
+              </div>
+              <div class="py-2">
+                <input type="text" name="email_or_phone" placeholder="Email or Phone Number" class="message-us" style="width: 100%;" value="<?php echo isset($_POST['email_or_phone']) ? $_POST['email_or_phone'] : ''; ?>" required>
+              </div>
+              <div class="py-2">
+                <textarea name="message" placeholder="Message" class="message" style="width: 100%;" required><?php echo isset($_POST['message']) ? $_POST['message'] : ''; ?></textarea>
+              </div>
+              <div class="py-2">
+                <button type="submit" name="send_message" class="btn btn-primary" style="width: 100%;">Send Message</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -382,5 +393,11 @@
 
     // Initial animation trigger
     playAnimation();
+
+    <?php
+      if (!empty($validationErrors)) {
+        echo 'setTimeout(function() { document.getElementById("contact").scrollIntoView({ behavior: "smooth", block: "start" }); }, 2000);';
+      }
+    ?>
   });
 </script>
