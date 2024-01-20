@@ -215,7 +215,7 @@
                 <textarea name="message" placeholder="Message" class="message" style="width: 100%;" required><?php echo isset($_POST['message']) ? $_POST['message'] : ''; ?></textarea>
               </div>
               <div class="py-2">
-                <button type="submit" name="send_message" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                <button type="submit" name="send_message" class="btn btn-warning fw-bold" style="width: 100%;">Send Message</button>
               </div>
             </form>
           </div>
