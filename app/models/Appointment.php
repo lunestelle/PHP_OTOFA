@@ -333,9 +333,15 @@ class Appointment
     return $this->query($query);
   }
 
-  public function getAppointmentsByDateRange($statusFilter, $startDate, $endDate)
+  public function getAppointmentsByDateRange($statusFilter, $startDate, $endDate, $whereConditions = [])
   {
     $whereClause = '';
+
+    if (!empty($whereConditions)) {
+      foreach ($whereConditions as $column => $value) {
+        $whereClause .= "AND $column = '$value'";
+      }
+    }
 
     if ($statusFilter !== '') {
       $whereClause .= "AND status = '$statusFilter'";
@@ -345,7 +351,7 @@ class Appointment
       $whereClause .= "AND appointment_date BETWEEN '$startDate' AND '$endDate'";
     }
 
-    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause";
+    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY appointment_date DESC";
     return $this->query($query);
   }
 }

@@ -30,10 +30,7 @@
                   <th scope="col" class="text-center">Tricyle CIN</th>
                   <th scope="col" class="text-center">Operator's Name</th>
                   <th scope="col" class="text-center">Driver's Name</th>
-                  <th scope="col" class="text-center">Yearly Total Expenses</th>
-                  <?php if ($selectedFilter == 'all'): ?>
-                    <th scope="col" class="text-center">Expense Year</th>
-                  <?php endif; ?>
+                  <th scope="col" class="text-center"><?php echo ($selectedFilter == 'all') ? 'Total Expenses' : 'Yearly Total Expenses'; ?></th>
                   <th scope="col" class="text-center">View Calculations</th>
                 </tr>
               </thead>
@@ -45,9 +42,6 @@
                   <td><?php echo $maintenance->operator_name; ?></td>
                   <td><?php echo empty($maintenance->driver_name) ? '----------------' : $maintenance->driver_name; ?></td>
                   <td><?php echo '₱' . number_format($maintenance->yearly_total_expenses, 2, '.', ''); ?></td>
-                  <?php if ($selectedFilter == 'all'): ?>
-                    <td><?php echo $maintenance->year; ?></td>
-                  <?php endif; ?>
                   <td><a class="view-maintenance-tracker-btn" href="#" onclick="viewCalculations(<?php echo $maintenance->year; ?>, '<?php echo $maintenance->cin_number; ?>')">View</a></td>
                   </tr>
                 <?php endforeach; ?>
@@ -60,9 +54,15 @@
   </div>
 </main>
 <script>
-  function viewCalculations(year, cin) {
-    window.location.href = "view_calculations?year=" + year + "&cin=" + cin;
+function viewCalculations(year, cin) {
+  const selectedYear = $("#yearFilter").val();
+  if (selectedYear === "all") {
+    window.location.href = "view_calculations?cin=" + cin;
+  } else {
+    window.location.href = "view_calculations?year=" + selectedYear + "&cin=" + cin;
   }
+}
+
 
   $(document).ready(function () {
     $("#yearFilter").change(function () {

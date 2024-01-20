@@ -15,9 +15,13 @@ class New_appointment
     $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
     $data['tricycleCinNumbers'] = $cinModel->where(["is_used" => 1, "user_id" => $_SESSION['USER']->user_id]);
 
-    usort($data['tricycleCinNumbers'], function ($a, $b) {
-      return strcmp($a->cin_number, $b->cin_number);
-    });
+    if (is_array($data['tricycleCinNumbers'])) {
+      usort($data['tricycleCinNumbers'], function ($a, $b) {
+        return strcmp($a->cin_number, $b->cin_number);
+      });
+    } else {
+      $data['tricycleCinNumbers'] = [];
+    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (isset($_POST['appointmentType'])) {

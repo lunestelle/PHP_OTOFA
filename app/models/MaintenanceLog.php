@@ -60,20 +60,25 @@ class MaintenanceLog
               JOIN users ON tricycle_cin_numbers.user_id = users.user_id
               LEFT JOIN drivers ON maintenance_logs.driver_id = drivers.driver_id
               $whereClause
-              GROUP BY tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name), drivers.first_name, YEAR(expense_date)
-              ORDER BY YEAR(expense_date) DESC";
+              GROUP BY tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name), drivers.first_name
+              ORDER BY tricycle_cin_numbers.cin_number, MAX(expense_date) DESC";
   
     return $this->query($query);
   }
 
   public function getCalculationData($selectedYear, $tricycleCIN)
   {
-    $whereClause = ($selectedYear != '') ? "AND YEAR(expense_date) = $selectedYear" : "";
-    $query = "SELECT description, SUM(total_expenses) as total_expenses
+    $whereClause = "";
+    if (!empty($selectedYear) && $selectedYear !== 'all') {
+      $whereClause = "AND YEAR(expense_date) = $selectedYear";
+    }
+
+    $query = "SELECT YEAR(expense_date) as `year`, description, SUM(total_expenses) as total_expenses
               FROM $this->table
               WHERE tricycle_cin_number_id = $tricycleCIN
               $whereClause
-              GROUP BY description";
+              GROUP BY `year`, description
+              ORDER BY `year` DESC";
 
     return $this->query($query);
   }

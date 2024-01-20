@@ -13,7 +13,7 @@ class Inquiry
     'response', 
     'response_status', 
   ];
-  protected $order_column = 'id';
+  protected $order_column = 'created_at';
 
   public function validate($data)
   {

@@ -29,16 +29,18 @@
               <tbody class="text-center text-capitalize">
                 <?php foreach ($inquiries as $inquiry): ?>
                   <tr>
-                    <td><?= !empty($inquiry['full_name']) ? $inquiry['full_name'] : '----------------'; ?></td>
-                    <td class="text-lowercase"><?= !empty($inquiry['email_or_phone']) ? $inquiry['email_or_phone'] : '----------------'; ?></td>
+                    <td class="text-center"><?= !empty($inquiry['full_name']) ? $inquiry['full_name'] : '----------------'; ?></td>
+                    <td class="text-center text-lowercase"><?= !empty($inquiry['email_or_phone']) ? $inquiry['email_or_phone'] : '----------------'; ?></td>
                     <td class="text-start text-truncate" style="max-width: 150px;">
                       <?= !empty($inquiry['message']) ? $inquiry['message'] : '----------------'; ?>
                     </td>
-                    <td>
+                    <td class="text-center">
                       <span class="badge bg-primary text-uppercase p-2"><?= !empty($inquiry['message_status']) ? $inquiry['message_status'] : '----------------'; ?></span>
                     </td>
-                    <td class="text-start text-justify"><?= !empty($inquiry['response']) ? substr($inquiry['response'], 0, 100) . '...' : '----------------'; ?></td>
-                    <td>
+                    <td class="<?= !empty($inquiry['response']) ? 'text-start text-justify' : 'text-center'; ?>">
+                      <?= !empty($inquiry['response']) ? substr($inquiry['response'], 0, 100) . '...' : '----------------'; ?>
+                    </td>
+                    <td class="text-center">
                       <span class="badge bg-success text-uppercase p-2"><?= !empty($inquiry['response_status']) ? $inquiry['response_status'] : '----------------'; ?></span>
                     </td>
                     <td>
@@ -51,7 +53,7 @@
                             View Response
                           </button>
                         <?php else: ?>
-                          <button type="button" class="btn btn-success btn-sm" style="font-size: 12px;" data-bs-toggle="modal" data-bs-target="#respondModal<?= $inquiry['id']; ?>">
+                          <button type="button" class="btn btn-success btn-sm" style="font-size: 12px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#respondModal<?= $inquiry['id']; ?>">
                           Respond
                         </button>
                         <?php endif; ?>
@@ -147,7 +149,7 @@
         if (status.toLowerCase() === 'unread') {
           var submitButton = document.createElement('input');
           submitButton.type = 'hidden';
-          submitButton.name = 'inquiry-read-button'; // Set the desired name
+          submitButton.name = 'inquiry-read-button';
           form.appendChild(submitButton);
           form.submit();
         }

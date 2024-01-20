@@ -33,21 +33,23 @@
         <?php endif; ?>
 
         <div class="col-12 mt-3">
-          <form method="get" action="">
-            <div class="row">
-              <div class="col-md-5">
-                <label for="startDate" class="fw-bold">Start Date:</label>
-                <input type="date" id="startDate" name="startDate" class="form-control" value="<?php echo ($_GET['startDate'] ?? ''); ?>">
+          <?php if (!empty($appointments)): ?>
+            <form method="get" action="">
+              <div class="row">
+                <div class="col-md-5">
+                  <label for="startDate" class="fw-bold">Start Date:</label>
+                  <input type="date" id="startDate" name="startDate" class="form-control" value="<?php echo ($_GET['startDate'] ?? ''); ?>">
+                </div>
+                <div class="col-md-5">
+                  <label for="endDate" class="fw-bold">End Date:</label>
+                  <input type="date" id="endDate" name="endDate" class="form-control" value="<?php echo ($_GET['endDate'] ?? ''); ?>">
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" class="filter-btn mt-4">Filter</button>
+                </div>
               </div>
-              <div class="col-md-5">
-                <label for="endDate" class="fw-bold">End Date:</label>
-                <input type="date" id="endDate" name="endDate" class="form-control" value="<?php echo ($_GET['endDate'] ?? ''); ?>">
-              </div>
-              <div class="col-md-2">
-                <button type="submit" class="filter-btn mt-4">Filter</button>
-              </div>
-            </div>
-          </form>
+            </form>
+          <?php endif; ?>
         </div>
 
         <div class="col-12">
@@ -64,7 +66,9 @@
                   <th scope="col" class="text-center">Time</th>
                   <th scope="col" class="text-center">Status</th>
                   <th scope="col" class="text-center">Actions</th>
-                  <th scope="col" class="m-0 text-center"></th>
+                  <?php if ($userRole === 'admin'): ?>
+                    <th scope="col" class="m-0 text-center"></th>
+                  <?php endif; ?>
                 </tr>
               </thead>
               <tbody class="text-center">
@@ -163,13 +167,12 @@
                         </a>
                       <?php endif; ?>
                     </td>
-                    <td>
-                      <?php if ($userRole === 'admin'): ?>
+                    <?php if ($userRole === 'admin'): ?>
+                      <td>
                         <button class="btn-print" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
                         <button id="downloadPdfButton" class="btn-download-pdf mt-1" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="downloadPdf()">Download PDF</button>
-                      <?php endif; ?>
-                    </td>
-                   
+                      </td>
+                    <?php endif; ?>
                   </tr>
                   <!-- CANCEL APPOINTMENT MODAL for each appointment -->
                   <div class="modal fade" id="cancelModal-<?php echo $appointment['appointment_id']; ?>" tabindex="-1" aria-labelledby="cancelModalLabel-<?php echo $appointment['appointment_id']; ?>" aria-hidden="true">

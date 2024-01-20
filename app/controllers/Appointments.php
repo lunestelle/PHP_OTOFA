@@ -30,7 +30,6 @@ class Appointments
 
     $data['appointments'] = [];
     $data['index'] = 1;
-    // $appointment = [];
 
     if (!empty($appointmentsData)) {
       foreach ($appointmentsData as $appointment) {
