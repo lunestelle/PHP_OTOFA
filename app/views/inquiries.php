@@ -64,15 +64,17 @@
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
                         <form id="readForm<?= $inquiry['id']; ?>" method="post" action="update_inquiry">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="readModalLabel">Read Message</h5>
+                          <div class="modal-header border-0">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-inquiry-id="<?= $inquiry['id']; ?>" data-modal-type="read"></button>
                           </div>
-                          <div class="modal-body">
+                          <div class="modal-title">
+                            <h5 class="modal-title text-center" id="readModalLabel">Read Message</h5>
+                          </div>
+                          <div class="modal-body message-body">
                             <?= !empty($inquiry['message']) ? $inquiry['message'] : 'No message available'; ?>
                           </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-inquiry-id="<?= $inquiry['id']; ?>" data-modal-type="read">Close</button>
+                          <div class="modal-footer border-0">
+                            <button type="button" class="update-status-btn" data-bs-dismiss="modal" data-inquiry-id="<?= $inquiry['id']; ?>" data-modal-type="read">Close</button>
                           </div>
                           <input type="hidden" name="inquiryId" value="<?= $inquiry['id']; ?>">
                         </form>
@@ -85,17 +87,19 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <form id="respondForm<?= $inquiry['id']; ?>" method="post" action="update_inquiry">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="respondModalLabel">Respond to Inquiry</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-inquiry-id="<?= $inquiry['id']; ?>" data-modal-type="respond"></button>
+                          <div class="modal-header border-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-inquiry-id="<?= $inquiry['id']; ?>" data-modal-type="read"></button>
                           </div>
-                          <div class="modal-body">
+                          <div class="modal-title">
+                            <h5 class="modal-title text-center" id="respondModalLabel">Respond to Inquiry</h5>
+                          </div>
+                          <div class="modal-body message-body">
                             <textarea class="form-control w-100" style="width: 100% !important; height: 100%;" rows="8" name="response" placeholder="Write your response here..."></textarea>
                             <input type="hidden" name="inquiryId" value="<?= $inquiry['id']; ?>">
                           </div>
-                          <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" name="inquiry-respond-button">Send Response</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-inquiry-id="<?= $inquiry['id']; ?>" data-modal-type="respond">Close</button>
+                          <div class="modal-footer border-0 mb-2">
+                            <button type="submit" class="sidebar-btnContent mb-1" style="width: 100%; margin:auto; margin: 0 4px; padding: 8px;"  name="inquiry-respond-button">Send Response</button>
+                            <button type="button" class="cancel-btn" style="width: 100%; margin:auto; margin: 0 4px; padding: 8px;" data-bs-dismiss="modal" data-inquiry-id="<?= $inquiry['id']; ?>" data-modal-type="respond">Close</button>
                           </div>
                         </form>
                       </div>
@@ -106,15 +110,17 @@
                   <div class="modal fade" id="viewResponseModal<?= $inquiry['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="viewResponseModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="viewResponseModalLabel">View Response</h5>
+                        <div class="modal-header border-0">
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-title">
+                        <h5 class="modal-title text-center" id="viewResponseModalLabel">View Response</h5>
+                        </div>
+                        <div class="modal-body message-body">
                           <?= !empty($inquiry['response']) ? $inquiry['response'] : 'No response available'; ?>
                         </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <div class="modal-footer border-0">
+                          <button type="button" class="update-status-btn" data-bs-dismiss="modal">Close</button>
                         </div>
                       </div>
                     </div>
