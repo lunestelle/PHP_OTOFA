@@ -38,11 +38,12 @@ class Maintenance_tracker
         $csvData[] = ['Maintenance Tracker for the Year ' . $selectedFilter];
       }
 
-      $csvData[] = ['Tricycle CIN', 'Operator\'s Name', 'Driver\'s Name', 'Yearly Total Expenses'];
+      $csvData[] = ['Tricycle CIN', 'Operator\'s Name', 'Driver\'s Name'];
 
-      // Add "Expense Year" column header only if the filter is 'all'
       if ($selectedFilter == 'all') {
-        $csvData[1][] = 'Expense Year';
+        $csvData[1][] = 'Total Expenses';
+      } else {
+        $csvData[1][] = 'Yearly Total Expenses';
       }
 
       foreach ($maintenance_trackers as $maintenance) {
@@ -53,9 +54,6 @@ class Maintenance_tracker
           $maintenance->yearly_total_expenses,
         ];
 
-        if ($selectedFilter == 'all') {
-          $rowData[] = $maintenance->year;
-        }
         $csvData[] = $rowData;
       }
 
