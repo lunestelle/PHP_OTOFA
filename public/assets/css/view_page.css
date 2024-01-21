@@ -156,7 +156,7 @@ input[type=file]::file-selector-button {
 /* VIEW MAINTENANCE CALCULATIONS */
 
 .header-view-calculations {
-  background-color: #7C4700;
+  background-color: black;
   padding: 5px;
   text-align: center;
   color: white;

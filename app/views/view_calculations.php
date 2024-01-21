@@ -26,10 +26,11 @@
                   if ($year !== $currentYear) {
                     if ($currentYear !== '') {
                       echo "<p class='fw-bold text-danger text-end'>TOTAL = ₱" . number_format($totalExpenses, 2) . "</p>";
+                      echo "<hr style='height: 2px; background-color: #7C4700; border: none;'>";
                     }
-                    echo "<p>{$year} Total Maintenance Expenses for Tricycle CIN Number {$tricycleCIN}:</p>";
+                    echo "<p style='background-color: #7C4700; color: white; padding: 5px; width:50%;'>{$year} Total Maintenance Expenses for Tricycle CIN Number {$tricycleCIN}:</p>";
                     $currentYear = $year;
-
+                   
                     // Reset totalExpenses for the new year
                     $totalExpenses = 0;
                   }
