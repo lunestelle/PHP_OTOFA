@@ -581,3 +581,10 @@ table > :not(caption) > * > * > :last-child {
 .message-body {
   text-align: justify;
 }
+
+/* -- BASGE --- */
+.nav-item:hover .badge,
+.nav-item:focus .badge {
+  background-color: #EBB803 !important;
+  color: black !important; /* You can adjust the text color as needed */
+}

@@ -32,7 +32,7 @@
           </div>
         <?php endif; ?>
 
-        <div class="col-12 mt-3">
+        <div class="col-12 mt-1">
           <?php if (!empty($appointments)): ?>
             <form method="get" action="">
               <div class="row">

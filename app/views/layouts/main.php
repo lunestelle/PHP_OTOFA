@@ -191,13 +191,19 @@ if ($userRole === 'operator') {
                   </li>
                 <?php } ?>
                 <li class="nav-item">
-                  <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge bg-danger'>$pendingAppointmentsCount</span>"; } ?></span></a>
-                </li>
+    <a class="nav-link text-white" href="appointments">
+        <i class="fa-solid fa-calendar-days"></i>
+        <span class="ms-2">Appointments</span>
+        <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge bg-danger ms-auto'>$pendingAppointmentsCount</span>"; } ?>
+    </a>
+</li>
+
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="inquiries">
-                    <i class="fas fa-envelope"></i>
-                    <span class="ms-2">Inquiries <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge bg-danger'>$unreadInquiriesCount</span>"; } ?></span>
+                      <i class="fas fa-envelope"></i>
+                      <span class="ms-2">Inquiries</span>
+                      <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge bg-danger ms-auto'>$unreadInquiriesCount</span>"; } ?>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -208,8 +214,8 @@ if ($userRole === 'operator') {
                 </li>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="appointments">
-                    <i class="fa-solid fa-calendar-days"></i>
-                    <span class="ms-2">Appointment Approval <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge bg-danger'>$pendingAppointmentsCount</span>"; } ?></span>
+                    <i class="fa-solid fa-calendar-days me-2"></i>
+                    Appointment Approval <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge bg-danger ms-auto p-1'>$pendingAppointmentsCount</span>"; } ?>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -274,5 +280,31 @@ if ($userRole === 'operator') {
         icon.classList.toggle('rotateMaintenance');
       });
     });
+
+    $(document).ready(function() {
+    // Handle hover state
+    $('.nav-item').hover(
+      function() {
+        var badge = $(this).find('.badge');
+        if (badge) {
+          badge.css('background-color', 'yellow');
+          badge.css('color', 'black');
+        }
+      },
+      function() {
+        var badge = $(this).find('.badge');
+        if (badge) {
+          badge.css('background-color', '');
+          badge.css('color', '');
+        }
+      }
+    );
+
+    // Handle active state
+    $('.nav-item').click(function() {
+      $('.nav-item').removeClass('focus');
+      $(this).addClass('focus');
+    });
+  });
   </script>
 </html>
