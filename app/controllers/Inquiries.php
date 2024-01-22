@@ -14,6 +14,7 @@ class Inquiries
     $inquiryModel = new Inquiry();
     $inquiriesData = $inquiryModel->findAll();
     $data['inquiries'] = [];
+    $data['index'] = 1;
 
     if (!empty($inquiriesData)) {
       foreach ($inquiriesData as $inquiry) {

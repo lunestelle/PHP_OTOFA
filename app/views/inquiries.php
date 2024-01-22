@@ -17,6 +17,7 @@
             <table class="table table-hover" id="systemTable">
               <thead class="thead-custom">
                 <tr class="text-uppercase">
+                <th scope="col" class="text-center">#</th>
                   <th scope="col" class="text-center">Full Name</th>
                   <th scope="col" class="text-center">Email or Phone Number</th>
                   <th scope="col" class="text-center">Message</th>
@@ -29,6 +30,7 @@
               <tbody class="text-center text-capitalize">
                 <?php foreach ($inquiries as $inquiry): ?>
                   <tr>
+                    <td><?php echo $index++; ?></td>
                     <td class="text-center"><?= !empty($inquiry['full_name']) ? $inquiry['full_name'] : '----------------'; ?></td>
                     <td class="text-center text-lowercase"><?= !empty($inquiry['email_or_phone']) ? $inquiry['email_or_phone'] : '----------------'; ?></td>
                     <td class="text-start text-truncate" style="max-width: 150px;">

@@ -19,4 +19,31 @@ class Tricycle
   ];
 
   protected $order_column = 'tricycle_id';
+
+  public function getTricyclesForAdmin($statusFilter)
+  {
+    if ($statusFilter !== 'active') {
+      return $this->findAll();
+    } else {
+      $query = "SELECT * FROM {$this->table} 
+                WHERE tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status = 'Active')";
+      return $this->query($query);
+    }
+  }
+
+  public function getTricyclesForUser($userId, $statusFilter)
+  {
+    $query = "SELECT t.* 
+              FROM {$this->table} t
+              JOIN tricycle_statuses ts ON t.tricycle_id = ts.tricycle_id
+              WHERE t.user_id = :userId";
+
+    $params = [':userId' => $userId];
+
+    if ($statusFilter === 'active') {
+      $query .= " AND ts.status = 'Active'";
+    }
+
+    return $this->query($query, $params);
+  }
 }

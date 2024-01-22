@@ -26,15 +26,12 @@ class Tricycles
 
     if ($_SESSION['USER']->role === 'admin') {
       // Fetch all tricycles data for Admin
-      $tricyclesData = $statusFilter !== 'active' ? $tricycleModel->findAll() : $tricycleModel->where(['tricycle_status' => 'Active']);
+      $tricyclesData = $tricycleModel->getTricyclesForAdmin($statusFilter);
     } else {
       // Fetch tricycles data based on the user ID for non-Admin users
-      $whereConditions = ['user_id' => $_SESSION['USER']->user_id];
-      if ($statusFilter === 'active') {
-        $whereConditions['status'] = 'Active';
-      }
-      $tricyclesData = $tricycleModel->where($whereConditions);
+      $tricyclesData = $tricycleModel->getTricyclesForUser($_SESSION['USER']->user_id, $statusFilter);
     }
+  
 
     if (!empty($tricyclesData)) {
       foreach ($tricyclesData as $tricycle) {

@@ -26,7 +26,9 @@
                   <th scope="col" class="text-center">Route Area</td>
                   <th scope="col" class="text-center">Status</th>
                   <th scope="col" class="text-center">Actions</th>
-                  <th scope="col" class="text-center px-5">Update</th>
+                  <?php if ($userRole === 'admin'): ?>
+                    <th scope="col" class="text-center px-5">Update</th>
+                  <?php endif; ?>
                 </tr>
               </thead>
               <tbody class="text-center text-capitalize">
@@ -51,13 +53,15 @@
                   <td>
                     <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Operator Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
                   </td>
-                  <td>
-                  <?php if ($userRole === 'admin' && hasStatusToUpdate($tricycle['statuses'])): ?>
-                      <button type="button" class="update-status-btn" data-bs-toggle="modal" data-bs-target="#exampleModal-<?php echo $tricycle['tricycle_id']; ?>">
-                        Update Status
-                      </button>
-                    <?php endif; ?>
-                  </td>
+                  <?php if ($userRole === 'admin'): ?>
+                    <td>
+                      <?php if (hasStatusToUpdate($tricycle['statuses'])): ?>
+                        <button type="button" class="update-status-btn" data-bs-toggle="modal" data-bs-target="#exampleModal-<?php echo $tricycle['tricycle_id']; ?>">
+                          Update Status
+                        </button>
+                      <?php endif; ?>
+                    </td>
+                  <?php endif; ?>
                 </tr>
                 <!-- UPDATE STATUS MODAL -->
                 <div class="modal fade" id="exampleModal-<?php echo $tricycle['tricycle_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

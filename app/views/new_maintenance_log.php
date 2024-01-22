@@ -73,7 +73,7 @@
                     <div class="col-12 d-flex justify-content-evenly">
                       <div class="text-center">
                         <label for="expenses_receipt_image" class="form-label">Receipt</label>
-                        <input type="file" class="form-control" id="expenses_receipt_image" name="expenses_receipt_image" accept="image/*" />
+                        <input type="file" class="form-control" id="expenses_receipt_image" name="expenses_receipt_image" accept="image/*" required/>
                       </div>
                     </div>
                   </div>

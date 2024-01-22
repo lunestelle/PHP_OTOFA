@@ -30,7 +30,8 @@
       
       // If tricycle_cin_number_id is set, get the selected CIN number and other available CIN numbers
       if (!empty($selectedCinNumberId)) {
-        $selectedCinNumber = $tricycleCinNumberModel->getCin($selectedCinNumberId);
+        $selectedCin = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumberId]);
+        $selectedCinNumber = $selectedCin->cin_number;
         $availableCinNumbers = $tricycleCinNumberModel->getAvailableCinNumbers();
       } else {
         // If tricycle_cin_number_id is not set, show all available CIN numbers where is_used is false
@@ -209,23 +210,20 @@
                 ]);
               }
 
-              if ($appointmentFormData['status'] === 'Completed') {
+              if ($appointmentFormData['status'] == 'Completed') {
                 $tricycleModel = new Tricycle();
                 $tricycleStatusesModel = new TricycleStatuses;
 
-                if (!empty($tricycleData)) {
-                  $tricycleData = [
-                    'cin_id' => $tricycleApplicationData->tricycle_cin_number_id,
-                    'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
-                    'mtop_requirements_new_franchise_id' => $mtopRequirementId,
-                    'user_id' => $appointmentData->user_id,
-                  ];
-              
-                  if ($tricycleModel->insert($tricycleData)) {
-                    $tricycleId = $tricycleModel->getLastInsertedRecord()[0]->tricycle_id;
-                    $tricycleStatusesModel->insert(['tricycle_id' => $tricycleId, 'user_id' => $appointmentData->user_id, 'status' => 'Active']);
-  
-                  }
+                $tricycleData = [
+                  'cin_id' => $tricycleApplicationData->tricycle_cin_number_id,
+                  'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
+                  'mtop_requirements_new_franchise_id' => $mtopRequirementId,
+                  'user_id' => $appointmentData->user_id,
+                ];
+            
+                if ($tricycleModel->insert($tricycleData)) {
+                  $tricycleId = $tricycleModel->getLastInsertedRecord()[0]->tricycle_id;
+                  $tricycleStatusesModel->insert(['tricycle_id' => $tricycleId, 'user_id' => $appointmentData->user_id, 'status' => 'Active']);
                 }
               }
 
@@ -273,10 +271,12 @@
         }
       }
       
-      if ($appointmentFormData['status'] === 'Completed' || $appointmentFormData['status'] === 'Approved') {
-        $cinNumber = ($tricycleApplicationFormData['tricycle_cin_number_id']);
-        if (empty($cinNumber)) {
-          $errors['tricycleApplication'][] = 'Tricycle CIN number is required and must <br> be selected from the available options to <br> update this appointment request.';
+      if ($_SESSION['USER']->role === 'admin'){
+        if ($appointmentFormData['status'] === 'Completed' || $appointmentFormData['status'] === 'Approved') {
+          $cinNumber = ($tricycleApplicationFormData['tricycle_cin_number_id']);
+          if (empty($cinNumber)) {
+            $errors['tricycleApplication'][] = 'Tricycle CIN number is required and must <br> be selected from the available options to <br> update this appointment request.';
+          }
         }
       }
 

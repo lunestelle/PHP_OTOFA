@@ -82,7 +82,7 @@
                             echo '</div>';
                           } else {
                             echo '<div class="image-container">';
-                            echo '<input class="form-control" type="file" name="expenses_receipt_image" id="expenses_receipt_image-input" accept="image/*">';
+                            echo '<input class="form-control" type="file" name="expenses_receipt_image" id="expenses_receipt_image-input" accept="image/*" required>';
                             echo '</div>';
                           }
                         ?>
