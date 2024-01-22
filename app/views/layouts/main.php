@@ -3,6 +3,13 @@ $current_page = $_SERVER['REQUEST_URI'];
 $current_page_is_maintenance = strpos($current_page, 'appointments_reports') !== false || strpos($current_page, 'cin_reports') !== false || strpos($current_page, 'tricycles_reports') !== false;
 
 $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USER']->generated_profile_photo_path;
+
+$inquiryModel = new Inquiry();
+$appointmentModel = new Appointment();
+
+$unreadInquiriesCount = $inquiryModel->count(['message_status' => 'unread']);
+
+$pendingAppointmentsCount = $appointmentModel->count(['status' => 'pending']);
 ?>
 
 <!DOCTYPE html>
@@ -175,11 +182,14 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                   </li>
                 <?php } ?>
                 <li class="nav-item">
-                  <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments</span></a>
+                  <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointments <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge bg-danger'>$pendingAppointmentsCount</span>"; } ?></span></a>
                 </li>
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">
-                  <a class="nav-link text-white" href="inquiries"><i class="fas fa-envelope"></i><span class="ms-2">Inquiries</span></a>
+                  <a class="nav-link text-white" href="inquiries">
+                    <i class="fas fa-envelope"></i>
+                    <span class="ms-2">Inquiries <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge bg-danger'>$unreadInquiriesCount</span>"; } ?></span>
+                  </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
@@ -188,7 +198,10 @@ $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USE
                   <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-white" href="appointments"><i class="fa-solid fa-calendar-days"></i><span class="ms-2">Appointment Approval</span></a>
+                  <a class="nav-link text-white" href="appointments">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span class="ms-2">Appointment Approval <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge bg-danger'>$pendingAppointmentsCount</span>"; } ?></span>
+                  </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="taripa"><i class="fa-solid fa-peso-sign"></i><span class="ms-2">Taripa</span></a>
