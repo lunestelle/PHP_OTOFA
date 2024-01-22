@@ -2,6 +2,28 @@
 $current_page = $_SERVER['REQUEST_URI'];
 $current_page_is_maintenance = strpos($current_page, 'appointments_reports') !== false || strpos($current_page, 'cin_reports') !== false || strpos($current_page, 'tricycles_reports') !== false;
 
+$isCurrentPageInquiries = (basename($current_page) == 'inquiries');
+
+$current_page_basename = basename(parse_url($current_page, PHP_URL_PATH));
+$isCurrentPageAppointments = (
+  strpos($current_page_basename, 'appointments') !== false ||
+  strpos($current_page_basename, 'view_appointment') !== false ||
+  strpos($current_page_basename, 'edit_appointment') !== false ||
+  strpos($current_page_basename, 'new_appointment') !== false ||
+  strpos($current_page_basename, 'new_franchise') !== false ||
+  strpos($current_page_basename, 'edit_new_franchise') !== false ||
+  strpos($current_page_basename, 'renewal_of_franchise') !== false ||
+  strpos($current_page_basename, 'edit_renewal_of_franchise') !== false ||
+  strpos($current_page_basename, 'change_of_motorcycle') !== false ||
+  strpos($current_page_basename, 'edit_change_of_motorcycle') !== false ||
+  strpos($current_page_basename, 'transfer_of_ownership') !== false ||
+  strpos($current_page_basename, 'edit_transfer_of_ownership') !== false ||
+  strpos($current_page_basename, 'intent_of_transfer') !== false ||
+  strpos($current_page_basename, 'edit_intent_of_transfer') !== false ||
+  strpos($current_page_basename, 'ownership_transfer_from_deceased_owner') !== false ||
+  strpos($current_page_basename, 'edit_ownership_transfer_from_deceased_owner') !== false
+);
+
 $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USER']->generated_profile_photo_path;
 
 $inquiryModel = new Inquiry();
@@ -191,19 +213,18 @@ if ($userRole === 'operator') {
                   </li>
                 <?php } ?>
                 <li class="nav-item">
-    <a class="nav-link text-white" href="appointments">
-        <i class="fa-solid fa-calendar-days"></i>
-        <span class="ms-2">Appointments</span>
-        <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge bg-danger ms-auto'>$pendingAppointmentsCount</span>"; } ?>
-    </a>
-</li>
-
+                  <a class="nav-link text-white" href="appointments">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span class="ms-2">Appointments</span>
+                    <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge ms-auto " . ($isCurrentPageAppointments ? 'bg-warning' : 'bg-danger') . "'>$pendingAppointmentsCount</span>"; } ?>
+                  </a>
+                </li>
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="inquiries">
-                      <i class="fas fa-envelope"></i>
-                      <span class="ms-2">Inquiries</span>
-                      <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge bg-danger ms-auto'>$unreadInquiriesCount</span>"; } ?>
+                    <i class="fas fa-envelope"></i>
+                    <span class="ms-2">Inquiries</span>
+                    <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge ms-auto " . ($isCurrentPageInquiries ? 'bg-warning' : 'bg-danger') . "'>$unreadInquiriesCount</span>"; } ?>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -215,7 +236,8 @@ if ($userRole === 'operator') {
                 <li class="nav-item">
                   <a class="nav-link text-white" href="appointments">
                     <i class="fa-solid fa-calendar-days me-2"></i>
-                    Appointment Approval <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge bg-danger ms-auto p-1'>$pendingAppointmentsCount</span>"; } ?>
+                    <span>Appointment Approval</span>                    
+                    <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge ms-auto p-1 " . ($isCurrentPageAppointments ? 'bg-warning' : 'bg-danger') . "'>$pendingAppointmentsCount</span>"; } ?>
                   </a>
                 </li>
                 <li class="nav-item">

@@ -19,7 +19,7 @@ class Appointment
     'comments',
     'date_created',
   ];
-  protected $order_column = 'appointment_id';
+  protected $order_column = 'date_created';
 
   public function validate($data)
   {
@@ -351,7 +351,7 @@ class Appointment
       $whereClause .= "AND appointment_date BETWEEN '$startDate' AND '$endDate'";
     }
 
-    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY appointment_date DESC";
+    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY date_created DESC";
     return $this->query($query);
   }
 }
