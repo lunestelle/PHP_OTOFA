@@ -20,7 +20,7 @@
                           <?php if (!empty($tricycleCinNumbers)): ?>
                             <div class="col-4 px-5">
                               <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                              <select class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" required>
+                              <select class="form-control" id="tricycle_cin_number" name="tricycle_cin_number_id" required>
                                 <option selected disabled>Please Select Here</option>
                                 <?php foreach ($tricycleCinNumbers as $cinNumberId => $cinData): ?>
                                   <option value="<?= $cinNumberId ?>"><?= $cinData['cin_number'] ?></option>
@@ -35,14 +35,8 @@
                           <?php endif; ?>
                           <div class="col-4 px-5">
                             <label for="driver_id" class="form-label">Name of Driver</label>
-                            <select class="form-control" id="driver_id" name="driver_id" required>
-                            <option value="" disabled <?php echo (!isset($_POST['driver_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
-                              <?php foreach ($data['drivers'] as $driver): ?>
-                                <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($_POST['driver_id']) && $_POST['driver_id'] == $driver['driver_id']) ? 'selected' : ''; ?>>
-                                  <?php echo $driver['name']; ?>
-                                </option>
-                              <?php endforeach; ?>
-                            </select>
+                            <input type="hidden" id="driver_id" name="driver_id" value="">
+                            <input type="text" class="form-control" style="cursor: pointer;" id="driver_name" name="driver_name" placeholder="Select CIN first" readonly data-toggle="tooltip" data-bs-placement="right" value="" title="Please choose a Tricycle CIN to determine the Driver Name">
                           </div>
                           <div class="col-4 px-5">
                             <label for="date" class="form-label">Expense Date</label>
@@ -79,7 +73,7 @@
                     <div class="col-12 d-flex justify-content-evenly">
                       <div class="text-center">
                         <label for="expenses_receipt_image" class="form-label">Receipt</label>
-                        <input type="file" class="form-control" id="expenses_receipt_image" name="expenses_receipt_image" accept="image/*" />
+                        <input type="file" class="form-control" id="expenses_receipt_image" name="expenses_receipt_image" accept="image/*" required/>
                       </div>
                     </div>
                   </div>
@@ -98,3 +92,34 @@
     </div>
   </div>
 </main>
+<script>
+  $(document).ready(function () {
+    const driverNameInput = $('#driver_name');
+
+    $('#tricycle_cin_number').change(function () {
+      let selectedCinId = $(this).val();
+
+      if (selectedCinId) {
+        $.post('driver_data', { tricycle_cin_number_id: selectedCinId }, function (response) {
+          if (response.success) {
+            let driverData = response.data.driverData;
+
+            if (driverData) {
+              $('#driver_id').val(driverData.driver_id);
+              driverNameInput.val(driverData.first_name + ' ' + driverData.middle_name + ' ' + driverData.last_name);
+              driverNameInput.tooltip('hide').attr('data-bs-original-title', '');
+            } else {
+              $('#driver_id').val('');
+              driverNameInput.val('Selected CIN has no driver');
+            }
+          } else {
+            console.error('Error fetching driver data');
+          }
+        }, 'json');
+      } else {
+        $('#driver_id').val('');
+        driverNameInput.val('Select CIN first');
+      }
+    });
+  });
+</script>

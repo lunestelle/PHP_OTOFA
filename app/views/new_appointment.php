@@ -84,6 +84,33 @@
                     </div>
                   </div>                  
                 </div>
+
+                <?php if ($userHasCin) { ?>
+                  <div class="content-container mt-2 mb-3" id="tricycleCinContainer">
+                    <div class="bckgrnd pt-2">
+                      <h6 class="text-uppercase text-center text-light fs-6">Select Tricycle CIN</h6>
+                    </div>
+                    <div class="row px-3 p-4" id="transferTypeOptions">
+                      <div class="col-12 d-flex mb- py-3">
+                        <div class="col-12 px-5">
+                          <div class="d-flex gap-5 text-center">
+                            <div class="col-12">
+                              <div class="row-1">
+                                <select id="tricycleCin" name="tricycleCin" class="form-select" style="text-align: center; font-weight: bold;">
+                                  <option value="" selected disabled>Please Select Here</option>
+                                  <?php foreach ($tricycleCinNumbers as $tricycleCin) : ?>
+                                    <option style="text-align: center; font-weight: bold;" value='<?php echo $tricycleCin->cin_number; ?>'><?php echo $tricycleCin->cin_number; ?></option>
+                                  <?php endforeach; ?>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>                  
+                  </div>
+                <?php } ?>
+
                 <div class="text-end my-3">
                   <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn">Save</button>
                 </div>
@@ -98,23 +125,41 @@
 <script>
   $(document).ready(function () {
     function toggleSections() {
-      // Get the value of the selected appointment type
       let appointmentType = $("input[name='appointmentType']:checked").val();
+      let transferType = $("input[name='transferType']:checked").val();
+      let tricycleCin = $("#tricycleCin").val();
 
-      // Hide all sections initially
-      $("#transferTypeContainer").hide();
+      $("#transferTypeContainer, #tricycleCinContainer").hide();
 
-      // Show the selected section
-      if (appointmentType === "Transfer of Ownership") {
+      if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle") {
+        $("#tricycleCinContainer").show();
+      } else if (appointmentType === "Transfer of Ownership") {
         $("#transferTypeContainer").show();
+        $("#tricycleCinContainer").show();
+      }
+
+      let isSaveButtonDisabled = !appointmentType || (appointmentType === "Transfer of Ownership" && !transferType) || (appointmentType !== "New Franchise" && !tricycleCin);
+      $("#scheduleAppointmentBtn").prop("disabled", isSaveButtonDisabled);
+
+      if (isSaveButtonDisabled) {
+        $("#scheduleAppointmentBtn").css({
+          "background-color": "#cccccc",
+          "border-color": "#999999",
+          "color": "#666666",
+          "font-weight": "bolder"
+        });
+      } else {
+        $("#scheduleAppointmentBtn").removeAttr("style");
       }
     }
 
-    // Call the function on page load
     toggleSections();
 
-    // Attach change event to the appointment type radio buttons
-    $("input[name='appointmentType']").change(function () {
+    $("input[name='appointmentType'], input[name='transferType']").change(function () {
+      toggleSections();
+    });
+
+    $("#tricycleCin").change(function () {
       toggleSections();
     });
   });

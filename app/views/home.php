@@ -1,4 +1,13 @@
-  <header>
+<?php
+// Add JavaScript script to scroll to the 'Sent Us A Message' section if there are errors
+  if (!empty($validationErrors)) {
+    echo '<script>';
+    echo 'document.getElementById("contact").scrollIntoView({ behavior: "smooth", block: "start" });';
+    echo '</script>';
+  }
+?>
+
+ <header>
     <div class="d-flex">
       <a href="<?=ROOT?>" class="d-flex text-decoration-none">
         <img class="logo-1" src="public/assets/images/logo.png" alt="Sakaycle Logo">
@@ -134,10 +143,10 @@
     </div>
   </div>
 
-  <footer class="text-white text-center text-lg-start" >
-    <div class="p-4 m-auto gap-6 col-md-10" id="contact">
-      <div class="row mt-4">
-        <div class="col-lg-5 col-md-12 mb-4 mb-md-0">
+  <footer class="text-white text-center text-lg-start pt-5">
+    <div class="p-4 mx-5 col-md-11" id="contact">
+      <div class="row mt-4 pt-2">
+        <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
           <h5 class="text-uppercase mb-4">About department</h5>
           <p class="text-justify">
           The Transportation Development Franchising and Regulatory Office (TDFRO) is a government agency responsible for overseeing the franchising and regulation of tricycle transportation in a given area. It plays a crucial role in ensuring the safe and efficient operation of tricycles, which are often a vital mode of transportation in local communities.
@@ -156,40 +165,64 @@
           </div>
         </div>
         <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-4 pb-1">Contact us</h5>
-          <ul class="fa-ul" style="margin-left: 1.65em;">
-            <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Aunubing St. Cogon, Ormoc City</span>
-            </li>
-            <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">info@sakaycle.com</span>
-            </li>
-            <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">+ 561 2485 52416</span>
-            </li>
-            <li class="mb-3">
-              <span class="fa-li"><i class="fas fa-print"></i></span><span class="ms-2">+ 01 234 567 89</span>
-            </li>
-          </ul>
+          <div class="mb-3">
+            <h5 class="text-uppercase mb-4">Opening hours</h5>
+            <table class="table text-center text-white">
+              <tbody class="font-weight-normal mb-3">
+                <tr>
+                  <td>Mon - Fri:</td>
+                  <td>8am - 5pm</td>
+                </tr>
+                <tr>
+                  <td>Sat - Sun:</td>
+                  <td>Rest Day</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-5">
+            <h5 class="text-uppercase pb-1">Contact</h5>
+          </div>
+          <div class="mt-2">
+            <ul class="fa-ul" style="margin-left: 1.65em;">
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Aunubing St. Cogon, Ormoc City</span>
+              </li>
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">info@sakaycle.com</span>
+              </li>
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">+ 561 2485 52416</span>
+              </li>
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-print"></i></span><span class="ms-2">+ 01 234 567 89</span>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-4">Opening hours</h5>
-          <table class="table text-center text-white">
-            <tbody class="font-weight-normal">
-              <tr>
-                <td>Mon - Fri:</td>
-                <td>8am - 5pm</td>
-              </tr>
-              <tr>
-                <td>Sat - Sun:</td>
-                <td>Rest Day</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+          <div class="inquiries">
+            <h5 class="text-white text-uppercase mb-2">Sent Us A Message</h5>
+            <small class="text-secondary">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within a matter of hours to help you.</small>
+            <form method="post" action="">
+              <div class="py-2 mt-3">
+                <input type="text" name="full_name" placeholder="Full Name" class="message-us" style="width: 100%;" value="<?php echo isset($_POST['full_name']) ? $_POST['full_name'] : ''; ?>" required>
+              </div>
+              <div class="py-2">
+                <input type="text" name="email_or_phone" placeholder="Email or Phone Number" class="message-us" style="width: 100%;" value="<?php echo isset($_POST['email_or_phone']) ? $_POST['email_or_phone'] : ''; ?>" required>
+              </div>
+              <div class="py-2">
+                <textarea name="message" placeholder="Message" class="message" style="width: 100%;" required><?php echo isset($_POST['message']) ? $_POST['message'] : ''; ?></textarea>
+              </div>
+              <div class="py-2">
+                <button type="submit" name="send_message" class="btn btn-warning fw-bold" style="width: 100%;">Send Message</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-    <div class="text-center p-1 " style="background-color: #FF4200;">
+    <div class="text-center p-1 mt-2" style="background-color: #FF4200;">
       © 2023 Copyright:
       <a class="text-white" href="#">wlcresearch2023.com</a>
     </div>
@@ -360,5 +393,11 @@
 
     // Initial animation trigger
     playAnimation();
+
+    <?php
+      if (!empty($validationErrors)) {
+        echo 'setTimeout(function() { document.getElementById("contact").scrollIntoView({ behavior: "smooth", block: "start" }); }, 2000);';
+      }
+    ?>
   });
 </script>

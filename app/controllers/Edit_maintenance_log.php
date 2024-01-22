@@ -59,7 +59,7 @@ class Edit_maintenance_log {
 
       if (isset($_POST['confirm_delete_image'])) {
         $imageType = $_POST['image_type'];
-        $imagePathColumn = "{$imageType}_view_image_path";
+        $imagePathColumn = "expenses_receipt_image_path";
         
         // Check if the file exists before attempting to delete
         if (file_exists($_POST['original_image_path'])) {

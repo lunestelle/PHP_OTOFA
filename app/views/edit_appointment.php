@@ -175,7 +175,7 @@
                     <div class="col-12 d-flex mb-2">
                       <?php if (!empty($tricycles)): ?>
                         <div class="col-4 px-5">
-                          <label for="plate_number" class="form-label">Tricycle CIN</label>
+                          <label for="plate_number" class="form-label fw-bold text-danger">Tricycle CIN</label>
                           <select class="form-control" id="tricycle_id" name="tricycle_id">
                             <option value="" disabled <?php echo (!isset($tricycleApplicationFormData['tricycle_id'])) ? 'selected' : ''; ?>>Please Select Here</option>
                             <?php foreach ($data['tricycles'] as $tricycle): ?>

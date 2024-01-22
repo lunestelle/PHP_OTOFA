@@ -19,7 +19,7 @@ class Maintenance_tracker
       $years = []; // Set a default value, an empty array in this case
     }
 
-    $selectedFilter = isset($_GET['year']) ? $_GET['year'] : (empty($years) ? null : $years[0]);
+    $selectedFilter = isset($_GET['year']) ? $_GET['year'] : (empty($years) ? null : 'all');
     $maintenance_trackers = $this->getMaintenanceData($selectedFilter);
 
     $data = [
@@ -31,20 +31,35 @@ class Maintenance_tracker
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
       $csvData = [];
-      $csvData[] = ['Maintenance Tracker for the Year ' . $selectedFilter];
-      $csvData[] = ['Tricycle CIN', 'Operator\'s Name', 'Driver\'s Name', 'Yearly Total Expenses'];
-    
+
+      if ($selectedFilter == 'all') {
+        $csvData[] = ['All Maintenance Tracker'];
+      } else {
+        $csvData[] = ['Maintenance Tracker for the Year ' . $selectedFilter];
+      }
+
+      $csvData[] = ['Tricycle CIN', 'Operator\'s Name', 'Driver\'s Name'];
+
+      if ($selectedFilter == 'all') {
+        $csvData[1][] = 'Total Expenses';
+      } else {
+        $csvData[1][] = 'Yearly Total Expenses';
+      }
+
       foreach ($maintenance_trackers as $maintenance) {
-        $csvData[] = [
+        $rowData = [
           $maintenance->cin_number,
           $maintenance->operator_name,
           $maintenance->driver_name,
           $maintenance->yearly_total_expenses,
         ];
+
+        $csvData[] = $rowData;
       }
-    
+
       downloadCsv($csvData, 'Maintenance_Tracker_Export');
     }
+
 
     echo $this->renderView('maintenance_tracker', true, $data);
   }

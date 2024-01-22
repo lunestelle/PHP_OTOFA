@@ -36,9 +36,9 @@
                   <tr>
                     <td><?php echo $index++; ?></td>
                     <td><?php echo $maintenance_log['cin']; ?></td>
-                    <td><?php echo $maintenance_log['driver_name']; ?></td>
+                    <td><?php echo empty($maintenance_log['driver_name']) ? '----------------' : $maintenance_log['driver_name']; ?></td>
                     <td><?php echo $maintenance_log['expense_date']; ?></td>
-                    <td><?php echo $maintenance_log['total_expenses']; ?></td>
+                    <td><?php echo '₱' . number_format($maintenance_log['total_expenses'], 2, '.', ''); ?></td>
                     <td><?php echo $maintenance_log['description']; ?></td>
                     <td>
                       <a href="./view_maintenance_log?maintenance_log_id=<?php echo $maintenance_log['maintenance_log_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Maintenance Log Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>

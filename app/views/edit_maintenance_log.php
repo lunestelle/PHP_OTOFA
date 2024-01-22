@@ -37,18 +37,12 @@
                               </div>
                             <?php endif; ?>
                             <div class="col-4">
-                              <label for="driver_id" class="form-label">Name of Driver</label>
-                              <select class="form-control" id="driver_id" name="driver_id" required>
-                                <option <?php echo (!isset($maintenanceLogData['driver_id'])) ? 'selected' : ''; ?> disabled>Please Select Here</option>
-                                <?php foreach ($drivers as $driver): ?>
-                                <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($maintenanceLogData['driver_id']) && $maintenanceLogData['driver_id'] == $driver['driver_id']) ? 'selected' : ''; ?>>
-                                  <?php echo $driver['name']; ?>
-                                </option>
-                                <?php endforeach; ?>
-                              </select>
+                              <label for="driver_name" class="form-label">Name of Driver</label>
+                              <input type="text" class="form-control" style="cursor: pointer;" id="driver_name" name="driver_name" placeholder="Select CIN first" readonly data-toggle="tooltip" data-bs-placement="right" value="" title="Please choose a Tricycle CIN to determine the Driver Name">
+                              <input type="hidden" id="driver_id" name="driver_id" value="">
                             </div>
                             <div class="col-4">
-                              <label for="expense_date" class="form-label">Expense expense_date</label>
+                              <label for="expense_date" class="form-label">Expense Date</label>
                               <input type="expense_date" class="form-control" id="expense_date" name="expense_date" value="<?php echo isset($maintenanceLogData['expense_date']) ? $maintenanceLogData['expense_date'] : ''; ?>" required>
                             </div>
                           </div>
@@ -88,7 +82,7 @@
                             echo '</div>';
                           } else {
                             echo '<div class="image-container">';
-                            echo '<input class="form-control" type="file" name="expenses_receipt_image" id="expenses_receipt_image-input" accept="image/*">';
+                            echo '<input class="form-control" type="file" name="expenses_receipt_image" id="expenses_receipt_image-input" accept="image/*" required>';
                             echo '</div>';
                           }
                         ?>
@@ -143,5 +137,51 @@
       $("#imageTypeInput").val(imageType);
       $("#originalImagePathInput").val(originalImagePath);
     });
+  });
+
+  $(document).ready(function () {
+    const tricycleCinSelect = $('#tricycle_cin_number_id');
+    const driverNameInput = $('#driver_name');
+    const driverIdInput = $('#driver_id');
+
+    function updateDriverName() {
+      let selectedCinId = tricycleCinSelect.val();
+
+      if (selectedCinId) {
+        $.post('driver_data', { tricycle_cin_number_id: selectedCinId }, function (response) {
+          if (response.success) {
+            let driverData = response.data.driverData;
+
+            if (driverData) {
+              driverIdInput.val(driverData.driver_id); // Set the driver_id input value
+              driverNameInput.val(driverData.first_name + ' ' + driverData.middle_name + ' ' + driverData.last_name);
+              driverNameInput.tooltip('hide').attr('data-bs-original-title', '');
+            } else {
+              driverIdInput.val(''); // Reset the driver_id input value
+              driverNameInput.val('Selected CIN has no driver');
+              driverNameInput.tooltip('hide').attr('data-bs-original-title', 'Selected CIN has no driver');
+            }
+          } else {
+            console.error('Error fetching driver data');
+          }
+        }, 'json');
+      } else {
+        driverIdInput.val('');
+        driverNameInput.val('Select CIN first');
+        driverNameInput.tooltip('hide').attr('data-bs-original-title', 'Please choose a Tricycle CIN to determine the Driver Name');
+      }
+
+      driverNameInput.tooltip('dispose');
+      driverNameInput.tooltip({
+        placement: 'right',
+        trigger: 'hover',
+      });
+    }
+
+    tricycleCinSelect.change(function () {
+      updateDriverName();
+    });
+
+    updateDriverName();
   });
 </script>

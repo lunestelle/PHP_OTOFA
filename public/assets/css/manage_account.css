@@ -228,3 +228,31 @@ nav #toggler{
   width: 2rem;
   height: 2rem;
 }
+
+/* --- VERIFY BUTTON --- */
+span.not-verified-badge {
+  padding: 5px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 12px !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+button.verify-btn {
+  padding: 5px 18px;
+  background-color: rgb(0, 0, 0);
+  border: #000000 1px solid;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-right: 3px;
+}
+
+button.verify-btn:hover {
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+}

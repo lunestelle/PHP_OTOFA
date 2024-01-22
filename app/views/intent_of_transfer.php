@@ -116,22 +116,22 @@
                     <div class="col-12 d-flex mb-2">
                       <div class="col-4 px-5">
                         <label for="mtop_no" class="form-label">MTOP Number</label>
-                        <input type="text" class="form-control" id="mtop_no" name="mtop_no" value="<?php echo isset($_POST['mtop_no']) ? $_POST['mtop_no'] : ''; ?>" min="0" required>
+                        <input type="text" class="form-control" id="mtop_no" name="mtop_no" value="<?= isset($_POST['mtop_no']) ? $_POST['mtop_no'] : $existingTricycleApplicationData->mtop_no; ?>" min="0" required>
                       </div>
                       <div class="col-4 px-5">
                         <label for="color_code" class="form-label">Color Code</label>
                         <select class="form-control" id="color_code" name="color_code" required>
                           <option selected disabled>Please Select Here</option>
-                          <option value="Red" data-route-area="Free Zone / Zone 1" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Red' ? 'selected' : ''); ?>>Red</option>
-                          <option value="Blue" data-route-area="Free Zone & Zone 2" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue' ? 'selected' : ''); ?>>Blue</option>
-                          <option value="Yellow" data-route-area="Free Zone & Zone 3" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow' ? 'selected' : ''); ?>>Yellow</option>
-                          <option value="Green" data-route-area="Free Zone & Zone 4" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Green' ? 'selected' : ''); ?>>Green</option>
+                          <option value="Red" data-route-area="Free Zone / Zone 1" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Red') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Red') ? 'selected' : ''); ?>>Red</option>
+                          <option value="Blue" data-route-area="Free Zone & Zone 2" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Blue') ? 'selected' : ''); ?>>Blue</option>
+                          <option value="Yellow" data-route-area="Free Zone & Zone 3" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Yellow') ? 'selected' : ''); ?>>Yellow</option>
+                          <option value="Green" data-route-area="Free Zone & Zone 4" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Green') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Green') ? 'selected' : ''); ?>>Green</option>
                         </select>
                       </div>
                       <div class="col-4 px-5">
                         <label for="route_area" class="form-label">Route Area</label>
                         <div class="input-group">
-                          <input type="text" class="form-control" id="route_area" name="route_area" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?php echo isset($_POST['route_area']) ? $_POST['route_area'] : ''; ?>" readonly required>
+                          <input type="text" class="form-control" id="route_area" name="route_area" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?= (isset($_POST['route_area']) ? $_POST['route_area'] : ($existingTricycleApplicationData->route_area ?? '')); ?>" readonly required>
                           <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                             <i class="fa-solid fa-info-circle"></i>
                           </span>
@@ -142,41 +142,46 @@
                     <div class="col-12 d-flex mb-5">
                       <div class="col-4 px-5">
                         <label for="make_model" class="form-label">Make Model</label>
-                        <input type="text" class="form-control" id="make_model" name="make_model" value="<?php echo isset($_POST['make_model']) ? $_POST['make_model'] : ''; ?>" required>
+                        <input type="text" class="form-control" id="make_model" name="make_model" value="<?= (isset($_POST['make_model']) ? $_POST['make_model'] : ($existingTricycleApplicationData->make_model ?? '')); ?>" required>
                       </div>
                       <div class="col-4 px-5">
                         <label for="make_model_year_acquired" class="form-label">Model Year Acquired</label>
-                        <input type="text" class="form-control text-uppercase" id="make_model_year_acquired" name="make_model_year_acquired" value="<?php echo isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ''; ?>" required>
+                        <input type="text" class="form-control text-uppercase" id="make_model_year_acquired" name="make_model_year_acquired" value="<?= (isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ($existingTricycleApplicationData->make_model_year_acquired ?? '')); ?>" required>
                       </div>
                       <div class="col-4 px-5">
                         <label for="make_model_expiry_date" class="form-label">Model Expiry Date</label>
-                        <input type="date" class="form-control text-uppercase" id="make_model_expiry_date" name="make_model_expiry_date" value="<?php echo isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ''; ?>" required>
+                        <input type="date" class="form-control text-uppercase" id="make_model_expiry_date" name="make_model_expiry_date" value="<?= (isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ($existingTricycleApplicationData->make_model_expiry_date ?? '')); ?>" required>
                       </div>
                     </div>
 
                     <div class="col-12 d-flex mb-2">
                       <div class="col-4 px-5">
                         <label for="motor_number" class="form-label">Motor Number</label>
-                        <input type="text" class="form-control" id="motor_number" name="motor_number" value="<?php echo isset($_POST['motor_number']) ? $_POST['motor_number'] : ''; ?>" min="0" required>
+                        <input type="text" class="form-control" id="motor_number" name="motor_number" value="<?= (isset($_POST['motor_number']) ? $_POST['motor_number'] : ($existingTricycleApplicationData->motor_number ?? '')); ?>" min="0" required>
                       </div>
                       <div class="col-4 px-5">
                         <label for="insurer" class="form-label">Insurer</label>
-                        <input type="text" class="form-control" id="insurer" name="insurer" value="<?php echo isset($_POST['insurer']) ? $_POST['insurer'] : ''; ?>" required>
+                        <input type="text" class="form-control" id="insurer" name="insurer" value="<?= (isset($_POST['insurer']) ? $_POST['insurer'] : ($existingTricycleApplicationData->insurer ?? '')); ?>" required>
                       </div>
-                      <?php if (!empty($tricycleCinNumbers)): ?>
+                      <?php if (!empty($cin_number)): ?>
                         <div class="col-4 px-5">
-                          <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                          <select class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" required>
-                            <option selected disabled>Please Select Here</option>
-                            <?php foreach ($tricycleCinNumbers as $cinNumberId => $cinData): ?>
-                              <option value="<?= $cinNumberId ?>"><?= $cinData['cin_number'] ?></option>
-                            <?php endforeach; ?>
-                          </select>
+                          <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>                          
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="<?= $cin_number ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                              <i class="fa-solid fa-info-circle"></i>
+                            </span>
+                          </div>
                         </div>
                       <?php else: ?>
                         <div class="col-4 px-5">
                           <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                          <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                              <i class="fa-solid fa-info-circle"></i>
+                            </span>
+                          </div>
                         </div>
                       <?php endif; ?>
                     </div>
@@ -184,35 +189,46 @@
                     <div class="col-12 d-flex mb-5">
                       <div class="col-4 px-5">
                         <label for="coc_no" class="form-label">C.O.C Number</label>
-                        <input type="text" class="form-control" id="coc_no" name="coc_no" value="<?php echo isset($_POST['coc_no']) ? $_POST['coc_no'] : ''; ?>" min="0" required>
+                        <input type="text" class="form-control" id="coc_no" name="coc_no" value="<?= (isset($existingTricycleApplicationData->coc_no) ? $existingTricycleApplicationData->coc_no : (isset($_POST['coc_no']) ? $_POST['coc_no'] : '')); ?>" min="0" required>
                       </div>
                       <div class="col-4 px-5">
                         <label for="coc_no_expiry_date" class="form-label">C.O.C Expiry Date</label>
-                        <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?php echo isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : ''; ?>" required>
+                        <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?= (isset($existingTricycleApplicationData->coc_no_expiry_date) ? $existingTricycleApplicationData->coc_no_expiry_date : (isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : '')); ?>" required>
                       </div>
                     </div>
 
                     <div class="col-12 d-flex mb-2">
-                      <?php if (!empty($tricycleCinNumbers)): ?>
+                      <?php if (!empty($cin_number)): ?>
                         <div class="col-4 px-5">
                           <label for="lto_cr_no" class="form-label">LTO CR Number</label>
-                          <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?php echo isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : ''; ?>" required>
+                          <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?= (isset($existingTricycleApplicationData->lto_cr_no) ? $existingTricycleApplicationData->lto_cr_no : (isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : '')); ?>" required>
                         </div>
                         <div class="col-4 px-5">
                           <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                          <input type="text" class="form-control text-uppercase" id="lto_or_no" name="lto_or_no" value="<?php echo isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : ''; ?>" required>
+                          <input type="text" class="form-control text-uppercase" id="lto_or_no" name="lto_or_no" value="<?= (isset($existingTricycleApplicationData->lto_or_no) ? $existingTricycleApplicationData->lto_or_no : (isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : '')); ?>" required>
                         </div>
-                        <div class="col-4 px-5">
-                          <label for="driver_id" class="form-label">Name of Driver</label>
-                          <select class="form-control" id="driver_id" name="driver_id">
-                            <option value="" disabled <?php echo (!isset($driver_id)) ? 'selected' : ''; ?>>Please Select Here</option>
-                            <?php foreach ($drivers as $driver): ?>
-                              <option value="<?php echo $driver['driver_id']; ?>" <?php echo (isset($driver_id) && $driver_id == $driver['driver_id']) ? 'selected' : ''; ?>>
-                                <?php echo $driver['name']; ?>
-                              </option>
-                            <?php endforeach; ?>
-                          </select>
-                        </div>
+
+                        <?php if (!empty($driverData)): ?>
+                          <div class="col-4 px-5">
+                            <label for="driver_id" class="form-label">Name of Driver</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
+                              <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                                <i class="fa-solid fa-info-circle"></i>
+                              </span>
+                            </div>
+                          </div>
+                        <?php else: ?>
+                          <div class="col-4 px-5">
+                            <label for="driver_id" class="form-label">Name of Driver</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly required>
+                              <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                                <i class="fa-solid fa-info-circle"></i>
+                              </span>
+                            </div>
+                          </div>
+                        <?php endif; ?>
                       <?php else: ?>
                         <div class="col-4 px-5">
                           <label for="lto_cr_no" class="form-label">LTO CR Number</label>
@@ -230,23 +246,23 @@
                     </div>
 
                     <div class="col-12 d-flex mb-2">
-                      <?php if (!empty($tricycleCinNumbers)): ?>
+                      <?php if (!empty($driverData)): ?>
                         <div class="col-4 px-5">
                           <label for="driver_license_no" class="form-label">Driver License Number</label>
-                          <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?php echo isset($_POST['driver_license_no']) ? $_POST['driver_license_no'] : ''; ?>" required>
+                          <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?= (isset($existingTricycleApplicationData->driver_license_no) ? $existingTricycleApplicationData->driver_license_no : (isset($_POST['driver_license_no']) ? $_POST['driver_license_no'] : '')); ?>" required>
                         </div>
                         <div class="col-4 px-5">
                           <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
-                          <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?php echo isset($_POST['driver_license_expiry_date']) ? $_POST['driver_license_expiry_date'] : ''; ?>" required>
+                          <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?= (isset($existingTricycleApplicationData->driver_license_expiry_date) ? $existingTricycleApplicationData->driver_license_expiry_date : (isset($_POST['driver_license_expiry_date']) ? $_POST['driver_license_expiry_date'] : '')); ?>" required>
                         </div>
                       <?php else: ?>
                         <div class="col-4 px-5">
                           <label for="driver_license_no" class="form-label">Driver License Number</label>
-                          <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
+                          <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
                         </div>
                         <div class="col-4 px-5">
                           <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
-                          <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
+                          <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
                         </div>
                       <?php endif; ?>
                     </div>

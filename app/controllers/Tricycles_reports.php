@@ -12,6 +12,7 @@ class Tricycles_reports
     }
 
     $tricycleModel = new Tricycle();
+    $tricycleStatusesModel = new TricycleStatuses;
     $userModel = new User();
 
     // Fetch operators and their tricycles
@@ -22,13 +23,13 @@ class Tricycles_reports
 
     if (!empty($operatorsData)) {
       foreach ($operatorsData as $operator) {
-        $totalTricycles = $tricycleModel->count(['user_id' => $operator->user_id]);
+        $totalTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id]);
   
         if ($totalTricycles > 0) {
-          $activeTricycles = $tricycleModel->count(['user_id' => $operator->user_id, 'status' => 'Active']);
-          $droppedTricycles = $tricycleModel->count(['user_id' => $operator->user_id, 'status' => 'Dropped']);
-          $renewalRequiredTricycles = $tricycleModel->count(['user_id' => $operator->user_id, 'status' => 'Renewal Required']);
-          $changeMotorRequiredTricycles = $tricycleModel->count(['user_id' => $operator->user_id, 'status' => 'Change Motor Required']);
+          $activeTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Active']);
+          $droppedTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Dropped']);
+          $renewalRequiredTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Renewal Required']);
+          $changeMotorRequiredTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Change Motor Required']);
   
   
           $data['tricycleReports'][] = [

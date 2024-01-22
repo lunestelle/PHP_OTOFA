@@ -7,13 +7,21 @@ class New_appointment
   public function index()
   {
     if (!is_authenticated()) {
-      set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
+      set_flash_message("Oops! You need to be logged in to view this page.", "error");
       redirect('');
     }
 
-    $cinModel = new TricycleCinNumber();
+		$cinModel = new TricycleCinNumber();
     $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
-    
+    $data['tricycleCinNumbers'] = $cinModel->where(["is_used" => 1, "user_id" => $_SESSION['USER']->user_id]);
+
+    if (is_array($data['tricycleCinNumbers'])) {
+      usort($data['tricycleCinNumbers'], function ($a, $b) {
+        return strcmp($a->cin_number, $b->cin_number);
+      });
+    } else {
+      $data['tricycleCinNumbers'] = [];
+    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (isset($_POST['appointmentType'])) {
@@ -25,38 +33,19 @@ class New_appointment
             break;
 
           case 'Renewal of Franchise':
-            redirect('renewal_of_franchise');
-            break;
-          
           case 'Change of Motorcycle':
-            redirect('change_of_motorcycle');
-            break;
-          
           case 'Transfer of Ownership':
-            // Check if the transfer type is selected
-            if (isset($_POST['transferType'])) {
-              $transferType = $_POST['transferType'];
-
-              // Redirect based on the selected transfer type
-              switch ($transferType) {
-                case 'None':
-                  redirect('transfer_of_ownership');
+            $tricycleCin = isset($_POST['tricycleCin']) ? $_POST['tricycleCin'] : '';
+            if ($this->checkTricycleCin($tricycleCin)) {
+              if ($appointmentType === 'Transfer of Ownership') {
+                $transferType = isset($_POST['transferType']) ? $_POST['transferType'] : '';
+                if ($transferType === '') {
+                  set_flash_message("Please select a transfer type.", "error");
                   break;
-
-                case 'Intent of Transfer':
-                  redirect('intent_of_transfer');
-                  break;
-
-                case 'Transfer of Ownership from Deceased Owner':
-                  redirect('ownership_transfer_from_deceased_owner');
-                  break;
-
-                default:
-                  set_flash_message("Invalid transfer type selected.", "error");
-                  break;
+                }
               }
-            } else {
-              set_flash_message("Please select a transfer type.", "error");
+
+              $this->redirectToPage(strtolower(str_replace(' ', '_', $appointmentType)), $tricycleCin);
             }
             break;
 
@@ -70,5 +59,20 @@ class New_appointment
     }
 
     echo $this->renderView('new_appointment', true, $data);
+  }
+
+  private function checkTricycleCin($tricycleCin)
+  {
+    if (empty($tricycleCin)) {
+      set_flash_message("Please select a tricycle CIN.", "error");
+			redirect('new_appointment');
+      return false;
+    }
+    return true;
+  }
+
+  private function redirectToPage($page, $tricycleCin = '')
+  {
+    redirect("$page?tricycleCin=$tricycleCin");
   }
 }

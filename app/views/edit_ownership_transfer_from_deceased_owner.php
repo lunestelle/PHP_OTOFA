@@ -192,27 +192,25 @@
                         <label for="insurer" class="form-label">Insurer</label>
                         <input type="text" class="form-control" id="insurer" name="insurer" value="<?php echo isset($insurer) ? $insurer : ''; ?>" required>
                       </div>
-                      <?php if ($userRole === 'operator' && !empty($availableCinNumbers)): ?>
+                      <?php if (!empty($cin_number)): ?>
                         <div class="col-4 px-5">
                           <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                          <select class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" required>
-                            <option value="" disabled <?= empty($selectedCinNumberId) ? 'selected' : ''; ?>>Please Select Here</option>
-                            <?php foreach ($availableCinNumbers as $cinNumberId => $cinNumber): ?>
-                              <option value="<?= $cinNumberId ?>" <?= ($cinNumberId == $selectedCinNumberId) ? 'selected' : ''; ?>>
-                                <?= $cinNumber['cin_number'] ?>
-                              </option>
-                            <?php endforeach; ?>
-                          </select>
-                        </div>
-                      <?php elseif ($userRole === 'admin' && isset($selectedCinNumberId)): ?>
-                        <div class="col-4 px-5">
-                          <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                          <input type="text" class="form-control" style="cursor: pointer;" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="<?= $selectedCinNumberId ?>" readonly data-toggle="tooltip" data-bs-placement="top" title="Default Tricycle CIN – Only the operator can update this information.">
+                          <div class="input-group">
+                            <input type="text" class="form-control" style="cursor: pointer;" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="<?= $cin_number ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                              <i class="fa-solid fa-info-circle"></i>
+                            </span>
+                          </div>
                         </div>
                       <?php else: ?>
                         <div class="col-4 px-5">
                           <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                          <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                          <div class="input-group">
+                            <input type="text" class="form-control" style="cursor: pointer;" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                              <i class="fa-solid fa-info-circle"></i>
+                            </span>
+                          </div>
                         </div>
                       <?php endif; ?>
                     </div>
@@ -230,7 +228,7 @@
                     </div>
 
                     <div class="col-12 d-flex mb-2">
-                      <?php if (!empty($availableCinNumbers)): ?>
+                      <?php if (!empty($cin_number)): ?>
                         <div class="col-4 px-5">
                           <label for="lto_cr_no" class="form-label">LTO CR Number</label>
                           <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?= isset($lto_cr_no) ? $lto_cr_no : ''; ?>" min="0" required>
@@ -239,24 +237,27 @@
                           <label for="lto_or_no" class="form-label">LTO OR Number</label>
                           <input type="text" class="form-control" id="lto_or_no" name="lto_or_no" value="<?= isset($lto_or_no) ? $lto_or_no : ''; ?>" required>
                         </div>
-                        <div class="col-4 px-5">
-                          <label for="driver_id" class="form-label">Name of Driver</label>
-                          <?php if ($userRole === 'admin'): ?>
-                            <?php foreach ($drivers as $driver): ?>
-                              <input type="text" class="form-control" id="driver_name" value="<?= isset($driver['name']) ? $driver['name'] : ''; ?>" readonly data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name – Only the user can update this information.">
-                              <input type="hidden" name="driver_id" value="<?= $driver['driver_id']; ?>">
-                            <?php endforeach; ?>
-                          <?php else: ?>
-                            <select class="form-control" id="driver_id" name="driver_id">
-                              <option value="" disabled <?= isset($driver_id) ? 'selected' : ''; ?>>Please Select Here</option>
-                              <?php foreach ($drivers as $driver): ?>
-                                <option value="<?= $driver['driver_id']; ?>" <?= (isset($driver_id) && $driver_id == $driver['driver_id']) ? 'selected' : ''; ?>>
-                                  <?= $driver['name']; ?>
-                                </option>
-                              <?php endforeach; ?>
-                            </select>
-                          <?php endif; ?>
-                        </div>
+                        <?php if (!empty($driverData)): ?>
+                          <div class="col-4 px-5">
+                            <label for="driver_id" class="form-label">Name of Driver</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" style="cursor: pointer;" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
+                              <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                                <i class="fa-solid fa-info-circle"></i>
+                              </span>
+                            </div>
+                          </div>
+                        <?php else: ?>
+                          <div class="col-4 px-5">
+                            <label for="driver_id" class="form-label">Name of Driver</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="driver_id" style="cursor: pointer;" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly required>
+                              <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                                <i class="fa-solid fa-info-circle"></i>
+                              </span>
+                            </div>
+                          </div>
+                        <?php endif; ?>
                       <?php else: ?>
                         <div class="col-4 px-5">
                           <label for="lto_cr_no" class="form-label">LTO CR Number</label>

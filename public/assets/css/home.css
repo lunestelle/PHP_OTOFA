@@ -617,3 +617,35 @@ body .reset-email {
 .signature {
   font-size: 13px;
 }
+
+/* --- MESSAGE US --- */
+.message-us{
+  width: 100%;
+  border-radius: 10px;
+  padding: 8px;
+  border: 2px solid white;
+}
+
+.message{
+  min-height: 100px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 8px;
+  border: 2px solid white;
+}
+
+.message-us:hover,
+.message:hover,
+.message-us:focus,
+.message:focus {
+  border: #FF4200 solid 2px; /* Set the border color to orange */
+  box-shadow: 2px 4px 8px #ffbda5;
+  outline: #FF4200;
+}
+
+.message-us::placeholder,
+.message::placeholder {
+  font-weight: bold;
+  color: gray;
+  font-size: 12px;
+}
