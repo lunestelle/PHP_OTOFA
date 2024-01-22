@@ -95,32 +95,31 @@
 <script>
   $(document).ready(function () {
     const driverNameInput = $('#driver_name');
-    
+
     $('#tricycle_cin_number').change(function () {
       let selectedCinId = $(this).val();
-      let driverData = <?= json_encode($data['drivers']) ?>;
-      
-      // Find the driver data for the selected CIN
-      let selectedDriver = driverData[selectedCinId];
 
-      if (selectedCinId && selectedDriver) {
-        $('#driver_id').val(selectedDriver['driver_id']);
-        driverNameInput.val(selectedDriver['name']);
-        driverNameInput.tooltip('hide').attr('data-bs-original-title', '');
-      } else if (selectedCinId) {
-        $('#driver_id').val('');
-        driverNameInput.val('Selected CIN has no driver');
-        driverNameInput.tooltip('hide').attr('data-bs-original-title', 'Selected CIN has no driver');
+      if (selectedCinId) {
+        $.post('driver_data', { tricycle_cin_number_id: selectedCinId }, function (response) {
+          if (response.success) {
+            let driverData = response.data.driverData;
+
+            if (driverData) {
+              $('#driver_id').val(driverData.driver_id);
+              driverNameInput.val(driverData.first_name + ' ' + driverData.middle_name + ' ' + driverData.last_name);
+              driverNameInput.tooltip('hide').attr('data-bs-original-title', '');
+            } else {
+              $('#driver_id').val('');
+              driverNameInput.val('Selected CIN has no driver');
+            }
+          } else {
+            console.error('Error fetching driver data');
+          }
+        }, 'json');
       } else {
         $('#driver_id').val('');
         driverNameInput.val('Select CIN first');
-        driverNameInput.tooltip('hide').attr('data-bs-original-title', 'Please choose a Tricycle CIN to determine the Driver Name');
       }
-    });
-    
-    driverNameInput.tooltip({
-      placement: 'right',
-      trigger: 'hover',
     });
   });
 </script>

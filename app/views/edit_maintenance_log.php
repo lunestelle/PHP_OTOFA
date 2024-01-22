@@ -42,7 +42,7 @@
                               <input type="hidden" id="driver_id" name="driver_id" value="">
                             </div>
                             <div class="col-4">
-                              <label for="expense_date" class="form-label">Expense expense_date</label>
+                              <label for="expense_date" class="form-label">Expense Date</label>
                               <input type="expense_date" class="form-control" id="expense_date" name="expense_date" value="<?php echo isset($maintenanceLogData['expense_date']) ? $maintenanceLogData['expense_date'] : ''; ?>" required>
                             </div>
                           </div>
@@ -142,24 +142,31 @@
   $(document).ready(function () {
     const tricycleCinSelect = $('#tricycle_cin_number_id');
     const driverNameInput = $('#driver_name');
+    const driverIdInput = $('#driver_id');
 
     function updateDriverName() {
       let selectedCinId = tricycleCinSelect.val();
-      let driverData = <?= json_encode($data['drivers']) ?>;
-      
-      // Find the driver data for the selected CIN
-      let selectedDriver = driverData[selectedCinId];
 
-      if (selectedCinId && selectedDriver) {
-        $('#driver_id').val(selectedDriver['driver_id'])
-        driverNameInput.val(selectedDriver['name']);
-        driverNameInput.tooltip('hide').attr('data-bs-original-title', '');
-      } else if (selectedCinId) {
-        $('#driver_id').val('');
-        driverNameInput.val('Selected CIN has no driver');
-        driverNameInput.tooltip('hide').attr('data-bs-original-title', 'Selected CIN has no driver');
+      if (selectedCinId) {
+        $.post('driver_data', { tricycle_cin_number_id: selectedCinId }, function (response) {
+          if (response.success) {
+            let driverData = response.data.driverData;
+
+            if (driverData) {
+              driverIdInput.val(driverData.driver_id); // Set the driver_id input value
+              driverNameInput.val(driverData.first_name + ' ' + driverData.middle_name + ' ' + driverData.last_name);
+              driverNameInput.tooltip('hide').attr('data-bs-original-title', '');
+            } else {
+              driverIdInput.val(''); // Reset the driver_id input value
+              driverNameInput.val('Selected CIN has no driver');
+              driverNameInput.tooltip('hide').attr('data-bs-original-title', 'Selected CIN has no driver');
+            }
+          } else {
+            console.error('Error fetching driver data');
+          }
+        }, 'json');
       } else {
-        $('#driver_id').val('');
+        driverIdInput.val('');
         driverNameInput.val('Select CIN first');
         driverNameInput.tooltip('hide').attr('data-bs-original-title', 'Please choose a Tricycle CIN to determine the Driver Name');
       }
@@ -169,7 +176,6 @@
         placement: 'right',
         trigger: 'hover',
       });
-
     }
 
     tricycleCinSelect.change(function () {
