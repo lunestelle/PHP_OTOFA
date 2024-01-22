@@ -168,6 +168,9 @@ function sendSms($phoneNumber, $message)
 	$infobipBaseUrl = "https://8gxme3.api.infobip.com";
 	$infobipApiKey = "eb5bd5210a9dff83a809c48a30e70c0a-d3f8e3b8-eadb-4485-bf04-9985c65492fc";
 
+	// $infobipBaseUrl = "https://z1qe53.api.infobip.com";
+	// $infobipApiKey = "1a8624a577800d51f67b31bee7263d4f-13f19992-622f-4830-a87f-f5774d62cb89";
+
 	$infobipConfiguration = new Configuration(host: $infobipBaseUrl, apiKey: $infobipApiKey);
 	$infobipSmsApi = new SmsApi(config: $infobipConfiguration);
 	$infobipDestination = new SmsDestination(to: $phoneNumber);
@@ -399,7 +402,7 @@ function systemNotifications($phoneNumber, $userName, $email, $subject, $customT
 	$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 
-	// sendSms($phoneNumber, $message);
+	sendSms($phoneNumber, $message);
 	sendEmail($email, $subject, $templateContent);
 }
 
