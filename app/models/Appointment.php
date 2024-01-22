@@ -303,6 +303,10 @@ class Appointment
     $query = "SELECT DISTINCT YEAR(appointment_date) AS year FROM {$this->table} ORDER BY year DESC";
     $result = $this->query($query);
 
+    if (!is_array($result)) {
+      return [];
+    }
+
     $years = [];
     foreach ($result as $row) {
       $years[] = $row->year;
@@ -313,7 +317,7 @@ class Appointment
 
   public function getAppointmentsReports($selectedYear)
   {
-    $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(a.appointment_date) = $selectedYear" : "";
+    $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(a.appointment_date) = '$selectedYear'" : "";
     $query = "
       SELECT
         a.user_id,
@@ -330,7 +334,13 @@ class Appointment
       GROUP BY a.user_id
       ORDER BY a.user_id";
 
-    return $this->query($query);
+    $result = $this->query($query);
+
+    if (!empty($result) && (is_array($result) || is_object($result))) {
+      return $result;
+    } else {
+      return []; // Return an empty array if the result is not valid
+    }
   }
 
   public function getAppointmentsByDateRange($statusFilter, $startDate, $endDate, $whereConditions = [])

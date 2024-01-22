@@ -41,7 +41,12 @@ class MaintenanceLog
   public function distinctYears()
   {
     $query = "SELECT DISTINCT YEAR(expense_date) as year FROM $this->table ORDER BY year DESC";
+    
     $result = $this->query($query);
+
+    if (!is_array($result)) {
+      return [];
+    }
 
     $years = [];
     foreach ($result as $row) {
@@ -53,7 +58,7 @@ class MaintenanceLog
 
   public function getMaintenanceData($selectedYear)
   {
-    $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(expense_date) = $selectedYear" : "";
+    $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(expense_date) = '$selectedYear'" : "";
     $query = "SELECT tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name) AS operator_name, CONCAT(drivers.first_name, ' ', drivers.middle_name, ' ', drivers.last_name) AS driver_name, YEAR(expense_date) AS year, SUM(total_expenses) AS yearly_total_expenses
               FROM $this->table
               JOIN tricycle_cin_numbers ON maintenance_logs.tricycle_cin_number_id = tricycle_cin_numbers.tricycle_cin_number_id
@@ -62,9 +67,9 @@ class MaintenanceLog
               $whereClause
               GROUP BY tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name), drivers.first_name
               ORDER BY tricycle_cin_numbers.cin_number, MAX(expense_date) DESC";
-  
+
     return $this->query($query);
-  }
+  }  
 
   public function getCalculationData($selectedYear, $tricycleCIN)
   {

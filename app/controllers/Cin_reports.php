@@ -15,9 +15,13 @@ class Cin_reports
     $userModel = new User();
     $usedCINs = $tricycleModel->where(['is_used' => true]);
 
-    usort($usedCINs, function($a, $b) {
-      return $a->cin_number <=> $b->cin_number;
-    });
+    $usedCINs = is_array($usedCINs) ? $usedCINs : [];
+
+    if (!empty($usedCINs)) {
+      usort($usedCINs, function ($a, $b) {
+        return $a->cin_number <=> $b->cin_number;
+      });
+    }
 
     $data['cinReports'] = [];
     $data['index'] = 1;

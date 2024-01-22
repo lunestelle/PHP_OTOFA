@@ -41,6 +41,9 @@ if ($userRole === 'operator') {
   // Get the count of all pending appointments for admin
   $pendingAppointmentsCount = method_exists($appointmentModel, 'count') ? $appointmentModel->count(['status' => 'pending']) : 0;
 }
+
+$tricycleModel = new TricycleCinNumber();
+$usedCINs = $tricycleModel->where(['is_used' => true]);
 ?>
 
 <!DOCTYPE html>
@@ -256,9 +259,11 @@ if ($userRole === 'operator') {
                       <li class="nav-item mb-2 pb-1 px-2">
                         <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="tricycles_reports">Tricycles Reports</a>
                       </li>
-                      <li class="nav-item mb-2 pb-1 px-2">
-                        <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="cin_reports">CIN Reports</a>
-                      </li>
+                     <?php if (!empty($usedCINs)) { ?>
+                        <li class="nav-item mb-2 pb-1 px-2">
+                          <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="cin_reports">CIN Reports</a>
+                        </li>
+                      <?php } ?>
                   </div>
                   </ul>     
                 </li>

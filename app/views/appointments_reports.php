@@ -4,22 +4,23 @@
       <h6 class="title-head">Appointments Reports</h6>
     </div>
     <div class="col-lg-12">
-      <?php if (!empty($appointmentsReports)): ?>
+      <?php if (!empty($appointmentsReports) && is_array($appointmentsReports)): ?>
         <div class="mt-3 text-end">
           <form method="post" action="">
             <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
           </form>
         </div>
+
+        <div class="col-6 mt-3">
+          <label for="yearFilter" class="fw-bold">Filter By Year:</label>
+          <select id="yearFilter" class="form-select">
+            <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
+            <?php foreach ($years as $year): ?>
+              <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
       <?php endif; ?>
-      <div class="col-6 mt-3">
-        <label for="yearFilter" class="fw-bold">Filter By Year:</label>
-        <select id="yearFilter" class="form-select">
-          <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
-          <?php foreach ($years as $year): ?>
-            <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
-          <?php endforeach; ?>
-        </select>
-      </div>
       <div class="table-responsive pt-4">
         <table class="table table-hover" id="systemTable">
           <thead class="thead-custom">
@@ -36,19 +37,21 @@
             </tr>
           </thead>
           <tbody class="text-center text-capitalize">
-            <?php foreach ($appointmentsReports as $report): ?>
-              <tr>
-                <td><?php echo $index++; ?></td>
-                <td><?php echo $report['operator_name']; ?></td>
-                <td><?php echo $report['phone_number']; ?></td>
-                <td><?php echo $report['total_appointments']; ?></td>
-                <td><?php echo $report['pending_appointments']; ?></td>
-                <td><?php echo $report['completed_appointments']; ?></td>
-                <?php if ($selectedFilter == 'all'): ?>
-                  <td><?php echo $report['year']; ?></td>
-                <?php endif; ?>
-              </tr>
-            <?php endforeach; ?>
+            <?php if (!empty($appointmentsReports) && is_array($appointmentsReports)): ?>
+              <?php foreach ($appointmentsReports as $report): ?>
+                <tr>
+                  <td><?php echo $index++; ?></td>
+                  <td><?php echo $report['operator_name']; ?></td>
+                  <td><?php echo $report['phone_number']; ?></td>
+                  <td><?php echo $report['total_appointments']; ?></td>
+                  <td><?php echo $report['pending_appointments']; ?></td>
+                  <td><?php echo $report['completed_appointments']; ?></td>
+                  <?php if ($selectedFilter == 'all'): ?>
+                    <td><?php echo $report['year']; ?></td>
+                  <?php endif; ?>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>
