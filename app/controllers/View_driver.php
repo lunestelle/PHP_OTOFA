@@ -33,7 +33,7 @@ class View_driver
       'phone_no' => $driverData->phone_no,
       'birth_date' => $driverData->birth_date,
       'license_no' => $driverData->license_no,
-      'license_validity' => $driverData->license_validity,
+      'license_expiry_date' => $driverData->license_expiry_date,
       'tricycle_plate_number' => $tricyclePlateNumber,
       'full_name' => $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name, 
     ];

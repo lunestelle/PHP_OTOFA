@@ -43,8 +43,8 @@
                     <td><?php echo $maintenance->cin_number; ?></td>
                     <td><?php echo $maintenance->operator_name; ?></td>
                     <td><?php echo empty($maintenance->driver_name) ? '----------------' : $maintenance->driver_name; ?></td>
-                    <td><?php echo '₱' . number_format($maintenance->yearly_total_expenses, 2, '.', ''); ?></td>
-                    <td><a class="view-maintenance-tracker-btn" href="#" onclick="viewCalculations(<?php echo $maintenance->year; ?>, '<?php echo $maintenance->cin_number; ?>')">View</a></td>
+                    <td><?php echo '₱' . number_format($maintenance->yearly_total_expenses, 2); ?></td>
+                    <td><a class="view-maintenance-tracker-btn" onclick="viewCalculations(<?php echo $maintenance->year; ?>, '<?php echo $maintenance->cin_number; ?>')">View</a></td>
                     </tr>
                   <?php endforeach; ?>
                 <?php endif; ?>

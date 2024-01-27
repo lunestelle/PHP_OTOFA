@@ -58,7 +58,17 @@ class MaintenanceLog
 
   public function getMaintenanceData($selectedYear)
   {
-    $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(expense_date) = '$selectedYear'" : "";
+    $currentUserRole = $_SESSION['USER']->role;
+
+    // Check if the current user is an admin
+    if ($currentUserRole == 'admin') {
+      $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(expense_date) = '$selectedYear'" : "";
+    } elseif ($currentUserRole == 'operator') {
+      // Assuming the operator's user ID is retrievable via some function like get_current_user_id()
+      $userId = $_SESSION['USER']->user_id;
+      $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(expense_date) = '$selectedYear' AND tricycle_cin_numbers.user_id = '$userId'" : "WHERE tricycle_cin_numbers.user_id = '$userId'";
+    }
+
     $query = "SELECT tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name) AS operator_name, CONCAT(drivers.first_name, ' ', drivers.middle_name, ' ', drivers.last_name) AS driver_name, YEAR(expense_date) AS year, SUM(total_expenses) AS yearly_total_expenses
               FROM $this->table
               JOIN tricycle_cin_numbers ON maintenance_logs.tricycle_cin_number_id = tricycle_cin_numbers.tricycle_cin_number_id
@@ -69,7 +79,7 @@ class MaintenanceLog
               ORDER BY tricycle_cin_numbers.cin_number, MAX(expense_date) DESC";
 
     return $this->query($query);
-  }  
+  }
 
   public function getCalculationData($selectedYear, $tricycleCIN)
   {

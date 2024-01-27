@@ -63,13 +63,13 @@
                         <div class="col-12">
                           <div class="row mt-3">
                             <div class="col-4">
-                              <label for="license_no" class="form-label">License No.</label>
+                              <label for="license_no" class="form-label">License Number</label>
                               <input type="text" class="form-control" id="license_no" name="license_no" value="<?php echo isset($driverData['license_no']) ? $driverData['license_no'] : ''; ?>" required>
                             </div>
 
                             <div class="col-4">
-                              <label for="license_validity" class="form-label">License Validity</label>
-                              <input type="text" class="form-control" id="license_validity" name="license_validity" value="<?php echo isset($driverData['license_validity']) ? $driverData['license_validity'] : ''; ?>" required>
+                              <label for="license_expiry_date" class="form-label">License Expiry Date</label>
+                              <input type="date" class="form-control" id="license_expiry_date" name="license_expiry_date" value="<?php echo isset($driverData['license_expiry_date']) ? $driverData['license_expiry_date'] : ''; ?>" required>
                             </div>                             
                             <?php if (!empty($tricycleCinNumbers)): ?>
                               <div class="col-4">
@@ -89,6 +89,26 @@
                                 <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
                               </div>
                             <?php endif; ?>
+                          </div>
+                        </div>
+
+                        <div class="col-12">
+                          <div class="row mt-3">
+                            <div class="col-4">
+                              <label for="status" class="form-label">Status</label>
+                              <select class="form-control appointment-status-select fw-bold" id="status" name="status">
+                                <option value="" selected disabled>Select Driver Status</option>
+                                <?php if ($isActive): ?>
+                                  <!-- If the driver is active, show Active as the first option -->
+                                  <option value="Active" <?php echo (in_array('Active', $statuses)) ? 'selected' : ''; ?> disabled>Active</option>
+                                  <option value="Inactive" <?php echo (in_array('Inactive', $statuses)) ? 'selected' : ''; ?>>Inactive</option>
+                                <?php else: ?>
+                                  <!-- If the driver is inactive or no active status, show Inactive as the first option -->
+                                  <option value="Inactive" <?php echo (in_array('Inactive', $statuses)) ? 'selected' : ''; ?> disabled>Inactive</option>
+                                  <option value="Active" <?php echo (in_array('Active', $statuses)) ? 'selected' : ''; ?>>Active</option>
+                                <?php endif; ?>
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>

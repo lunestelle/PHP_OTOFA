@@ -41,11 +41,20 @@ class New_appointment
                 $transferType = isset($_POST['transferType']) ? $_POST['transferType'] : '';
                 if ($transferType === '') {
                   set_flash_message("Please select a transfer type.", "error");
-                  break;
+                  redirect('new_appointment'); // Redirect back to the appointment page
+                } elseif ($transferType == 'Transfer of Ownership from Deceased Owner') {
+                  // Redirect to ownership_of_transfer_from_deceased_owner with the tricycle CIN
+                  $this->redirectToPage('ownership_transfer_from_deceased_owner', $tricycleCin);
+                } elseif ($transferType == 'Intent of Transfer') {
+                  // Redirect to ownership_of_transfer_from_deceased_owner with the tricycle CIN
+                  $this->redirectToPage('intent_of_transfer', $tricycleCin);
+                } else {
+                  // If transfer type is None, redirect to transfer_of_ownership
+                  $this->redirectToPage('transfer_of_ownership', $tricycleCin);
                 }
+              } else {
+                $this->redirectToPage(strtolower(str_replace(' ', '_', $appointmentType)), $tricycleCin);
               }
-
-              $this->redirectToPage(strtolower(str_replace(' ', '_', $appointmentType)), $tricycleCin);
             }
             break;
 

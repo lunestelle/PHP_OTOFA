@@ -214,6 +214,9 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                   <li class="nav-item">
                     <a class="nav-link text-white" href="maintenance_logs"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="maintenance_tracker"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Tracker</span></a>
+                  </li>
                 <?php } ?>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="appointments">
@@ -221,6 +224,9 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                     <span class="ms-2">Appointments</span>
                     <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge ms-auto " . ($isCurrentPageAppointments ? 'bg-warning' : 'bg-danger') . "'>$pendingAppointmentsCount</span>"; } ?>
                   </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="taripa"><i class="fa-solid fa-peso-sign"></i><span class="ms-2">Taripa</span></a>
                 </li>
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">
