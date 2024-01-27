@@ -8,6 +8,11 @@
         <div class="col-12 mt-3">
           <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
         </div>
+        <div class="col-12 text-end">
+        <?php if ($userRole === 'admin'): ?>
+          <button class="btn-print" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
+        <?php endif; ?>
+        </div>
         <div class="col-5 mx-4 me-5">
           <label for="routeAreaFilter" class="fw-bold">Filter Route Area:</label>
           <select id="routeAreaFilter" class="form-select">
@@ -105,4 +110,46 @@
     }
     window.location.href = url;
   });
+
+  function printAppointment(event) {
+    // Create the iframe
+    let printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.top = '-1000px';
+
+    document.body.appendChild(printFrame);
+    let taripaYear = event.currentTarget.getAttribute("data-taripaYear");
+
+    $.ajax({
+      url: 'print_taripa_content?year=' + taripaYear,
+      type: 'GET',
+      dataType: 'html',
+      success: function(data) {
+        // Set the content of the iframe's document
+        let doc = printFrame.contentDocument || printFrame.contentWindow.document;
+        doc.open();
+
+        doc.write('<html><head><style>@media print { @page { size: legal !important; margin: 1.27cm; } body { color: black !important; } .label { display: inline-block; width: 150px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 2px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>');
+
+        doc.write(data);
+        doc.write('</body></html>');
+
+        doc.close();
+
+        // Wait for the iframe to load
+        printFrame.onload = function() {
+          // Focus on the iframe and print
+          printFrame.contentWindow.focus();
+          printFrame.contentWindow.print();
+
+          // Remove the iframe after printing
+          document.body.removeChild(printFrame);
+        };
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error('Error fetching print_taripa_content:', textStatus, errorThrown);
+        document.body.removeChild(printFrame);
+      }
+    });
+  }
 </script>
