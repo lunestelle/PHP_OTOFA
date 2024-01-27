@@ -25,7 +25,7 @@
             <thead class="thead-custom">
               <tr class="text-uppercase">
                 <th scope="col" class="text-center">#</th>
-                <th scope="col" class="text-center">User Name</th>
+                <th scope="col" class="text-center">Name</th>
                 <th scope="col" class="text-center">CIN Numbers Owned</th>
               </tr>
             </thead>
