@@ -129,7 +129,7 @@
         let doc = printFrame.contentDocument || printFrame.contentWindow.document;
         doc.open();
 
-        doc.write('<html><head><style>@media print { @page { size: legal !important; margin: 1.27cm; } body { color: black !important; } .label { display: inline-block; width: 150px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 2px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>');
+        doc.write('<html><head><style>@media print { @page { size: legal !important; margin: 0.5cm; } body { color: black !important; } .label { display: inline-block; width: 250px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 1px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>');
 
         doc.write(data);
         doc.write('</body></html>');

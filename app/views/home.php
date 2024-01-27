@@ -9,15 +9,14 @@
 
  <header>
     <div class="d-flex">
-      <a href="<?=ROOT?>" class="d-flex text-decoration-none">
-        <img class="logo-1" src="public/assets/images/logo.png" alt="Sakaycle Logo">
-        <p>Sakay<span>cle</span></p>
+      <a href="<?=ROOT?>" class="text-decoration-none">
+        <img class="logo-home" src="public/assets/images/logo-dashboard.png" alt="OTOFA Logo">
       </a>
     </div>
     <nav class="navbar navbar-expand" id="navbar">
       <a href="#home" class="nav-link text-white scrollto active">HOME</a>
       <a href="#about" class="nav-link scrollto text-white">ABOUT</a>
-      <a href="#team" class="nav-link scrollto text-white">TEAM</a>
+      <a href="#team" class="nav-link scrollto text-white">DEVELOPER</a>
       <a href="#contact" class="nav-link scrollto text-white">CONTACT</a>
       <?php if (is_authenticated()): ?>
         <a href="dashboard" class="nav-link">DASHBOARD</a>
@@ -27,10 +26,11 @@
 
   <section class="home" id="home">
     <div class="background container">
-      <img class="logo" src="public/assets/images/oc_logo.png" alt="Ormoc Logo">
+      <p class="text-white logo-meaning">Ormoc Tricycle Online Franchise Appointment</p>
+      <img class="logo mt-3" src="public/assets/images/oc_logo.png" alt="Ormoc Logo">
       <div class="text-container mt-4">
         <h1 class="text-uppercase">Transportation Development Franchising <span></span></h1>
-        <h1 class="text-uppercase">and Regulatory office<span></span></h1>
+        <h1 class="text-uppercase">and Regulatory<span></span></h1>
       </div>
       <?php if (!is_authenticated()): ?>
         <a href="javascript:void(0)" id="sign_in_btn" class="cta">SIGN IN/REGISTER</a>
@@ -98,7 +98,7 @@
         <div class="col-12 col-sm-10 col-lg-12">
           <!-- Section Heading-->
           <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-            <h1>OUR <span class="text-warning">TEAM</span></h1>
+            <h1>THE <span class="text-warning">DEVELOPER</span></h1>
             <p class="team-description">We are a group of BSIT students who are passionate and committed to using our various skills and knowledge to create innovative solutions through teamwork.</p>
           </div>
         </div>
