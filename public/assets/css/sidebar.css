@@ -454,6 +454,7 @@ table > :not(caption) > * > * > :last-child {
   text-decoration: none;
   border-radius: 10px;
   font-size: 12px;
+  text-transform: uppercase;
 }
 
 
@@ -476,6 +477,7 @@ table > :not(caption) > * > * > :last-child {
   position: absolute;
   right: 100px;
   top: 5px;
+  text-transform: uppercase;
 }
 
 
@@ -498,6 +500,7 @@ table > :not(caption) > * > * > :last-child {
   text-decoration: none;
   border-radius: 10px;
   font-size: 12px;
+  text-transform: uppercase;
 }
 
 .export-btn-operator:hover {
