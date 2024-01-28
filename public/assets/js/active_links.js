@@ -44,11 +44,9 @@ $(document).ready(function () {
         ) ||
         (
           currentUrl.href.includes('view_calculations') &&
-          linkUrl.includes('maintenance_tracker') &&
-          currentUrl.searchParams.has('year') &&
-          currentUrl.searchParams.has('cin')
+          linkUrl.includes('maintenance_tracker')
         ) ||
-        (linkUrl.includes('maintenance_tracker') && currentUrl.href.includes(linkUrl)
+        (currentUrl.href.includes('maintenance_tracker') && linkUrl.includes('maintenance_tracker')
         ) ||
   
         (userRole === 'admin' && currentUrl.href.includes('view_driver') && linkUrl.includes('operators')) ||
