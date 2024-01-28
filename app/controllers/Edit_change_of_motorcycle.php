@@ -28,7 +28,9 @@ class Edit_change_of_motorcycle
     $selectedUserId = $appointmentData->user_id;
     $selectedCinNumber = $tricycleApplicationData->tricycle_cin_number_id;
     $cinData = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumber]);
-    $driverData = $driverModel->first(['tricycle_cin_number_id' => $cinData->tricycle_cin_number_id]);
+
+    $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
+    $driverData = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
 
     if (!empty($driverData)) {
       $driver_name = $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name;
