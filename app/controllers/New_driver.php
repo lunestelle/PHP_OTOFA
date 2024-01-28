@@ -34,10 +34,14 @@ class New_driver
 
 		$assignedTricycleCinIds = $driverModel->query($query);
 
-		// Extract tricycle CIN number IDs from the objects returned by the query
-		$assignedTricycleCinIds = array_map(function($result) {
-			return $result->tricycle_cin_number_id;
-		}, $assignedTricycleCinIds);
+		if (is_array($assignedTricycleCinIds)) {
+			$assignedTricycleCinIds = array_map(function($result) {
+				return $result->tricycle_cin_number_id;
+			}, $assignedTricycleCinIds);
+		} else {
+			// Handle the case when $assignedTricycleCinIds is not an array
+			$assignedTricycleCinIds = [];
+		}
 
 		// Filter out the unassigned tricycle plate CIN numbers
 		$unassignedTricycleCinNumbers = array_diff($userTricycleCinIds, $assignedTricycleCinIds);
