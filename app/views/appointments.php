@@ -93,13 +93,13 @@
 
                         switch ($status) {
                           case 'Pending':
-                            $badgeColor = 'bg-info'; // Green color for pending
+                            $badgeColor = 'bg-dark'; // Green color for pending
                             break;
                           case 'Rejected':
                             $badgeColor = 'bg-danger'; // Red color for rejected
                             break;
                           case 'Completed':
-                            $badgeColor = 'bg-primary'; // Blue color for completed
+                            $badgeColor = 'bg-warning text-dark'; // Blue color for completed
                             break;
                           case 'Approved':
                             $badgeColor = 'bg-success'; // Light blue color for approved
@@ -113,10 +113,10 @@
                             break;
                         }
                       ?>
-                      <span class="badge status-badge text-uppercase p-2 <?php echo $badgeColor; ?>"><?php echo $status; ?></span>
+                      <span class="badge status-badge text-uppercase p-1 <?php echo $badgeColor; ?>"><?php echo $status; ?></span>
                     </td>
                     <td>
-                      <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                      <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
                       <?php
                         if ($userRole === 'operator' && $appointment['status'] === "Pending") {
                           $editUrl = '';
@@ -137,7 +137,7 @@
                             }
                           }
 
-                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
                         } elseif ($userRole === 'admin' && $appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process") {
                           $editUrl = '';
 
@@ -157,13 +157,13 @@
                             }
                           }
 
-                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
                         }
                       ?>
 
                       <?php if ($userRole === 'operator' && $appointment['status'] === "Pending" && !$oneDayAhead): ?>
                         <a href="#" class="cancel_data px-1 me-1" style="color: red;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal-<?php echo $appointment['appointment_id']; ?>">
-                          <i class="fa-solid fa-times fa-lg"></i>
+                          <i class="fa-solid fa-times fa-xl"></i>
                         </a>
                       <?php endif; ?>
                     </td>

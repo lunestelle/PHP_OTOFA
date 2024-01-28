@@ -44,14 +44,14 @@
                   <td>  
                     <?php if (!empty($tricycle['statuses'])): ?>
                       <?php foreach ($tricycle['statuses'] as $status): ?>
-                        <span class="badge status-badge text-uppercase p-2 <?php echo $status['badgeColor']; ?>"><?php echo $status['status']; ?></span>
+                        <span class="badge status-badge text-uppercase p-1 <?php echo $status['badgeColor']; ?>"><?php echo $status['status']; ?></span>
                       <?php endforeach; ?>
                     <?php else: ?>
-                      <span class="badge status-badge text-uppercase p-2 bg-secondary">No Status</span>
+                      <span class="badge status-badge text-uppercase p-1 bg-secondary">No Status</span>
                     <?php endif; ?>
                   </td>
                   <td>
-                    <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Tricycle Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                    <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Tricycle Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
                   </td>
                   <?php if ($userRole === 'admin'): ?>
                     <td>

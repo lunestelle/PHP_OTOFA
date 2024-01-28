@@ -215,7 +215,7 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                     <a class="nav-link text-white" href="maintenance_logs"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-white" href="maintenance_tracker"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Tracker</span></a>
+                    <a class="nav-link text-white" href="maintenance_tracker"><i class="fa-solid fa-magnifying-glass-chart"></i></i><span class="ms-2">Maintenance Tracker</span></a>
                   </li>
                 <?php } ?>
                 <li class="nav-item">

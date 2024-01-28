@@ -429,7 +429,6 @@ table > :not(caption) > * > * > :last-child {
   border: #000000 1px solid;
   color: #ffffff;
   text-decoration: none;
-  border-radius: 8px;
   font-size: 10px;
   letter-spacing: 2px;
   margin-right: 15px;
@@ -515,7 +514,6 @@ table > :not(caption) > * > * > :last-child {
   background-color: white;
   border: #FF4200 1px solid;
   text-decoration: none;
-  border-radius: 10px;
   font-size: 10px;
   letter-spacing: 3px;
 }
@@ -531,7 +529,6 @@ table > :not(caption) > * > * > :last-child {
   background-color: #FF4200;
   border: #FF4200 1px solid;
   text-decoration: none;
-  border-radius: 10px;
   font-size: 10px;
   letter-spacing: 2px;
 }
@@ -547,7 +544,6 @@ table > :not(caption) > * > * > :last-child {
   background-color: green;
   border: 1px solid green;
   padding: 3px 15px;
-  border-radius: 10px;
   text-decoration: none;
 }
 

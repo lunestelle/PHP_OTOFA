@@ -41,8 +41,8 @@
                     <td><?php echo '₱' . number_format($maintenance_log['total_expenses'], 2, '.', ''); ?></td>
                     <td><?php echo $maintenance_log['description']; ?></td>
                     <td>
-                      <a href="./view_maintenance_log?maintenance_log_id=<?php echo $maintenance_log['maintenance_log_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Maintenance Log Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
-                      <a href="./edit_maintenance_log?maintenance_log_id=<?php echo $maintenance_log['maintenance_log_id']?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Maintenance Log Details"><i class="fa-solid fa-pencil fa-lg"></i></a>
+                      <a href="./view_maintenance_log?maintenance_log_id=<?php echo $maintenance_log['maintenance_log_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Maintenance Log Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
+                      <a href="./edit_maintenance_log?maintenance_log_id=<?php echo $maintenance_log['maintenance_log_id']?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Maintenance Log Details"><i class="fa-solid fa-pencil fa-xl"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>
