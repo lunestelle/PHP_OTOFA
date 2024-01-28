@@ -48,7 +48,7 @@
                       <div class="col-4 px-5">
                         <label for="appointment_type" class="form-label">Appointment Type</label>
                         <div class="input-group">
-                          <input type="text" class="form-control" style="cursor: pointer;" id="appointment_type" name="appointment_type" value="Transfer of Ownership from Deceased Owner" data-toggle="tooltip" data-bs-placement="top" title="Default appointment type. This field is read-only." readonly>
+                          <input type="text" class="form-control" style="cursor: pointer;" id="appointment_type" name="appointment_type" value="Transfer of Ownership" data-toggle="tooltip" data-bs-placement="top" title="Default appointment type. This field is read-only." readonly>
                           <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                             <i class="fa-solid fa-info-circle"></i>
                           </span>
@@ -67,7 +67,7 @@
                       <div class="col-4 px-5">
                         <label for="transfer_type" class="form-label">Transfer Type</label>
                         <div class="input-group">
-                          <input type="text" class="form-control" style="cursor: pointer;" id="transfer_type" name="transfer_type" value="Intent of Transfer" data-toggle="tooltip" data-bs-placement="top" title="Default transfer type. This field is read-only." readonly>
+                          <input type="text" class="form-control" style="cursor: pointer;" id="transfer_type" name="transfer_type" value="Transfer of Ownership from Deceased Owner" data-toggle="tooltip" data-bs-placement="top" title="Default transfer type. This field is read-only." readonly>
                           <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                             <i class="fa-solid fa-info-circle"></i>
                           </span>
