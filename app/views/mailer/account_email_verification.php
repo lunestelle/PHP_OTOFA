@@ -8,8 +8,8 @@
           </tr>
           <tr>
             <td style="text-align:center;">
-              <img class="logo" src="public/assets/images/logo.png" alt="">
-              <a href="<?= ROOT ?>" title="logo" target="_blank" style="font-size: 48px; font-weight: bold; color: #FF4200; text-decoration: none;">Sakay<span style="color: #000;">cle.</span></a>
+              <img class="logo" src="public/assets/images/logo-icon.png" alt="">
+              <a href="<?= ROOT ?>" title="logo" target="_blank" style="width: 100px;"> <img src="public/assets/images/logo-email.png" alt="OTOFA Logo"></a>
             </td>
           </tr>
           <tr>

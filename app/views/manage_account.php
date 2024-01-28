@@ -1,8 +1,7 @@
 <nav class="navbar navbar-expand">
   <div class="container-fluid d-flex justify-content-between align-items-center">
     <a class="navbar-brand" href="<?=ROOT?>">
-      <img src="public/assets/images/logo.png" alt="Sakaycle Logo" width="30" height="30" class="d-inline-block align-text-top">
-      <span class="sakay-text">Sakay</span><span class="cle-text">cle</span>
+      <img src="public/assets/images/logo-dashboard.png" alt="OTOFA Logo" width="80" height="30" class="d-inline-block align-text-top">
     </a>
       
     <div class="d-flex align-items-center">

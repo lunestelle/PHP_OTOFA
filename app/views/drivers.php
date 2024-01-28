@@ -81,8 +81,8 @@
                       <?php endforeach; ?>
                     </td>
                     <td>
-                      <a href="./view_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Driver Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
-                      <a href="./edit_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Driver Details"><i class="fa-solid fa-file-pen fa-lg"></i></a>
+                      <a href="./view_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Driver Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
+                      <a href="./edit_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Driver Details"><i class="fa-solid fa-file-pen fa-xl"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>
