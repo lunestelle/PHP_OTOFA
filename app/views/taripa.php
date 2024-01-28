@@ -5,13 +5,13 @@
     </div>
     <div class="col-lg-12">
       <div class="row mt-2">
-        <div class="col-12 mt-3">
-          <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
-        </div>
-        <div class="col-12 text-end">
         <?php if ($userRole === 'admin'): ?>
-          <button class="btn-print" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
+          <div class="col-12 mt-3">
+            <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
+          </div>
         <?php endif; ?>
+        <div class="col-12 text-end">
+          <button class="btn-print" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
         </div>
         <div class="col-5 mx-4 me-5">
           <label for="routeAreaFilter" class="fw-bold">Filter Route Area:</label>
