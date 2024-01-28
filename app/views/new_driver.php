@@ -1,7 +1,7 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
     <div class="col-12 text-uppercase nav-top">
-      <h6 class="title-head">add new driver</h6>
+      <h6 class="title-head">Add new driver</h6>
     </div>
     <div class="col-lg-12 mt-2">
       <div class="row">
@@ -62,13 +62,13 @@
                       <div class="col-12">
                         <div class="row mt-3">
                           <div class="col-4 px-5">
-                            <label for="license_no" class="form-label">License No.</label>
+                            <label for="license_no" class="form-label">License Number</label>
                             <input type="text" class="form-control" id="license_no" name="license_no" value="<?php echo isset($license_no) ? $license_no : ''; ?>" required>
                           </div>
 
                           <div class="col-4 px-5">
-                            <label for="license_validity" class="form-label">License Validity</label>
-                            <input type="text" class="form-control" id="license_validity" name="license_validity" value="<?php echo isset($license_validity) ? $license_validity : ''; ?>" required>
+                            <label for="license_expiry_date" class="form-label">License Expiry Date</label>
+                            <input type="date" class="form-control" id="license_expiry_date" name="license_expiry_date" value="<?php echo isset($license_expiry_date) ? $license_expiry_date : ''; ?>" required>
                           </div>
                           <?php if (!empty($tricycleCinNumbers)): ?>
                             <div class="col-4 px-5">

@@ -153,8 +153,9 @@
             let driverData = response.data.driverData;
 
             if (driverData) {
-              driverIdInput.val(driverData.driver_id); // Set the driver_id input value
-              driverNameInput.val(driverData.first_name + ' ' + driverData.middle_name + ' ' + driverData.last_name);
+              let driver = driverData[0];
+              driverIdInput.val(driver.driver_id);
+              driverNameInput.val(driver.first_name + ' ' + driver.middle_name + ' ' + driver.last_name);
               driverNameInput.tooltip('hide').attr('data-bs-original-title', '');
             } else {
               driverIdInput.val(''); // Reset the driver_id input value
