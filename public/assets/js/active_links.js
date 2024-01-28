@@ -20,7 +20,7 @@ $(document).ready(function () {
         (
           (currentUrl.href.includes('new_appointment') ||
             currentUrl.href.includes('edit_appointment') ||
-            currentUrl.href.includes('view_appointment') || currentUrl.href.includes('renewal_of_franchise') || currentUrl.href.includes('new_franchise')) &&
+            currentUrl.href.includes('view_appointment') || currentUrl.href.includes('renewal_of_franchise') || currentUrl.href.includes('new_franchise') || currentUrl.href.includes('change_of_motorcycle') || currentUrl.href.includes('transfer_of_ownership') || currentUrl.href.includes('intent_of_transfer') || currentUrl.href.includes('ownership_transfer_from_deceased_owner')) &&
             linkUrl.includes('appointments') && !linkUrl.includes('appointments_reports')
         ) ||
         (
