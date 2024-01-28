@@ -77,7 +77,7 @@
                               break;
                           }
                         ?>
-                        <span class="badge <?php echo $statusClass; ?>"><?php echo $status['status']; ?></span>
+                        <span class="badge text-uppercase text-center <?php echo $statusClass; ?>"><?php echo $status['status']; ?></span>
                       <?php endforeach; ?>
                     </td>
                     <td>
