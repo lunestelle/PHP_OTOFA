@@ -40,7 +40,7 @@ class Drivers
       }, $assignedTricycleCinIds);
     } else {
       // Handle the case when $assignedTricycleCinIds is not an array
-      $assignedTricycleCinIds = []; // or any default value you prefer
+      $assignedTricycleCinIds = [];
     }
 
     // Filter out the unassigned tricycle plate CIN numbers
@@ -56,39 +56,41 @@ class Drivers
     $data['drivers'] = [];
     $data['index'] = 1;
 
-    foreach ($driversData as $driver) {
-      $statuses = [];
-      $driverStatus = $driverStatusesModel->where(['driver_id' => $driver->driver_id]);
-
-      if (is_array($driverStatus) || is_object($driverStatus)) {
-        foreach ($driverStatus as $status) {
-          $statuses[] = [
-            'status' => $status->status,
-          ];
-        }
-      }
-
-      $tricyclePlateNo = '';
-      if (!empty($tricycleCinData)){
-        foreach ($tricycleCinData as $tricycle) {
-          if ($driver->tricycle_cin_number_id === $tricycle->tricycle_cin_number_id) {
-            $tricyclePlateNo = $tricycle->cin_number;
-            break;
+    if (!empty($driversData)) {
+      foreach ($driversData as $driver) {
+        $statuses = [];
+        $driverStatus = $driverStatusesModel->where(['driver_id' => $driver->driver_id]);
+  
+        if (is_array($driverStatus) || is_object($driverStatus)) {
+          foreach ($driverStatus as $status) {
+            $statuses[] = [
+              'status' => $status->status,
+            ];
           }
         }
+  
+        $tricyclePlateNo = '';
+        if (!empty($tricycleCinData)){
+          foreach ($tricycleCinData as $tricycle) {
+            if ($driver->tricycle_cin_number_id === $tricycle->tricycle_cin_number_id) {
+              $tricyclePlateNo = $tricycle->cin_number;
+              break;
+            }
+          }
+        }
+  
+        $data['drivers'][] = [
+          'driver_id' => $driver->driver_id,
+          'name' => $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name,
+          'birthdate' => $driver->birth_date,
+          'address' => $driver->address,
+          'phone_no' => $driver->phone_no,
+          'license_no' => $driver->license_no,
+          'license_expiry_date' => $driver->license_expiry_date,
+          'tricycle_plate_number' => $tricyclePlateNo ?? '',
+          'statuses' => $statuses,
+        ];
       }
-
-      $data['drivers'][] = [
-        'driver_id' => $driver->driver_id,
-        'name' => $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name,
-        'birthdate' => $driver->birth_date,
-        'address' => $driver->address,
-        'phone_no' => $driver->phone_no,
-        'license_no' => $driver->license_no,
-        'license_expiry_date' => $driver->license_expiry_date,
-        'tricycle_plate_number' => $tricyclePlateNo ?? '',
-        'statuses' => $statuses,
-      ];
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
