@@ -24,7 +24,10 @@ class Renewal_of_franchise
 
     $cinData = $tricycleCinModel->first(['cin_number' => $tricycleCin]);
     $existingTricycleData = $tricycleModel->first(['cin_id' => $cinData->tricycle_cin_number_id]);
-    $data['driverData'] = $driverModel->first(['tricycle_cin_number_id' => $cinData->tricycle_cin_number_id]);
+
+    $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
+    $data['driverData'] = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
+    
     $data['existingTricycleApplicationData'] = $tricycleApplicationModel->first(['tricycle_application_id' => $existingTricycleData->tricycle_application_id]);
     $data['cin_number'] = $cinData->cin_number;
 
