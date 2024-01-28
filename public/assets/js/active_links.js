@@ -46,6 +46,10 @@ $(document).ready(function () {
           currentUrl.href.includes('view_calculations') &&
           linkUrl.includes('maintenance_tracker')
         ) ||
+        (
+          currentUrl.href.includes('tricycles?status') &&
+          linkUrl.includes('tricycles')
+        ) ||
         (currentUrl.href.includes('maintenance_tracker') && linkUrl.includes('maintenance_tracker')
         ) ||
   
