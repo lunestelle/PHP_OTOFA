@@ -44,10 +44,10 @@
                   <td>  
                     <?php if (!empty($tricycle['statuses'])): ?>
                       <?php foreach ($tricycle['statuses'] as $status): ?>
-                        <span class="badge status-badge text-uppercase p-1 <?php echo $status['badgeColor']; ?>"><?php echo $status['status']; ?></span>
+                        <span class="badge status-badge text-capitalize p-1 <?php echo $status['badgeColor']; ?>"><?php echo $status['status']; ?></span>
                       <?php endforeach; ?>
                     <?php else: ?>
-                      <span class="badge status-badge text-uppercase p-1 bg-secondary">No Status</span>
+                      <span class="badge status-badge text-capitalize p-1 bg-secondary">No Status</span>
                     <?php endif; ?>
                   </td>
                   <td>
