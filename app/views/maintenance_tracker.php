@@ -6,7 +6,7 @@
     <div class="col-lg-12">
       <div class="row">
         <div class="col-12">
-        <?php if (!empty($maintenance_trackers) && is_array($maintenance_trackers)): ?>
+          <?php if (!empty($maintenance_trackers) && is_array($maintenance_trackers)): ?>
             <div class="mt-3 text-end">
               <form method="post" action="">
                 <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>

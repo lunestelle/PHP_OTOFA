@@ -24,12 +24,12 @@ class Tricycle
 
   public function getTricyclesForAdmin($statusFilter)
   {
-    if ($statusFilter !== 'active') {
-      return $this->findAll();
-    } else {
+    if ($statusFilter !== 'all') {
       $query = "SELECT * FROM {$this->table} 
-                WHERE tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status = 'Active')";
-      return $this->query($query);
+                WHERE tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status = :status)";
+      return $this->query($query, [':status' => $statusFilter]);
+    } else {
+      return $this->findAll();
     }
   }
 
@@ -42,10 +42,12 @@ class Tricycle
 
     $params = [':userId' => $userId];
 
-    if ($statusFilter === 'active') {
-      $query .= " AND ts.status = 'Active'";
+    if ($statusFilter !== 'all') {
+      $query .= " AND ts.status = :status";
+      $params[':status'] = $statusFilter;
     }
 
     return $this->query($query, $params);
   }
+  
 }

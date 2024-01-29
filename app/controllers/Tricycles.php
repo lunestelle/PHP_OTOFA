@@ -11,7 +11,7 @@ class Tricycles
       redirect('');
     }
 
-    $statusFilter = $_GET['status'] ?? '';
+    $statusFilter = isset($_GET['status']) ? $_GET['status'] : 'all';
 
     $tricycleModel = new Tricycle();
     $userModel = new User();
@@ -23,6 +23,7 @@ class Tricycles
 
     $data['tricycles'] = [];
     $data['index'] = 1;
+    $data['statusFilter'] = $statusFilter;
 
     if ($_SESSION['USER']->role === 'admin') {
       // Fetch all tricycles data for Admin

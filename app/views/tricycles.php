@@ -13,6 +13,22 @@
               </form>
             </div>
           <?php endif; ?>
+          <div class="col-6 mt-3">
+            <label for="statusFilter" class="fw-bold">Filter By Status:</label>
+            <select id="statusFilter" class="form-select">
+              <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
+              <option value="Active" <?php echo ($statusFilter === 'Active') ? 'selected' : ''; ?>>Active</option>
+              <option value="Change Motor Required" <?php echo ($statusFilter === 'Change Motor Required') ? 'selected' : ''; ?>>Change Motor Required</option>
+              <option value="Renewal Required" <?php echo ($statusFilter === 'Renewal Required') ? 'selected' : ''; ?>>Renewal Required</option>
+              <option value="Dropped" <?php echo ($statusFilter === 'Dropped') ? 'selected' : ''; ?>>Dropped</option>
+              <option value="Expired Renewal (1st Notice)" <?php echo ($statusFilter === 'Expired Renewal (1st Notice)') ? 'selected' : ''; ?>>Expired Renewal (1st Notice)</option>
+              <option value="Expired Renewal (2nd Notice)" <?php echo ($statusFilter === 'Expired Renewal (2nd Notice)') ? 'selected' : ''; ?>>Expired Renewal (2nd Notice)</option>
+              <option value="Expired Renewal (3rd Notice)" <?php echo ($statusFilter === 'Expired Renewal (3rd Notice)') ? 'selected' : ''; ?>>Expired Renewal (3rd Notice)</option>
+              <option value="Expired Motor (1st Notice)" <?php echo ($statusFilter === 'Expired Motor (1st Notice)') ? 'selected' : ''; ?>>Expired Motor (1st Notice)</option>
+              <option value="Expired Motor (2nd Notice)" <?php echo ($statusFilter === 'Expired Motor (2nd Notice)') ? 'selected' : ''; ?>>Expired Motor (2nd Notice)</option>
+              <option value="Expired Motor (3rd Notice)" <?php echo ($statusFilter === 'Expired Motor (3rd Notice)') ? 'selected' : ''; ?>>Expired Motor (3rd Notice)</option>
+            </select>
+          </div>
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
               <thead class="thead-custom">
@@ -154,5 +170,17 @@
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+
+  $(document).ready(function () {
+    $("#statusFilter").change(function () {
+      const selectedStatus = $("#statusFilter").val();
+      if (selectedStatus === 'all') {
+        // Redirect to the page without a specific status filter
+        window.location.href = "tricycles";
+      } else {
+        window.location.href = "tricycles?status=" + selectedStatus;
+      }
+    });
   });
 </script>
