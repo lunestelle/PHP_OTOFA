@@ -13,6 +13,10 @@
   max-height: calc(100vh - 60px); /* Set a maximum height to fit within the viewport */
 }
 
+body::-webkit-scrollbar {
+  width: 0;
+}
+
 /* Hide the scrollbar */
 .sidebar::-webkit-scrollbar {
   width: 0; /* Hide scrollbar width */
