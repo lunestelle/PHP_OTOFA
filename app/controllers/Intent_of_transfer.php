@@ -32,7 +32,8 @@ class Intent_of_transfer
     $data['cin_number'] = $cinData->cin_number;
 
     if (!empty($data['driverData'])) {
-      $data['driver_name'] = $data['driverData']->first_name . ' ' . $data['driverData']->middle_name . ' ' . $data['driverData']->last_name;
+      $driver = $data['driverData'][0];
+      $data['driver_name'] = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
     } else {
       $data['driver_name'] = 'Selected CIN has no driver';
     }
