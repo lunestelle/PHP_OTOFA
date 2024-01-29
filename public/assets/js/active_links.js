@@ -14,7 +14,7 @@ $(document).ready(function () {
         ) ||
         (
           (currentUrl.href.includes('new_driver') ||
-            currentUrl.href.includes('edit_driver')) &&
+            currentUrl.href.includes('edit_driver')) || currentUrl.href.includes('drivers?status') &&
           linkUrl.includes('drivers')
         ) ||
         (
@@ -48,6 +48,10 @@ $(document).ready(function () {
         ) ||
         (
           currentUrl.href.includes('tricycles?status') &&
+          linkUrl.includes('tricycles')
+        ) ||
+        (
+          currentUrl.href.includes('tricycles?route_area') &&
           linkUrl.includes('tricycles')
         ) ||
         (currentUrl.href.includes('maintenance_tracker') && linkUrl.includes('maintenance_tracker')

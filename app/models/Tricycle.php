@@ -22,32 +22,50 @@ class Tricycle
 
   protected $order_column = 'tricycle_id';
 
-  public function getTricyclesForAdmin($statusFilter)
+  public function getTricyclesForAdmin($statusFilter, $routeAreaFilter)
   {
-    if ($statusFilter !== 'all') {
-      $query = "SELECT * FROM {$this->table} 
-                WHERE tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status = :status)";
-      return $this->query($query, [':status' => $statusFilter]);
-    } else {
-      return $this->findAll();
-    }
+      $params = [];
+  
+      $query = "SELECT * FROM {$this->table} WHERE 1 ";
+  
+      if ($statusFilter !== 'all') {
+          $query .= "AND tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status = :status) ";
+          $params[':status'] = $statusFilter;
+      }
+  
+      if ($routeAreaFilter !== 'all') {
+          $query .= "AND tricycle_application_id IN (SELECT tricycle_application_id FROM tricycle_applications WHERE route_area = :routeArea) ";
+          $params[':routeArea'] = $routeAreaFilter;
+      }
+  
+      return $this->query($query, $params);
   }
+  
 
-  public function getTricyclesForUser($userId, $statusFilter)
+  public function getTricyclesForUser($userId, $statusFilter, $routeAreaFilter)
   {
-    $query = "SELECT DISTINCT t.* 
-              FROM {$this->table} t
-              JOIN tricycle_statuses ts ON t.tricycle_id = ts.tricycle_id
-              WHERE t.user_id = :userId";
-
-    $params = [':userId' => $userId];
-
-    if ($statusFilter !== 'all') {
-      $query .= " AND ts.status = :status";
-      $params[':status'] = $statusFilter;
-    }
-
-    return $this->query($query, $params);
+      $params = [':userId' => $userId];
+      $query = "SELECT DISTINCT t.* 
+                FROM {$this->table} t
+                JOIN tricycle_applications ta ON t.tricycle_application_id = ta.tricycle_application_id
+                LEFT JOIN tricycle_statuses ts ON t.tricycle_id = ts.tricycle_id
+                WHERE t.user_id = :userId ";
+  
+      if ($statusFilter !== 'all') {
+          $query .= "AND ts.status = :status ";
+          $params[':status'] = $statusFilter;
+      }
+  
+      if ($routeAreaFilter !== 'all') {
+          $query .= "AND ta.route_area = :routeArea ";
+          $params[':routeArea'] = $routeAreaFilter;
+      }
+  
+      return $this->query($query, $params);
   }
+  
+  
+
+  
   
 }

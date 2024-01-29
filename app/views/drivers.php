@@ -30,6 +30,19 @@
             </div>
           <?php endif; ?>
         <?php endif; ?>
+
+        <div class="row mt-1">
+          <div class="col-6">
+            <label for="statusFilter" class="fw-bold">Filter By Status:</label>
+            <select id="statusFilter" class="form-select">
+              <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
+              <option value="Active" <?php echo ($statusFilter === 'Active') ? 'selected' : ''; ?>>Active</option>
+              <option value="Inactive" <?php echo ($statusFilter === 'Inactive') ? 'selected' : ''; ?>>Inactive</option>
+              <option value="Driver License Expired" <?php echo ($statusFilter === 'Driver License Expired') ? 'selected' : ''; ?>>Driver License Expired</option>
+            </select>
+          </div>
+        </div>
+
         <div class="col-12">
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
@@ -94,3 +107,16 @@
     </div>
   </div>
 </main>
+<script>
+  $(document).ready(function () {
+    $("#statusFilter").change(function () {
+      const selectedStatus = $("#statusFilter").val();
+      if (selectedStatus === 'all') {
+        // Redirect to the page without a specific status filter
+        window.location.href = "drivers";
+      } else {
+        window.location.href = "drivers?status=" + selectedStatus;
+      }
+    });
+  });
+</script>

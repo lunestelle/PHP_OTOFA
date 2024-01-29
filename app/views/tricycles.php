@@ -13,21 +13,33 @@
               </form>
             </div>
           <?php endif; ?>
-          <div class="col-6 mt-3">
-            <label for="statusFilter" class="fw-bold">Filter By Status:</label>
-            <select id="statusFilter" class="form-select">
-              <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
-              <option value="Active" <?php echo ($statusFilter === 'Active') ? 'selected' : ''; ?>>Active</option>
-              <option value="Change Motor Required" <?php echo ($statusFilter === 'Change Motor Required') ? 'selected' : ''; ?>>Change Motor Required</option>
-              <option value="Renewal Required" <?php echo ($statusFilter === 'Renewal Required') ? 'selected' : ''; ?>>Renewal Required</option>
-              <option value="Dropped" <?php echo ($statusFilter === 'Dropped') ? 'selected' : ''; ?>>Dropped</option>
-              <option value="Expired Renewal (1st Notice)" <?php echo ($statusFilter === 'Expired Renewal (1st Notice)') ? 'selected' : ''; ?>>Expired Renewal (1st Notice)</option>
-              <option value="Expired Renewal (2nd Notice)" <?php echo ($statusFilter === 'Expired Renewal (2nd Notice)') ? 'selected' : ''; ?>>Expired Renewal (2nd Notice)</option>
-              <option value="Expired Renewal (3rd Notice)" <?php echo ($statusFilter === 'Expired Renewal (3rd Notice)') ? 'selected' : ''; ?>>Expired Renewal (3rd Notice)</option>
-              <option value="Expired Motor (1st Notice)" <?php echo ($statusFilter === 'Expired Motor (1st Notice)') ? 'selected' : ''; ?>>Expired Motor (1st Notice)</option>
-              <option value="Expired Motor (2nd Notice)" <?php echo ($statusFilter === 'Expired Motor (2nd Notice)') ? 'selected' : ''; ?>>Expired Motor (2nd Notice)</option>
-              <option value="Expired Motor (3rd Notice)" <?php echo ($statusFilter === 'Expired Motor (3rd Notice)') ? 'selected' : ''; ?>>Expired Motor (3rd Notice)</option>
-            </select>
+          <div class="row mt-3">
+            <div class="col-6">
+              <label for="statusFilter" class="fw-bold">Filter By Status:</label>
+              <select id="statusFilter" class="form-select">
+                <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                <option value="Active" <?php echo ($statusFilter === 'Active') ? 'selected' : ''; ?>>Active</option>
+                <option value="Change Motor Required" <?php echo ($statusFilter === 'Change Motor Required') ? 'selected' : ''; ?>>Change Motor Required</option>
+                <option value="Renewal Required" <?php echo ($statusFilter === 'Renewal Required') ? 'selected' : ''; ?>>Renewal Required</option>
+                <option value="Dropped" <?php echo ($statusFilter === 'Dropped') ? 'selected' : ''; ?>>Dropped</option>
+                <option value="Expired Renewal (1st Notice)" <?php echo ($statusFilter === 'Expired Renewal (1st Notice)') ? 'selected' : ''; ?>>Expired Renewal (1st Notice)</option>
+                <option value="Expired Renewal (2nd Notice)" <?php echo ($statusFilter === 'Expired Renewal (2nd Notice)') ? 'selected' : ''; ?>>Expired Renewal (2nd Notice)</option>
+                <option value="Expired Renewal (3rd Notice)" <?php echo ($statusFilter === 'Expired Renewal (3rd Notice)') ? 'selected' : ''; ?>>Expired Renewal (3rd Notice)</option>
+                <option value="Expired Motor (1st Notice)" <?php echo ($statusFilter === 'Expired Motor (1st Notice)') ? 'selected' : ''; ?>>Expired Motor (1st Notice)</option>
+                <option value="Expired Motor (2nd Notice)" <?php echo ($statusFilter === 'Expired Motor (2nd Notice)') ? 'selected' : ''; ?>>Expired Motor (2nd Notice)</option>
+                <option value="Expired Motor (3rd Notice)" <?php echo ($statusFilter === 'Expired Motor (3rd Notice)') ? 'selected' : ''; ?>>Expired Motor (3rd Notice)</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="routeAreaFilter" class="fw-bold">Filter By Route Area:</label>
+              <select id="routeAreaFilter" class="form-select">
+                <option value="all" <?php echo ($routeAreaFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                <option value="Free Zone / Zone 1" <?php echo ($routeAreaFilter === 'Free Zone / Zone 1') ? 'selected' : ''; ?>>Free Zone / Zone 1</option>
+                <option value="Free Zone & Zone 2" <?php echo ($routeAreaFilter === 'Free Zone & Zone 2') ? 'selected' : ''; ?>>Free Zone & Zone 2</option>
+                <option value="Free Zone & Zone 3" <?php echo ($routeAreaFilter === 'Free Zone & Zone 3') ? 'selected' : ''; ?>>Free Zone & Zone 3</option>
+                <option value="Free Zone & Zone 4" <?php echo ($routeAreaFilter === 'Free Zone & Zone 4') ? 'selected' : ''; ?>>Free Zone & Zone 4</option>
+              </select>
+            </div>
           </div>
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
@@ -173,14 +185,24 @@
   });
 
   $(document).ready(function () {
-    $("#statusFilter").change(function () {
+    $("#statusFilter, #routeAreaFilter").change(function () {
       const selectedStatus = $("#statusFilter").val();
-      if (selectedStatus === 'all') {
-        // Redirect to the page without a specific status filter
-        window.location.href = "tricycles";
-      } else {
-        window.location.href = "tricycles?status=" + selectedStatus;
+      const selectedRouteArea = $("#routeAreaFilter").val();
+      
+      let queryParams = [];
+
+      if (selectedStatus !== 'all') {
+        queryParams.push('status=' + encodeURIComponent(selectedStatus));
       }
+      if (selectedRouteArea !== 'all') {
+        queryParams.push('route_area=' + encodeURIComponent(selectedRouteArea));
+      }
+
+      // Construct the URL based on selected filters
+      let queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+      // Redirect to the page with selected filters
+      window.location.href = "tricycles" + queryString;
     });
   });
 </script>

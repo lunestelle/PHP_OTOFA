@@ -11,6 +11,8 @@ class Drivers
       redirect('');
     }
 
+    $statusFilter = $_GET['status'] ?? 'all';
+
     $driverModel = new Driver();
     $driverStatusesModel = new DriverStatuses();
     $tricycleCinModel = new TricycleCinNumber();
@@ -51,10 +53,29 @@ class Drivers
 
     $tricycleCinData = $tricycleCinModel->findAll();
 
-    $driversData = $driverModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    $userId = $_SESSION['USER']->user_id;
+
+    $driversData = [];
+
+    if ($statusFilter === 'all') {
+      $driversData = $driverModel->where(['user_id' => $userId]);
+    } else {
+      $driversData = $driverModel->where(['user_id' => $userId]);
+      $filteredDrivers = [];
+
+      foreach ($driversData as $driver) {
+        $driverStatus = $driverStatusesModel->where(['driver_id' => $driver->driver_id, 'status' => $statusFilter]);
+        if (!empty($driverStatus)) {
+          $filteredDrivers[] = $driver;
+        }
+      }
+
+      $driversData = $filteredDrivers;
+    }
 
     $data['drivers'] = [];
     $data['index'] = 1;
+    $data['statusFilter'] = $statusFilter;
 
     if (!empty($driversData)) {
       foreach ($driversData as $driver) {
