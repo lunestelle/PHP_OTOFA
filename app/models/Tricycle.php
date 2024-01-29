@@ -16,6 +16,8 @@ class Tricycle
     'mtop_requirements_intent_of_transfer_id',
     'mtop_requirements_transfer_from_deceased_id',
     'mtop_requirements_change_motorcycle_id',
+    'expired_notification_sent_at',
+    'expired_change_motor_notification_sent_at',
   ];
 
   protected $order_column = 'tricycle_id';
@@ -33,7 +35,7 @@ class Tricycle
 
   public function getTricyclesForUser($userId, $statusFilter)
   {
-    $query = "SELECT t.* 
+    $query = "SELECT DISTINCT t.* 
               FROM {$this->table} t
               JOIN tricycle_statuses ts ON t.tricycle_id = ts.tricycle_id
               WHERE t.user_id = :userId";

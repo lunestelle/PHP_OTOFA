@@ -63,10 +63,14 @@ class Tricycles
             case 'Renewal Required':
               $badgeColor = 'bg-warning';
               break;
+            case 'Expired Renewal':
+              $badgeColor = 'bg-warning';
+              break;
             case 'Change Motor Required':
               $badgeColor = 'bg-info';
               break;
             default:
+              $badgeColor = 'bg-danger';
               break;
           }
       

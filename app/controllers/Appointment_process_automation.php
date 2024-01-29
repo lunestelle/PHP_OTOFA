@@ -7,18 +7,18 @@ class Appointment_process_automation
   public function index()
   {
     // Update appointments with status 'Approved' and appointment date 1 week past
-    $this->updateApprovedAppointments();
+    $this->expiredApprovedAppointment();
 
     // Update appointments with status 'Pending' and appointment date 1 month past
-    $this->updatePendingAppointments();
+    $this->pendingToRejectedAppointment();
 
     // Send notifications for appointments a day before and on the day of the appointment
-    $this->sendAppointmentNotifications();
+    $this->approvedAppointmentReminder();
 
-    echo "Appointment status automation completed. <br>";
+    echo "Appointment status automation completed. <br>  ";
   }
 
-  protected function updateApprovedAppointments()
+  protected function expiredApprovedAppointment()
   {
     $oneWeekAgo = date('Y-m-d', strtotime('-1 week'));
     $appointments = new Appointment();
@@ -43,17 +43,31 @@ class Appointment_process_automation
         $formattedDate = date('F j, Y', strtotime($appointment->appointment_date));
         $formattedTime = date('h:i A', strtotime($appointment->appointment_time));
 
-        $customTextMessage = "Hello {$userName}, \n\nWe would like to inform you that your recent appointment, scheduled for {$formattedDate} at {$formattedTime} has expired. We understand that unforeseen circumstances may have arisen, and you can reschedule a new appointment at your earliest convenience.\n\nThank you.";
+        $tricycleApplicationModel = new TricycleApplication();
+        $tricycleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointment->appointment_id]);
 
-        $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>I hope this email finds you well. We would like to inform you that your recent appointment, scheduled for {$formattedDate} at {$formattedTime} has expired. We understand that unforeseen circumstances may have arisen, and you can reschedule a new appointment at your earliest convenience.</div>";
+        $tricycleCinModel = new TricycleCinNumber();
+        $cinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+
+        if (!empty($cinData)) {
+          $tricycleCinModel->update(['cin_number' => $cinData->cin_number], ['is_used' => 0, 'user_id' => null]);
+        }
+
+        $cinNumber = $cinData->cin_number;
+
+        $customTextMessage = "Hello {$userName}, \n\nWe would like to inform you that your recent {$appointment->appointment_type} appointment for tricycle CIN #{$cinNumber}, scheduled for {$formattedDate} at {$formattedTime} has expired. We understand that unforeseen circumstances may have arisen, and you can reschedule a new appointment at your earliest convenience.\n\nThank you.";
+
+        $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>I hope this email finds you well. We would like to inform you that your recent {$appointment->appointment_type} appointment for tricycle CIN #{$cinNumber}, scheduled for {$formattedDate} at {$formattedTime} has expired. We understand that unforeseen circumstances may have arisen, and you can reschedule a new appointment at your earliest convenience.</div>";
 
         systemNotifications($phoneNumber, $userName, $email, $subject, $customTextMessage, $customEmailMessage);
       }
-      echo "Expired Approved appointments notifications sent successfully."; 
-    }   
+      echo "Expired Approved appointments notifications sent successfully.  "; 
+    } else {
+      echo "No Expired Approved Appointments.   ";
+    }  
   }
 
-  protected function updatePendingAppointments()
+  protected function pendingToRejectedAppointment()
   {
     $oneMonthAgo = date('Y-m-d', strtotime('-1 month'));
     $appointments = new Appointment();
@@ -63,7 +77,7 @@ class Appointment_process_automation
     $appointments->query($query);
   }
 
-  protected function sendAppointmentNotifications()
+  protected function approvedAppointmentReminder()
   {
     $currentDate = date('Y-m-d');
     $oneDayAhead = date('Y-m-d', strtotime('+1 day'));
@@ -83,22 +97,47 @@ class Appointment_process_automation
   
         $formattedDate = date('F j, Y', strtotime($appointment->appointment_date));
         $formattedTime = date('h:i A', strtotime($appointment->appointment_time));
-  
-        $customTextMessage = "Hello {$userName},\n\nYour appointment is scheduled for {$formattedDate} at {$formattedTime}. Please ensure that you are prepared for the appointment.\n";
-  
-        $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your appointment is scheduled for {$formattedDate} at {$formattedTime}. Please ensure that you are prepared for the appointment.</div>";
+
+        $tricycleApplicationModel = new TricycleApplication();
+        $tricycleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointment->appointment_id]);
+
+        $tricycleCinModel = new TricycleCinNumber();
+        $cinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+
+        $cinNumber = $cinData->cin_number;
+        $routeArea = $tricycleApplicationData->route_area;
+
+        $penaltyFee = ($routeArea === 'Free Zone / Zone 1') ? '122.50' : '272.50';
+
+        $assessmentFee = 0;
+
+        if ($appointment->appointment_type === 'New Franchise' || $appointment->appointment_type === 'Renewal of Franchise' || $appointment->appointment_type === 'Transfer of Ownership') {
+          $assessmentFee = ($routeArea === 'Free Zone / Zone 1') ? 430.00 : 1030.00;
+        } elseif ($appointment->appointment_type === 'Change of Motorcycle' || $appointment->appointment_type === 'Dropped') {
+          $assessmentFee = 60.00;
+        }
+
+        // Format the assessment fee with two decimal places
+        $assessmentFeeFormatted = number_format($assessmentFee, 2, '.', '');
+
+        $customTextMessage = "Hello {$userName},\n\nYour appointment for {$appointment->appointment_type} with tricycle CIN #{$cinNumber} is scheduled for {$formattedDate} at {$formattedTime}.\n\nTo facilitate your appointment process, kindly note that an assessment fee of &#8369;{$assessmentFeeFormatted} applies. Please ensure you have the necessary payment prepared for settlement during your appointment.\n\nMoreover, it's crucial to organize and bring all required documents for submission to avoid any delays.\n";
+
+        $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your appointment for {$appointment->appointment_type} with tricycle CIN #{$cinNumber} is scheduled for {$formattedDate} at {$formattedTime}.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>To facilitate your appointment process, kindly note that an assessment fee of &#8369;{$assessmentFeeFormatted} applies. Please ensure you have the necessary payment prepared for settlement during your appointment.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Moreover, it's crucial to organize and bring all required documents for submission to avoid any delays.</div>";
   
         // Check if the appointment type is "Renewal of Franchise" and the appointment date is past January 20
         if ($appointment->appointment_type === 'Renewal of Franchise' && strtotime($appointment->appointment_date) > strtotime(date('Y-01-20'))) {
-          $customTextMessage .= "\n\nPlease be informed that your appointment is past the renewal period for the tricycle franchise, which is from December 20 to January 20. Please be aware that a penalty of ₱150.00 is applicable due to late renewal.\n";
-          $customEmailMessage .= "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Please be informed that your appointment is past the renewal period for the tricycle franchise, which is from December 20 to January 20. Please be aware that a penalty of ₱150.00 is applicable due to late renewal.</div>";
+          $customTextMessage .= "\nRegrettably, this {$appointment->appointment_type} appointment for tricycle  CIN #{$cinNumber}, with route area {$routeArea}, is now beyond the renewal period of December 20th to January 20th. A penalty of &#8369;{$penaltyFee} is applicable for late renewal.\n";
+
+          $customEmailMessage .= "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Regrettably, this {$appointment->appointment_type} appointment for tricycle  CIN #{$cinNumber}, with route area {$routeArea}, is now beyond the renewal period of December 20th to January 20th. A penalty of &#8369;{$penaltyFee} is applicable for late renewal.</div>";
         }
   
         $subject = "Appointment Reminder";
   
         systemNotifications($phoneNumber, $userName, $email, $subject, $customTextMessage, $customEmailMessage);
       }
-      echo "<br>Approved Appointments Reminders sent successfully. <br>";
-    }
+      echo "Approved Appointments Reminders sent successfully.   ";
+    } else {
+      echo "No Approved Appointments.  ";
+    }  
   }
 }

@@ -80,7 +80,11 @@ class Driver_license_expiry_automation
         }
       }
 
-      echo "Notifications sent successfully.";
+      if ($existingStatus) {
+        echo "Drivers License Expiry Status already exists. ";
+      } else {
+        echo "Drivers License Expiry Notifications sent.  ";
+      }
     } else {
       echo "No active drivers with license expiry today.";
     }

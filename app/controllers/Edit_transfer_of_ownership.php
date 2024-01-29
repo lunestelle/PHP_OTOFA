@@ -306,7 +306,7 @@ class Edit_transfer_of_ownership
     $message .= "b. Filing Fee: P30.00\n";
     $message .= "Total: P1030.00\n\n";
 
-    $message .= "Please be informed that you are required to prepare the necessary amount in cash for the assessment fees. This will help expedite the processing of your request. Also, below is the list of requirements for Change of Motorcycle.";
+    $message .= "Please be informed that you are required to prepare the necessary amount in cash for the assessment fees. This will help expedite the processing of your request. Also, below is the list of requirements for Transfer of Ownership.";
 
     $message .= $this->generateRequirementList();
     $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
