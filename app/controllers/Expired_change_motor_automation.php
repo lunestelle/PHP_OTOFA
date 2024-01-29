@@ -25,11 +25,11 @@ class Expired_change_motor_automation
         $tricycleData = $tricycleModel->first(['tricycle_id' => $tricycle->tricycle_id]);
         $tricycleApplicationData = $tricycleApplicationModel->first(['tricycle_application_id' => $tricycleData->tricycle_application_id]);
 
-        // Insert Expired Change Motor status
+        // Insert Expired Motor status
         $tricycleStatusesModel->insert([
           'tricycle_id' => $tricycle->tricycle_id,
           'user_id' => $tricycle->user_id,
-          'status' => 'Expired Change Motor (1st Notice)'
+          'status' => 'Expired Motor (1st Notice)'
         ]);
 
         // Delete Change Motor Required status
@@ -40,12 +40,12 @@ class Expired_change_motor_automation
         // Update tricycle's expired_change_motor_notification_sent_at
         $tricycleModel->query("UPDATE tricycles SET expired_change_motor_notification_sent_at = '{$currentDate}' WHERE tricycle_id = '{$tricycle->tricycle_id}'");
       }
-      echo "Change Motor Required to Expired Change Motor notifications sent successfully.  ";
+      echo "Change Motor Required to Expired Motor notifications sent successfully.  ";
     } else {
       echo "No Change Motor Required notifications sent.  ";
     }
 
-    $expiredQuery = "SELECT * FROM tricycle_statuses WHERE status LIKE 'Expired Change Motor%'";
+    $expiredQuery = "SELECT * FROM tricycle_statuses WHERE status LIKE 'Expired Motor%'";
     $tricyclesExpiredChangeMotor = $tricycleStatusesModel->query($expiredQuery);
 
     if (!empty($tricyclesExpiredChangeMotor)) {
@@ -72,7 +72,7 @@ class Expired_change_motor_automation
           }
 
           // Define the sequence of notice statuses
-          $sequence = ['Expired Change Motor (1st Notice)', 'Expired Change Motor (2nd Notice)', 'Expired Change Motor (3rd Notice)', 'Dropped'];
+          $sequence = ['Expired Motor (1st Notice)', 'Expired Motor (2nd Notice)', 'Expired Motor (3rd Notice)', 'Dropped'];
 
           // Determine the current status of the tricycle
           $currentStatusIndex = array_search(end($existingStatuses), $sequence);
@@ -104,9 +104,9 @@ class Expired_change_motor_automation
           }
         }
       }
-      echo "Expired Change Motor notifications sent successfully.  ";
+      echo "Expired Motor notifications sent successfully.  ";
     } else {
-      echo "No expired Change Motor notifications sent.  ";
+      echo "No expired Motor notifications sent.  ";
     }
   }
 
@@ -129,7 +129,7 @@ class Expired_change_motor_automation
 
     $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>We would like to inform you that the motor of your tricycle with CIN #{$cinNumber} has expired and requires immediate replacement.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>To facilitate the motor replacement process, please schedule an appointment through OTOFA. Upon approval, kindly submit the necessary requirements to the Transportation Development Franchising and Regulatory Office (TDFRO) on the assigned date.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Failure to replace the motor may result in the embargo of your ownership rights to the CIN by TDFRO personnel.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>A penalty of ₱{$penaltyFee} applies for late motor replacement.We appreciate your prompt attention to this matter. Thank you for your cooperation.</div>";
 
-    $subject = "Expired Change Motor Reminder";
+    $subject = "Expired Motor Reminder";
 
     systemNotifications($phoneNumber, $userName, $email, $subject, $customTextMessage, $customEmailMessage);
   }
