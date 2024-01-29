@@ -3,7 +3,7 @@
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('BASE_URL', 'http://localhost/PHP_Sakaycle/');
 } else {
-	define('BASE_URL', 'https://wlccicte.com/sakaycle.com');
+	define('BASE_URL', 'https://wlccicte.com/otofa.com');
 }
 
 trait Controller

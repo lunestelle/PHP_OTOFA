@@ -165,11 +165,11 @@ function hasStatusToUpdate($statuses) {
 
 function sendSms($phoneNumber, $message)
 {
-	$infobipBaseUrl = "https://8gxme3.api.infobip.com";
-	$infobipApiKey = "eb5bd5210a9dff83a809c48a30e70c0a-d3f8e3b8-eadb-4485-bf04-9985c65492fc";
+	// $infobipBaseUrl = "https://8gxme3.api.infobip.com";
+	// $infobipApiKey = "eb5bd5210a9dff83a809c48a30e70c0a-d3f8e3b8-eadb-4485-bf04-9985c65492fc";
 
-	// $infobipBaseUrl = "https://z1qe53.api.infobip.com";
-	// $infobipApiKey = "1a8624a577800d51f67b31bee7263d4f-13f19992-622f-4830-a87f-f5774d62cb89";
+	$infobipBaseUrl = "https://z1qe53.api.infobip.com";
+	$infobipApiKey = "1a8624a577800d51f67b31bee7263d4f-13f19992-622f-4830-a87f-f5774d62cb89";
 
 	$infobipConfiguration = new Configuration(host: $infobipBaseUrl, apiKey: $infobipApiKey);
 	$infobipSmsApi = new SmsApi(config: $infobipConfiguration);
@@ -177,7 +177,7 @@ function sendSms($phoneNumber, $message)
 	$infobipMessage = new SmsTextualMessage(
 		destinations: [$infobipDestination],
 		text: $message,
-		from: "Sakaycle"
+		from: "OTOFA"
 	);
 	$infobipRequest = new SmsAdvancedTextualRequest(messages: [$infobipMessage]);
 
@@ -243,7 +243,7 @@ function sendEmail($to, $subject, $body)
 		$mailerLocal->Username = 'sakaycle@gmail.com';
 		$mailerLocal->Password = 'hagfqeqlqdtyhqzi';
 
-		$mailerLocal->setFrom('sakaycle@gmail.com', 'Sakaycle');
+		$mailerLocal->setFrom('sakaycle@gmail.com', 'OTOFA');
 		$mailerLocal->addAddress($to);
 		$mailerLocal->Subject = $subject;
 		$mailerLocal->Body = $body;
@@ -255,10 +255,10 @@ function sendEmail($to, $subject, $body)
 		$mailerGoDaddy->Port = 465;
 		$mailerGoDaddy->SMTPSecure = 'ssl';
 		$mailerGoDaddy->SMTPAuth = true;
-		$mailerGoDaddy->Username = 'info@sakaycle.wlccicte.com';
-		$mailerGoDaddy->Password = 'sakayclebusiness';
+		$mailerGoDaddy->Username = 'info@otofa.com';
+		$mailerGoDaddy->Password = 'otofa';
 
-		$mailerGoDaddy->setFrom('info@sakaycle.wlccicte.com', 'Sakaycle');
+		$mailerGoDaddy->setFrom('info@otofa.com', 'OTOFA');
 		$mailerGoDaddy->addAddress($to);
 		$mailerGoDaddy->Subject = $subject;
 		$mailerGoDaddy->Body = $body;
@@ -313,7 +313,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 
-		sendSms($phoneNumber, $message);
+		// sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	} elseif ($status === 'Rejected') {
 		$message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for an appointment on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
@@ -334,7 +334,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	
-		sendSms($phoneNumber, $message);
+		// sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	} elseif ($status === 'On Process') {
 		$message = "Hello {$appointmentFormData['name']},\n\nWe wanted to inform you that we have received your requirements and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion.\n\nThank you for your understanding and cooperation.";
@@ -356,7 +356,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	
-		sendSms($phoneNumber, $message);
+		// sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	} elseif ($status === 'Completed') {
 		$message = "Hello {$appointmentFormData['name']},\n\nWe are pleased to inform you that your appointment scheduled for {$formattedDate} at {$formattedTime} has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.\n\nThank you for choosing our services.";
@@ -377,7 +377,7 @@ function sendAppointmentNotifications($appointmentFormData, $data, $customTextMe
 		$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 		$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	
-		sendSms($phoneNumber, $message);
+		// sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	}
 }
@@ -402,7 +402,7 @@ function systemNotifications($phoneNumber, $userName, $email, $subject, $customT
 	$templateContent = str_replace('{{SubMessage}}', nl2br($subMessage), $templateContent);
 	$templateContent = str_replace('{{SiteLink}}', nl2br($buttonLink), $templateContent);
 
-	sendSms($phoneNumber, $message);
+	// sendSms($phoneNumber, $message);
 	sendEmail($email, $subject, $templateContent);
 }
 

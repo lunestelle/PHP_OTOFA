@@ -34,7 +34,7 @@ class Update_inquiry
         ];
 
         $emailContent = $this->renderView('mailer/inquiry_response_email', false, $data);
-        $smsContent = "Hello {$inquiry->full_name},\n\nThank you for reaching out to Sakaycle! We appreciate your inquiry and the opportunity to assist you.\n\nAfter careful consideration, we would like to provide the following response to your inquiry:\n\n{$response}\n\nIf you have any further questions or need additional assistance, please feel free to contact us. We value your feedback and look forward to serving you.";
+        $smsContent = "Hello {$inquiry->full_name},\n\nThank you for reaching out to OTOFA! We appreciate your inquiry and the opportunity to assist you.\n\nAfter careful consideration, we would like to provide the following response to your inquiry:\n\n{$response}\n\nIf you have any further questions or need additional assistance, please feel free to contact us. We value your feedback and look forward to serving you.";
 
         $updated = $inquiryModel->update(['id' => $inquiryId], ['response' => $response, 'response_status' => 'responded']);
 

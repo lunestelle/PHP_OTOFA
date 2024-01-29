@@ -68,7 +68,7 @@ class Sign_in
 
             // Send a new verification email
             $emailContent = $this->renderView('mailer/account_email_verification', false);
-            $subject = "Verify Your Email Address for Sakaycle";
+            $subject = "Verify Your Email Address for OTOFA";
             $emailResult = sendEmail($row->email, $subject, $emailContent);
 
             if ($emailResult === 'success') {
