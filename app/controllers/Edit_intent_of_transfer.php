@@ -33,6 +33,7 @@ class Edit_intent_of_transfer
     $driverData = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
 
     if (!empty($driverData)) {
+      $driver = $data['driverData'][0];
       $driver_name = $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name;
     } else {
       $driver_name = 'Selected CIN has no driver';
