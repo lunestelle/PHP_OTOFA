@@ -5,7 +5,7 @@
     </div>
     <div class="col-lg-12 mt-2">
       <?php if ($userRole === 'operator'): ?>  
-        <div class="row">
+        <div class="row assessmentFeeContainer">
           <div class="col-12 mx-auto text-center mt-1">
             <p id="assessmentFeeText" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
           </div>
@@ -313,6 +313,15 @@
 </main>
 <script>
   $(document).ready(function () {
+    function toggleAssessmentFeeContainer() {
+      let assessmentText = $("#assessmentFeeText").text().trim();
+      if (assessmentText === "") {
+        $(".assessmentFeeContainer").hide();
+      } else {
+        $(".assessmentFeeContainer").show();
+      }
+    }
+
     function updateAssessmentFee() {
       let selectedColorCode = $("#color_code").val();
       let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
@@ -357,9 +366,11 @@
     }
 
     updateAssessmentFee();
+    toggleAssessmentFeeContainer();
 
     $("#color_code").change(function () {
       updateAssessmentFee();
+      toggleAssessmentFeeContainer();
     });
 
     let errorMessage = $(".flash-message.error");

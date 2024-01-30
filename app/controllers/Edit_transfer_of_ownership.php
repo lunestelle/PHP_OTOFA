@@ -32,9 +32,10 @@ class Edit_transfer_of_ownership
     $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
     $driverData = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
 
+    $data = []; 
     if (!empty($driverData)) {
-      $driver = $data['driverData'][0];
-      $driver_name = $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name;
+      $driver = $driverData[0];
+      $driver_name = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
     } else {
       $driver_name = 'Selected CIN has no driver';
     }

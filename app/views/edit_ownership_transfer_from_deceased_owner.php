@@ -11,7 +11,7 @@
           </div>
         </div>
       <?php endif; ?>
-      <div class="row">
+      <div class="row mt-3">
         <div class="col-12">
           <div class="container">
             <div id="editAppointmentForm">
