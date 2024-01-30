@@ -8,8 +8,8 @@
         <div class="col-12 mt-3">
           <div class="">
             <?php if (!empty($calculationData)): ?>
-              <div class="header-view-calculations mb-3">
-                <h6 class="text-center">
+              <div class="mb-3">
+                <h6 class="text-center" style="background-color: black; padding: 5px; text-align: center; color: white; text-transform: uppercase;">
                   <?php echo ($selectedYear == 'all' || empty($selectedYear)) ? 'All' : $selectedYear; ?> Total Maintenance Expenses for Tricycle CIN Number <?php echo isset($tricycleCIN) ? $tricycleCIN : ''; ?>:
                 </h6>
               </div>
@@ -28,7 +28,7 @@
                       echo "<p class='fw-bold text-danger text-end'>TOTAL = ₱" . number_format($totalExpenses, 2) . "</p>";
                       echo "<hr style='height: 2px; background-color: #7C4700; border: none;'>";
                     }
-                    echo "<p style='background-color: #7C4700; color: white; padding: 5px; width:50%;'>{$year} Total Maintenance Expenses for Tricycle CIN Number {$tricycleCIN}:</p>";
+                    echo "<p style='background-color: #7C4700; color: white; padding: 3px; width:50%; font-size: 13px; font-weight: bolder; text-align: center;'>{$year} Total Maintenance Expenses for Tricycle CIN Number {$tricycleCIN}:</p>";
                     $currentYear = $year;
                    
                     // Reset totalExpenses for the new year
