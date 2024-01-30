@@ -306,14 +306,14 @@
 
     // Function to show the verification section
     function showVerificationSection() {
-      verificationSection.style.display = 'block';
+      verificationSection.style.display = '';
       verifyPhoneNumberBtn.style.display = 'none';
     }
 
     // Function to hide the verification section
     function hideVerificationSection() {
       verificationSection.style.display = 'none';
-      verifyPhoneNumberBtn.style.display = 'block';
+      verifyPhoneNumberBtn.style.display = '';
     }
 
     // Function to handle verification button click
