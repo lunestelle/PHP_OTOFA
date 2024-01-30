@@ -33,8 +33,8 @@
 
         <div class="row mt-1">
           <div class="col-6">
-            <label for="statusFilter" class="fw-bold">Filter By Status:</label>
-            <select id="statusFilter" class="form-select">
+            <label for="statusFilter" class="fw-bold" style="font-size: 13px;">Filter By Status:</label>
+            <select id="statusFilter" class="form-select" style="height: 35px; font-size: 14px;">
               <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
               <option value="Active" <?php echo ($statusFilter === 'Active') ? 'selected' : ''; ?>>Active</option>
               <option value="Inactive" <?php echo ($statusFilter === 'Inactive') ? 'selected' : ''; ?>>Inactive</option>

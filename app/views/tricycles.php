@@ -15,8 +15,8 @@
           <?php endif; ?>
           <div class="row mt-3">
             <div class="col-6">
-              <label for="statusFilter" class="fw-bold">Filter By Status:</label>
-              <select id="statusFilter" class="form-select">
+              <label for="statusFilter" class="fw-bold" style="font-size: 13px;">Filter By Status:</label>
+              <select id="statusFilter" class="form-select" style="height: 35px; font-size: 14px;">
                 <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
                 <option value="Active" <?php echo ($statusFilter === 'Active') ? 'selected' : ''; ?>>Active</option>
                 <option value="Change Motor Required" <?php echo ($statusFilter === 'Change Motor Required') ? 'selected' : ''; ?>>Change Motor Required</option>
@@ -31,8 +31,8 @@
               </select>
             </div>
             <div class="col-6">
-              <label for="routeAreaFilter" class="fw-bold">Filter By Route Area:</label>
-              <select id="routeAreaFilter" class="form-select">
+              <label for="routeAreaFilter" class="fw-bold"  style="font-size: 13px;">Filter By Route Area:</label>
+              <select id="routeAreaFilter" class="form-select" style="height: 35px; font-size: 14px;">
                 <option value="all" <?php echo ($routeAreaFilter === 'all') ? 'selected' : ''; ?>>All</option>
                 <option value="Free Zone / Zone 1" <?php echo ($routeAreaFilter === 'Free Zone / Zone 1') ? 'selected' : ''; ?>>Free Zone / Zone 1</option>
                 <option value="Free Zone & Zone 2" <?php echo ($routeAreaFilter === 'Free Zone & Zone 2') ? 'selected' : ''; ?>>Free Zone & Zone 2</option>
