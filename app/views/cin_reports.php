@@ -22,7 +22,7 @@
 
         <div class="table-responsive pt-4">
           <table class="table table-hover" id="systemTable">
-            <thead class="thead-custom">
+            <thead>
               <tr class="text-uppercase">
                 <th scope="col" class="text-center">#</th>
                 <th scope="col" class="text-center">Name</th>

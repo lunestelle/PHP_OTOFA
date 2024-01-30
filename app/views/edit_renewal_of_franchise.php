@@ -6,14 +6,14 @@
     <div class="col-lg-12">
       <?php if ($userRole === 'operator'): ?>  
         <div class="row">
-          <div class="col-12 mx-auto text-center mt-1">
+          <div class="col-12 mx-auto text-center mt-3">
             <p id="assessmentFeeText" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
           </div>
         </div>
       <?php endif; ?>
       <div class="row">
-        <div class="col-12 pt-2">
-          <div class="container pt-3">
+        <div class="col-12">
+          <div class="container">
             <div id="editAppointmentForm">
               <form class="default-form" method="POST" action="" id="appointmentForm" enctype="multipart/form-data">
                 <div class="content-container mb-3">

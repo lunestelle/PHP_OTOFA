@@ -37,12 +37,12 @@
             <form method="get" action="">
               <div class="row">
                 <div class="col-md-5">
-                  <label for="startDate" class="fw-bold">Start Date:</label>
-                  <input type="date" id="startDate" name="startDate" class="form-control" value="<?php echo ($_GET['startDate'] ?? ''); ?>">
+                  <label for="startDate" class="fw-bold" style="font-size: 13px;">Start Date:</label>
+                  <input type="date" id="startDate" name="startDate" class="form-control" style="height: 35px; font-size: 14px;" value="<?php echo ($_GET['startDate'] ?? ''); ?>">
                 </div>
                 <div class="col-md-5">
-                  <label for="endDate" class="fw-bold">End Date:</label>
-                  <input type="date" id="endDate" name="endDate" class="form-control" value="<?php echo ($_GET['endDate'] ?? ''); ?>">
+                  <label for="endDate" class="fw-bold" style="font-size: 13px;">End Date:</label>
+                  <input type="date" id="endDate" name="endDate" class="form-control"  style="height: 35px; font-size: 14px;" value="<?php echo ($_GET['endDate'] ?? ''); ?>">
                 </div>
                 <div class="col-md-2">
                   <button type="submit" class="filter-btn mt-4">Filter</button>

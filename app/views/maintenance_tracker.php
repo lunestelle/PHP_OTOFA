@@ -14,8 +14,8 @@
             </div>
           
             <div class="col-6 mt-3">
-              <label for="yearFilter" class="fw-bold">Filter By Year:</label>
-              <select id="yearFilter" class="form-select">
+              <label for="yearFilter" class="fw-bold" style="font-size: 13px;">Filter By Year:</label>
+              <select id="yearFilter" class="form-select" style="height: 35px; font-size: 14px;">
                 <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
                 <?php foreach ($years as $year): ?>
                   <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
@@ -25,7 +25,7 @@
           <?php endif; ?>
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
-              <thead class="thead-custom">
+              <thead>
                 <tr class="text-uppercase">
                   <th scope="col" class="text-center">#</th>
                   <th scope="col" class="text-center">Tricyle CIN</th>

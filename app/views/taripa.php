@@ -3,7 +3,7 @@
     <div class="col-12 text-uppercase nav-top">
       <h6 class="title-head">taripa</h6>
     </div>
-    <div class="col-lg-12">
+    <div class="col-12">
       <div class="row mt-2">
         <?php if ($userRole === 'admin'): ?>
           <div class="col-12 mt-3">
@@ -13,9 +13,9 @@
         <div class="col-12 text-end">
           <button class="btn-print" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
         </div>
-        <div class="col-5 mx-4 me-5">
-          <label for="routeAreaFilter" class="fw-bold">Filter Route Area:</label>
-          <select id="routeAreaFilter" class="form-select">
+        <div class="col-6">
+          <label for="routeAreaFilter" class="fw-bold" style="font-size: 13px;">Filter Route Area:</label>
+          <select id="routeAreaFilter" class="form-select" style="height: 35px; font-size: 14px;">
             <option value="All">All</option>
             <option value="Free Zone / Zone 1">Free Zone / Zone 1</option>
             <option value="Zone 2">Freezone & Zone 2</option>
@@ -23,9 +23,9 @@
             <option value="Zone 4">Freezone & Zone 4</option>
           </select>
         </div>
-        <div class="col-5 ms-5">
-          <label for="yearFilter" class="fw-bold">Filter Year:</label>
-          <select id="yearFilter" class="form-select">
+        <div class="col-6">
+          <label for="yearFilter" class="fw-bold" style="font-size: 13px;">Filter Year:</label>
+          <select id="yearFilter" class="form-select" style="height: 35px; font-size: 14px;">
             <?php foreach ($years as $year): ?>
               <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
             <?php endforeach; ?>
@@ -42,7 +42,7 @@
           </form>
         </div>
       <?php endif; ?>
-      <div class="table-responsive pt-4 mx-4">
+      <div class="table-responsive pt-3">
         <table class="table table-hover" id="systemTable">
           <thead>
             <tr class="text-uppercase">

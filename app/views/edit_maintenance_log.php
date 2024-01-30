@@ -5,8 +5,8 @@
     </div>
     <div class="col-lg-12 mt-2">
       <div class="row">
-        <div class="col-12 pt-2">
-          <div class="container pt-4">
+        <div class="col-12">
+          <div class="container">
             <div id="mainteanceLogForm">
               <form class="default-form" method="POST" action="" enctype="multipart/form-data">
                 <div class="content-container mx-1 mt-3 pb-4">
