@@ -11,13 +11,13 @@ class Dashboard
 			redirect('');
 		}
 
-		$userModel = new User();
-    $data['operatorCount'] = $userModel->count(['role' => 'operator']);
-
-    $tricycleModel = new Tricycle();
+		$tricycleModel = new Tricycle();
 		$tricycleStatusesModel = new TricycleStatuses;
     $data['activeTricycleCount'] = $tricycleStatusesModel->count(['status' => 'Active']);
 		$data['userTricycleCount'] = $tricycleStatusesModel->count(['status' => 'Active', 'user_id' => $_SESSION['USER']->user_id]);
+
+		$userModel = new User();
+    $data['operatorCount'] = $userModel->countOperatorsWithActiveOrDroppedTricycleStatus();
 
 		$appointmentModel = new Appointment();
     $data['pendingAppointmentCount'] = $appointmentModel->count(['status' => 'Pending']);

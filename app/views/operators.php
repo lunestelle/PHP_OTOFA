@@ -38,7 +38,7 @@
                         <span class="badge text-bg-info p-1">No Registered Tricycle</span>
                       <?php else: ?>
                         <?php foreach ($user['tricycles'] as $tricycle): ?>
-                          <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="tricycle-link text-decoration-none text-danger fw-bold"><?php echo $tricycle['plate_no']; ?></a><br>
+                          <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="tricycle-link text-decoration-none text-danger fw-bold"><?php echo $tricycle['cin_number']; ?></a><br>
                         <?php endforeach; ?>
                       <?php endif; ?>
                     </td>
