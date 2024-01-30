@@ -256,7 +256,7 @@
 
       switch (selectedRouteArea) {
         case "Free Zone / Zone 1":
-          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 route is ₱430.00. Please prepare an exact";
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 route is ₱430.00.";
           break;
         case "Free Zone & Zone 2":
         case "Free Zone & Zone 3":
