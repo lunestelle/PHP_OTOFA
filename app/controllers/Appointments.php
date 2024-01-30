@@ -11,21 +11,28 @@ class Appointments
       redirect('');
     }
 
-    $statusFilter = isset($_GET['status']) ? $_GET['status'] : '';
+    $statusFilter = $_GET['status'] ?? 'all';
+    $userId = $_GET['user_id'] ?? null;
     $startDate = isset($_GET['startDate']) ? $_GET['startDate'] : '';
     $endDate = isset($_GET['endDate']) ? $_GET['endDate'] : '';
 
     $appointmentModel = new Appointment();
     $userModel = new User();
 
+    $data['statusFilter'] = $statusFilter;
+
     if ($_SESSION['USER']->role === 'admin') {
-      $appointmentsData = $appointmentModel->getAppointmentsByDateRange($statusFilter, $startDate, $endDate);
+      if ($userId !== null) {
+        $appointmentsData = $appointmentModel->getAppointmentsForAdminWithSpecificUser($userId, $statusFilter, $startDate, $endDate);
+      } else {
+        $appointmentsData = $appointmentModel->getAppointmentsByDateRangeAndStatus($startDate, $endDate, $statusFilter);
+      }
     } else {
       $whereConditions = ['user_id' => $_SESSION['USER']->user_id];
       if ($statusFilter === 'pending') {
         $whereConditions['status'] = 'Pending';
       }
-      $appointmentsData = $appointmentModel->getAppointmentsByDateRange($statusFilter, $startDate, $endDate, $whereConditions);
+      $appointmentsData = $appointmentModel->getAppointmentsByDateRangeAndStatus($startDate, $endDate, $statusFilter, $whereConditions);
     }
 
     $data['appointments'] = [];

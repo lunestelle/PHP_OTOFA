@@ -33,11 +33,15 @@ class Appointments_reports
     if (!empty($appointmentsReportsData)) {
       foreach ($appointmentsReportsData as $report) {
         $data['appointmentsReports'][] = [
+          'user_id' => $report->user_id,
           'operator_name' => $report->first_name . ' ' . $report->last_name,
           'phone_number' => $report->phone_number,
           'total_appointments' => $report->total_appointments,
           'pending_appointments' => $report->pending_appointments,
           'completed_appointments' => $report->completed_appointments,
+          'approved_appointments' => $report->approved_appointments,
+          'rejected_appointments' => $report->rejected_appointments,
+          'on_process_appointments' => $report->on_process_appointments,
           'year' => $report->year,
         ];
       }
@@ -45,15 +49,15 @@ class Appointments_reports
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exportCsv'])) {
       $csvData = [];
-
+  
       if ($selectedYear == 'all') {
         $csvData[] = ['All Appointments Reports'];
       } else {
         $csvData[] = ['Appointments Reports for the Year ' . $selectedYear];
       }
-
-      $csvData[] = ['Operator\'s Name', 'Phone Number', 'Total Appointments', 'Pending Appointments', 'Completed Appointments'];
-
+  
+      $csvData[] = ['Operator\'s Name', 'Phone Number', 'Total Appointments', 'Pending Appointments', 'Completed Appointments', 'Approved Appointments', 'Rejected Appointments', 'On Process Appointments'];
+  
       // Add "Appointment Year" column header only if the filter is 'all'
       if ($selectedYear == 'all') {
         $csvData[1][] = 'Appointment Year';
@@ -66,6 +70,9 @@ class Appointments_reports
           $report->total_appointments,
           $report->pending_appointments,
           $report->completed_appointments,
+          $report->approved_appointments,
+          $report->rejected_appointments,
+          $report->on_process_appointments,
         ];
 
         if ($selectedYear == 'all') {

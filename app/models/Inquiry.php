@@ -41,4 +41,26 @@ class Inquiry
 
     return $errors;
   }
+
+  public function getFilteredInquiries($messageFilter, $responseFilter, $whereConditions = [])
+  {
+    $whereClause = '';
+
+    if (!empty($whereConditions)) {
+      foreach ($whereConditions as $column => $value) {
+        $whereClause .= "AND $column = '$value'";
+      }
+    }
+
+    if ($messageFilter !== 'all') {
+      $whereClause .= "AND message_status = '$messageFilter'";
+    }
+
+    if ($responseFilter !== 'all') {
+      $whereClause .= "AND response_status = '$responseFilter'";
+    }
+
+    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY created_at DESC";
+    return $this->query($query);
+  }
 }

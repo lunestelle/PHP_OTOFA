@@ -33,23 +33,33 @@
         <?php endif; ?>
 
         <div class="col-12 mt-1">
-          <?php if (!empty($appointments)): ?>
-            <form method="get" action="">
-              <div class="row">
-                <div class="col-md-5">
-                  <label for="startDate" class="fw-bold" style="font-size: 13px;">Start Date:</label>
-                  <input type="date" id="startDate" name="startDate" class="form-control" style="height: 35px; font-size: 14px;" value="<?php echo ($_GET['startDate'] ?? ''); ?>">
-                </div>
-                <div class="col-md-5">
-                  <label for="endDate" class="fw-bold" style="font-size: 13px;">End Date:</label>
-                  <input type="date" id="endDate" name="endDate" class="form-control"  style="height: 35px; font-size: 14px;" value="<?php echo ($_GET['endDate'] ?? ''); ?>">
-                </div>
-                <div class="col-md-2">
-                  <button type="submit" class="filter-btn mt-4">Filter</button>
-                </div>
+          <form method="get" action="">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="startDate" class="fw-bold" style="font-size: 13px;">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" style="height: 35px; font-size: 14px;" value="<?php echo ($_GET['startDate'] ?? ''); ?>">
               </div>
-            </form>
-          <?php endif; ?>
+              <div class="col-md-3">
+                <label for="endDate" class="fw-bold" style="font-size: 13px;">End Date:</label>
+                <input type="date" id="endDate" name="endDate" class="form-control"  style="height: 35px; font-size: 14px;" value="<?php echo ($_GET['endDate'] ?? ''); ?>">
+              </div>
+
+              <div class="col-md-4">
+                <label for="statusFilter" class="fw-bold" style="font-size: 13px;">Filter By Status:</label>
+                <select id="statusFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                  <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                  <option value="Pending" <?php echo ($statusFilter === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                  <option value="Approved" <?php echo ($statusFilter === 'Approved') ? 'selected' : ''; ?>>Approved</option>
+                  <option value="Rejected" <?php echo ($statusFilter === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                  <option value="On Process" <?php echo ($statusFilter === 'On Process') ? 'selected' : ''; ?>>On Process</option>
+                  <option value="Completed" <?php echo ($statusFilter === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="filter-btn mt-4" id="applyFilter">Filter</button>
+              </div>
+            </div>
+          </form>
         </div>
 
         <div class="col-12">
@@ -278,16 +288,32 @@
   }
 
   $(document).ready(function () {
-    $("#applyFilter").click(function () {
+    $("#applyFilter").click(function (event) {
+      event.preventDefault(); // Prevent the default form submission
+
       const startDate = $("#startDate").val();
       const endDate = $("#endDate").val();
+      const statusFilter = $("#statusFilter").val();
 
-      filterUrl += `?year=${selectedYear}`;
-      if (startDate && endDate) {
-        filterUrl += `&start_date=${startDate}&end_date=${endDate}`;
+      let queryParams = [];
+
+      if (statusFilter !== 'all') {
+        queryParams.push('status=' + encodeURIComponent(statusFilter));
       }
 
-      window.location.href = filterUrl;
+      if (startDate && endDate) {
+        queryParams.push(`startDate=${encodeURIComponent(startDate)}`);
+        queryParams.push(`endDate=${encodeURIComponent(endDate)}`);
+      }
+
+      const queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+      // Construct the URL based on the current page URL
+      const currentUrl = window.location.href.split('?')[0];
+      const finalUrl = currentUrl + queryString;
+
+      // Redirect to the final URL
+      window.location.href = finalUrl;
     });
   });
 </script>

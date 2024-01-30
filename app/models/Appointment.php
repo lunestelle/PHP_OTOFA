@@ -327,6 +327,9 @@ class Appointment
         COUNT(*) AS total_appointments,
         SUM(CASE WHEN a.status = 'Pending' THEN 1 ELSE 0 END) AS pending_appointments,
         SUM(CASE WHEN a.status = 'Completed' THEN 1 ELSE 0 END) AS completed_appointments,
+        SUM(CASE WHEN a.status = 'Approved' THEN 1 ELSE 0 END) AS approved_appointments,
+        SUM(CASE WHEN a.status = 'Rejected' THEN 1 ELSE 0 END) AS rejected_appointments,
+        SUM(CASE WHEN a.status = 'On Process' THEN 1 ELSE 0 END) AS on_process_appointments,
         YEAR(a.appointment_date) AS year
       FROM {$this->table} a
       JOIN users o ON a.user_id = o.user_id
@@ -339,11 +342,11 @@ class Appointment
     if (!empty($result) && (is_array($result) || is_object($result))) {
       return $result;
     } else {
-      return []; // Return an empty array if the result is not valid
+      return [];
     }
   }
 
-  public function getAppointmentsByDateRange($statusFilter, $startDate, $endDate, $whereConditions = [])
+  public function getAppointmentsByDateRangeAndStatus($startDate, $endDate, $statusFilter, $whereConditions = [])
   {
     $whereClause = '';
 
@@ -353,7 +356,7 @@ class Appointment
       }
     }
 
-    if ($statusFilter !== '') {
+    if ($statusFilter !== 'all') {
       $whereClause .= "AND status = '$statusFilter'";
     }
 
@@ -361,7 +364,32 @@ class Appointment
       $whereClause .= "AND appointment_date BETWEEN '$startDate' AND '$endDate'";
     }
 
-    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY date_created DESC";
+    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY appointment_date DESC";
     return $this->query($query);
+  }
+  
+  public function getAppointmentsForAdminWithSpecificUser($userId, $statusFilter, $startDate, $endDate)
+  {
+    $params = [':userId' => $userId];
+    $query = "SELECT * FROM {$this->table} WHERE user_id = :userId";
+
+    $whereClause = '';
+
+    if ($statusFilter !== '') {
+      $whereClause .= " AND status = :statusFilter";
+      $params[':statusFilter'] = $statusFilter;
+    }
+
+    if (!empty($startDate) && !empty($endDate)) {
+      $whereClause .= " AND appointment_date BETWEEN :startDate AND :endDate";
+      $params[':startDate'] = $startDate;
+      $params[':endDate'] = $endDate;
+    }
+
+    if (!empty($whereClause)) {
+      $query .= $whereClause;
+    }
+
+    return $this->query($query, $params);
   }
 }

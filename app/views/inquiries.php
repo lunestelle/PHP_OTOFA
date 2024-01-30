@@ -13,6 +13,24 @@
               </form>
             </div>
           <?php endif; ?>
+          <div class="row mt-3">
+            <div class="col-6">
+              <label for="messageFilter" class="fw-bold" style="font-size: 13px;">Filter By Message Status:</label>
+              <select id="messageFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                <option value="all" <?php echo ($messageFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                <option value="Read" <?php echo ($messageFilter === 'Read') ? 'selected' : ''; ?>>Read</option>
+                <option value="Unread" <?php echo ($messageFilter === 'Unread') ? 'selected' : ''; ?>>Unread</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="responseFilter" class="fw-bold"  style="font-size: 13px;">Filter By Response Status:</label>
+              <select id="responseFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                <option value="all" <?php echo ($responseFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                <option value="Responded" <?php echo ($responseFilter === 'Responded') ? 'selected' : ''; ?>>Responded</option>
+                <option value="Not Responded" <?php echo ($responseFilter === 'Not Responded') ? 'selected' : ''; ?>>Not Responded</option>
+              </select>
+            </div>
+          </div>
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
               <thead>
@@ -157,5 +175,25 @@
         }
       });
     <?php endforeach; ?>
+  });
+
+  $(document).ready(function () {
+    $("#messageFilter, #responseFilter").change(function () {
+      const selectedMessageStatus = $("#messageFilter").val();
+      const selectedResponseStatus = $("#responseFilter").val();
+      
+      let queryParams = [];
+
+      if (selectedMessageStatus !== 'all') {
+        queryParams.push('message_status=' + encodeURIComponent(selectedMessageStatus));
+      }
+      if (selectedResponseStatus !== 'all') {
+        queryParams.push('response_status=' + encodeURIComponent(selectedResponseStatus));
+      }
+
+      let queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+      window.location.href = "inquiries" + queryString;
+    });
   });
 </script>

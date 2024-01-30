@@ -2,9 +2,11 @@
 $current_page = $_SERVER['REQUEST_URI'];
 $current_page_is_maintenance = strpos($current_page, 'appointments_reports') !== false || strpos($current_page, 'cin_reports') !== false || strpos($current_page, 'tricycles_reports') !== false;
 
-$isCurrentPageInquiries = (basename($current_page) == 'inquiries');
+$isCurrentPageInquiries = (basename($current_page) == 'inquiries' || isset($_GET['message_status']) || isset($_GET['response_status']));
 
 $current_page_basename = basename(parse_url($current_page, PHP_URL_PATH));
+$status_param_exists = isset($_GET['status']);
+
 $isCurrentPageAppointments = (
   strpos($current_page_basename, 'appointments') !== false ||
   strpos($current_page_basename, 'view_appointment') !== false ||
@@ -21,8 +23,8 @@ $isCurrentPageAppointments = (
   strpos($current_page_basename, 'intent_of_transfer') !== false ||
   strpos($current_page_basename, 'edit_intent_of_transfer') !== false ||
   strpos($current_page_basename, 'ownership_transfer_from_deceased_owner') !== false ||
-  strpos($current_page_basename, 'edit_ownership_transfer_from_deceased_owner') !== false
-);
+  strpos($current_page_basename, 'edit_ownership_transfer_from_deceased_owner') !== false 
+) || $status_param_exists;
 
 $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USER']->generated_profile_photo_path;
 

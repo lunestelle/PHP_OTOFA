@@ -10,7 +10,7 @@
             <div class="overview-wrapper">
               <div class="container gap-5 px-5 mb-4 pb-3">
                 <?php if ($userHasCin) { ?>
-                  <a href="./tricycles?status=active" class="text-black">
+                  <a href="./tricycles?status=Active" class="text-black">
                     <div class="overview-container">
                       <div class="image-bg rounded-circle"> </div>
                       <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>
@@ -42,7 +42,7 @@
           <div class="col-12">
             <div class="overview-wrapper">
               <div class="container overview-margin px-5 pb-3">
-                <a href="./tricycles?status=active" class="text-black">
+                <a href="./tricycles?status=Active" class="text-black">
                   <div class="overview-container mt-3">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-truck-pickup fa-2xl" style="color: #ffffff; margin-right: 8px;"></i>

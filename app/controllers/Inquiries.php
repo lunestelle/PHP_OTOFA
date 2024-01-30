@@ -11,10 +11,20 @@ class Inquiries
       redirect('');
     }
 
+    $messageFilter = $_GET['message_status'] ?? 'all';
+    $responseFilter = $_GET['response_status'] ?? 'all';
+
     $inquiryModel = new Inquiry();
-    $inquiriesData = $inquiryModel->findAll();
     $data['inquiries'] = [];
     $data['index'] = 1;
+    $data['messageFilter'] = $messageFilter;
+    $data['responseFilter'] = $responseFilter;
+
+    if ($messageFilter === 'all' && $responseFilter === 'all') {
+      $inquiriesData = $inquiryModel->findAll();
+    } else {
+      $inquiriesData = $inquiryModel->getFilteredInquiries($messageFilter, $responseFilter);
+    }
 
     if (!empty($inquiriesData)) {
       foreach ($inquiriesData as $inquiry) {

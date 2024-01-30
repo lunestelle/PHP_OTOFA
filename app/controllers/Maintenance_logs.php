@@ -17,45 +17,48 @@ class Maintenance_logs
 			set_flash_message("Access denied. You don't have the required role.", "error");
 			redirect('');
 		}
+
+    $selectedFilter = isset($_GET['driver_name']) ? $_GET['driver_name'] : 'all';
 		
     $maintenanceLogModel = new MaintenanceLog();
-    $maintenanceLogData = $maintenanceLogModel->where(['user_id' => $_SESSION['USER']->user_id]);
-
     $tricycleCinModel = new TricycleCinNumber();
-    $tricycleCinData = $tricycleCinModel->findAll();
-
     $driverModel = new Driver();
-    $driversData = $driverModel->findAll();
+    
+    $driversData = $driverModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    $driverNames = [];
+
+    foreach ($driversData as $driver) {
+      $fullName = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
+      $driverNames[$driver->driver_id] = $fullName;
+    }
 
     $data['maintenance_logs'] = [];
     $data['index'] = 1;
+    $data['selectedFilter'] = $selectedFilter;
+    $data['drivers'] = $driverNames;
+
+    if ($selectedFilter === 'all') {
+      $maintenanceLogData = $maintenanceLogModel->where(['user_id' => $_SESSION['USER']->user_id]);
+    } else {
+      $driverId = array_search($selectedFilter, $driverNames);
+      if ($driverId !== false) {
+        $maintenanceLogData = $maintenanceLogModel->where(['user_id' => $_SESSION['USER']->user_id, 'driver_id' => $driverId]);
+      } else {
+        $maintenanceLogData = [];
+      }
+    }
 
     if (!empty($maintenanceLogData)) {
       foreach ($maintenanceLogData as $maintenance) {
-        $cin = '';
-        $driverName = '';
+        $driver = $driverModel->first(['driver_id' => $maintenance->driver_id]);
+        $driverName = $driver ? $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name : '----------------';
 
-        if (!empty($tricycleCinData)) {
-          foreach ($tricycleCinData as $tricycle) {
-            if ($maintenance->tricycle_cin_number_id === $tricycle->tricycle_cin_number_id) {
-              $cin = $tricycle->cin_number;
-              break;
-            }
-          }
-        }
-
-        if (!empty($driversData)) {
-          foreach ($driversData as $driver) {
-            if ($maintenance->driver_id == $driver->driver_id) {
-              $driverName = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
-              break;
-            }
-          }
-        }
+        $cin = $tricycleCinModel->first(['tricycle_cin_number_id' => $maintenance->tricycle_cin_number_id]);
+        $cin_number = $cin ? $cin->cin_number : '----------------';
 
         $data['maintenance_logs'][] = [
 					'maintenance_log_id' => $maintenance->maintenance_log_id,
-          'cin' => $cin,
+          'cin' => $cin_number,
           'driver_name' => $driverName,
           'expense_date' => date('F d, Y h:i A', strtotime($maintenance->expense_date)),
           'total_expenses' => $maintenance->total_expenses,
