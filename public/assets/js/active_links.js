@@ -14,7 +14,7 @@ $(document).ready(function () {
         ) ||
         (
           (currentUrl.href.includes('new_driver') ||
-            currentUrl.href.includes('edit_driver')) || currentUrl.href.includes('drivers?status') &&
+            currentUrl.href.includes('edit_driver') || currentUrl.href.includes('drivers?status')) &&
           linkUrl.includes('drivers')
         ) ||
         (
@@ -76,6 +76,8 @@ $(document).ready(function () {
       $('.sidebar a[href="' + href + '"]').addClass('nav-link-active');
     }
   };
+
+  
 
   setActiveLink('red_trike_info', 'dashboard');
   setActiveLink('blue_trike_info', 'dashboard');

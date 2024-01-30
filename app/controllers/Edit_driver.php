@@ -50,9 +50,9 @@ class Edit_driver {
     // Convert array of tricycle CIN numbers to comma-separated string
     $userTricycleCinIdsString = implode(',', $userTricycleCinIds);
 
-    $query = "SELECT DISTINCT drivers.tricycle_cin_number_id FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id IN ($userTricycleCinIdsString) AND driver_statuses.status = 'Active' AND drivers.driver_id != $driverId"; 
+    $query = "SELECT DISTINCT drivers.tricycle_cin_number_id FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id IN ($userTricycleCinIdsString) AND driver_statuses.status = 'Active' AND drivers.driver_id != $driverId AND drivers.user_id = :user_id"; 
 
-    $assignedTricycleCinIds = $driverModel->query($query);
+    $assignedTricycleCinIds = $driverModel->query($query, [':user_id' => $_SESSION['USER']->user_id]);
 
     if (is_array($assignedTricycleCinIds)) {
       $assignedTricycleCinIds = array_map(function($result) {
@@ -65,6 +65,12 @@ class Edit_driver {
 
     // Filter out the unassigned tricycle plate CIN numbers
     $unassignedTricycleCinNumbers = array_diff($userTricycleCinIds, $assignedTricycleCinIds);
+
+    // Check if the current driver's tricycle CIN is active
+    if (in_array($driverData->tricycle_cin_number_id, $assignedTricycleCinIds)) {
+      set_flash_message("Unable to proceed with driver details editing. Please note that the<br> associated tricycle CIN currently has an active driver. To proceed with <br>editing, kindly make the associated driver inactive.", "error");
+      redirect('drivers');
+    }
 
     $data['selectedCinNumberId'] = $driverData->tricycle_cin_number_id;
 

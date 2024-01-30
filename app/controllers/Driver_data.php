@@ -2,41 +2,62 @@
 
 class Driver_data
 {
-    public function index()
-    {
-        header('Content-Type: application/json');
+  public function index()
+  {
+    header('Content-Type: application/json');
 
-        $tricycleCinId = $_POST['tricycle_cin_number_id'] ?? '';
+    $userId = $_SESSION['USER']->user_id ?? null;
 
-        if ($tricycleCinId) {
-            $tricycleCinModel = new TricycleCinNumber();
-            $driverModel = new Driver();
+    if ($userId) {
+      $tricycleCinId = $_POST['tricycle_cin_number_id'] ?? '';
 
-            $cinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleCinId]);
+      if ($tricycleCinId) {
+        $tricycleCinModel = new TricycleCinNumber();
+        $driverModel = new Driver();
 
-            if ($cinData) {
-                $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
+        $cinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleCinId]);
 
-                $driverData = $driverModel->query($query, [':tricycle_cin_id' => $tricycleCinId]);
+        if ($cinData) {
+          $query = "SELECT drivers.* 
+                    FROM drivers 
+                    JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id 
+                    WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id 
+                    AND driver_statuses.status = 'Active'
+                    AND drivers.user_id = :user_id";
 
-                $response = [
-                    'success' => true,
-                    'data' => [
-                        'driverData' => $driverData,
-                    ],
-                ];
+          $driverData = $driverModel->query($query, [
+            ':tricycle_cin_id' => $tricycleCinId,
+            ':user_id' => $userId
+          ]);
 
-                echo json_encode($response);
-                exit;
-            }
+          $response = [
+            'success' => true,
+            'data' => [
+              'driverData' => $driverData,
+            ],
+          ];
+
+          echo json_encode($response);
+          exit;
         }
+      }
 
-        $errorResponse = [
-            'success' => false,
-            'message' => 'Error fetching data',
-        ];
+      $errorResponse = [
+        'success' => false,
+        'message' => 'Error fetching data',
+      ];
 
-        echo json_encode($errorResponse);
-        exit;
+      echo json_encode($errorResponse);
+      exit;
+    } else {
+      // Handle case where user ID is not found in session
+      $errorResponse = [
+        'success' => false,
+        'message' => 'User session not found',
+      ];
+
+      echo json_encode($errorResponse);
+      exit;
     }
+  }
 }

@@ -28,13 +28,9 @@ class Drivers
     // Convert array of tricycle CIN numbers to comma-separated string
     $userTricycleCinIdsString = implode(',', $userTricycleCinIds);
 
-    $query = "SELECT DISTINCT drivers.tricycle_cin_number_id
-              FROM drivers
-              JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id
-              WHERE drivers.tricycle_cin_number_id IN ($userTricycleCinIdsString)
-              AND driver_statuses.status = 'Active'";
+    $query = "SELECT DISTINCT drivers.tricycle_cin_number_id FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id IN ($userTricycleCinIdsString) AND driver_statuses.status = 'Active' AND drivers.user_id = :user_id";
 
-    $assignedTricycleCinIds = $driverModel->query($query);
+    $assignedTricycleCinIds = $driverModel->query($query, [':user_id' => $_SESSION['USER']->user_id]);
 
     if (is_array($assignedTricycleCinIds)) {
       $assignedTricycleCinIds = array_map(function($result) {
