@@ -13,6 +13,7 @@ class Tricycles
 
     $statusFilter = $_GET['status'] ?? 'all';
     $routeAreaFilter = $_GET['route_area'] ?? 'all';
+    $userId = $_GET['user_id'] ?? null;
 
     $tricycleModel = new Tricycle();
     $userModel = new User();
@@ -28,11 +29,16 @@ class Tricycles
     $data['routeAreaFilter'] = $routeAreaFilter;
 
     if ($_SESSION['USER']->role === 'admin') {
-      // Fetch all tricycles data for Admin
-      if ($statusFilter === 'all' && $routeAreaFilter === 'all') {
-        $tricyclesData = $tricycleModel->findAll();
+      // Fetch tricycles data based on the user ID if provided, or apply other filters
+      if ($userId !== null) {
+        $tricyclesData = $tricycleModel->getTricyclesForAdminWithSpecificUser($userId, $statusFilter);
       } else {
-        $tricyclesData = $tricycleModel->getTricyclesForAdmin($statusFilter, $routeAreaFilter);
+        // Fetch all tricycles data for Admin
+        if ($statusFilter === 'all' && $routeAreaFilter === 'all') {
+          $tricyclesData = $tricycleModel->findAll();
+        } else {
+          $tricyclesData = $tricycleModel->getTricyclesForAdmin($statusFilter, $routeAreaFilter);
+        }
       }
     } else {
       // Fetch tricycles data based on the user ID for non-Admin users

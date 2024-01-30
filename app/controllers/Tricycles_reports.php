@@ -30,15 +30,19 @@ class Tricycles_reports
           $droppedTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Dropped']);
           $renewalRequiredTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Renewal Required']);
           $changeMotorRequiredTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Change Motor Required']);
-  
-  
+          $expiredRenewalTricycles = $tricycleStatusesModel->countWithPattern(['user_id' => $operator->user_id, 'status' => 'Expired Renewal%']);
+          $expiredMotorTricycles = $tricycleStatusesModel->countWithPattern(['user_id' => $operator->user_id, 'status' => 'Expired Motor%']);
+
           $data['tricycleReports'][] = [
+            'user_id' => $operator->user_id,
             'operator_name' => $operator->first_name . ' ' . $operator->last_name,
             'total_tricycles' => $totalTricycles,
             'active_tricycles' => $activeTricycles,
             'dropped_tricycles' => $droppedTricycles,
             'renewal_required_tricycles' => $renewalRequiredTricycles,
             'change_motor_required_tricycles' => $changeMotorRequiredTricycles,
+            'expired_renewal_tricycles' => $expiredRenewalTricycles,
+            'expired_motor_tricycles' => $expiredMotorTricycles,
           ];
         }
       }
@@ -62,7 +66,6 @@ class Tricycles_reports
 
       downloadCsv($csvData, 'Tricycle_Reports_Export');
     }
-
 
     echo $this->renderView('tricycles_reports', true, $data);
   }

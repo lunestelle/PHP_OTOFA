@@ -21,9 +21,19 @@ class Renewal_of_franchise
     $appointmentModel = new Appointment();
     $tricycleApplicationModel = new TricycleApplication();
     $mtopRequirementModel = new MtopRequirement();
+    $tricycleStatusesModel = new TricycleStatuses();
 
     $cinData = $tricycleCinModel->first(['cin_number' => $tricycleCin]);
     $existingTricycleData = $tricycleModel->first(['cin_id' => $cinData->tricycle_cin_number_id]);
+    
+    $tricycleStatusesData = $tricycleStatusesModel->where(['tricycle_id' => $existingTricycleData->tricycle_id]);
+    
+    $statuses = [];
+    foreach ($tricycleStatusesData as $statusData) {
+      $statuses[] = $statusData->status;
+    }
+    
+    $data['tricycle_statuses'] = $statuses;
 
     $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
     $data['driverData'] = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);

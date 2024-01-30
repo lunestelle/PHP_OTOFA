@@ -10,7 +10,7 @@ $(document).ready(function () {
           (currentUrl.href.includes('new_tricycle') ||
             currentUrl.href.includes('edit_tricycle') ||
             currentUrl.href.includes('view_tricycle')) &&
-          linkUrl.includes('tricycles')
+          linkUrl.includes('tricycles') && !linkUrl.includes('tricycles_reports')
         ) ||
         (
           (currentUrl.href.includes('new_driver') ||
@@ -48,11 +48,11 @@ $(document).ready(function () {
         ) ||
         (
           currentUrl.href.includes('tricycles?status') &&
-          linkUrl.includes('tricycles')
+          linkUrl.includes('tricycles') && !linkUrl.includes('tricycles_reports')
         ) ||
         (
           currentUrl.href.includes('tricycles?route_area') &&
-          linkUrl.includes('tricycles')
+          linkUrl.includes('tricycles') && !linkUrl.includes('tricycles_reports')
         ) ||
         (currentUrl.href.includes('maintenance_tracker') && linkUrl.includes('maintenance_tracker')
         ) ||

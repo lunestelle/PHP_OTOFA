@@ -24,48 +24,74 @@ class Tricycle
 
   public function getTricyclesForAdmin($statusFilter, $routeAreaFilter)
   {
-      $params = [];
-  
-      $query = "SELECT * FROM {$this->table} WHERE 1 ";
-  
-      if ($statusFilter !== 'all') {
-          $query .= "AND tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status = :status) ";
-          $params[':status'] = $statusFilter;
+    $params = [];
+
+    $query = "SELECT * FROM {$this->table} WHERE 1 ";
+
+    if ($statusFilter !== 'all') {
+      // Adjust the condition for pattern matching
+      if ($statusFilter == 'Expired Motor' || $statusFilter == 'Expired Renewal') {
+        $query .= "AND tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status LIKE :status) ";
+        $params[':status'] = $statusFilter . '%';
+      } else {
+        // Normal status filtering
+        $query .= "AND tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status = :status) ";
+        $params[':status'] = $statusFilter;
       }
-  
-      if ($routeAreaFilter !== 'all') {
-          $query .= "AND tricycle_application_id IN (SELECT tricycle_application_id FROM tricycle_applications WHERE route_area = :routeArea) ";
-          $params[':routeArea'] = $routeAreaFilter;
-      }
-  
-      return $this->query($query, $params);
+    }
+
+    if ($routeAreaFilter !== 'all') {
+      $query .= "AND tricycle_application_id IN (SELECT tricycle_application_id FROM tricycle_applications WHERE route_area = :routeArea) ";
+      $params[':routeArea'] = $routeAreaFilter;
+    }
+
+    return $this->query($query, $params);
   }
-  
+
+  public function getTricyclesForAdminWithSpecificUser($userId, $statusFilter)
+  {
+    $params = [':userId' => $userId];
+    $query = "SELECT * FROM {$this->table} WHERE user_id = :userId ";
+
+    if ($statusFilter !== 'all') {
+      if ($statusFilter == 'Expired Motor' || $statusFilter == 'Expired Renewal') {
+        $query .= "AND tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status LIKE :status) ";
+        $params[':status'] = $statusFilter . '%';
+      } else {
+        $query .= "AND tricycle_id IN (SELECT tricycle_id FROM tricycle_statuses WHERE status = :status) ";
+        $params[':status'] = $statusFilter;
+      }
+    }
+
+    return $this->query($query, $params);
+  }
 
   public function getTricyclesForUser($userId, $statusFilter, $routeAreaFilter)
   {
-      $params = [':userId' => $userId];
-      $query = "SELECT DISTINCT t.* 
-                FROM {$this->table} t
-                JOIN tricycle_applications ta ON t.tricycle_application_id = ta.tricycle_application_id
-                LEFT JOIN tricycle_statuses ts ON t.tricycle_id = ts.tricycle_id
-                WHERE t.user_id = :userId ";
-  
-      if ($statusFilter !== 'all') {
-          $query .= "AND ts.status = :status ";
-          $params[':status'] = $statusFilter;
-      }
-  
-      if ($routeAreaFilter !== 'all') {
-          $query .= "AND ta.route_area = :routeArea ";
-          $params[':routeArea'] = $routeAreaFilter;
-      }
-  
-      return $this->query($query, $params);
-  }
-  
-  
+    $params = [':userId' => $userId];
+    $query = "SELECT DISTINCT t.* 
+            FROM {$this->table} t
+            JOIN tricycle_applications ta ON t.tricycle_application_id = ta.tricycle_application_id
+            LEFT JOIN tricycle_statuses ts ON t.tricycle_id = ts.tricycle_id
+            WHERE t.user_id = :userId ";
 
-  
-  
+    if ($statusFilter !== 'all') {
+      if ($statusFilter == 'Expired Motor' || $statusFilter == 'Expired Renewal') {
+        // Adjust the condition for pattern matching
+        $query .= "AND ts.status LIKE :status ";
+        $params[':status'] = $statusFilter . '%';
+      } else {
+        // Normal status filtering
+        $query .= "AND ts.status = :status ";
+        $params[':status'] = $statusFilter;
+      }
+    }
+
+    if ($routeAreaFilter !== 'all') {
+      $query .= "AND ta.route_area = :routeArea ";
+      $params[':routeArea'] = $routeAreaFilter;
+    }
+
+    return $this->query($query, $params);
+  }
 }

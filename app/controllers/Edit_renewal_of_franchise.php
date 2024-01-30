@@ -15,6 +15,8 @@ class Edit_renewal_of_franchise
     $appointmentModel = new Appointment();
     $tricycleApplicationModel = new TricycleApplication();
     $tricycleCinNumberModel = new TricycleCinNumber();
+    $tricycleStatusesModel = new TricycleStatuses();
+    $tricycleModel = new Tricycle();
 
     $appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
     $appointmentData = $appointmentModel->first(['appointment_id' => $appointmentId]);
@@ -41,6 +43,23 @@ class Edit_renewal_of_franchise
     $mtopRequirementModel = new MtopRequirement();
     $mtopRequirementData = $mtopRequirementModel->first(['appointment_id' => $appointmentId]);
     $mtopRequirementId = $mtopRequirementData->mtop_requirement_id;
+
+    $existingTricycleData = $tricycleModel->first(['cin_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+
+    if (!empty($existingTricycleData)) {
+      $tricycleStatusesData = $tricycleStatusesModel->where(['tricycle_id' => $existingTricycleData->tricycle_id]);
+
+      if ($tricycleStatusesData) {
+        $statuses = [];
+        foreach ($tricycleStatusesData as $statusData) {
+          $statuses[] = $statusData->status;
+        }
+      } else {
+        $statuses = [];
+      }
+    } else {
+      $statuses = [];
+    }
 
     $data = [
       'name' => $appointmentData->name,
@@ -76,6 +95,7 @@ class Edit_renewal_of_franchise
       'cin_number' => $cinData->cin_number,
       'driverData' => $driverData,
       'driver_name' => $driver_name,
+      'tricycle_statuses' => $statuses,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

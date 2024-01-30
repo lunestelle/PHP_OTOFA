@@ -4,6 +4,13 @@
       <h6 class="title-head">Schedule New Appointment</h6>
     </div>
     <div class="col-lg-12 mt-2">
+      <?php if ($userRole === 'operator'): ?>  
+        <div class="row">
+          <div class="col-12">
+            <p id="assessmentFeeText" class="text-muted fw-bold fst-italic"></p>
+          </div>
+        </div>
+      <?php endif; ?>
       <div class="row">
         <div class="col-12 pt-2">
           <div class="container pt-3">
@@ -243,8 +250,28 @@
       let selectedColorCode = $(this).val();
       let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
       $("#route_area").val(selectedRouteArea);
+
+      // Update assessment fee text based on the selected route area
+      let assessmentFeeText = "";
+
+      switch (selectedRouteArea) {
+        case "Free Zone / Zone 1":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 route is ₱430.00.";
+          break;
+        case "Free Zone & Zone 2":
+        case "Free Zone & Zone 3":
+        case "Free Zone & Zone 4":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " route is ₱1,030.00.";
+          break;
+        default:
+          assessmentFeeText = "Please select a route area to view the assessment fee.";
+      }
+
+      // Display the assessment fee text
+      $("#assessmentFeeText").text(assessmentFeeText);
     });
 
+    // Scroll to the main appointment form in case of error
     let errorMessage = $(".flash-message.error");
     if (errorMessage.length > 0) {
       document.getElementById("mainAppointmentForm").scrollIntoView({

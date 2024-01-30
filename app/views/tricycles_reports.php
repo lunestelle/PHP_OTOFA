@@ -22,20 +22,24 @@
               <th scope="col" class="text-center">Dropped Tricycles</th>
               <th scope="col" class="text-center">Renewal Required Tricycles</th>
               <th scope="col" class="text-center">Change Motor Required Tricycles</th>
+              <th scope="col" class="text-center">Expired Renewal Tricycles</th>
+              <th scope="col" class="text-center">Expired Motor Tricycles</th>
             </tr>
           </thead>
           <tbody class="text-center text-capitalize">
-            <?php foreach ($tricycleReports as $report): ?>
-              <tr>
-                <td><?php echo $index++; ?></td>
-                <td><?php echo $report['operator_name']; ?></td>
-                <td><?php echo $report['total_tricycles']; ?></td>
-                <td><?php echo $report['active_tricycles']; ?></td>
-                <td><?php echo $report['dropped_tricycles']; ?></td>
-                <td><?php echo $report['renewal_required_tricycles']; ?></td>
-                <td><?php echo $report['change_motor_required_tricycles']; ?></td>
-              </tr>
-            <?php endforeach; ?>
+          <?php foreach ($tricycleReports as $report): ?>
+            <tr>
+              <td><?php echo $data['index']++; ?></td>
+              <td><?php echo $report['operator_name']; ?></td>
+              <td><a href="tricycles?user_id=<?php echo $report['user_id']; ?>"><?php echo $report['total_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Active&user_id=<?php echo $report['user_id']; ?>"><?php echo $report['active_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Dropped"><?php echo $report['dropped_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Renewal Required"><?php echo $report['renewal_required_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Change Motor Required"><?php echo $report['change_motor_required_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Expired Renewal"><?php echo $report['expired_renewal_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Expired Motor"><?php echo $report['expired_motor_tricycles']; ?></a></td>
+            </tr>
+          <?php endforeach; ?>
           </tbody>
         </table>
       </div>

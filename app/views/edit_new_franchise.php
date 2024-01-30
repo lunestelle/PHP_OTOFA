@@ -4,6 +4,13 @@
       <h6 class="title-head">Edit Scheduled Appointment</h6>
     </div>
     <div class="col-lg-12">
+      <?php if ($userRole === 'operator'): ?>  
+        <div class="row">
+          <div class="col-12">
+            <p id="assessmentFeeText" class="text-muted fw-bold fst-italic"></p>
+          </div>
+        </div>
+      <?php endif; ?>
       <div class="row">
         <div class="col-12 pt-2">
           <div class="container pt-3">
@@ -461,10 +468,33 @@
 </div>
 <script>
   $(document).ready(function () {
-    $("#color_code").change(function () {
-      let selectedColorCode = $(this).val();
+    function updateAssessmentFee() {
+      let selectedColorCode = $("#color_code").val();
       let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
       $("#route_area").val(selectedRouteArea);
+
+      let assessmentFeeText = "";
+
+      switch (selectedRouteArea) {
+        case "Free Zone / Zone 1":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱430.00.";
+          break;
+        case "Free Zone & Zone 2":
+        case "Free Zone & Zone 3":
+        case "Free Zone & Zone 4":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " Route is ₱1,030.00.";
+          break;
+        default:
+          assessmentFeeText = "Please select a route area to view the assessment fee.";
+      }
+
+      $("#assessmentFeeText").text(assessmentFeeText);
+    }
+
+    updateAssessmentFee();
+
+    $("#color_code").change(function () {
+      updateAssessmentFee();
     });
 
     let errorMessage = $(".flash-message.error");
@@ -474,31 +504,5 @@
         block: "start"
       });
     }
-  });
-
-  $(document).ready(function () {
-    $(".remove-image-btn").click(function () {
-      let imageType = $(this).data("image-type");
-      let originalImagePath = $(this).data("original-image");
-      
-      $("#imageTypeInput").val(imageType);
-      $("#originalImagePathInput").val(originalImagePath);
-    });
-  });
-
-  $(document).ready(function () {
-    function toggleCommentsVisibility() {
-      const selectedStatus = $('#status').val();
-      const isAdmin = <?php echo $userRole === 'admin' ? 'true' : 'false'; ?>;
-      const showComments = isAdmin && selectedStatus === 'Rejected';
-      $('#rejection-comments-container').toggle(showComments);
-    }
-
-    toggleCommentsVisibility();
-
-    // Trigger toggle when the status dropdown value changes
-    $('#status').change(function () {
-      toggleCommentsVisibility();
-    });
   });
 </script>
