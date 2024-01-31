@@ -46,12 +46,12 @@
                   <td><?php echo $index++; ?></td>
                   <td><?php echo $report['operator_name']; ?></td>
                   <td><?php echo $report['phone_number']; ?></td>
-                  <td><a href="appointments?user_id=<?php echo $report['user_id']; ?>" style="color: green; font-weight: bold; text-decoration: none;"><?php echo $report['total_appointments']; ?></a></td>
-                  <td><a href="appointments?status=Pending&user_id=<?php echo $report['user_id']; ?>" style="color: green; font-weight: bold; text-decoration: none;"><?php echo $report['pending_appointments']; ?></a></td>
-                  <td><a href="appointments?status=Approved&user_id=<?php echo $report['user_id']; ?>" style="color: green; font-weight: bold; text-decoration: none;"><?php echo $report['approved_appointments']; ?></a></td>
-                  <td><a href="appointments?status=Rejected&user_id=<?php echo $report['user_id']; ?>" style="color: green; font-weight: bold; text-decoration: none;"><?php echo $report['rejected_appointments']; ?></a></td>
-                  <td><a href="appointments?status=On Process&user_id=<?php echo $report['user_id']; ?>" style="color: green; font-weight: bold; text-decoration: none;"><?php echo $report['on_process_appointments']; ?></a></td>
-                  <td><a href="appointments?status=Completed&user_id=<?php echo $report['user_id']; ?>" style="color: green; font-weight: bold; text-decoration: none;"><?php echo $report['completed_appointments']; ?></a></td>
+                  <td><a href="appointments?user_id=<?php echo $report['user_id']; ?>" style="color: #FF4200; font-weight: bold; text-decoration: none;"><?php echo $report['total_appointments']; ?></a></td>
+                  <td><a href="appointments?status=Pending&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['pending_appointments']; ?></a></td>
+                  <td><a href="appointments?status=Approved&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['approved_appointments']; ?></a></td>
+                  <td><a href="appointments?status=Rejected&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['rejected_appointments']; ?></a></td>
+                  <td><a href="appointments?status=On Process&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['on_process_appointments']; ?></a></td>
+                  <td><a href="appointments?status=Completed&user_id=<?php echo $report['user_id']; ?>" style="color: blue; font-weight: bold; text-decoration: none;"><?php echo $report['completed_appointments']; ?></a></td>
                   <?php if ($selectedFilter == 'all'): ?>
                     <td><?php echo $report['year']; ?></td>
                   <?php endif; ?>
