@@ -28,13 +28,13 @@
                   </a>
                 <?php } ?>
                 <a href="./appointments?status=pending" class="text-black">
-                 <div class="overview-container">
+                  <div class="overview-container">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-clock fa-2xl" style="color: #ffffff; margin-right: 4px;"></i>
                     <h5><?php echo $userPendingAppointmentCount; ?></h5>
                     <p>Pending Appointments</p>
                   </div>
-                 </a>
+                </a>
               </div>
             </div>
           </div>
@@ -59,13 +59,13 @@
                   </div>
                 </a>
                 <a href="./appointments?status=pending" class="text-black">
-                 <div class="overview-container mt-3">
+                  <div class="overview-container mt-3">
                     <div class="image-bg rounded-circle"> </div>
                     <i class="fa-solid fa-clock fa-2xl" style="color: #ffffff; margin-right: 4px;"></i>
                     <h5><?php echo $pendingAppointmentCount; ?></h5>
                     <p>Pending Appointments</p>
                   </div>
-                 </a>
+                </a>
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@
         <div class="row">
           <div class="col-12">
             <div class="d-block container-code mt-3 color-code-container animate">
-              <a href="red_trike_info"  class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
+              <a href="red_trike_info" class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
                 <div class="color-code-red d-flex">
                   <div class="col-2">
                     <div class="mt-2 center">
@@ -95,7 +95,7 @@
                   </div>
                 </div>
               </a>
-              <a href="blue_trike_info"  class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
+              <a href="blue_trike_info" class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
                 <div class="color-code-blue d-flex mt-3">
                   <div class="col-2">
                     <div class="mt-2 center">
@@ -110,7 +110,7 @@
                   </div>
                 </div>
               </a>
-              <a href="yellow_trike_info"  class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
+              <a href="yellow_trike_info" class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
                 <div class="color-code-yellow d-flex mt-3">
                   <div class="col-2">
                     <div class="mt-2">
@@ -125,7 +125,7 @@
                   </div>
                 </div>
               </a>
-              <a href="green_trike_info"  class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
+              <a href="green_trike_info" class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
                 <div class="color-code-green d-flex mt-3">
                   <div class="col-2">
                     <div class="mt-2 center">
@@ -150,21 +150,19 @@
         </div>
         <div class="row">
           <div class="col-12">
-           <div class="bg-white">
-             <div class="mt-2">
-                <h6>Fare Rate (<?php echo min($data['years']) . '-' . max($data['years']); ?>)</h6>
+            <div class="bg-white">
+              <div class="mt-2">
+                <h6>Fare Rate (<?php $minYear = min($data['years']); $maxYear = max($data['years']); echo $minYear == $maxYear ? $minYear : $minYear . '-' . $maxYear; ?>)</h6>
                 <canvas id="myChart"></canvas>
                 <script>
                   let phpData = <?php echo $data['ratesByYear']; ?>;
                   let regularData = [];
-                  let studentData = [];
-                  let seniorAndPwdData = [];
+                  let discountedData = [];
                   let years = <?php echo json_encode($data['years']); ?>;
 
                   years.forEach(function (year) {
-                    regularData.push(phpData[year][1]['regular_rate']);
-                    studentData.push(phpData[year][1]['student_rate']);
-                    seniorAndPwdData.push(phpData[year][1]['senior_and_pwd_rate']);
+                    regularData.push(phpData[year][1]['regular_fare']);
+                    discountedData.push(phpData[year][1]['discounted_fare']);
                   });
 
                   let ctx = document.getElementById('myChart').getContext('2d');
@@ -174,7 +172,7 @@
                       labels: years,
                       datasets: [
                         {
-                          label: 'Regular Rate',
+                          label: 'Regular Fare',
                           data: regularData,
                           borderColor: 'rgba(75, 192, 192, 1)',
                           borderWidth: 2,
@@ -182,19 +180,11 @@
                           fill: false,
                         },
                         {
-                          label: 'Student Rate',
-                          data: studentData,
+                          label: 'Discounted Fare',
+                          data: discountedData,
                           borderColor: 'rgba(255, 99, 132, 1)',
                           borderWidth: 2,
                           backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                          fill: false,
-                        },
-                        {
-                          label: 'Senior and PWD Rate',
-                          data: seniorAndPwdData,
-                          borderColor: 'rgba(255, 205, 86, 1)',
-                          borderWidth: 2,
-                          backgroundColor: 'rgba(255, 205, 86, 0.2)',
                           fill: false,
                         },
                       ],
@@ -216,9 +206,10 @@
                         }
                       }
                     }
-                });
-              </script>
-           </div>
+                  });
+                </script>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -240,13 +231,13 @@
     });
 
     $(document).ready(function() {
-    // Add a function to set the background color of the tooltip
-    $('.custom-tooltip-container').on('shown.bs.tooltip', function() {
-      $('.tooltip-inner').css('background-color', '#FF4200');
-    });
+      // Add a function to set the background color of the tooltip
+      $('.custom-tooltip-container').on('shown.bs.tooltip', function() {
+        $('.tooltip-inner').css('background-color', '#FF4200');
+      });
 
-    // Initialize Bootstrap tooltips
-    $('[data-bs-toggle="tooltip"]').tooltip();
-  });
+      // Initialize Bootstrap tooltips
+      $('[data-bs-toggle="tooltip"]').tooltip();
+    });
   </script>
 </main>

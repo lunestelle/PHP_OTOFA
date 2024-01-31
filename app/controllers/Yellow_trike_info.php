@@ -6,6 +6,13 @@ class Yellow_trike_info
 
   public function index()
   {
-    echo $this->renderView('yellow_trike_info', true);
+    $data = [];
+
+    $zone = "Free Zone & Zone 3";
+
+    $taripaModel = new Taripas();
+    $data['routeAreas'] = $taripaModel->getRouteAreasByZone($zone);
+    $data['zone'] = $zone;
+    echo $this->renderView('yellow_trike_info', true, $data);
   }
 }

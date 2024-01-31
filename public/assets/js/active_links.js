@@ -60,6 +60,9 @@ $(document).ready(function () {
         (
           (currentUrl.href.includes('inquiries?message_status') || currentUrl.href.includes('inquiries?response_status')) && linkUrl.includes('inquiries')
         ) ||
+        (
+          (currentUrl.href.includes('dashboard') || currentUrl.href.includes('red_trike_info') || currentUrl.href.includes('blue_trike_info') || currentUrl.href.includes('yellow_trike_info') || currentUrl.href.includes('green_trike_info')) && linkUrl.includes('dashboard')
+        ) ||
   
         (userRole === 'admin' && currentUrl.href.includes('view_driver') && linkUrl.includes('operators')) ||
         (userRole === 'operator' && currentUrl.href.includes('view_driver') && linkUrl.includes('drivers'));
@@ -71,37 +74,6 @@ $(document).ready(function () {
       }
     });
   });
- 
-  const setActiveLink = (keyword, href) => {
-    if (currentUrl.href.includes(keyword)) {
-      $('.sidebar a[href="' + href + '"]').addClass('nav-link-active');
-    } else if (currentUrl.href.includes(keyword) && keyword === 'appointments' && currentUrl.searchParams.has('startDate') && currentUrl.searchParams.has('endDate')) {
-      // Check for 'appointments' with startDate and endDate
-      $('.sidebar a[href="' + href + '"]').addClass('nav-link-active');
-    }
-  };
-
-  
-
-  setActiveLink('red_trike_info', 'dashboard');
-  setActiveLink('blue_trike_info', 'dashboard');
-  setActiveLink('yellow_trike_info', 'dashboard');
-  setActiveLink('green_trike_info', 'dashboard');
-  setActiveLink('tricycles?status=active', 'tricycles');
-  setActiveLink('appointments?status=pending', 'appointments');
-  // setActiveLink('appointments', 'appointments');
-  setActiveLink('new_franchise', 'appointments');
-  setActiveLink('edit_new_franchise', 'appointments');
-  setActiveLink('renewal_of_franchise', 'appointments');
-  setActiveLink('edit_renewal_of_franchise', 'appointments');
-  setActiveLink('change_of_motorcycle', 'appointments');
-  setActiveLink('edit_change_of_motorcycle', 'appointments');
-  setActiveLink('transfer_of_ownership', 'appointments');
-  setActiveLink('edit_transfer_of_ownership', 'appointments');
-  setActiveLink('intent_of_transfer', 'appointments');
-  setActiveLink('edit_intent_of_transfer', 'appointments');
-  setActiveLink('ownership_transfer_from_deceased_owner', 'appointments');
-  setActiveLink('edit_ownership_transfer_from_deceased_owner', 'appointments');
 
   function getUserRoleFromServer(callback) {
     $.ajax({
