@@ -375,7 +375,7 @@ class Appointment
 
     $whereClause = '';
 
-    if ($statusFilter !== '') {
+    if ($statusFilter !== 'all') {
       $whereClause .= " AND status = :statusFilter";
       $params[':statusFilter'] = $statusFilter;
     }
