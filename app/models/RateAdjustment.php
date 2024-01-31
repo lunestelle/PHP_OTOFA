@@ -9,7 +9,7 @@ class RateAdjustment
     'rate_adjustment_id',
     'rate_action',
     'percentage',
-    'effective_year',
+    'effective_date',
     'previous_year',
     'created_at'
   ];
@@ -19,7 +19,7 @@ class RateAdjustment
   {
     $errors = [];
 
-    $requiredFields = ['rate_action', 'percentage', 'effective_year', 'previous_year'];
+    $requiredFields = ['rate_action', 'percentage', 'effective_date', 'previous_year'];
 
     foreach ($requiredFields as $field) {
       if (!isset($data[$field]) || empty($data[$field])) {

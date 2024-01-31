@@ -10,9 +10,6 @@
             <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
           </div>
         <?php endif; ?>
-        <div class="col-12 text-end">
-          <button class="btn-print" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
-        </div>
         <div class="col-6">
           <label for="routeAreaFilter" class="fw-bold" style="font-size: 13px;">Filter Route Area:</label>
           <select id="routeAreaFilter" class="form-select" style="height: 35px; font-size: 14px;">
@@ -35,36 +32,37 @@
     </div>
     
     <div class="col-12">
+      <button class="sidebar-btnContent text-uppercase" style="position: absolute; top: 7px; right: 255px;" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
       <?php if (!empty($taripas)): ?>
         <div class="mt-3 text-end">
           <form method="post" action="">
             <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-taripa">Export as CSV</button>
-          </form>
+          </form>    
         </div>
       <?php endif; ?>
       <div class="table-responsive pt-3">
         <table class="table table-hover" id="systemTable">
           <thead>
             <tr class="text-uppercase">
+              <th scope="col" class="text-center">#</th>
               <?php if ($selectedFilter === 'All'): ?>
                 <th scope="col" class="text-center">Route Area</th>
               <?php endif; ?>
               <th scope="col" class="text-center">Barangay</th>
-              <th scope="col" class="text-center">Regular Rate</th>
-              <th scope="col" class="text-center">Student Rate</th>
-              <th scope="col" class="text-center">Senior Citizen & PWD Rate</th>
+              <th scope="col" class="text-center">Regular Fare</th>
+              <th scope="col" class="text-center">Discounted Fare</th>
             </tr>
           </thead>
           <tbody class="text-center">
             <?php foreach ($taripas as $taripa): ?>
               <tr>
+                <td><?php echo $index++; ?></td>
                 <?php if ($selectedFilter === 'All'): ?>
                   <td><?php echo $taripa['route_area']; ?></td>
                 <?php endif; ?>
                 <td><?php echo $taripa['barangay']; ?></td>
-                <td><?php echo '₱' . number_format($taripa['regular_rate'], 2, '.', ''); ?></td>
-                <td><?php echo '₱' . number_format($taripa['student_rate'], 2, '.', ''); ?></td>
-                <td><?php echo '₱' . number_format($taripa['senior_and_pwd_rate'], 2, '.', ''); ?></td>
+                <td><?php echo '₱' . number_format($taripa['regular_fare'], 2, '.', ''); ?></td>
+                <td><?php echo '₱' . number_format($taripa['discounted_fare'], 2, '.', ''); ?></td>
               </tr>
             <?php endforeach; ?>   
           </tbody>
@@ -129,7 +127,8 @@
         let doc = printFrame.contentDocument || printFrame.contentWindow.document;
         doc.open();
 
-        doc.write('<html><head><style>@media print { @page { size: legal !important; margin: 0.5cm; } body { color: black !important; } .label { display: inline-block; width: 250px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 1px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>');
+        doc.write('<html><head><style>@media print { @page { size: legal !important; margin: 0.1cm !important; } body { color: black !important; margin: 0.1cm !important; } .label { display: inline-block; width: 250px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 1px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>');
+
 
         doc.write(data);
         doc.write('</body></html>');
