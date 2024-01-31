@@ -12,15 +12,28 @@
                 <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
               </form>
             </div>
-          
-            <div class="col-6 mt-3">
-              <label for="yearFilter" class="fw-bold" style="font-size: 13px;">Filter By Year:</label>
-              <select id="yearFilter" class="form-select" style="height: 35px; font-size: 14px;">
-                <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
-                <?php foreach ($years as $year): ?>
-                  <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
-                <?php endforeach; ?>
-              </select>
+            <div class="row mt-2">
+              <?php if ($userRole === 'admin'): ?>
+                <div class="col-6">
+                  <label for="operatorNameFilter" class="fw-bold" style="font-size: 13px;">Filter By Operators Name:</label>
+                  <select id="operatorNameFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                    <option value="all" <?php echo ($selectedOperatorName == 'all') ? 'selected' : ''; ?>>All</option>
+                    <?php foreach ($operators as $operator): ?>
+                      <option value="<?php echo $operator->operator_name; ?>" <?php echo ($operator->operator_name == $selectedOperatorName) ? 'selected' : ''; ?>><?php echo $operator->operator_name; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              <?php endif; ?>
+
+              <div class="col-6">
+                <label for="yearFilter" class="fw-bold" style="font-size: 13px;">Filter By Year:</label>
+                <select id="yearFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                  <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
+                  <?php foreach ($years as $year): ?>
+                    <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
             </div>
           <?php endif; ?>
           <div class="table-responsive pt-4">
@@ -29,7 +42,9 @@
                 <tr class="text-uppercase">
                   <th scope="col" class="text-center">#</th>
                   <th scope="col" class="text-center">Tricyle CIN</th>
-                  <th scope="col" class="text-center">Operator's Name</th>
+                  <?php if ($userRole === 'admin'): ?>  
+                    <th scope="col" class="text-center">Operator's Name</th>
+                  <?php endif; ?>
                   <th scope="col" class="text-center">Driver's Name</th>
                   <th scope="col" class="text-center"><?php echo ($selectedFilter == 'all') ? 'Total Expenses' : 'Yearly Total Expenses'; ?></th>
                   <th scope="col" class="text-center">View Calculations</th>
@@ -41,7 +56,9 @@
                     <tr>
                     <td><?php echo $index++; ?></td>
                     <td><?php echo $maintenance->cin_number; ?></td>
-                    <td><?php echo $maintenance->operator_name; ?></td>
+                    <?php if ($userRole === 'admin'): ?> 
+                      <td><?php echo $maintenance->operator_name; ?></td>
+                    <?php endif; ?>
                     <td><?php echo empty($maintenance->driver_name) ? '----------------' : $maintenance->driver_name; ?></td>
                     <td><?php echo '₱' . number_format($maintenance->yearly_total_expenses, 2); ?></td>
                     <td><a class="view-maintenance-tracker-btn" onclick="viewCalculations(<?php echo $maintenance->year; ?>, '<?php echo $maintenance->cin_number; ?>')">View</a></td>
@@ -57,24 +74,38 @@
   </div>
 </main>
 <script>
-function viewCalculations(year, cin) {
-  const selectedYear = $("#yearFilter").val();
-  if (selectedYear === "all") {
-    window.location.href = "view_calculations?cin=" + cin;
-  } else {
-    window.location.href = "view_calculations?year=" + selectedYear + "&cin=" + cin;
+  function viewCalculations(year, cin) {
+    const selectedYear = $("#yearFilter").val();
+    if (selectedYear === "all") {
+      window.location.href = "view_calculations?cin=" + cin;
+    } else {
+      window.location.href = "view_calculations?year=" + selectedYear + "&cin=" + cin;
+    }
   }
-}
 
   $(document).ready(function () {
-    $("#yearFilter").change(function () {
-      const selectedYear = $("#yearFilter").val();
-      if (selectedYear === 'all') {
-        // Redirect to the page without a specific year filter
-        window.location.href = "maintenance_tracker";
-      } else {
-        window.location.href = "maintenance_tracker?year=" + selectedYear;
-      }
-    });
+  $("#operatorNameFilter, #yearFilter").change(function () {
+    const selectedOperator = $("#operatorNameFilter").val();
+    const selectedYear = $("#yearFilter").val();
+    
+    let queryParams = [];
+
+    // Check if the user is an admin before including operator name in the URL
+    if ('<?php echo $userRole ?>' === 'admin' && selectedOperator !== 'all' && selectedOperator !== '' && selectedOperator !== null) {
+      queryParams.push('operator_name=' + encodeURIComponent(selectedOperator));
+    }
+    if (selectedYear !== 'all') {
+      queryParams.push('year=' + encodeURIComponent(selectedYear));
+    }
+
+    let queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+    // Construct the base URL based on the user's role
+    let baseUrl = "<?php echo ($userRole === 'admin') ? 'maintenance_tracker' : 'maintenance_tracker'; ?>";
+
+    window.location.href = baseUrl + queryString;
   });
+});
+
+
 </script>

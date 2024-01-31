@@ -56,31 +56,49 @@ class MaintenanceLog
     return $years;
   }
 
-  public function getMaintenanceData($selectedYear)
+  public function distinctOperators()
   {
-    $currentUserRole = $_SESSION['USER']->role;
-
-    // Check if the current user is an admin
-    if ($currentUserRole == 'admin') {
-      $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(expense_date) = '$selectedYear'" : "";
-    } elseif ($currentUserRole == 'operator') {
-      // Assuming the operator's user ID is retrievable via some function like get_current_user_id()
-      $userId = $_SESSION['USER']->user_id;
-      $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(expense_date) = '$selectedYear' AND tricycle_cin_numbers.user_id = '$userId'" : "WHERE tricycle_cin_numbers.user_id = '$userId'";
-    }
-
-    $query = "SELECT tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name) AS operator_name, CONCAT(drivers.first_name, ' ', drivers.middle_name, ' ', drivers.last_name) AS driver_name, YEAR(expense_date) AS year, SUM(total_expenses) AS yearly_total_expenses
-              FROM $this->table
-              JOIN tricycle_cin_numbers ON maintenance_logs.tricycle_cin_number_id = tricycle_cin_numbers.tricycle_cin_number_id
-              JOIN users ON tricycle_cin_numbers.user_id = users.user_id
-              LEFT JOIN drivers ON maintenance_logs.driver_id = drivers.driver_id
-              $whereClause
-              GROUP BY tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name), drivers.first_name
-              ORDER BY tricycle_cin_numbers.cin_number, MAX(expense_date) DESC";
+    $query = "SELECT DISTINCT CONCAT(users.first_name, ' ', users.last_name) AS operator_name FROM $this->table JOIN tricycle_cin_numbers ON maintenance_logs.tricycle_cin_number_id = tricycle_cin_numbers.tricycle_cin_number_id JOIN users ON tricycle_cin_numbers.user_id = users.user_id";
 
     return $this->query($query);
   }
 
+  public function getMaintenanceData($selectedYear)
+  {
+    $userId = $_SESSION['USER']->user_id;
+    $whereClause = ($selectedYear != 'all') ? "WHERE YEAR(expense_date) = '$selectedYear' AND tricycle_cin_numbers.user_id = '$userId'" : "WHERE tricycle_cin_numbers.user_id = '$userId'";
+
+    $query = "SELECT tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name) AS operator_name, CONCAT(drivers.first_name, ' ', drivers.middle_name, ' ', drivers.last_name) AS driver_name, YEAR(expense_date) AS year, SUM(total_expenses) AS yearly_total_expenses FROM $this->table JOIN tricycle_cin_numbers ON maintenance_logs.tricycle_cin_number_id = tricycle_cin_numbers.tricycle_cin_number_id JOIN users ON tricycle_cin_numbers.user_id = users.user_id LEFT JOIN drivers ON maintenance_logs.driver_id = drivers.driver_id $whereClause GROUP BY tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name), drivers.first_name ORDER BY tricycle_cin_numbers.cin_number, MAX(expense_date) DESC";
+
+    return $this->query($query);
+  }
+
+  public function getMaintenanceDataWithFilters($selectedYear, $selectedOperatorName)
+  {
+    $whereClause = '';
+
+    if ($selectedYear !== 'all') {
+      $whereClause .= " YEAR(expense_date) = '$selectedYear'";
+    }
+    if ($selectedOperatorName !== 'all') {
+      if (!empty($whereClause)) {
+        $whereClause .= " AND ";
+      }
+
+      $whereClause .= " CONCAT(users.first_name, ' ', users.last_name) = '$selectedOperatorName'";
+    }
+
+    $query = "SELECT tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name) AS operator_name, CONCAT(drivers.first_name, ' ', drivers.middle_name, ' ', drivers.last_name) AS driver_name, YEAR(expense_date) AS year, SUM(total_expenses) AS yearly_total_expenses FROM $this->table JOIN tricycle_cin_numbers ON $this->table.tricycle_cin_number_id = tricycle_cin_numbers.tricycle_cin_number_id JOIN users ON tricycle_cin_numbers.user_id = users.user_id LEFT JOIN drivers ON $this->table.driver_id = drivers.driver_id";
+
+    if (!empty($whereClause)) {
+      $query .= " WHERE $whereClause";
+    }
+
+    $query .= " GROUP BY tricycle_cin_numbers.cin_number, CONCAT(users.first_name, ' ', users.last_name), drivers.first_name ORDER BY tricycle_cin_numbers.cin_number, MAX(expense_date) DESC";
+
+    return $this->query($query);
+  }
+  
   public function getCalculationData($selectedYear, $tricycleCIN)
   {
     $whereClause = "";
@@ -88,12 +106,7 @@ class MaintenanceLog
       $whereClause = "AND YEAR(expense_date) = $selectedYear";
     }
 
-    $query = "SELECT YEAR(expense_date) as `year`, description, SUM(total_expenses) as total_expenses
-              FROM $this->table
-              WHERE tricycle_cin_number_id = $tricycleCIN
-              $whereClause
-              GROUP BY `year`, description
-              ORDER BY `year` DESC";
+    $query = "SELECT YEAR(expense_date) as `year`, description, SUM(total_expenses) as total_expenses FROM $this->table WHERE tricycle_cin_number_id = $tricycleCIN $whereClause GROUP BY `year`, description ORDER BY `year` DESC";
 
     return $this->query($query);
   }
