@@ -32,8 +32,8 @@
     </div>
     
     <div class="col-12">
-      <button class="sidebar-btnContent text-uppercase" style="position: absolute; top: 7px; right: 255px;" onclick="printAppointment(event)">Print</button>
-      <button id="downloadPdfButton" class="sidebar-btnContent text-uppercase" style="position: absolute; top: 7px; right: 345px;" onclick="downloadPdf()">Download PDF</button>
+      <button class="taripa-print text-uppercase" onclick="printAppointment(event)">Print</button>
+      <button id="downloadPdfButton" class="taripa-download-pdf text-uppercase" onclick="downloadPdf()">Download PDF</button>
       <?php if (!empty($taripas)): ?>
         <div class="mt-3 text-end">
           <form method="post" action="">

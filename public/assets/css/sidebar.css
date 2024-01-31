@@ -591,3 +591,37 @@ table > :not(caption) > * > * > :last-child {
   background-color: #EBB803 !important;
   color: black !important; /* You can adjust the text color as needed */
 }
+
+.taripa-download-pdf {
+  position: relative;
+  top: 20px;
+  padding: 4px 15px;
+  color: white;
+  background-color: #FF4200;
+  border: #FF4200 1px solid;
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.taripa-download-pdf:hover {
+  color: white;
+  background-color:  #ff8b61;
+}
+
+.taripa-print {
+  position: relative;
+  top: 20px;
+  padding: 4px 15px;
+  color: #FF4200;
+  background-color: white;
+  border: #FF4200 1px solid;
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.taripa-print:hover {
+  color: white;
+  background-color:  #ff8b61;
+}
