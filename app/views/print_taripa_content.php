@@ -2,23 +2,14 @@
   .logos {
     width: 80px;
     height: 80px;
-    margin-right: 130px;
   }
-  h3 {
-    letter-spacing: 3px;
+  h1 {
+    letter-spacing: 7px;
     margin-top: 30px;
+    font-weight: 800;
   }
-  .cin-container {
-    width: 120px;
-    height: 100px;
-    background-color: #eaeaea;
-    margin: 1rem;
-    border: 2px solid black;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 60px;
+  .taripa-date {
+    letter-spacing: 3px;
   }
   .first-container,
   .second-container {
@@ -51,16 +42,34 @@
     font-size: 12px;
     font-weight: 700;
   }
+  .powered-by {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    font-size: 12px;
+  }
+  .powered-by img {
+    width: 200px;
+  }
+  .customer-service {
+    font-size: 12px;
+  }
+  .customer-service .contacts {
+    line-height: 2px;
+  }
+
 </style>
 
 <div class="d-flex">
-  <div class="logos d-flex mt-4">
+  <div class="col-2 logos d-flex mt-4">
     <img src="public/assets/images/oc_logo.png" alt="">
-    <img src="public/assets/images/tdfro-logo.jpg" alt="">
   </div>
-  <div class="">
-    <h3><?php echo date('Y', strtotime($effective_date)); ?> TRICYCLE TARIPA</h3>
-    <p>City Ordinance No. 121 S. <?php echo date('Y', strtotime($effective_date)); ?> (Effective Date: <?php echo $effective_date; ?>)</p>
+  <div class="col-10">
+    <h1><?php echo date('Y', strtotime($effective_date)); ?> TRICYCLE TARIPA</h1>
+    <p class="taripa-date">City Ordinance No. 121 S. <?php echo date('Y', strtotime($effective_date)); ?> (Effective Date: <?php echo $effective_date; ?>)</p>
+  </div>
+  <div class="col-2 logos d-flex mt-4">
+    <img src="public/assets/images/tdfro-logo.jpg" alt="">
   </div>
 </div>
 
@@ -69,9 +78,9 @@
     <table>
       <thead>
         <tr>
-          <th class="px-5">ROUTES</th>
+          <th>ROUTES</th>
           <th>Regular Fare</th>
-          <th>Student Fare, Senior Citizen & PWD 20% (Discount)</th>
+          <th>20% (Discount)</th>
         </tr>
       </thead>
       <tbody>
@@ -84,7 +93,7 @@
         <?php endforeach; ?>
       </tbody>
     </table>
-    <div class="mt-2">
+    <div class="mt-4">
       <small>
         <p class="fw-bold text-start">Additional Fare:</p>
         <ol class="text-justify">
@@ -94,6 +103,12 @@
           <li>Addtional of <span class="fw-bold">₱10.00</span> on top of regular fare for night trips between 9:00 pm to 5:00 am outside the 2.5k radius (For Brgys. not mention above)</li>
         </ol>
       </small>
+      <div class="powered-by">
+        <div>
+          <p class="text-start fw-bold">Powered By:</p>
+        </div>
+        <img class="logo-home" src="public/assets/images/logo-email.png" alt="OTOFA Logo">
+      </div>
     </div>
   </div>
 
@@ -101,9 +116,9 @@
     <table>
       <thead>
         <tr>
-          <th class="px-5">ROUTES</th>
+          <th>ROUTES</th>
           <th>Regular Fare</th>
-          <th>Student Fare, Senior Citizen & PWD 20% (Discount)</th>
+          <th>20% (Discount)</th>
         </tr>
       </thead>
       <tbody>
@@ -116,9 +131,10 @@
         <?php endforeach; ?>
       </tbody>
     </table>
-    <div class="mt-4">
+    <div class="mt-2">
+      <i>***20% discount for Senior Citizen, Student and PWD</i>
       <small>
-        <p class="fw-bold text-start">Penal Provisions:</p>
+        <p class="fw-bold text-start mt-3">Penal Provisions:</p>
         <ol class="text-justify">
           <li>Refusal to accept passenger w/out valid reason - ₱800.00</li>
           <li>Overcharging beyond the Taripa Fare - ₱800.00</li>
@@ -132,5 +148,13 @@
         </ol>
       </small>
     </div>
+    <div class="customer-service mt-5">
+        <p class="text-uppercase text-start fw-bold">tdfro customer service contacts:</p>
+        <div class="text-start contacts">
+          <p>Tel. No.: (053) 255-7395 / 560-8140 local 1072</p>
+          <p>Mobile No.: 09955755468</p>
+          <p>Visit:  Visit: www.wlccicte.com/otofa.com</p>
+        </div>
+      </div>
   </div>
 </div>

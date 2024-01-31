@@ -156,12 +156,8 @@
           </p>
           <div class="mt-4">
             <!-- Facebook -->
-            <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-facebook-f"></i></a>
-            <!-- Twitter -->
-            <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-twitter"></i></a>
-            <!-- Google + -->
-            <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-google-plus-g"></i></a>
-            <!-- Linkedin -->
+            <a href="https://www.facebook.com/profile.php?id=100093952094602" type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-facebook-f"></i></a>
+      
           </div>
         </div>
         <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
@@ -186,16 +182,16 @@
           <div class="mt-2">
             <ul class="fa-ul" style="margin-left: 1.65em;">
               <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Aunubing St. Cogon, Ormoc City</span>
+                <span class="fa-li"><i class="fas fa-home fa-lg"></i></span><span class="ms-2">Aunubing St. Cogon, Ormoc City</span>
               </li>
               <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">info@otofa.com</span>
+                <span class="fa-li"><i class="fas fa-envelope fa-lg"></i></span><span class="ms-2">info@otofa.com</span>
               </li>
               <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">+ 561 2485 52416</span>
+                <span class="fa-li"><i class="fas fa-phone fa-lg"></i></span><span class="ms-2">(053) 255-7395 / 560-8140 local 1072</span>
               </li>
               <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-print"></i></span><span class="ms-2">+ 01 234 567 89</span>
+                <span class="fa-li"><i class="fa-solid fa-mobile-screen fa-lg"></i></span><span class="ms-2">09955755468</span>
               </li>
             </ul>
           </div>
@@ -223,8 +219,8 @@
       </div>
     </div>
     <div class="text-center p-1 mt-2" style="background-color: #FF4200;">
-      © 2023 Copyright:
-      <a class="text-white" href="#">wlcresearch2023.com</a>
+      © 2024 Copyright:
+      <a class="text-white" href="#team">wlcresearch2024.com</a>
     </div>
   </footer>
   <script>
