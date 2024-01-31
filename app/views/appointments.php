@@ -276,8 +276,8 @@
         html2pdf(styledData + data + '</body></html>', {
           margin: 0.1,
           filename: 'tricycle_application_form.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2 },
+          image: { type: 'png', quality: 0.98 },
+          html2canvas: { scale: 3 },
           jsPDF: { unit: 'in', format: 'legal', orientation: 'portrait' }
         });
       },
@@ -289,7 +289,7 @@
 
   $(document).ready(function () {
     $("#applyFilter").click(function (event) {
-      event.preventDefault(); // Prevent the default form submission
+      event.preventDefault();
 
       const startDate = $("#startDate").val();
       const endDate = $("#endDate").val();

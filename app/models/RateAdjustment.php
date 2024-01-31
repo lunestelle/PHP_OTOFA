@@ -29,4 +29,17 @@ class RateAdjustment
 
     return $errors;
   }
+
+  public function getYear($year) {
+    $query = "SELECT * FROM {$this->table} WHERE YEAR(effective_date) = :year";
+    $params = array(':year' => $year);
+  
+    $result = $this->query($query, $params);
+
+    if (!$result || empty($result)) {
+      return false; 
+    }
+
+    return $result[0];
+  }
 }

@@ -18,9 +18,10 @@
               </select>
             </div>
             <div class="col-4 px-3">
-              <label for="year">Enter Year:</label>
-              <input type="number" id="year" name="year" class="form-control" min="<?= $minYear ?>" max="<?= $currentYear ?>" value="<?= $year ?? '' ?>" required>
+              <label for="year">Enter Effective Date:</label>
+              <input type="date" id="year" name="year" class="form-control" min="<?= $minYear ?>-01-01" max="<?= $currentYear ?>-12-31" value="<?= $year ?? date('Y-m-d') ?>" required>
             </div>
+
             <div class="col-4 px-3">
               <label for="percentage">Enter Percentage:</label>
               <input type="number" id="percentage" name="percentage" class="form-control" min="1" max="100" step="1" value="<?= $percentage ?? '' ?>" required>
@@ -42,27 +43,25 @@
       <table class="table-bordered table-hover text-center" id="systemTable">
         <thead class="thead-custom">
           <tr class="text-uppercase">
+            <th scope="col" class="text-center">#</th>
             <th scope="col" class="text-center">Route Area</th>
             <th scope="col" class="text-center">Barangay</th>
-            <th scope="col" class="text-center">Previous Regular Rate</th>
-            <th scope="col" class="text-center">Previous Student Rate</th>
-            <th scope="col" class="text-center">Previous Senior & PWD Rate</th>
-            <th scope="col" class="text-center">New Regular Rate</th>
-            <th scope="col" class="text-center">New Student Rate</th>
-            <th scope="col" class="text-center">New Senior & PWD Rate</th>
+            <th scope="col" class="text-center">Previous Regular Fare</th>
+            <th scope="col" class="text-center">Previous Discounted Fare</th>
+            <th scope="col" class="text-center">New Regular Fare</th>
+            <th scope="col" class="text-center">New Discounted Fare</th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($calculatedRates as $rate): ?>
             <tr>
+              <td><?php echo $index++; ?></td>
               <td><?php echo $rate['route_area']; ?></td>
               <td><?php echo $rate['barangay']; ?></td>
-              <td><?php echo '₱' . number_format($rate['previous_regular_rate'], 2); ?></td>
-              <td><?php echo '₱' . number_format($rate['previous_student_rate'], 2); ?></td>
-              <td><?php echo '₱' . number_format($rate['previous_senior_and_pwd_rate'], 2); ?></td>
-              <td><?php echo '₱' . number_format($rate['new_regular_rate'], 2); ?></td>
-              <td><?php echo '₱' . number_format($rate['new_student_rate'], 2); ?></td>
-              <td><?php echo '₱' . number_format($rate['new_senior_and_pwd_rate'], 2); ?></td>
+              <td><?php echo '₱' . number_format($rate['previous_regular_fare'], 2); ?></td>
+              <td><?php echo '₱' . number_format($rate['previous_discounted_fare'], 2); ?></td>
+              <td><?php echo '₱' . number_format($rate['new_regular_fare'], 2); ?></td>
+              <td><?php echo '₱' . number_format($rate['new_discounted_fare'], 2); ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

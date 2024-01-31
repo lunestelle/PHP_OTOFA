@@ -86,9 +86,9 @@
       <tbody>
         <?php foreach ($first_container_data as $row): ?>
           <tr>
-            <td><?php echo $row->barangay; ?></td>
-            <td><?php echo $row->regular_fare; ?></td>
-            <td><?php echo $row->discounted_fare; ?></td>
+            <td><?php echo $row['barangay']; ?></td>
+            <td><?php echo $row['regular_fare']; ?></td>
+            <td><?php echo $row['discounted_fare']; ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
@@ -124,9 +124,9 @@
       <tbody>
         <?php foreach ($second_container_data as $row): ?>
           <tr>
-            <td><?php echo $row->barangay; ?></td>
-            <td><?php echo $row->regular_fare; ?></td>
-            <td><?php echo $row->discounted_fare; ?></td>
+            <td><?php echo $row['barangay']; ?></td>
+            <td><?php echo $row['regular_fare']; ?></td>
+            <td><?php echo $row['discounted_fare']; ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
@@ -136,15 +136,15 @@
       <small>
         <p class="fw-bold text-start mt-3">Penal Provisions:</p>
         <ol class="text-justify">
-          <li>Refusal to accept passenger w/out valid reason - ₱800.00</li>
-          <li>Overcharging beyond the Taripa Fare - ₱800.00</li>
-          <li>Failure to render passenger/trip cutting - ₱800.00</li>
-          <li>Overloading/Unsafe cargoes - ₱800.00</li>
-          <li>Overloading of Passenger (more than 6 passengers) - ₱800.00</li>
-          <li>Non displaying of Taripa, Driver's ID, Mayor's Permit & Franchise - ₱800.00</li>
-          <li>Out line of operation - ₱800.00</li>
-          <li>Wearing of Shorts, Sleeveless shirt & Slippers while driving - ₱400.00</li>
-          <li>Smoking while driving - ₱400.00</li>
+          <li>Refusal to accept passenger w/out valid reason - <span class="fw-bold">₱800.00</span></li>
+          <li>Overcharging beyond the Taripa Fare - <span class="fw-bold">₱800.00</span></li>
+          <li>Failure to render passenger/trip cutting - <span class="fw-bold">₱800.00</span></li>
+          <li>Overloading/Unsafe cargoes - <span class="fw-bold">₱800.00</span></li>
+          <li>Overloading of Passenger (more than 6 passengers) - <span class="fw-bold">₱800.00</span></li>
+          <li>Non displaying of Taripa, Driver's ID, Mayor's Permit & Franchise - <span class="fw-bold">₱800.00</span></li>
+          <li>Out line of operation - <span class="fw-bold">₱800.00</span></li>
+          <li>Wearing of Shorts, Sleeveless shirt & Slippers while driving - <span class="fw-bold">₱400.00</span></li>
+          <li>Smoking while driving - <span class="fw-bold">₱400.00</span></li>
         </ol>
       </small>
     </div>

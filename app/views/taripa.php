@@ -32,7 +32,8 @@
     </div>
     
     <div class="col-12">
-      <button class="sidebar-btnContent text-uppercase" style="position: absolute; top: 7px; right: 255px;" data-appointmentId="<?php echo $appointment['appointment_id']; ?>" onclick="printAppointment(event)">Print</button>
+      <button class="sidebar-btnContent text-uppercase" style="position: absolute; top: 7px; right: 255px;" onclick="printAppointment(event)">Print</button>
+      <button id="downloadPdfButton" class="sidebar-btnContent text-uppercase" style="position: absolute; top: 7px; right: 345px;" onclick="downloadPdf()">Download PDF</button>
       <?php if (!empty($taripas)): ?>
         <div class="mt-3 text-end">
           <form method="post" action="">
@@ -71,7 +72,7 @@
     </div>
   </div>
 </main>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   const urlParams = new URLSearchParams(window.location.search);
   const selectedFilter = urlParams.get('route_area');
@@ -116,7 +117,7 @@
     printFrame.style.top = '-1000px';
 
     document.body.appendChild(printFrame);
-    let taripaYear = event.currentTarget.getAttribute("data-taripaYear");
+    let taripaYear = document.getElementById("yearFilter").value;
 
     $.ajax({
       url: 'print_taripa_content?year=' + taripaYear,
@@ -148,6 +149,30 @@
       error: function(jqXHR, textStatus, errorThrown) {
         console.error('Error fetching print_taripa_content:', textStatus, errorThrown);
         document.body.removeChild(printFrame);
+      }
+    });
+  }
+
+  function downloadPdf() {
+    let taripaYear = document.getElementById("yearFilter").value;
+
+    $.ajax({
+      url: 'print_taripa_content?year=' + taripaYear,
+      type: 'GET',
+      dataType: 'html',
+      success: function (data) {
+        let styledData = '<html><head><style>@media print { @page { size: legal !important; margin: 0.1cm !important; } body { color: black !important; margin: 0.1cm !important; } .label { display: inline-block; width: 250px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 1px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>';
+
+        html2pdf(styledData + data + '</body></html>', {
+          margin: 0.1,
+          filename: taripaYear + ' TRICYCLE TARIPA.pdf',
+          image: { type: 'png', quality: 0.98 },
+          html2canvas: { scale: 3 },
+          jsPDF: { unit: 'in', format: 'legal', orientation: 'portrait' }
+        });
+      },
+      error: function () {
+        console.error('Error fetching content. Please try again.');
       }
     });
   }

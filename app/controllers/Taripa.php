@@ -20,15 +20,23 @@ class Taripa
     $rate_adjustments_years = [];
 
     $taripasData = $taripaModel->findAll();
-    $taripa_years = array_unique(array_column($taripasData, 'effective_year'));
-
+    if (!empty($taripasData)) {
+      $taripa_years = array_unique(array_map(function ($item) {
+        return (new DateTime($item->effective_date))->format('Y');
+      }, $taripasData));
+    }
+    
     // Check if there are rate adjustments available
     $rate_adjustments_exist = !empty($rateAdjustmentModel->findAll());
 
     // If rate adjustments exist, fetch years from the rate_adjustments table
     if ($rate_adjustments_exist) {
       $rateAdjustmentsData = $rateAdjustmentModel->findAll();
-      $rate_adjustments_years = array_unique(array_column($rateAdjustmentsData, 'effective_year'));
+      if (!empty($rateAdjustmentsData)) {
+        $rate_adjustments_years = array_unique(array_map(function ($item) {
+          return (new DateTime($item->effective_date))->format('Y');
+        }, $rateAdjustmentsData));
+      }
       // Merge and sort the years in descending order
       $years = array_unique(array_merge($taripa_years, $rate_adjustments_years));
       rsort($years);
@@ -74,14 +82,15 @@ class Taripa
 
         if ($selected_year_index !== false) {
           // Calculate regular_fare, discounted_fare, and senior_and_pwd_rate for the selected year from rate adjustment data
-          $rate_adjustment = $rateAdjustmentModel->first(['effective_year' => $year]);
+          $rate_adjustment = $rateAdjustmentModel->getYear($year);
+          
           $rate_action = $rate_adjustment->rate_action;
           $percentage = $rate_adjustment->percentage;
           $previous_year = $rate_adjustment->previous_year;
 
           // If the previous year is in the rate adjustments table, get its rates
           if (in_array($previous_year, $rate_adjustments_years)) {
-            $previous_rate_adjustment = $rateAdjustmentModel->first(['effective_year' => $previous_year]);
+            $previous_rate_adjustment = $rateAdjustmentModel->first(['effective_date' => $previous_year]);
             $previous_percentage = $previous_rate_adjustment->percentage;
             $previous_rate_action = $previous_rate_adjustment->rate_action;
 
