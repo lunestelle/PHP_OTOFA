@@ -39,7 +39,7 @@ class Change_motor_automation
 
           $this->sendNotification($user, $application);
 
-          $tricycleModel->query("UPDATE tricycles SET change_motor_notification_sent_at = '{$currentDate}' WHERE tricycle_id = '{$application->tricycle_id}'");
+          $tricycleModel->query("UPDATE tricycles SET expired_change_motor_notification_sent_at = '{$currentDate}' WHERE tricycle_id = '{$application->tricycle_id}'");
         }
       }
 
