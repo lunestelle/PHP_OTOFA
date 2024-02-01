@@ -32,7 +32,7 @@
     </div>
     
     <div class="col-12">
-      <button class="taripa-print text-uppercase" onclick="printAppointment(event)">Print</button>
+      <button class="taripa-print text-uppercase" onclick="printTaripa(event)">Print</button>
       <button id="downloadPdfButton" class="taripa-download-pdf text-uppercase" onclick="downloadPdf()">Download PDF</button>
       <?php if (!empty($taripas)): ?>
         <div class="mt-3 text-end">
@@ -72,7 +72,6 @@
     </div>
   </div>
 </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   const urlParams = new URLSearchParams(window.location.search);
   const selectedFilter = urlParams.get('route_area');
@@ -110,7 +109,7 @@
     window.location.href = url;
   });
 
-  function printAppointment(event) {
+  function printTaripa(event) {
     // Create the iframe
     let printFrame = document.createElement('iframe');
     printFrame.style.position = 'fixed';
@@ -153,6 +152,9 @@
     });
   }
 
+  window.jsPDF = window.jspdf.jsPDF;
+  let docPDF = new jsPDF();
+
   function downloadPdf() {
     let taripaYear = document.getElementById("yearFilter").value;
 
@@ -161,14 +163,16 @@
       type: 'GET',
       dataType: 'html',
       success: function (data) {
-        let styledData = '<html><head><style>@media print { @page { size: legal !important; margin: 0.1cm !important; } body { color: black !important; margin: 0.1cm !important; } .label { display: inline-block; width: 250px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 1px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>';
+        let styledData = '<html><head><meta charset="UTF-8"><style>@media print { @page { size: legal !important; margin: 0.1cm !important; } body { color: black !important; margin: 0.1cm !important; } .label { display: inline-block; width: 250px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 1px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet"></head><body>';
 
-        html2pdf(styledData + data + '</body></html>', {
-          margin: 0.1,
-          filename: taripaYear + ' TRICYCLE TARIPA.pdf',
-          image: { type: 'png', quality: 0.98 },
-          html2canvas: { scale: 3 },
-          jsPDF: { unit: 'in', format: 'legal', orientation: 'portrait' }
+        docPDF.html(styledData + data + '</body></html>', {
+          callback: function () {
+            docPDF.save(taripaYear + '_TRICYCLE_TARIPA.pdf');
+          },
+          x: 10,
+          y: 10,
+          width: 190,
+          windowWidth: 1150
         });
       },
       error: function () {
