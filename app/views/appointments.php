@@ -277,7 +277,7 @@
           margin: 0.1,
           filename: 'tricycle_application_form.pdf',
           image: { type: 'png', quality: 0.98 },
-          html2canvas: { scale: 3 },
+          html2canvas: { scale: 2 },
           jsPDF: { unit: 'in', format: 'legal', orientation: 'portrait' }
         });
       },
