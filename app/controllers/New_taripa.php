@@ -70,9 +70,7 @@ class New_taripa
         $errors['year'] = "Invalid year input. Year must be between {$data['minYear']} and {$data['currentYear']}.";
       }
 
-      $existingTaripa = $taripaModel->first(['effective_date' => $year]);
-      $existingRateAdjustment = $rateAdjustmentModel->first(['effective_date' => $year]);
-      if ($existingTaripa || $existingRateAdjustment) {
+      if (in_array($year, $taripa_years) || in_array($year, $rate_adjustments_years)) {
         $errors['year'] = "A Taripa entry already exists for the year $year.";
       }
 
