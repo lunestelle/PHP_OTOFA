@@ -105,6 +105,12 @@ class Manage_account
         } else {
           $updateUser = $user->update(['user_id' => $_SESSION['USER']->user_id], $updateData);
         }
+
+        if ($row->phone_number != $updateData['phone_number']){
+          $updateData['phone_number_status'] = "Not Verified";
+          $updateUser = $user->update(['user_id' => $_SESSION['USER']->user_id], $updateData);
+          $_SESSION['USER']->phone_number_status = "Not Verified";
+        }
         
         if ($updateUser) {
           if ($_SESSION['USER']->email !== $updateData['email']) {
@@ -128,6 +134,17 @@ class Manage_account
             set_flash_message("Profile information has been updated successfully.", "success");
             redirect("manage_account");
           }
+
+          if ($_SESSION['USER']->phone_number !== $updateData['phone_number']) {
+            // Change the verification status to not_verified
+            $user->update(['user_id' => $_SESSION['USER']->user_id], ['phone_number_status' => 'Not Verified']);
+            
+            // Update session phone number
+            $_SESSION['USER']->phone_number = $updateData['phone_number'];
+            $_SESSION['USER']->phone_number_status = $updateData['phone_number_status'];
+  
+            redirect("manage_account");
+          }
         } else {
           set_flash_message("Error updating profile information. Please try again.", "error");
           redirect("manage_account");
@@ -137,6 +154,7 @@ class Manage_account
         redirect("manage_account");
       }
     } else {
+      $row = $user->first(['user_id' => $_SESSION['USER']->user_id]);
       if ($row->first_name != $updateData['first_name'] || $row->last_name != $updateData['last_name']){
         $profilePhotoPath = generateProfilePicture(strtoupper($updateData['first_name'][0] . $updateData['last_name'][0]));
         $updateData['generated_profile_photo_path'] = $profilePhotoPath;
@@ -144,6 +162,12 @@ class Manage_account
         $_SESSION['USER']->generated_profile_photo_path = $profilePhotoPath;
       } else {
         $updateUser = $user->update(['user_id' => $_SESSION['USER']->user_id], $updateData);
+      }
+
+      if ($row->phone_number != $updateData['phone_number']){
+        $updateData['phone_number_status'] = "Not Verified";
+        $updateUser = $user->update(['user_id' => $_SESSION['USER']->user_id], $updateData);
+        $_SESSION['USER']->phone_number_status = "Not Verified";
       }
         
       if ($updateUser) {
@@ -163,6 +187,17 @@ class Manage_account
           $_SESSION['USER']->last_name = $updateData['last_name'];
 
           set_flash_message("Profile information has been updated successfully.", "success");
+          redirect("manage_account");
+        }
+
+        if ($_SESSION['USER']->phone_number !== $updateData['phone_number']) {
+          // Change the verification status to not_verified
+          $user->update(['user_id' => $_SESSION['USER']->user_id], ['phone_number_status' => 'Not Verified']);
+          
+          // Update session phone number
+          $_SESSION['USER']->phone_number = $updateData['phone_number'];
+          $_SESSION['USER']->phone_number_status = $updateData['phone_number_status'];
+
           redirect("manage_account");
         }
       } else {

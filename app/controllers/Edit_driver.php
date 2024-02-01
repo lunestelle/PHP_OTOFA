@@ -15,24 +15,72 @@ class Edit_driver {
     $driverModel = new Driver();
     $driverData = $driverModel->first(['driver_id' => $driverId]);
 
-    $tricycleCinModel = new TricycleCinNumber();
-    $tricycleCinNumbers = $tricycleCinModel->where(['user_id' => $_SESSION['USER']->user_id]);
-    $data['tricycleCinNumbers'] = [];
-    if (is_array($tricycleCinNumbers) || is_object($tricycleCinNumbers)) {
-      foreach ($tricycleCinNumbers as $cinNumberId) {
-        $data['tricycleCinNumbers'][$cinNumberId->tricycle_cin_number_id] = [
-          'cin_number' => $cinNumberId->tricycle_cin_number_id,
-        ];
+    $driverStatusesModel = new DriverStatuses();
+    $statuses = $driverStatusesModel->where(['driver_id' => $driverId]);
+
+    $statusValues = [];
+    $isActive = false;
+    $driverLicenseExpired = false;
+
+    // Check if $statuses is an array before using it
+    if (is_array($statuses) && count($statuses) > 0) {
+      foreach ($statuses as $status) {
+        $statusValues[] = $status->status;
+        if ($status->status === 'Active') {
+          $isActive = true;
+        }
+
+        if ($status->status === 'Driver License Expired') {
+          $driverLicenseExpired = true;
+        }
       }
-    } else {
-      $data['tricycleCinNumbers'] = [];
     }
 
-    // Sort the array in ascending order
-    asort($data['tricycleCinNumbers']);
+    $driverModel = new Driver();
+    $driverStatusesModel = new DriverStatuses();
+    $tricycleCinModel = new TricycleCinNumber();
 
-    $selectedCinNumber = $driverData->tricycle_cin_number_id;
-    $data['selectedCinNumberId'] = $selectedCinNumber ? $selectedCinNumber : null;
+    // Get tricycle plate CIN numbers owned by the current user
+    $userTricycleCinNumbers = $tricycleCinModel->where(['user_id' => $_SESSION['USER']->user_id]);
+
+    $userTricycleCinIds = array_map(function($tricycleCin) {
+      return $tricycleCin->tricycle_cin_number_id;
+    }, $userTricycleCinNumbers);
+
+    // Convert array of tricycle CIN numbers to comma-separated string
+    $userTricycleCinIdsString = implode(',', $userTricycleCinIds);
+
+    $query = "SELECT DISTINCT drivers.tricycle_cin_number_id FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id IN ($userTricycleCinIdsString) AND driver_statuses.status = 'Active' AND drivers.driver_id != $driverId AND drivers.user_id = :user_id"; 
+
+    $assignedTricycleCinIds = $driverModel->query($query, [':user_id' => $_SESSION['USER']->user_id]);
+
+    if (is_array($assignedTricycleCinIds)) {
+      $assignedTricycleCinIds = array_map(function($result) {
+        return $result->tricycle_cin_number_id;
+      }, $assignedTricycleCinIds);
+    } else {
+      // Handle the case when $assignedTricycleCinIds is not an array
+      $assignedTricycleCinIds = [];
+    }
+
+    // Filter out the unassigned tricycle plate CIN numbers
+    $unassignedTricycleCinNumbers = array_diff($userTricycleCinIds, $assignedTricycleCinIds);
+
+    // Check if the current driver's tricycle CIN is active
+    if (in_array($driverData->tricycle_cin_number_id, $assignedTricycleCinIds)) {
+      set_flash_message("Unable to proceed with driver details editing. Please note that the<br> associated tricycle CIN currently has an active driver. To proceed with <br>editing, kindly make the associated driver inactive.", "error");
+      redirect('drivers');
+    }
+
+    $data['selectedCinNumberId'] = $driverData->tricycle_cin_number_id;
+
+    foreach ($unassignedTricycleCinNumbers as $cinNumber) {
+      $data['tricycleCinNumbers'][$cinNumber] = [
+        'cin_number' => $cinNumber,
+      ];
+    }
+
+    asort($data['tricycleCinNumbers']);
 
     if (!$driverData) {
       set_flash_message("Driver not found.", "error");
@@ -48,8 +96,9 @@ class Edit_driver {
         'phone_no' => $_POST['phone_no'] ?? '',
         'birth_date' => $_POST['birth_date'] ?? '',
         'license_no' => $_POST['license_no'] ?? '',
-        'license_validity' => $_POST['license_validity'] ?? '',
+        'license_expiry_date' => $_POST['license_expiry_date'] ?? '',
         'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id'] ?? '',
+        'status' => $_POST['status'] ?? '',
       ];
 
       $errors = $driverModel->validateData($updatedData );
@@ -64,6 +113,28 @@ class Edit_driver {
 				$updatedData ['phone_no'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
 
 				if ($driverModel->update(['driver_id' => $driverId], $updatedData)) {
+          if ($updatedData['status'] == 'Inactive') {
+            // Delete all existing statuses and set the new one to Inactive
+            $driverStatusesModel->delete(['driver_id' => $driverId], ['status !=' => 'Inactive']);
+            $driverStatusesModel->insert(['driver_id' => $driverId, 'status' => 'Inactive']);
+            $driverModel->update(['driver_id' => $driverId], ['last_notification_date' => null]);
+          } elseif ($updatedData['status'] == 'Active')  {
+            $driverStatusesModel->delete(['driver_id' => $driverId], ['status' => 'Inactive']);
+            $driverStatusesModel->insert(['driver_id' => $driverId, 'status' => 'Active']);
+          }
+
+          // Update license status if the license expiry date is in the future
+          if ($driverLicenseExpired) {
+            $driverData = $driverModel->first(['driver_id' => $driverId]);
+            $expiryDate = new DateTime($driverData->license_expiry_date);
+            $currentDate = new DateTime();
+
+            if ($expiryDate > $currentDate) {
+              $driverStatusesModel->delete(['driver_id' => $driverId, 'status' => 'Driver License Expired']);
+              $driverModel->update(['driver_id' => $driverId], ['last_notification_date' => null]);
+            }
+          }
+
 					set_flash_message("Driver information updated successfully.", "success");
 					redirect('drivers');
 				} else {
@@ -83,10 +154,12 @@ class Edit_driver {
         'phone_no' => $this->formatPhoneNumber($driverData->phone_no),
         'birth_date' => $driverData->birth_date,
         'license_no' => $driverData->license_no,
-        'license_validity' => $driverData->license_validity,
+        'license_expiry_date' => $driverData->license_expiry_date,
         'tricycle_cin_number_id' => $driverData->tricycle_cin_number_id,
       ],
       'driverId' => $driverId,
+      'statuses' => $statusValues,
+      'isActive' => $isActive,
     ]);
 
     echo $this->renderView('edit_driver', true, $data);

@@ -27,7 +27,7 @@ class Verify_phone_number
         $phoneNumber = $_POST['phoneNumber'];
 
         $verificationCode = $this->generateVerificationCode();
-        $smsResult = sendSms($phoneNumber, "Your verification code for Sakaycle is: $verificationCode");
+        $smsResult = sendSms($phoneNumber, "Your verification code for OTOFA is: $verificationCode");
 
         if ($smsResult) {
           $user->update(['user_id' => $_SESSION['USER']->user_id], ['phone_verification_code' => $verificationCode]);

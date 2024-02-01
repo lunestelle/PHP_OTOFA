@@ -3,14 +3,16 @@
     <div class="col-12 text-uppercase nav-top">
       <h6 class="title-head">taripa</h6>
     </div>
-    <div class="col-lg-12">
+    <div class="col-12">
       <div class="row mt-2">
-        <div class="col-12 mt-3">
-          <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
-        </div>
-        <div class="col-5 mx-4 me-5">
-          <label for="routeAreaFilter" class="fw-bold">Filter Route Area:</label>
-          <select id="routeAreaFilter" class="form-select">
+        <?php if ($userRole === 'admin'): ?>
+          <div class="col-12 mt-3">
+            <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
+          </div>
+        <?php endif; ?>
+        <div class="col-6">
+          <label for="routeAreaFilter" class="fw-bold" style="font-size: 13px;">Filter Route Area:</label>
+          <select id="routeAreaFilter" class="form-select" style="height: 35px; font-size: 14px;">
             <option value="All">All</option>
             <option value="Free Zone / Zone 1">Free Zone / Zone 1</option>
             <option value="Zone 2">Freezone & Zone 2</option>
@@ -18,9 +20,9 @@
             <option value="Zone 4">Freezone & Zone 4</option>
           </select>
         </div>
-        <div class="col-5 ms-5">
-          <label for="yearFilter" class="fw-bold">Filter Year:</label>
-          <select id="yearFilter" class="form-select">
+        <div class="col-6">
+          <label for="yearFilter" class="fw-bold" style="font-size: 13px;">Filter Year:</label>
+          <select id="yearFilter" class="form-select" style="height: 35px; font-size: 14px;">
             <?php foreach ($years as $year): ?>
               <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
             <?php endforeach; ?>
@@ -30,36 +32,38 @@
     </div>
     
     <div class="col-12">
+      <button class="taripa-print text-uppercase" onclick="printTaripa(event)">Print</button>
+      <button id="downloadPdfButton" class="taripa-download-pdf text-uppercase" onclick="downloadPdf()">Download PDF</button>
       <?php if (!empty($taripas)): ?>
         <div class="mt-3 text-end">
           <form method="post" action="">
             <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-taripa">Export as CSV</button>
-          </form>
+          </form>    
         </div>
       <?php endif; ?>
-      <div class="table-responsive pt-4 mx-4">
+      <div class="table-responsive pt-3">
         <table class="table table-hover" id="systemTable">
           <thead>
             <tr class="text-uppercase">
+              <th scope="col" class="text-center">#</th>
               <?php if ($selectedFilter === 'All'): ?>
                 <th scope="col" class="text-center">Route Area</th>
               <?php endif; ?>
               <th scope="col" class="text-center">Barangay</th>
-              <th scope="col" class="text-center">Regular Rate</th>
-              <th scope="col" class="text-center">Student Rate</th>
-              <th scope="col" class="text-center">Senior Citizen & PWD Rate</th>
+              <th scope="col" class="text-center">Regular Fare</th>
+              <th scope="col" class="text-center">Discounted Fare</th>
             </tr>
           </thead>
           <tbody class="text-center">
             <?php foreach ($taripas as $taripa): ?>
               <tr>
+                <td><?php echo $index++; ?></td>
                 <?php if ($selectedFilter === 'All'): ?>
                   <td><?php echo $taripa['route_area']; ?></td>
                 <?php endif; ?>
                 <td><?php echo $taripa['barangay']; ?></td>
-                <td><?php echo '₱' . number_format($taripa['regular_rate'], 2, '.', ''); ?></td>
-                <td><?php echo '₱' . number_format($taripa['student_rate'], 2, '.', ''); ?></td>
-                <td><?php echo '₱' . number_format($taripa['senior_and_pwd_rate'], 2, '.', ''); ?></td>
+                <td><?php echo '₱' . number_format($taripa['regular_fare'], 2, '.', ''); ?></td>
+                <td><?php echo '₱' . number_format($taripa['discounted_fare'], 2, '.', ''); ?></td>
               </tr>
             <?php endforeach; ?>   
           </tbody>
@@ -68,7 +72,6 @@
     </div>
   </div>
 </main>
-
 <script>
   const urlParams = new URLSearchParams(window.location.search);
   const selectedFilter = urlParams.get('route_area');
@@ -105,4 +108,76 @@
     }
     window.location.href = url;
   });
+
+  function printTaripa(event) {
+    // Create the iframe
+    let printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.top = '-1000px';
+
+    document.body.appendChild(printFrame);
+    let taripaYear = document.getElementById("yearFilter").value;
+
+    $.ajax({
+      url: 'print_taripa_content?year=' + taripaYear,
+      type: 'GET',
+      dataType: 'html',
+      success: function(data) {
+        // Set the content of the iframe's document
+        let doc = printFrame.contentDocument || printFrame.contentWindow.document;
+        doc.open();
+
+        doc.write('<html><head><style>@media print { @page { size: legal !important; margin: 0.1cm !important; } body { color: black !important; margin: 0.1cm !important; } .label { display: inline-block; width: 250px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 1px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style></head><body>');
+
+
+        doc.write(data);
+        doc.write('</body></html>');
+
+        doc.close();
+
+        // Wait for the iframe to load
+        printFrame.onload = function() {
+          // Focus on the iframe and print
+          printFrame.contentWindow.focus();
+          printFrame.contentWindow.print();
+
+          // Remove the iframe after printing
+          document.body.removeChild(printFrame);
+        };
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error('Error fetching print_taripa_content:', textStatus, errorThrown);
+        document.body.removeChild(printFrame);
+      }
+    });
+  }
+
+  window.jsPDF = window.jspdf.jsPDF;
+  let docPDF = new jsPDF();
+
+  function downloadPdf() {
+    let taripaYear = document.getElementById("yearFilter").value;
+
+    $.ajax({
+      url: 'print_taripa_content?year=' + taripaYear,
+      type: 'GET',
+      dataType: 'html',
+      success: function (data) {
+        let styledData = '<html><head><meta charset="UTF-8"><style>@media print { @page { size: legal !important; margin: 0.1cm !important; } body { color: black !important; margin: 0.1cm !important; } .label { display: inline-block; width: 250px; white-space: nowrap; } .form-input-line { border-bottom: 0.5px solid black; margin-top: 1px; width: calc(100% - 160px); display: inline-block; box-sizing: border-box; } }</style><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet"></head><body>';
+
+        docPDF.html(styledData + data + '</body></html>', {
+          callback: function () {
+            docPDF.save(taripaYear + '_TRICYCLE_TARIPA.pdf');
+          },
+          x: 10,
+          y: 10,
+          width: 190,
+          windowWidth: 1150
+        });
+      },
+      error: function () {
+        console.error('Error fetching content. Please try again.');
+      }
+    });
+  }
 </script>

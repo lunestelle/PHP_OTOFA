@@ -49,7 +49,7 @@ class Sign_up
           $_SESSION['verification_link'] = ROOT . '/verify_email?token=' . urlencode($_SESSION['verification_token']);
 
           $emailContent = $this->renderView('mailer/account_email_verification', false, $data);
-          $subject = "Verify Your Email Address for Sakaycle";
+          $subject = "Verify Your Email Address for OTOFA";
   
           $emailResult = sendEmail($_POST['email'], $subject, $emailContent);
   

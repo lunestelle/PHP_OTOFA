@@ -4,6 +4,13 @@
       <h6 class="title-head">Edit Scheduled Appointment</h6>
     </div>
     <div class="col-lg-12">
+      <?php if ($userRole === 'operator'): ?>  
+        <div class="row assessmentFeeContainer">
+          <div class="col-12 mx-auto text-center mt-1">
+            <p id="assessmentFeeText" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
+          </div>
+        </div>
+      <?php endif; ?>
       <div class="row">
         <div class="col-12 pt-2">
           <div class="container pt-3">
@@ -519,10 +526,53 @@
 </div>
 <script>
   $(document).ready(function () {
-    $("#color_code").change(function () {
-      let selectedColorCode = $(this).val();
+    function updateAssessmentFee() {
+      let selectedColorCode = $("#color_code").val();
       let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
       $("#route_area").val(selectedRouteArea);
+
+      let assessmentFeeText = "";
+
+      switch (selectedRouteArea) {
+        case "Free Zone / Zone 1":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱430.00.";
+          break;
+        case "Free Zone & Zone 2":
+        case "Free Zone & Zone 3":
+        case "Free Zone & Zone 4":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " Route is ₱1,030.00.";
+          break;
+        default:
+          assessmentFeeText = "Please select a route area to view the assessment fee.";
+      }
+
+      let tricycleStatuses = <?php echo json_encode($tricycle_statuses); ?>;
+
+      let renewalNotice = tricycleStatuses.some(status => status == "Expired Renewal (1st Notice)" || status == "Expired Renewal (2nd Notice)" || status == "Expired Renewal (3rd Notice)");
+      if (renewalNotice) {
+        let penaltyFee = "";
+        switch (selectedRouteArea) {
+          case "Free Zone / Zone 1":
+            penaltyFee = " Additionally, there is a penalty fee of ₱122.50 for late renewal.";
+            break;
+          case "Free Zone & Zone 2":
+          case "Free Zone & Zone 3":
+          case "Free Zone & Zone 4":
+            penaltyFee = " Additionally, there is a penalty fee of ₱272.50 for late renewal.";
+            break;
+          default:
+            penaltyFee = "";
+        }
+        assessmentFeeText += " " + penaltyFee;
+      }
+
+      $("#assessmentFeeText").text(assessmentFeeText);
+    }
+
+    updateAssessmentFee();
+
+    $("#color_code").change(function () {
+      updateAssessmentFee();
     });
 
     let errorMessage = $(".flash-message.error");

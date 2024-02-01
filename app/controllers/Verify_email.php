@@ -33,7 +33,7 @@ class Verify_email
 
       // Send a new verification email
       $emailContent = $this->renderView('mailer/account_email_verification', false, $data);
-      $subject = "Verify Your Email Address for Sakaycle";
+      $subject = "Verify Your Email Address for OTOFA";
       $emailResult = sendEmail($userData->email, $subject, $emailContent);
 
       if ($emailResult === 'success') {

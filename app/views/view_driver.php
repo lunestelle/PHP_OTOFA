@@ -72,15 +72,15 @@ $backUrl = isset($_SESSION['prev_page']) ? $_SESSION['prev_page'] : './drivers';
                       <div class="col-12">
                         <div class="row mt-3">
                           <div class="col-4 px-5">
-                            <p class="form-label">License No.</p>
+                            <p class="form-label">License Number</p>
                             <div class="form-control">
                               <?php echo isset($license_no) ? $license_no : ''; ?>
                             </div>
                           </div>
                           <div class="col-4 px-5">
-                            <p class="form-label">License Validity</p>
+                            <p class="form-label">License Expiry Date</p>
                             <div class="form-control">
-                              <?php echo isset($license_validity) ? $license_validity : ''; ?>
+                              <?php echo isset($license_expiry_date) ? $license_expiry_date : ''; ?>
                             </div>
                           </div>
                           <div class="col-4 px-5">

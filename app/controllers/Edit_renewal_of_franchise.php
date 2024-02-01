@@ -15,6 +15,8 @@ class Edit_renewal_of_franchise
     $appointmentModel = new Appointment();
     $tricycleApplicationModel = new TricycleApplication();
     $tricycleCinNumberModel = new TricycleCinNumber();
+    $tricycleStatusesModel = new TricycleStatuses();
+    $tricycleModel = new Tricycle();
 
     $appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
     $appointmentData = $appointmentModel->first(['appointment_id' => $appointmentId]);
@@ -28,10 +30,14 @@ class Edit_renewal_of_franchise
     $selectedUserId = $appointmentData->user_id;
     $selectedCinNumber = $tricycleApplicationData->tricycle_cin_number_id;
     $cinData = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumber]);
-    $driverData = $driverModel->first(['tricycle_cin_number_id' => $cinData->tricycle_cin_number_id]);
 
+    $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
+    $driverData = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
+
+    $data = []; 
     if (!empty($driverData)) {
-      $driver_name = $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name;
+      $driver = $driverData[0];
+      $driver_name = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
     } else {
       $driver_name = 'Selected CIN has no driver';
     }
@@ -39,6 +45,23 @@ class Edit_renewal_of_franchise
     $mtopRequirementModel = new MtopRequirement();
     $mtopRequirementData = $mtopRequirementModel->first(['appointment_id' => $appointmentId]);
     $mtopRequirementId = $mtopRequirementData->mtop_requirement_id;
+
+    $existingTricycleData = $tricycleModel->first(['cin_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+
+    if (!empty($existingTricycleData)) {
+      $tricycleStatusesData = $tricycleStatusesModel->where(['tricycle_id' => $existingTricycleData->tricycle_id]);
+
+      if ($tricycleStatusesData) {
+        $statuses = [];
+        foreach ($tricycleStatusesData as $statusData) {
+          $statuses[] = $statusData->status;
+        }
+      } else {
+        $statuses = [];
+      }
+    } else {
+      $statuses = [];
+    }
 
     $data = [
       'name' => $appointmentData->name,
@@ -74,6 +97,7 @@ class Edit_renewal_of_franchise
       'cin_number' => $cinData->cin_number,
       'driverData' => $driverData,
       'driver_name' => $driver_name,
+      'tricycle_statuses' => $statuses,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -199,15 +223,19 @@ class Edit_renewal_of_franchise
               }
             }
 
+            $cinDataForNotifs = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+            $cinNumber = $cinDataForNotifs->cin_number;
+
             $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
             $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
             $rootPath = ROOT;
 
-            $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $formattedDate, $formattedTime, $rootPath);
-            $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime);
+            $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber);
+            $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber);
             $customRequirementMessage = $this->generateCustomRequirementMessage();
+            $feeMessage = $this->generateFeeMessage($tricycleApplicationData->route_area);
 
-            sendAppointmentNotifications($appointmentFormData, $data, $customTextMessage, $customEmailMessage, $customRequirementMessage);
+            sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationData, $cinNumber, $customTextMessage, $customEmailMessage, $customRequirementMessage);
 
             set_flash_message("Scheduled appointment updated successfully.", "success");
             redirect('appointments');;
@@ -283,26 +311,36 @@ class Edit_renewal_of_franchise
     return $fileUploads;
   }
 
-  private function generateCustomTextMessage($name, $formattedDate, $formattedTime, $rootPath)
+  private function generateCustomTextMessage($name, $appointment_type, $formattedDate, $formattedTime, $rootPath, $cinNumber)
   {
-      $message = "Hello {$name},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for Renewal of Franchise.\n";
-      $message .= $this->generateRequirementList();
-      $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
+    $feeMessage = $this->generateFeeMessage($routeArea);
+    $message = "Hello {$name},\n\nCongratulations! {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for Renewal of Franchise.\n";
+    $message .= $this->generateRequirementList();
+    $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
 
-      return $message;
+    return $message;
   }
 
-  private function generateCustomEmailMessage($formattedDate, $formattedTime)
+  private function generateCustomEmailMessage($formattedDate, $formattedTime, $appointment_type, $cinNumber)
   {
-      $message = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your appointment has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
-      $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for Renewal of Franchise. </div>";
+    $feeMessage = $this->generateFeeMessage($routeArea);
+    $message = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
+    $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for Renewal of Franchise. </div>";
 
-      return $message;
+    return $message;
+  }
+
+  private function generateFeeMessage($routeArea)
+  {
+    $fee = ($routeArea === 'Free Zone / Zone 1') ? '430.00' : '1,030.00';
+    $feeMessage = "be informed that a processing fee of &#8369;{$fee} is required for your appointment and please";
+
+    return $feeMessage;
   }
 
   private function generateCustomRequirementMessage()
   {
-    return "<div style='text-align: start; color:#455056'>" . $this->generateRequirementList() . "</div>";
+    return "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>" . $this->generateRequirementList() . "</div>";
   }
 
   private function generateRequirementList()

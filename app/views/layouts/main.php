@@ -2,9 +2,11 @@
 $current_page = $_SERVER['REQUEST_URI'];
 $current_page_is_maintenance = strpos($current_page, 'appointments_reports') !== false || strpos($current_page, 'cin_reports') !== false || strpos($current_page, 'tricycles_reports') !== false;
 
-$isCurrentPageInquiries = (basename($current_page) == 'inquiries');
+$isCurrentPageInquiries = (basename($current_page) == 'inquiries' || isset($_GET['message_status']) || isset($_GET['response_status']));
 
 $current_page_basename = basename(parse_url($current_page, PHP_URL_PATH));
+$status_param_exists = isset($_GET['status']);
+
 $isCurrentPageAppointments = (
   strpos($current_page_basename, 'appointments') !== false ||
   strpos($current_page_basename, 'view_appointment') !== false ||
@@ -21,8 +23,8 @@ $isCurrentPageAppointments = (
   strpos($current_page_basename, 'intent_of_transfer') !== false ||
   strpos($current_page_basename, 'edit_intent_of_transfer') !== false ||
   strpos($current_page_basename, 'ownership_transfer_from_deceased_owner') !== false ||
-  strpos($current_page_basename, 'edit_ownership_transfer_from_deceased_owner') !== false
-);
+  strpos($current_page_basename, 'edit_ownership_transfer_from_deceased_owner') !== false 
+) || $status_param_exists;
 
 $profilePhoto = $_SESSION['USER']->uploaded_profile_photo_path ?: $_SESSION['USER']->generated_profile_photo_path;
 
@@ -50,8 +52,8 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SAKAYCLE | A Web-based Management System for Tricycle Franchise Appointment</title>
-  <link rel="icon" href="public/assets/images/logo.png" type="image/x-icon">
+  <title>OTOFA | Ormoc Tricycle Online Franchise Appointment</title>
+  <link rel="icon" href="public/assets/images/icon-logo.png" type="image/x-icon">
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
@@ -90,6 +92,9 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
   <script src="public/assets/js/modal_submission.js"></script>
   <script src="public/assets/js/active_links.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js" integrity="sha512-5g2Nj3mqLOgClHi20oat1COW7jWvf7SyqnvwWUsMDwhjHeqeTl0C+uzjucLweruQxHbhDwiPLXlm8HBO0011pA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <style>
   .pop_msg {
@@ -214,6 +219,9 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                   <li class="nav-item">
                     <a class="nav-link text-white" href="maintenance_logs"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Logs</span></a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="maintenance_tracker"><i class="fa-solid fa-magnifying-glass-chart"></i></i><span class="ms-2">Maintenance Tracker</span></a>
+                  </li>
                 <?php } ?>
                 <li class="nav-item">
                   <a class="nav-link text-white" href="appointments">
@@ -221,6 +229,9 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                     <span class="ms-2">Appointments</span>
                     <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge ms-auto " . ($isCurrentPageAppointments ? 'bg-warning' : 'bg-danger') . "'>$pendingAppointmentsCount</span>"; } ?>
                   </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="taripa"><i class="fa-solid fa-peso-sign"></i><span class="ms-2">Taripa</span></a>
                 </li>
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">

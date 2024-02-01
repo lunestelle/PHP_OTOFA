@@ -374,18 +374,16 @@
                   <thead>
                     <tr>
                       <th class="text-white text-center" style="background-color:#090C1B !important;">Barangay</th>
-                      <th class="text-white text-center" style="background-color:#090C1B !important;">Regular Rate</th>
-                      <th class="text-white text-center" style="background-color:#090C1B !important;">Student Rate</th>
-                      <th class="text-white text-center" style="background-color:#090C1B !important;">Senior Citizen & PWD Rate</th>
+                      <th class="text-white text-center" style="background-color:#090C1B !important;">Regular Fare</th>
+                      <th class="text-white text-center" style="background-color:#090C1B !important;">Discounted Fare</th>
                     </tr>
                 </thead>
                   <tbody>
                     <?php foreach ($recentTaripaData as $taripa): ?>
                       <tr>
                         <td><?php echo $taripa['barangay']; ?></td>
-                        <td><?php echo '₱' . number_format($taripa['regular_rate'], 2); ?></td>
-                        <td><?php echo '₱' . number_format($taripa['student_rate'], 2); ?></td>
-                        <td><?php echo '₱' . number_format($taripa['senior_and_pwd_rate'], 2); ?></td>
+                        <td><?php echo '₱' . number_format($taripa['regular_fare'], 2); ?></td>
+                        <td><?php echo '₱' . number_format($taripa['discounted_fare'], 2); ?></td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>

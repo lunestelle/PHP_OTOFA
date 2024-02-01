@@ -33,23 +33,33 @@
         <?php endif; ?>
 
         <div class="col-12 mt-1">
-          <?php if (!empty($appointments)): ?>
-            <form method="get" action="">
-              <div class="row">
-                <div class="col-md-5">
-                  <label for="startDate" class="fw-bold">Start Date:</label>
-                  <input type="date" id="startDate" name="startDate" class="form-control" value="<?php echo ($_GET['startDate'] ?? ''); ?>">
-                </div>
-                <div class="col-md-5">
-                  <label for="endDate" class="fw-bold">End Date:</label>
-                  <input type="date" id="endDate" name="endDate" class="form-control" value="<?php echo ($_GET['endDate'] ?? ''); ?>">
-                </div>
-                <div class="col-md-2">
-                  <button type="submit" class="filter-btn mt-4">Filter</button>
-                </div>
+          <form method="get" action="">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="startDate" class="fw-bold" style="font-size: 13px;">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" style="height: 35px; font-size: 14px;" value="<?php echo ($_GET['startDate'] ?? ''); ?>">
               </div>
-            </form>
-          <?php endif; ?>
+              <div class="col-md-3">
+                <label for="endDate" class="fw-bold" style="font-size: 13px;">End Date:</label>
+                <input type="date" id="endDate" name="endDate" class="form-control"  style="height: 35px; font-size: 14px;" value="<?php echo ($_GET['endDate'] ?? ''); ?>">
+              </div>
+
+              <div class="col-md-4">
+                <label for="statusFilter" class="fw-bold" style="font-size: 13px;">Filter By Status:</label>
+                <select id="statusFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                  <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                  <option value="Pending" <?php echo ($statusFilter === 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                  <option value="Approved" <?php echo ($statusFilter === 'Approved') ? 'selected' : ''; ?>>Approved</option>
+                  <option value="Rejected" <?php echo ($statusFilter === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                  <option value="On Process" <?php echo ($statusFilter === 'On Process') ? 'selected' : ''; ?>>On Process</option>
+                  <option value="Completed" <?php echo ($statusFilter === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="filter-btn mt-4" id="applyFilter">Filter</button>
+              </div>
+            </div>
+          </form>
         </div>
 
         <div class="col-12">
@@ -93,13 +103,13 @@
 
                         switch ($status) {
                           case 'Pending':
-                            $badgeColor = 'bg-info'; // Green color for pending
+                            $badgeColor = 'bg-dark'; // Green color for pending
                             break;
                           case 'Rejected':
                             $badgeColor = 'bg-danger'; // Red color for rejected
                             break;
                           case 'Completed':
-                            $badgeColor = 'bg-primary'; // Blue color for completed
+                            $badgeColor = 'bg-warning text-dark'; // Blue color for completed
                             break;
                           case 'Approved':
                             $badgeColor = 'bg-success'; // Light blue color for approved
@@ -113,57 +123,59 @@
                             break;
                         }
                       ?>
-                      <span class="badge status-badge text-uppercase p-2 <?php echo $badgeColor; ?>"><?php echo $status; ?></span>
+                      <span class="badge status-badge text-uppercase p-1 <?php echo $badgeColor; ?>"><?php echo $status; ?></span>
                     </td>
                     <td>
-                      <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #26CC00;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
-                      <?php
-                        if ($userRole === 'operator' && $appointment['status'] === "Pending") {
+                      <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
+                      <?php if ($userRole === 'operator' && $appointment['status'] === "Pending"): ?>
+                        <?php
                           $editUrl = '';
 
                           if ($appointment['appointment_type'] === 'New Franchise') {
-                            $editUrl = 'edit_new_franchise';
+                              $editUrl = 'edit_new_franchise';
                           } elseif ($appointment['appointment_type'] === 'Renewal of Franchise') {
-                            $editUrl = 'edit_renewal_of_franchise';
+                              $editUrl = 'edit_renewal_of_franchise';
                           } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
-                            $editUrl = 'edit_change_of_motorcycle';
+                              $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
-                            if ($appointment['transfer_type'] === 'None') {
-                              $editUrl = 'edit_transfer_of_ownership';
-                            } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
-                              $editUrl = 'edit_intent_of_transfer';
-                            } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
-                              $editUrl = 'edit_ownership_transfer_from_deceased_owner';
-                            }
+                              if ($appointment['transfer_type'] === 'None') {
+                                  $editUrl = 'edit_transfer_of_ownership';
+                              } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
+                                  $editUrl = 'edit_intent_of_transfer';
+                              } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
+                                  $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                              }
                           }
 
-                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
-                        } elseif ($userRole === 'admin' && $appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process") {
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
+                        ?>
+                      <?php elseif ($userRole === 'admin' && ($appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process")): ?>
+                        <?php
                           $editUrl = '';
 
                           if ($appointment['appointment_type'] === 'New Franchise') {
-                            $editUrl = 'edit_new_franchise';
+                              $editUrl = 'edit_new_franchise';
                           } elseif ($appointment['appointment_type'] === 'Renewal of Franchise') {
-                            $editUrl = 'edit_renewal_of_franchise';
+                              $editUrl = 'edit_renewal_of_franchise';
                           } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
-                            $editUrl = 'edit_change_of_motorcycle';
+                              $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
-                            if ($appointment['transfer_type'] === 'None') {
-                              $editUrl = 'edit_transfer_of_ownership';
-                            } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
-                              $editUrl = 'edit_intent_of_transfer';
-                            } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
-                              $editUrl = 'edit_ownership_transfer_from_deceased_owner';
-                            }
+                              if ($appointment['transfer_type'] === 'None') {
+                                  $editUrl = 'edit_transfer_of_ownership';
+                              } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
+                                  $editUrl = 'edit_intent_of_transfer';
+                              } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
+                                  $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                              }
                           }
 
-                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pencil fa-lg"></i></a>';
-                        }
-                      ?>
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
+                        ?>
+                      <?php endif; ?>
 
                       <?php if ($userRole === 'operator' && $appointment['status'] === "Pending" && !$oneDayAhead): ?>
                         <a href="#" class="cancel_data px-1 me-1" style="color: red;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal-<?php echo $appointment['appointment_id']; ?>">
-                          <i class="fa-solid fa-times fa-lg"></i>
+                          <i class="fa-solid fa-times fa-xl"></i>
                         </a>
                       <?php endif; ?>
                     </td>
@@ -264,7 +276,7 @@
         html2pdf(styledData + data + '</body></html>', {
           margin: 0.1,
           filename: 'tricycle_application_form.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
+          image: { type: 'png', quality: 0.98 },
           html2canvas: { scale: 2 },
           jsPDF: { unit: 'in', format: 'legal', orientation: 'portrait' }
         });
@@ -276,16 +288,32 @@
   }
 
   $(document).ready(function () {
-    $("#applyFilter").click(function () {
+    $("#applyFilter").click(function (event) {
+      event.preventDefault();
+
       const startDate = $("#startDate").val();
       const endDate = $("#endDate").val();
+      const statusFilter = $("#statusFilter").val();
 
-      filterUrl += `?year=${selectedYear}`;
-      if (startDate && endDate) {
-        filterUrl += `&start_date=${startDate}&end_date=${endDate}`;
+      let queryParams = [];
+
+      if (statusFilter !== 'all') {
+        queryParams.push('status=' + encodeURIComponent(statusFilter));
       }
 
-      window.location.href = filterUrl;
+      if (startDate && endDate) {
+        queryParams.push(`startDate=${encodeURIComponent(startDate)}`);
+        queryParams.push(`endDate=${encodeURIComponent(endDate)}`);
+      }
+
+      const queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+      // Construct the URL based on the current page URL
+      const currentUrl = window.location.href.split('?')[0];
+      const finalUrl = currentUrl + queryString;
+
+      // Redirect to the final URL
+      window.location.href = finalUrl;
     });
   });
 </script>

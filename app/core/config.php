@@ -17,11 +17,11 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('DB_PASS', 'KYio]63K{9bf'); 
 	define('DB_DRIVER', 'mysql');
 
-	define('ROOT', 'https://wlccicte.com/sakaycle.com');
+	define('ROOT', 'https://wlccicte.com/otofa.com');
 }
 
-define('APP_NAME', "Sakaycle");
-define('APP_DESC', "A Web-Based Tricycle Management");
+define('APP_NAME', "OTOFA");
+define('APP_DESC', "Ormoc Tricycle Online Franchise Appointment");
 
 /** Set to true to show errors **/
 define('DEBUG', true);

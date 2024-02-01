@@ -3,7 +3,7 @@
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('BASE_URL', 'http://localhost/PHP_Sakaycle/');
 } else {
-	define('BASE_URL', 'https://wlccicte.com/sakaycle.com');
+	define('BASE_URL', 'https://wlccicte.com/otofa.com');
 }
 
 trait Controller
@@ -118,7 +118,7 @@ trait Controller
 	{
 		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'view_maintenance_log', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info', 'new_franchise', 'edit_new_franchise', 'renewal_of_franchise', 'edit_renewal_of_franchise', 'change_of_motorcycle', 'edit_change_of_motorcycle', 'transfer_of_ownership', 'edit_transfer_of_ownership', 'intent_of_transfer', 'edit_intent_of_transfer', 'ownership_transfer_from_deceased_owner', 'edit_ownership_transfer_from_deceased_owner', 'tricycles_reports', 'appointments_reports', 'cin_reports', 'maintenance_tracker', 'view_calculations', 'inquiries'];
 		
-		$sidebarViewPages = ['view_tricycle', 'view_driver', 'view_appointment', 'view_operator', 'view_maintenance_log', 'tricycles_reports', 'appointments_reports', 'cin_reports', 'maintenance_tracker', 'view_calculations', 'inquiries'];
+		$sidebarViewPages = ['view_tricycle', 'view_driver', 'view_appointment', 'view_operator', 'view_maintenance_log'];
 
 		$sidebarEditPages = ['edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'edit_new_franchise', 'edit_renewal_of_franchise', 'edit_change_of_motorcycle', 'edit_transfer_of_ownership', 'edit_intent_of_transfer', 'edit_ownership_transfer_from_deceased_owner'];
 

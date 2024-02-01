@@ -2,113 +2,118 @@
 
 class Dashboard
 {
-	use Controller;
+  use Controller;
 
-	public function index()
-	{
-		if (!is_authenticated()) {
-			set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
-			redirect('');
-		}
-
-		$userModel = new User();
-    $data['operatorCount'] = $userModel->count(['role' => 'operator']);
+  public function index()
+  {
+    if (!is_authenticated()) {
+      set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
+      redirect('');
+    }
 
     $tricycleModel = new Tricycle();
-		$tricycleStatusesModel = new TricycleStatuses;
+    $tricycleStatusesModel = new TricycleStatuses;
     $data['activeTricycleCount'] = $tricycleStatusesModel->count(['status' => 'Active']);
-		$data['userTricycleCount'] = $tricycleStatusesModel->count(['status' => 'Active', 'user_id' => $_SESSION['USER']->user_id]);
+    $data['userTricycleCount'] = $tricycleStatusesModel->count(['status' => 'Active', 'user_id' => $_SESSION['USER']->user_id]);
 
-		$appointmentModel = new Appointment();
+    $userModel = new User();
+    $data['operatorCount'] = $userModel->countOperatorsWithActiveOrDroppedTricycleStatus();
+
+    $appointmentModel = new Appointment();
     $data['pendingAppointmentCount'] = $appointmentModel->count(['status' => 'Pending']);
-		$data['userPendingAppointmentCount'] = $appointmentModel->count(['status' => 'Pending', 'user_id' => $_SESSION['USER']->user_id]);
-		
-		$driverModel = new Driver();
-		$data['userDriverCount'] = $driverModel->count(['user_id' => $_SESSION['USER']->user_id]);
+    $data['userPendingAppointmentCount'] = $appointmentModel->count(['status' => 'Pending', 'user_id' => $_SESSION['USER']->user_id]);
 
-		$cinModel = new TricycleCinNumber();
+    $driverModel = new Driver();
+    $data['userDriverCount'] = $driverModel->count(['user_id' => $_SESSION['USER']->user_id]);
+
+    $cinModel = new TricycleCinNumber();
     $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
 
-		$taripaModel = new Taripas();
-		$rateAdjustmentModel = new RateAdjustment();
+    $taripaModel = new Taripas();
+    $rateAdjustmentModel = new RateAdjustment();
 
-		// Fetch all taripas data
-		$taripasData = $taripaModel->findAll();
+    // Fetch all taripas data
+    $taripasData = $taripaModel->findAll();
 
-		// Fetch all rate adjustments data
-		$rateAdjustmentsData = $rateAdjustmentModel->findAll();
+    // Fetch all rate adjustments data
+    $rateAdjustmentsData = $rateAdjustmentModel->findAll();
 
-		// Extract unique years from both taripas and rate adjustments data
-		$taripaYears = array_unique(array_column($taripasData, 'effective_year'));
-		$rateAdjustmentYears = array_unique(array_column($rateAdjustmentsData, 'effective_year'));
+    // Extract unique years from both taripas and rate adjustments data effective date
+    $taripaYears = [];
+    $rateAdjustmentYears = [];
+    if (!empty($taripasData)) {
+      $taripaYears = array_unique(array_map(function ($item) {
+        return (new DateTime($item->effective_date))->format('Y');
+      }, $taripasData));
+    }
 
-		// Merge and sort the years in descending order
-		$years = array_unique(array_merge($taripaYears, $rateAdjustmentYears));
-		rsort($years);
+    if (!empty($rateAdjustmentsData)) {
+      $rateAdjustmentYears = array_unique(array_map(function ($item) {
+        return (new DateTime($item->effective_date))->format('Y');
+      }, $rateAdjustmentsData));
+    }
 
-		// Calculate rates for each year
-		$ratesByYear = [];
-		foreach ($years as $year) {
-			$ratesByYear[$year] = $this->calculateRatesForYear($taripasData, $rateAdjustmentsData, $year);
-		}
+    // Merge and sort the years in descending order
+    $years = array_unique(array_merge($taripaYears, $rateAdjustmentYears));
+    rsort($years);
 
-		$data['years'] = $years;
-		$data['ratesByYear'] = json_encode($ratesByYear);
+    // Calculate rates for each year
+    $ratesByYear = [];
+    foreach ($years as $year) {
+      $ratesByYear[$year] = $this->calculateRatesForYear($taripasData, $rateAdjustmentsData, $year);
+    }
 
-		echo $this->renderView('dashboard', true, $data);
-	}
+    $data['years'] = $years;
+    $data['ratesByYear'] = json_encode($ratesByYear);
 
-	private function calculateRatesForYear($taripasData, $rateAdjustmentsData, $year)
-	{
-		$rates = [];
+    echo $this->renderView('dashboard', true, $data);
+  }
 
-		foreach ($taripasData as $taripa) {
-			$regularRate = $taripa->regular_rate;
-			$studentRate = $taripa->student_rate;
-			$seniorAndPwdRate = $taripa->senior_and_pwd_rate;
-			
-			$rateAdjustment = array_filter($rateAdjustmentsData, function ($adjustment) use ($year) {
-				return $adjustment->effective_year == $year;
-			});
+  private function calculateRatesForYear($taripasData, $rateAdjustmentsData, $year)
+  {
+    $rates = [];
 
-			if (!empty($rateAdjustment)) {
-				$rateAdjustment = reset($rateAdjustment);
-				$rateAction = $rateAdjustment->rate_action;
-				$percentage = $rateAdjustment->percentage;
-				$previousYear = $rateAdjustment->previous_year;
+    foreach ($taripasData as $taripa) {
+      $regularRate = $taripa->regular_fare;
+      $studentRate = $taripa->discounted_fare;
 
-				// If there is a previous year, get the rates from that year
-				if (in_array($previousYear, array_column($rateAdjustmentsData, 'effective_year'))) {
-					$previousRates = $this->calculateRatesForYear($taripasData, $rateAdjustmentsData, $previousYear);
-					$previousRegularRate = $previousRates[$taripa['taripa_id']]['regular_rate'];
-					$previousStudentRate = $previousRates[$taripa['taripa_id']]['student_rate'];
-					$previousSeniorAndPwdRate = $previousRates[$taripa['taripa_id']]['senior_and_pwd_rate'];
-				} else {
-					// If no previous year or the previous year is not in rate adjustments, use the taripa data
-					$previousRegularRate = $taripa->regular_rate;
-					$previousStudentRate = $taripa->student_rate;
-					$previousSeniorAndPwdRate = $taripa->senior_and_pwd_rate;
-				}
+      // Check if $rateAdjustmentsData is an array before filtering
+      if (is_array($rateAdjustmentsData)) {
+        $filteredAdjustments = array_filter($rateAdjustmentsData, function ($adjustment) use ($year) {
+          return (new DateTime($adjustment->effective_date))->format('Y') == $year;
+        });
 
-				// Calculate rates based on rate action
-				if ($rateAction == 'increase') {
-					$regularRate += $previousRegularRate * ($percentage / 100);
-					$studentRate += $previousStudentRate * ($percentage / 100);
-					$seniorAndPwdRate += $previousSeniorAndPwdRate * ($percentage / 100);
-				} elseif ($rateAction == 'decrease') {
-					$regularRate -= $previousRegularRate * ($percentage / 100);
-					$studentRate -= $previousStudentRate * ($percentage / 100);
-					$seniorAndPwdRate -= $previousSeniorAndPwdRate * ($percentage / 100);
-				}
-			}
+        if (!empty($filteredAdjustments)) {
+          $rateAdjustment = reset($filteredAdjustments);
+          $rateAction = $rateAdjustment->rate_action;
+          $percentage = $rateAdjustment->percentage;
+          $previousYear = $rateAdjustment->previous_year;
 
-			$rates[$taripa->taripa_id] = [
-				'regular_rate' => $regularRate,
-				'student_rate' => $studentRate,
-				'senior_and_pwd_rate' => $seniorAndPwdRate,
-			];
-		}
+          // If there is a previous year, get the rates from that year
+          $previousRates = [];
+          foreach ($rateAdjustmentsData as $adjustment) {
+            if ((new DateTime($adjustment->effective_date))->format('Y') == $previousYear) {
+              $previousRates = $this->calculateRatesForYear($taripasData, $rateAdjustmentsData, $previousYear);
+            }
+          }
 
-		return $rates;
-	}
+          // Calculate rates based on rate action
+          if ($rateAction == 'increase') {
+            $regularRate += $regularRate * ($percentage / 100);
+            $studentRate += $studentRate * ($percentage / 100);
+          } elseif ($rateAction == 'decrease') {
+            $regularRate -= $regularRate * ($percentage / 100);
+            $studentRate -= $studentRate * ($percentage / 100);
+          }
+        }
+      }
+
+      $rates[$taripa->taripa_id] = [
+        'regular_fare' => $regularRate,
+        'discounted_fare' => $studentRate,
+      ];
+    }
+
+    return $rates;
+  }
 }

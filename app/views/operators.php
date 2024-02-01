@@ -37,22 +37,26 @@
                       <?php if (empty($user['tricycles'])): ?>
                         <span class="badge text-bg-info p-1">No Registered Tricycle</span>
                       <?php else: ?>
-                        <?php foreach ($user['tricycles'] as $tricycle): ?>
-                          <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="tricycle-link text-decoration-none text-danger"><?php echo $tricycle['plate_no']; ?></a><br>
-                        <?php endforeach; ?>
+                        <div class="text-start">
+                          <?php foreach ($user['tricycles'] as $tricycle): ?>
+                              <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="tricycle-link text-decoration-none text-primary fw-bold"><?php echo $tricycle['cin_number']; ?></a><br>
+                          <?php endforeach; ?>
+                        </div>
                       <?php endif; ?>
                     </td>
                     <td>
                       <?php if (empty($user['drivers'])): ?>
                         <span class="badge text-bg-info p-1">No Registered Driver</span>
                       <?php else: ?>
-                        <?php foreach ($user['drivers'] as $driver): ?>
-                          <a href="./view_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="tricycle-link text-decoration-none text-danger fw-bold "><?php echo $driver['driver_name']; ?></a><br>
-                        <?php endforeach; ?>
+                        <div class="text-start">
+                          <?php foreach ($user['drivers'] as $driver): ?>
+                            <a href="./view_driver?driver_id=<?php echo $driver['driver_id']; ?>" class="tricycle-link text-decoration-none text-dark fw-bold text-start "><?php echo $driver['driver_name']; ?></a><br>
+                          <?php endforeach; ?>
+                        </div>
                       <?php endif; ?>
                     </td>
                     <td>
-                      <a href="./view_operator?operator_id=<?php echo $user['user_id'];?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Operator Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                      <a href="./view_operator?operator_id=<?php echo $user['user_id'];?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Operator Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>

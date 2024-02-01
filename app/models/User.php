@@ -71,7 +71,6 @@ class User
 			return !empty($result);
 	}
 	
-
 	public function validateEmailOrPhone($emailOrPhone)
 	{
 		if (empty($emailOrPhone)) {
@@ -95,7 +94,6 @@ class User
 			$this->addError('phone_number', "The phone number '$emailOrPhone' has already been taken.");
 		}
 	}
-
 
 	private function validateEmail($email)
 	{
@@ -222,6 +220,25 @@ class User
 		return true;
 	}
 
+	public function countOperatorsWithActiveOrDroppedTricycleStatus()
+	{
+		$query = "SELECT COUNT(DISTINCT u.user_id) AS count
+							FROM users u
+							INNER JOIN tricycles t ON u.user_id = t.user_id
+							INNER JOIN tricycle_statuses ts ON t.tricycle_id = ts.tricycle_id
+							WHERE u.role = 'operator'
+							AND ts.status IN ('Active', 'Dropped')";
+
+		$result = $this->query($query);
+
+		$count = 0;
+
+		if ($result && isset($result[0]->count)) {
+			$count = $result[0]->count;
+		}
+
+		return $count;
+	}
 
 	private function validateRequired($value, $field)
 	{

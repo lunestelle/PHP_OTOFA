@@ -173,4 +173,27 @@ Trait Model
 
     return 0;
   }
+
+  public function countWithPattern($pattern)
+  {
+    $query = "SELECT COUNT(*) as count FROM {$this->table} WHERE ";
+    
+    // Assume $pattern is an associative array where keys represent column names
+    // and values represent the patterns to match
+    $conditions = [];
+    foreach ($pattern as $column => $value) {
+        $conditions[] = "$column LIKE :$column";
+    }
+    
+    $query .= implode(" AND ", $conditions);
+
+    $result = $this->query($query, $pattern);
+
+    if (!empty($result)) {
+        return $result[0]->count;
+    }
+
+    return 0;
+  }
+
 }

@@ -6,35 +6,58 @@ class Driver_data
   {
     header('Content-Type: application/json');
 
-    $tricycleCinId = $_POST['tricycle_cin_number_id'] ?? '';
+    $userId = $_SESSION['USER']->user_id ?? null;
 
-    if ($tricycleCinId) {
-      $tricycleCinModel = new TricycleCinNumber();
-      $driverModel = new Driver();
+    if ($userId) {
+      $tricycleCinId = $_POST['tricycle_cin_number_id'] ?? '';
 
-      $cinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleCinId]);
+      if ($tricycleCinId) {
+        $tricycleCinModel = new TricycleCinNumber();
+        $driverModel = new Driver();
 
-      if ($cinData) {
-        $driverData = $driverModel->first(['tricycle_cin_number_id' => $tricycleCinId]);
+        $cinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleCinId]);
 
-        $response = [
-          'success' => true,
-          'data' => [
-            'driverData' => $driverData,
-          ],
-        ];
+        if ($cinData) {
+          $query = "SELECT drivers.* 
+                    FROM drivers 
+                    JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id 
+                    WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id 
+                    AND driver_statuses.status = 'Active'
+                    AND drivers.user_id = :user_id";
 
-        echo json_encode($response);
-        exit;
+          $driverData = $driverModel->query($query, [
+            ':tricycle_cin_id' => $tricycleCinId,
+            ':user_id' => $userId
+          ]);
+
+          $response = [
+            'success' => true,
+            'data' => [
+              'driverData' => $driverData,
+            ],
+          ];
+
+          echo json_encode($response);
+          exit;
+        }
       }
+
+      $errorResponse = [
+        'success' => false,
+        'message' => 'Error fetching data',
+      ];
+
+      echo json_encode($errorResponse);
+      exit;
+    } else {
+      // Handle case where user ID is not found in session
+      $errorResponse = [
+        'success' => false,
+        'message' => 'User session not found',
+      ];
+
+      echo json_encode($errorResponse);
+      exit;
     }
-
-    $errorResponse = [
-      'success' => false,
-      'message' => 'Error fetching data',
-    ];
-
-    echo json_encode($errorResponse);
-    exit;
   }
 }

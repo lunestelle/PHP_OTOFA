@@ -28,10 +28,14 @@ class Edit_ownership_transfer_from_deceased_owner
     $selectedUserId = $appointmentData->user_id;
     $selectedCinNumber = $tricycleApplicationData->tricycle_cin_number_id;
     $cinData = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumber]);
-    $driverData = $driverModel->first(['tricycle_cin_number_id' => $cinData->tricycle_cin_number_id]);
 
+    $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
+    $driverData = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
+
+    $data = []; 
     if (!empty($driverData)) {
-      $driver_name = $driverData->first_name . ' ' . $driverData->middle_name . ' ' . $driverData->last_name;
+      $driver = $driverData[0];
+      $driver_name = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
     } else {
       $driver_name = 'Selected CIN has no driver';
     }
@@ -208,17 +212,20 @@ class Edit_ownership_transfer_from_deceased_owner
                 $tricycleModel->update(['tricycle_id' => $tricycleData->tricycle_id], $tricycleUpdateData);
               }
             }
+
+            $cinDataForNotifs = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+            $cinNumber = $cinDataForNotifs->cin_number;
           
             $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
             $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
             $rootPath = ROOT;
 
-            $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $formattedDate, $formattedTime, $rootPath);
-            $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime);
+            $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber);
+            $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber);
             $customRequirementMessage = $this->generateCustomRequirementMessage();
+            $feeMessage = $this->generateFeeMessage($tricycleApplicationData->route_area);
 
-            sendAppointmentNotifications($appointmentFormData, $data, $customTextMessage, $customEmailMessage, $customRequirementMessage);
-
+            sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationData, $cinNumber, $customTextMessage, $customEmailMessage, $customRequirementMessage);
             set_flash_message("Scheduled appointment updated successfully.", "success");
             redirect('appointments');;
           } else {
@@ -293,59 +300,38 @@ class Edit_ownership_transfer_from_deceased_owner
     return $fileUploads;
   }
 
-  private function generateCustomTextMessage($name, $formattedDate, $formattedTime, $rootPath)
+  private function generateCustomTextMessage($name, $appointment_type, $formattedDate, $formattedTime, $rootPath, $cinNumber)
   {
-    $message = "Hello {$name},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form and prepare the following assessment fees.\n";
-    
-    // Assessment Fees
-    $message .= "\nAssessment of Fees:\n";
-    
-    $message .= "a. Freezone fee: P400.00\n";
-    $message .= "b. Filing Fee: P30.00\n";
-    $message .= "Total: P430.00\n\n";
-
-    $message .= "a. Zone 2, 3, & 4: P1000.00\n";
-    $message .= "b. Filing Fee: P30.00\n";
-    $message .= "Total: P1030.00\n\n";
-
-    $message .= "Please be informed that you are required to prepare the necessary amount in cash for the assessment fees. This will help expedite the processing of your request. Also, below is the list of requirements for Transfer of Ownership.";
-
+    $feeMessage = $this->generateFeeMessage($routeArea);
+    $message = "Hello {$name},\n\nCongratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for {$appointment_type}.\n";
     $message .= $this->generateRequirementList();
     $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
 
-    return $message;  
+    return $message;
   }
 
-
-  private function generateCustomEmailMessage($formattedDate, $formattedTime)
+  private function generateCustomEmailMessage($formattedDate, $formattedTime, $appointment_type, $cinNumber)
   {
-    $message = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your appointment has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
-    $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form and prepare the following assessment fees.</div>";
-    $message .= "<br>";
+    $feeMessage = $this->generateFeeMessage($routeArea);
+    $message = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
+    $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for {$appointment_type}. </div>";
 
-    // Assessment Fees
-    $message .= "<div style='margin-top: 10px; text-align: start; color:#455056; font-size:15px; line-height:20px;'><strong>Assessment Fees:</strong></div>";
-    
-    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>a. Freezone: P400.00</div>";
-    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>b. Filing Fee: P30.00</div>";
-    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>Total: P430.00</div>";
-    $message .= "<br>";
+    return $message;
+  }
 
-    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>a. Zone 2, 3, & 4: P1000.00</div>";
-    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>b. Filing Fee: P30.00</div>";
+  private function generateFeeMessage($routeArea)
+  {
+    $fee = ($routeArea === 'Free Zone / Zone 1') ? '430.00' : '1,030.00';
+    $feeMessage = "be informed that a processing fee of &#8369;{$fee} is required for your appointment and please";
 
-    $message .= "<div style='text-align: start; color:#455056; line-height:24px;'>Total: P1030.00</div>";
-    $message .= "<br>";
-
-    // Additional information
-    $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>Please be informed that you are required to prepare the necessary amount in cash for the assessment fees. This will help expedite the processing of your request. Also, below is the list of requirements for Transfer of Ownership.</div>";
-    return $message;    
+    return $feeMessage;
   }
 
   private function generateCustomRequirementMessage()
   {
-    return "<div style='text-align: start; color:#455056'>" . $this->generateRequirementList() . "</div>";
+    return "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>" . $this->generateRequirementList() . "</div>";
   }
+
 
   private function generateRequirementList()
   {

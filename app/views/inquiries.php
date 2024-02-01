@@ -13,9 +13,27 @@
               </form>
             </div>
           <?php endif; ?>
+          <div class="row mt-3">
+            <div class="col-6">
+              <label for="messageFilter" class="fw-bold" style="font-size: 13px;">Filter By Message Status:</label>
+              <select id="messageFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                <option value="all" <?php echo ($messageFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                <option value="Read" <?php echo ($messageFilter === 'Read') ? 'selected' : ''; ?>>Read</option>
+                <option value="Unread" <?php echo ($messageFilter === 'Unread') ? 'selected' : ''; ?>>Unread</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="responseFilter" class="fw-bold"  style="font-size: 13px;">Filter By Response Status:</label>
+              <select id="responseFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                <option value="all" <?php echo ($responseFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                <option value="Responded" <?php echo ($responseFilter === 'Responded') ? 'selected' : ''; ?>>Responded</option>
+                <option value="Not Responded" <?php echo ($responseFilter === 'Not Responded') ? 'selected' : ''; ?>>Not Responded</option>
+              </select>
+            </div>
+          </div>
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
-              <thead class="thead-custom">
+              <thead>
                 <tr class="text-uppercase">
                 <th scope="col" class="text-center">#</th>
                   <th scope="col" class="text-center">Full Name</th>
@@ -37,25 +55,25 @@
                       <?= !empty($inquiry['message']) ? $inquiry['message'] : '----------------'; ?>
                     </td>
                     <td class="text-center">
-                      <span class="badge bg-primary text-uppercase p-2"><?= !empty($inquiry['message_status']) ? $inquiry['message_status'] : '----------------'; ?></span>
+                      <span class="badge bg-dark text-uppercase p-1"><?= !empty($inquiry['message_status']) ? $inquiry['message_status'] : '----------------'; ?></span>
                     </td>
                     <td class="<?= !empty($inquiry['response']) ? 'text-start text-justify' : 'text-center'; ?>">
                       <?= !empty($inquiry['response']) ? substr($inquiry['response'], 0, 100) . '...' : '----------------'; ?>
                     </td>
                     <td class="text-center">
-                      <span class="badge bg-success text-uppercase p-2"><?= !empty($inquiry['response_status']) ? $inquiry['response_status'] : '----------------'; ?></span>
+                      <span class="badge bg-success text-uppercase p-1"><?= !empty($inquiry['response_status']) ? $inquiry['response_status'] : '----------------'; ?></span>
                     </td>
                     <td>
                       <div class="btn-group">
-                        <button type="button" class="btn btn-primary btn-sm" style="font-size: 12px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#readModal<?= $inquiry['id']; ?>">
+                        <button type="button" class="btn btn-danger btn-sm rounded-0" style="font-size: 11px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#readModal<?= $inquiry['id']; ?>">
                           View Message
                         </button>
                         <?php if (!empty($inquiry['response'])): ?>
-                          <button type="button" class="btn btn-info btn-sm" style="font-size: 12px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#viewResponseModal<?= $inquiry['id']; ?>">
+                          <button type="button" class="btn btn-info btn-sm rounded-0" style="font-size: 11px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#viewResponseModal<?= $inquiry['id']; ?>">
                             View Response
                           </button>
                         <?php else: ?>
-                          <button type="button" class="btn btn-success btn-sm" style="font-size: 12px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#respondModal<?= $inquiry['id']; ?>">
+                          <button type="button" class="btn btn-warning btn-sm rounded-0" style="font-size: 12px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#respondModal<?= $inquiry['id']; ?>">
                           Respond
                         </button>
                         <?php endif; ?>
@@ -157,5 +175,25 @@
         }
       });
     <?php endforeach; ?>
+  });
+
+  $(document).ready(function () {
+    $("#messageFilter, #responseFilter").change(function () {
+      const selectedMessageStatus = $("#messageFilter").val();
+      const selectedResponseStatus = $("#responseFilter").val();
+      
+      let queryParams = [];
+
+      if (selectedMessageStatus !== 'all') {
+        queryParams.push('message_status=' + encodeURIComponent(selectedMessageStatus));
+      }
+      if (selectedResponseStatus !== 'all') {
+        queryParams.push('response_status=' + encodeURIComponent(selectedResponseStatus));
+      }
+
+      let queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+      window.location.href = "inquiries" + queryString;
+    });
   });
 </script>

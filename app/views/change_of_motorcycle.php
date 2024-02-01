@@ -4,12 +4,19 @@
       <h6 class="title-head">Schedule New Appointment</h6>
     </div>
     <div class="col-lg-12 mt-2">
+      <?php if ($userRole === 'operator'): ?>  
+        <div class="row assessmentFeeContainer">
+          <div class="col-12 mx-auto text-center mt-1">
+            <p id="assessmentFeeText" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
+          </div>
+        </div>
+      <?php endif; ?>
       <div class="row">
-        <div class="col-12 pt-2">
-          <div class="container pt-3">
+        <div class="col-12">
+          <div class="container">
             <div id="newAppointmentForm">
               <form class="default-form" method="POST" action="" enctype="multipart/form-data" id="appointmentForm">
-                <div class="content-container mt-2 mb-3">
+                <div class="content-container mb-3">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6">Appointment Information</h6>
                   </div>
@@ -338,10 +345,51 @@
 </main>
 <script>
   $(document).ready(function () {
-    $("#color_code").change(function () {
-      let selectedColorCode = $(this).val();
+    function updateAssessmentFee() {
+      let selectedColorCode = $("#color_code").val();
       let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
       $("#route_area").val(selectedRouteArea);
+
+      let assessmentFeeText = "Please select a route area to view the assessment fee.";
+
+      let assessmentFees = {
+        "Free Zone / Zone 1": "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱60.00.",
+        "Free Zone & Zone 2": "The assessment fee for processing your tricycle application within the Free Zone & Zone 2 Route is ₱60.00.",
+        "Free Zone & Zone 3": "The assessment fee for processing your tricycle application within the Free Zone & Zone 3 Route is ₱60.00.",
+        "Free Zone & Zone 4": "The assessment fee for processing your tricycle application within the Free Zone & Zone 4 Route is ₱60.00."
+      };
+
+      if (assessmentFees[selectedRouteArea]) {
+        assessmentFeeText = assessmentFees[selectedRouteArea];
+      }
+
+      let tricycleStatuses = <?php echo json_encode($tricycle_statuses); ?>;
+
+      let motorNotices = tricycleStatuses.some(status => status == "Expired Motor (1st Notice)" || status == "Expired Motor (2nd Notice)" || status == "Expired Motor (3rd Notice)");
+      if (motorNotices) {
+        let penaltyFee = "";
+        switch (selectedRouteArea) {
+          case "Free Zone / Zone 1":
+            penaltyFee = " Additionally, there is a penalty fee of ₱122.50 for late motor replacement.";
+            break;
+          case "Free Zone & Zone 2":
+          case "Free Zone & Zone 3":
+          case "Free Zone & Zone 4":
+            penaltyFee = " Additionally, there is a penalty fee of ₱272.50 for late motor replacement.";
+            break;
+          default:
+            penaltyFee = "";
+        }
+        assessmentFeeText += penaltyFee;
+      }
+
+      $("#assessmentFeeText").text(assessmentFeeText);
+    }
+
+    updateAssessmentFee();
+
+    $("#color_code").change(function () {
+      updateAssessmentFee();
     });
 
     let errorMessage = $(".flash-message.error");

@@ -11,7 +11,9 @@ class Tricycles
       redirect('');
     }
 
-    $statusFilter = $_GET['status'] ?? '';
+    $statusFilter = $_GET['status'] ?? 'all';
+    $routeAreaFilter = $_GET['route_area'] ?? 'all';
+    $userId = $_GET['user_id'] ?? null;
 
     $tricycleModel = new Tricycle();
     $userModel = new User();
@@ -23,15 +25,29 @@ class Tricycles
 
     $data['tricycles'] = [];
     $data['index'] = 1;
+    $data['statusFilter'] = $statusFilter;
+    $data['routeAreaFilter'] = $routeAreaFilter;
 
     if ($_SESSION['USER']->role === 'admin') {
-      // Fetch all tricycles data for Admin
-      $tricyclesData = $tricycleModel->getTricyclesForAdmin($statusFilter);
+      // Fetch tricycles data based on the user ID if provided, or apply other filters
+      if ($userId !== null) {
+        $tricyclesData = $tricycleModel->getTricyclesForAdminWithSpecificUser($userId, $statusFilter);
+      } else {
+        // Fetch all tricycles data for Admin
+        if ($statusFilter === 'all' && $routeAreaFilter === 'all') {
+          $tricyclesData = $tricycleModel->findAll();
+        } else {
+          $tricyclesData = $tricycleModel->getTricyclesForAdmin($statusFilter, $routeAreaFilter);
+        }
+      }
     } else {
       // Fetch tricycles data based on the user ID for non-Admin users
-      $tricyclesData = $tricycleModel->getTricyclesForUser($_SESSION['USER']->user_id, $statusFilter);
+      if ($statusFilter === 'all' && $routeAreaFilter === 'all') {
+        $tricyclesData = $tricycleModel->where(['user_id' => $_SESSION['USER']->user_id]);
+      } else {
+        $tricyclesData = $tricycleModel->getTricyclesForUser($_SESSION['USER']->user_id, $statusFilter, $routeAreaFilter);
+      }
     }
-  
 
     if (!empty($tricyclesData)) {
       foreach ($tricyclesData as $tricycle) {
@@ -52,7 +68,7 @@ class Tricycles
         foreach ($tricycleStatusesData as $tricycleStatusData) {
           $status = $tricycleStatusData->status;
           $badgeColor = '';
-      
+
           switch ($status) {
             case 'Active':
               $badgeColor = 'bg-success';
@@ -63,19 +79,23 @@ class Tricycles
             case 'Renewal Required':
               $badgeColor = 'bg-warning';
               break;
+            case 'Expired Renewal':
+              $badgeColor = 'bg-warning';
+              break;
             case 'Change Motor Required':
               $badgeColor = 'bg-info';
               break;
             default:
+              $badgeColor = 'bg-danger';
               break;
           }
-      
+
           $statuses[] = [
             'status' => $status,
             'badgeColor' => $badgeColor,
           ];
         }
-        
+
         $data['tricycles'][] = [
           'tricycle_id' => $tricycle->tricycle_id,
           'statuses' => $statuses,
@@ -87,9 +107,9 @@ class Tricycles
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_tricycle_status'])) {
-      $insertedStatus = $_POST['status']; 
+      $insertedStatus = $_POST['status'];
       $tricycleIdToUpdate = $_POST['tricycle_id'];
-  
+
       // Fetch the tricycle data, including the owner's user_id
       $tricycleData = $tricycleModel->first(['tricycle_id' => $tricycleIdToUpdate]);
       $tricycleOwnerId = $tricycleData->user_id;
@@ -112,7 +132,7 @@ class Tricycles
             $customEmailMessage = "<div style='text-align: justify; margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>We would like to inform you that the ownership of Tricycle CIN #{$tricycleCINNumber} associated with your account has been dropped. Thank you for choosing our services.</div>";
 
             systemNotifications($phoneNumber, $userName, $email, $subject, $customTextMessage, $customEmailMessage);
-          
+
             if ($tricycleCinData) {
               $tricycleCinModel->update(
                 ['cin_number' => $tricycleCinData->cin_number],
@@ -123,11 +143,11 @@ class Tricycles
             set_flash_message("Successfully updated tricycle status.", "success");
             redirect('tricycles');
           } else {
-            set_flash_message("failed insert.", "error");
+            set_flash_message("Failed Insert data.Please try again!", "error");
             redirect('tricycles');
           }
         } else {
-          set_flash_message("Failed Delete.", "error");
+          set_flash_message("Failed Delete data. Please try again!", "error");
           redirect('tricycles');
         }
       } elseif ($insertedStatus != "Dropped") {
@@ -135,7 +155,7 @@ class Tricycles
           set_flash_message("Successfully updated tricycle status.", "success");
           redirect('tricycles');
         } else {
-          set_flash_message("Failed to update tricycle statasdasus.", "error");
+          set_flash_message("Failed to update tricycle status.", "error");
           redirect('tricycles');
         }
       }
