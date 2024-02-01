@@ -35,7 +35,8 @@ class Expired_renewal_automation
         // Delete Renewal Required status
         $tricycleStatusesModel->query("DELETE FROM tricycle_statuses WHERE user_id = '{$tricycle->user_id}' AND tricycle_id = '{$tricycle->tricycle_id}' AND status = 'Renewal Required'");
 
-        $this->sendNotification($user, $tricycleApplicationData);
+        $noticeNo = "1st Notice";
+        $this->sendNotification($user, $tricycleApplicationData, $noticeNo);
         
         // Update tricycle's expired_notification_sent_at
         $tricycleModel->query("UPDATE tricycles SET expired_notification_sent_at = '{$currentDate}' WHERE tricycle_id = '{$tricycle->tricycle_id}'");
@@ -97,7 +98,13 @@ class Expired_renewal_automation
 
               $this->sendDroppedNotification($user, $tricycleApplicationData);
             } else {
-              $this->sendNotification($user, $tricycleApplicationData);
+              if ($nextStatus === "Expired Renewal (2nd Notice)") {
+                $noticeNo = "2nd Notice";
+                $this->sendNotification($user, $tricycleApplicationData, $noticeNo);
+              } elseif ($nextStatus === "Expired Renewal (3rd Notice)") {
+                $noticeNo = "3rd Notice";
+                $this->sendNotification($user, $tricycleApplicationData, $noticeNo);
+              }
               // Update tricycle's expired_notification_sent_at
               $tricycleModel->query("UPDATE tricycles SET expired_notification_sent_at = '{$currentDate}' WHERE tricycle_id = '{$tricycleId}'");
             }                
@@ -110,7 +117,7 @@ class Expired_renewal_automation
     }
   }
 
-  private function sendNotification($user, $tricycleApplicationData)
+  private function sendNotification($user, $tricycleApplicationData, $noticeNo)
   {
     $phoneNumber = $user->phone_number;
     $userName = $user->first_name . ' ' . $user->last_name;
@@ -122,14 +129,14 @@ class Expired_renewal_automation
     $cinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
 
     $cinNumber = $cinData->cin_number;
-
+    $rootPath = ROOT;
     $penaltyFee = ($routeArea === 'Free Zone / Zone 1') ? '122.50' : '272.50';
 
-    $customTextMessage = "Hello {$userName},\n\nWe're notifying you that the tricycle franchise renewal period, from December 20th to January 20th, has ended. Unfortunately, your CIN #{$cinNumber} in {$routeArea} has expired, requiring immediate renewal. \n\nTo renew, kindly schedule an appointment through OTOFA. Once approved, submit necessary requirements to the Transportation Development Franchising and Regulatory Office (TDFRO) on the specified date. Please note, a ₱{$penaltyFee} late renewal charge applies, and failure to renew may lead to an embargo of your ownership rights to the CIN by TDFRO personnel.\n\nYour prompt attention is appreciated. Thank you for your cooperation.\n";
+    $customTextMessage = "Hello {$userName},\n\nWe're giving you a {$noticeNo} that the tricycle franchise renewal period, from December 20th to January 20th, has ended. Unfortunately, your CIN #{$cinNumber} in {$routeArea} has expired, requiring immediate renewal. \n\nTo renew, kindly schedule an appointment through OTOFA. Once approved, submit necessary requirements to the Transportation Development Franchising and Regulatory Office (TDFRO) on the specified date. Please note, a ₱{$penaltyFee} late renewal charge applies, and failure to renew may lead to an embargo of your ownership rights to the CIN by TDFRO personnel.\n\nYour prompt attention is appreciated. Thank you for your cooperation. For more details, please check our website by clicking the link: {$rootPath}.\n";
 
-    $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>We're notifying you that the tricycle franchise renewal period, from December 20th to January 20th, has ended. Unfortunately, your CIN #{$cinNumber} in {$routeArea} has expired, requiring immediate renewal.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>To renew, kindly schedule an appointment through OTOFA. Once approved, submit necessary requirements to the Transportation Development Franchising and Regulatory Office (TDFRO) on the specified date. Please note, a ₱{$penaltyFee} late renewal charge applies, and failure to renew may lead to an embargo of your ownership rights to the CIN by TDFRO personnel.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your prompt attention is appreciated. Thank you for your cooperation.</div>";
+    $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>We're giving you a {$noticeNo} that the tricycle franchise renewal period, from December 20th to January 20th, has ended. Unfortunately, your CIN #{$cinNumber} in {$routeArea} has expired, requiring immediate renewal.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>To renew, kindly schedule an appointment through OTOFA. Once approved, submit necessary requirements to the Transportation Development Franchising and Regulatory Office (TDFRO) on the specified date. Please note, a ₱{$penaltyFee} late renewal charge applies, and failure to renew may lead to an embargo of your ownership rights to the CIN by TDFRO personnel.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your prompt attention is appreciated. Thank you for your cooperation.</div>";
 
-    $subject = "Tricycle Franchise Expired Renewal Reminder";
+    $subject = "Expired Renewal Reminder - {$noticeNo}";
 
     systemNotifications($phoneNumber, $userName, $email, $subject, $customTextMessage, $customEmailMessage);
   }

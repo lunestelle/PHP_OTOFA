@@ -39,6 +39,7 @@ class Appointment_process_automation
         $userName = $user->first_name . ' ' . $user->last_name;
         $email = $user->email;
         $subject = "Appointment Expired - Schedule a New Appointment";
+        $rootPath = ROOT;
 
         $formattedDate = date('F j, Y', strtotime($appointment->appointment_date));
         $formattedTime = date('h:i A', strtotime($appointment->appointment_time));
@@ -55,7 +56,7 @@ class Appointment_process_automation
 
         $cinNumber = $cinData->cin_number;
 
-        $customTextMessage = "Hello {$userName}, \n\nWe would like to inform you that your recent {$appointment->appointment_type} appointment for tricycle CIN #{$cinNumber}, scheduled for {$formattedDate} at {$formattedTime} has expired. We understand that unforeseen circumstances may have arisen, and you can reschedule a new appointment at your earliest convenience.\n\nThank you.";
+        $customTextMessage = "Hello {$userName}, \n\nWe would like to inform you that your recent {$appointment->appointment_type} appointment for tricycle CIN #{$cinNumber}, scheduled for {$formattedDate} at {$formattedTime} has expired. We understand that unforeseen circumstances may have arisen, and you can reschedule a new appointment at your earliest convenience.\n\nFor more details, please check our website by clicking the link: {$rootPath}.\n";
 
         $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>I hope this email finds you well. We would like to inform you that your recent {$appointment->appointment_type} appointment for tricycle CIN #{$cinNumber}, scheduled for {$formattedDate} at {$formattedTime} has expired. We understand that unforeseen circumstances may have arisen, and you can reschedule a new appointment at your earliest convenience.</div>";
 
@@ -120,15 +121,19 @@ class Appointment_process_automation
         // Format the assessment fee with two decimal places
         $assessmentFeeFormatted = number_format($assessmentFee, 2, '.', '');
 
-        $customTextMessage = "Hello {$userName},\n\nYour appointment for {$appointment->appointment_type} with tricycle CIN #{$cinNumber} is scheduled for {$formattedDate} at {$formattedTime}.\n\nTo facilitate your appointment process, kindly note that an assessment fee of &#8369;{$assessmentFeeFormatted} applies. Please ensure you have the necessary payment prepared for settlement during your appointment.\n\nMoreover, it's crucial to organize and bring all required documents for submission to avoid any delays.\n";
+        $customTextMessage = "Hello {$userName},\n\nYour appointment for {$appointment->appointment_type} with tricycle CIN #{$cinNumber} is scheduled for {$formattedDate} at {$formattedTime}.\n\nTo facilitate your appointment process, kindly note that an assessment fee of ₱{$assessmentFeeFormatted} applies. Please ensure you have the necessary payment prepared for settlement during your appointment.\n\nMoreover, it's crucial to organize and bring all required documents for submission to avoid any delays.\n";
 
         $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your appointment for {$appointment->appointment_type} with tricycle CIN #{$cinNumber} is scheduled for {$formattedDate} at {$formattedTime}.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>To facilitate your appointment process, kindly note that an assessment fee of &#8369;{$assessmentFeeFormatted} applies. Please ensure you have the necessary payment prepared for settlement during your appointment.</div><div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Moreover, it's crucial to organize and bring all required documents for submission to avoid any delays.</div>";
   
         // Check if the appointment type is "Renewal of Franchise" and the appointment date is past January 20
         if ($appointment->appointment_type === 'Renewal of Franchise' && strtotime($appointment->appointment_date) > strtotime(date('Y-01-20'))) {
-          $customTextMessage .= "\nRegrettably, this {$appointment->appointment_type} appointment for tricycle  CIN #{$cinNumber}, with route area {$routeArea}, is now beyond the renewal period of December 20th to January 20th. A penalty of &#8369;{$penaltyFee} is applicable for late renewal.\n";
+          $customTextMessage .= "\nRegrettably, this {$appointment->appointment_type} appointment for tricycle  CIN #{$cinNumber}, with route area {$routeArea}, is now beyond the renewal period of December 20th to January 20th. A penalty of &#8369;{$penaltyFee} is applicable for late renewal.\n\nFor more details, please check our website by clicking the link: {$rootPath}.\n";
 
-          $customEmailMessage .= "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Regrettably, this {$appointment->appointment_type} appointment for tricycle  CIN #{$cinNumber}, with route area {$routeArea}, is now beyond the renewal period of December 20th to January 20th. A penalty of &#8369;{$penaltyFee} is applicable for late renewal.</div>";
+          $customEmailMessage .= "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Regrettably, this {$appointment->appointment_type} appointment for tricycle  CIN #{$cinNumber}, with route area {$routeArea}, is now beyond the renewal period of December 20th to January 20th. A penalty of &#8369;{$penaltyFee} is applicable for late renewal. For more details, please check our website by clicking the link: {$rootPath}.\n</div>";
+        } else {
+          $customTextMessage .= "\nFor more details, please check our website by clicking the link: {$rootPath}.\n";
+
+          $customEmailMessage .= "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>For more details, please check our website by clicking the link: {$rootPath}.</div>";
         }
   
         $subject = "Appointment Reminder";

@@ -9,13 +9,13 @@ class Change_motor_automation
     $currentDate = date('Y-m-d');
 
     // Calculate the date one week before
-    $oneWeekBefore = date('Y-m-d', strtotime('+1 week'));
+    $oneWeekBefore = date('Y-m-d', strtotime('-1 week'));
 
     $tricycleModel = new Tricycle();
     $tricycleStatusesModel = new TricycleStatuses();
 
-    $query = "SELECT ta.*, ts.*, t.cin_id AS cin_id FROM tricycles AS t JOIN tricycle_applications AS ta ON t.tricycle_application_id = ta.tricycle_application_id JOIN tricycle_statuses AS ts ON t.tricycle_id = ts.tricycle_id WHERE ts.status = 'Active' AND ta.make_model_expiry_date = DATE_ADD(CURDATE(), INTERVAL 1 WEEK)";
-    
+    $query = "SELECT ta.*, ts.*, t.cin_id AS cin_id FROM tricycles AS t JOIN tricycle_applications AS ta ON t.tricycle_application_id = ta.tricycle_application_id JOIN tricycle_statuses AS ts ON t.tricycle_id = ts.tricycle_id WHERE ts.status = 'Active' AND ta.make_model_expiry_date = DATE_SUB(CURDATE(), INTERVAL 1 WEEK)";
+      
     $applicationsToNotify = $tricycleModel->query($query);
 
     if (!empty($applicationsToNotify)) {
@@ -64,10 +64,11 @@ class Change_motor_automation
     $cinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $application->cin_id]);
 
     $cinNumber = $cinData->cin_number;
+    $rootPath = ROOT;
 
     $subject = "Change Motor Reminder";
 
-    $customTextMessage = "Hello {$userName},\n\nYour tricycle CIN #$cinNumber is due for a change of motor which is expiring on $expiryDate. Kindly set an appointment through Sakaycle before the deadline to facilitate the process and avoid any inconveniences. \n\nTo ensure a smooth process, please prepare for the requirements in advance.\n\nYour prompt attention to this matter is greatly appreciated. Thank you for your cooperation.\n";
+    $customTextMessage = "Hello {$userName},\n\nYour tricycle CIN #$cinNumber is due for a change of motor which is expiring on $expiryDate. Kindly set an appointment through Sakaycle before the deadline to facilitate the process and avoid any inconveniences. \n\nTo ensure a smooth process, please prepare for the requirements in advance.\n\nYour prompt attention to this matter is greatly appreciated. Thank you for your cooperation.\nFor more details, please check our website by clicking the link: {$rootPath}.\n";
 
     $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your tricycle CIN #$cinNumber is due for a change of motor which is expiring on $expiryDate. Kindly set an appointment through Sakaycle before the deadline to facilitate the process and avoid any inconveniences. To ensure a smooth process, please prepare for the requirements in advance. Your prompt attention to this matter is greatly appreciated. Thank you for your cooperation.</div>";
 
