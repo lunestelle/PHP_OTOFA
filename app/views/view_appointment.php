@@ -110,8 +110,11 @@
                           <?php if (!empty($tricycleApplication->lto_or_no)): ?>
                             <p><span class="fw-bolder mr-5 text-uppercase">LTO OR Number:</span>
                           <?php endif; ?>
-                          <?php if (!empty($tricycleApplication->driver_license_no)): ?>
+                          <?php if (!empty($driver_license_no)): ?>
                             <p><span class="fw-bolder mr-5 text-uppercase">Driver License Number:</span>
+                          <?php endif; ?>
+                          <?php if (!empty($driver_license_expiry_date) && $driver_license_expiry_date != "0000-00-00"): ?>
+                            <p><span class="fw-bolder mr-5 text-uppercase">License Expiry Date:</span>
                           <?php endif; ?>
                         </div>
                       </div>
@@ -128,8 +131,11 @@
                         <?php if (!empty($tricycleApplication->lto_or_no)): ?>
                           <?php echo $tricycleApplication->lto_or_no; ?></p>
                         <?php endif; ?>
-                        <?php if (!empty($tricycleApplication->driver_license_no)): ?>
-                          <?php echo $tricycleApplication->driver_license_no; ?></p>
+                        <?php if (!empty($driver_license_no)): ?>
+                          <?php echo  $driver_license_no; ?></p>
+                        <?php endif; ?>
+                        <?php if (!empty($driver_license_expiry_date && $driver_license_expiry_date != "0000-00-00")): ?>
+                          <?php echo ($driver_license_expiry_date); ?></p>
                         <?php endif; ?>
                       </div>
                       <div class="col-md-6">
@@ -148,9 +154,6 @@
                             <?php if (!empty($driver_name)): ?>
                               <p><span class="fw-bolder mr-5 text-uppercase">Name of Driver:</span>
                             <?php endif; ?>
-                            <?php if (!empty($tricycleApplication->driver_license_expiry_date) && $tricycleApplication->driver_license_expiry_date != "0000-00-00"): ?>
-                              <p><span class="fw-bolder mr-5 text-uppercase">License Expiry Date:</span>
-                            <?php endif; ?>
                           </div>
                           <div class="col-md-6">
                             <p style="overflow: hidden; white-space: nowrap;"><?php echo ucwords(strtolower($tricycleApplication->address)); ?></p>
@@ -165,9 +168,6 @@
                             <?php endif; ?>
                             <?php if (!empty($driver_name)): ?>
                               <?php echo ($driver_name); ?></p>
-                            <?php endif; ?>
-                            <?php if (!empty($tricycleApplication->driver_license_expiry_date && $tricycleApplication->driver_license_expiry_date != "0000-00-00")): ?>
-                              <?php echo ($tricycleApplication->driver_license_expiry_date); ?></p>
                             <?php endif; ?>
                           </div>
                         </div>

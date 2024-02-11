@@ -251,11 +251,21 @@
                       <?php if (!empty($driverData)): ?>
                         <div class="col-4 px-5">
                           <label for="driver_license_no" class="form-label">Driver License Number</label>
-                          <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?= (isset($existingTricycleApplicationData->driver_license_no) ? $existingTricycleApplicationData->driver_license_no : (isset($_POST['driver_license_no']) ? $_POST['driver_license_no'] : '')); ?>" required>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?= $driver_license_no ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                              <i class="fa-solid fa-info-circle"></i>
+                            </span>
+                          </div>
                         </div>
                         <div class="col-4 px-5">
                           <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
-                          <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?= (isset($existingTricycleApplicationData->driver_license_expiry_date) ? $existingTricycleApplicationData->driver_license_expiry_date : (isset($_POST['driver_license_expiry_date']) ? $_POST['driver_license_expiry_date'] : '')); ?>" required>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?= $driver_license_expiry_date ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date" readonly required>
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                              <i class="fa-solid fa-info-circle"></i>
+                            </span>
+                          </div>
                         </div>
                       <?php else: ?>
                         <div class="col-4 px-5">

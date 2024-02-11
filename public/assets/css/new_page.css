@@ -262,3 +262,10 @@ input[type=number] {
 .appointment-label {
   color: rgb(100, 100, 100);
 }
+
+.new-appointment-selection input:disabled + label {
+  color: #666666 !important;
+  background-color: #cccccc !important;
+  border-color: #999999 !important; 
+  font-weight: bolder !important;
+}

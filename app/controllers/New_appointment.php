@@ -13,15 +13,42 @@ class New_appointment
 
 		$cinModel = new TricycleCinNumber();
     $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
-    $data['tricycleCinNumbers'] = $cinModel->where(["is_used" => 1, "user_id" => $_SESSION['USER']->user_id]);
+    // $data['tricycleCinNumbers'] = $cinModel->where(["is_used" => 1, "user_id" => $_SESSION['USER']->user_id]);
 
-    if (is_array($data['tricycleCinNumbers'])) {
-      usort($data['tricycleCinNumbers'], function ($a, $b) {
-        return strcmp($a->cin_number, $b->cin_number);
-      });
-    } else {
-      $data['tricycleCinNumbers'] = [];
+    // if (is_array($data['tricycleCinNumbers'])) {
+    //   usort($data['tricycleCinNumbers'], function ($a, $b) {
+    //     return strcmp($a->cin_number, $b->cin_number);
+    //   });
+    // } else {
+    //   $data['tricycleCinNumbers'] = [];
+    // }
+
+    $tricycleStatusModel = new TricycleStatuses();
+    $userTricycleStatuses = $tricycleStatusModel->where(["user_id" => $_SESSION['USER']->user_id]);
+    $statuses = [];
+
+    $userHasRenewalStatus = false;
+    $userHasChangeMotorStatus = false;
+
+    $renewalStatuses = ['Renewal Required', 'Expired Renewal (1st Notice)', 'Expired Renewal (2nd Notice)', 'Expired Renewal (3rd Notice)'];
+    $changeMotorStatuses = ['Change Motor Required', 'Expired Motor (1st Notice)', 'Expired Motor (2nd Notice)', 'Expired Motor (3rd Notice)'];
+
+    if (count($userTricycleStatuses)) {
+      foreach ($userTricycleStatuses as $status) {
+        $statuses[$status->status][] = $status;
+
+        if (in_array($status->status, $renewalStatuses)) {
+          $userHasRenewalStatus = true;
+        } elseif (in_array($status->status, $changeMotorStatuses)) {
+          $userHasChangeMotorStatus = true;
+        }
+      }
     }
+
+
+
+    $data['userHasRenewalStatus'] = $userHasRenewalStatus;
+    $data['userHasChangeMotorStatus'] = $userHasChangeMotorStatus;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (isset($_POST['appointmentType'])) {

@@ -246,7 +246,7 @@ class Appointment
   private function hasMaximumDailyAppointments($date)
   {
     // Assuming the appointments are in 1-hour intervals
-    $totalSlots = 50; // Total available slots in a day
+    $totalSlots = 100; // Total available slots in a day
     $appointments = $this->where(['appointment_date' => $date]);
 
     // Check if $appointments is a valid result set (array or object)
@@ -392,4 +392,22 @@ class Appointment
 
     return $this->query($query, $params);
   }
+
+  public function getAvailableSlotsByDate($date) {
+
+    $query = "SELECT COUNT(*) AS numAppointments
+              FROM {$this->table}
+              WHERE appointment_date = '{$date}' AND status IN ('Approved', 'Pending');";
+
+    $result = $this->query($query);
+
+    if (!empty($result) && (is_array($result) || is_object($result))) {
+        return $result[0]->numAppointments;
+    } else {
+        return 0;
+    }
+}
+
+
+
 }

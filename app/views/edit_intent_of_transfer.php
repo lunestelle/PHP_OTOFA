@@ -284,11 +284,21 @@
                     <div class="col-12 d-flex mb-2">
                       <div class="col-4 px-5">
                         <label for="driver_license_no" class="form-label">Driver License Number</label>
-                        <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?php echo isset($driver_license_no) ? $driver_license_no : ''; ?>" min="0" required>
+                        <div class="input-group">
+                          <input type="text" class="form-control" style="cursor: pointer;" id="driver_license_no" name="driver_license_no" value="<?= $driver_license_no ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="col-4 px-5">
                         <label for="driver_license_expiry_date" class="form-label">Driver License Expiry Date</label>
-                        <input type="date" class="form-control" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?php echo isset($driver_license_expiry_date) ? $driver_license_expiry_date : ''; ?>" required>
+                        <div class="input-group">
+                          <input type="text" class="form-control" style="cursor: pointer;" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?= $driver_license_expiry_date ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date." readonly required>
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
