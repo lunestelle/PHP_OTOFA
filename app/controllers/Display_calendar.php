@@ -34,8 +34,8 @@ class Display_calendar
         $spotsLeftMessage = "No Spot Left";
       }
 
-      // Generate random color
-      $color = '#' . substr(uniqid(), -6);
+      // Generate pastel color
+      $color = $this->generatePastelColor();
 
       $data_arr[] = [
         'title' => $spotsLeftMessage,
@@ -54,5 +54,12 @@ class Display_calendar
     ];
 
     echo json_encode($data);
+  }
+
+  private function generatePastelColor() {
+    $red = mt_rand(100, 255);
+    $green = mt_rand(100, 255);
+    $blue = mt_rand(100, 255);
+    return sprintf('#%02x%02x%02x', $red, $green, $blue);
   }
 }

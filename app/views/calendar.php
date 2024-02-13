@@ -65,9 +65,10 @@
         var result = response.data;
         $.each(result, function (i, item) {
           events.push({
-              title: result[i].title,
+              title: '<span style="display: block; text-align: center; font-weight: bold; color: black; padding: 2px 5px; border-radius: 3px;">' + result[i].title + '</span>',
               start: result[i].start,
-              color: result[i].color
+              color: result[i].color,
+              allDay: true
             }); 	
         })
         var calendar = $('#calendar').fullCalendar({
@@ -82,11 +83,18 @@
           },
           events: events,
           eventRender: function(event, element, view) {
+            element.find('.fc-title').html(event.title);
             element.bind('click', function() {
-              
+
             });
-          }
+          },
+          header: {
+            left: '',
+            center: 'title',
+            right: ''
+          },
         });
+        
       },
       error: function(xhr, status, error) {
         alert("Error: " + error);

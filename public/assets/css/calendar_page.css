@@ -1,0 +1,26 @@
+/* -- TABLE'S CSS -- */
+table {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 0px !important;
+  background-color: transparent;
+  text-indent: initial;
+  border-spacing: 0px !important;
+  border-collapse: collapse;
+  font-size: 12px;
+  border: 0px !important;
+  box-shadow: none !important;
+}
+
+th.fc-day-header {
+  background-color: #EBB803 !important;
+}
+
+table > :not(caption) > * > * {
+  padding: 0px !important;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 0px !important;
+  box-shadow: none !important;
+  border-bottom-style: solid;
+}
