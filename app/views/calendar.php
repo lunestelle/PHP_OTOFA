@@ -87,25 +87,23 @@
           editable: true,
           selectable: true,
           selectHelper: true,
-          select: function(start, end) {
+          select: function(start) {
             alert(start);
-            alert(end);
             $('#event_start_date').val(moment(start).format('YYYY-MM-DD'));
-            $('#event_end_date').val(moment(end).format('YYYY-MM-DD'));
             $('#event_entry_modal').modal('show');
           },
           events: events,
           eventRender: function(event, element, view) {
             element.bind('click', function() {
-              alert(event.event_id);
+              
             });
           }
-        }); //end fullCalendar block
-      }, //end success block
+        });
+      },
       error: function(xhr, status) {
         alert(response.msg);
       }
-    }); //end ajax block
+    });
   }
 
   function save_event() {
