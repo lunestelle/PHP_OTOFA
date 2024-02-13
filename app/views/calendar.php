@@ -15,39 +15,30 @@
                 <div class="modal-dialog modal-md" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="modalLabel">Add New Event</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                      </button>
+                      <h5 class="modal-title" id="modalLabel">Set Appointment</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                       <div class="img-container">
                         <div class="row">
-                          <div class="col-sm-12">  
-                            <div class="form-group">
-                              <label for="event_name">Event name</label>
-                              <input type="text" name="event_name" id="event_name" class="form-control" placeholder="Enter your event name">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
                           <div class="col-sm-6">  
                             <div class="form-group">
-                              <label for="event_start_date">Event start</label>
-                              <input type="date" name="event_start_date" id="event_start_date" class="form-control onlydatepicker" placeholder="Event start date">
+                              <label for="appointment_date">Appointment Date</label>
+                              <input type="date" name="appointment_date" id="appointment_date" class="form-control onlydatepicker" placeholder="Appointment Date" required>
                             </div>
                           </div>
                           <div class="col-sm-6">  
                             <div class="form-group">
-                              <label for="event_end_date">Event end</label>
-                              <input type="date" name="event_end_date" id="event_end_date" class="form-control" placeholder="Event end date">
+                              <label for="appointment_time">Appointment Time</label>
+                              <input type="time" name="appointment_time" id="appointment_time" class="form-control" placeholder="Appointment Time" required>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-primary" onclick="save_event()">Save Event</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-primary" onclick="save_event()">Save</button>
                     </div>
                   </div>
                 </div>
@@ -75,7 +66,6 @@
         var result = response.data;
         $.each(result, function (i, item) {
           events.push({
-    
               title: result[i].title,
               start: result[i].date,
               color: result[i].color
@@ -88,8 +78,7 @@
           selectable: true,
           selectHelper: true,
           select: function(start) {
-            alert(start);
-            $('#event_start_date').val(moment(start).format('YYYY-MM-DD'));
+            $('#appointment_date').val(moment(start).format('YYYY-MM-DD'));
             $('#event_entry_modal').modal('show');
           },
           events: events,
@@ -108,9 +97,9 @@
 
   function save_event() {
     var event_name = $("#event_name").val();
-    var event_start_date = $("#event_start_date").val();
-    var event_end_date = $("#event_end_date").val();
-    if (event_name == "" || event_start_date == "" || event_end_date == "") {
+    var appointment_date = $("#appointment_date").val();
+    var appointment_time = $("#appointment_time").val();
+    if (event_name == "" || appointment_date == "" || appointment_time == "") {
       alert("Please enter all required details.");
       return false;
     }
@@ -120,8 +109,8 @@
       dataType: 'json',
       data: {
         event_name: event_name,
-        event_start_date: event_start_date,
-        event_end_date: event_end_date
+        appointment_date: appointment_date,
+        appointment_time: appointment_time
       },
       success: function(response) {
         $('#event_entry_modal').modal('hide');
