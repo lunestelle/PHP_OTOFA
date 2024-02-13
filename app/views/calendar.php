@@ -62,12 +62,11 @@
       url: 'display_calendar',
       dataType: 'json',
       success: function(response) {
-
         var result = response.data;
         $.each(result, function (i, item) {
           events.push({
               title: result[i].title,
-              start: result[i].date,
+              start: result[i].start,
               color: result[i].color
             }); 	
         })
@@ -89,8 +88,8 @@
           }
         });
       },
-      error: function(xhr, status) {
-        alert(response.msg);
+      error: function(xhr, status, error) {
+        alert("Error: " + error);
       }
     });
   }
@@ -121,9 +120,9 @@
           alert(response.msg);
         }
       },
-      error: function(xhr, status) {
-        console.log('ajax error = ' + xhr.statusText);
-        alert(response.msg);
+      error: function(xhr, status, error) {
+        console.log('ajax error = ' + error);
+        alert("Error: " + error);
       }
     });
     return false;
