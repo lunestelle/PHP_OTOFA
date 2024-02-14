@@ -20,7 +20,7 @@
                     <?php $count = 0; ?>
                     <?php foreach ($details as $detail): ?>
                       <div class="col-4 mb-3 p-2">
-                        <div class="text-center new-appointment-selection rounded-3">
+                        <div class="text-center new-appointment-slot-selection rounded-3">
                           <input type="radio" id="newFranchise<?php echo $count; ?>" name="appointmentType" value="<?php echo $detail['appointment_date']; ?>" data-bs-toggle="modal" data-bs-target="#appointmentModal" onclick="setAppointmentDate('<?php echo $detail['appointment_date']; ?>')">
                           <label for="newFranchise<?php echo $count; ?>">
                             <?php echo $detail['slots_message']; ?>

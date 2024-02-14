@@ -269,3 +269,35 @@ input[type=number] {
   border-color: #999999 !important; 
   font-weight: bolder !important;
 }
+
+/* --- SELECTION OF DATE AND SLOT --- */
+
+.new-appointment-slot-selection input {
+  display: none;
+}
+
+.new-appointment-slot-selection label {
+  cursor: pointer;
+  padding: 10px 15px;
+  display: block;
+  background-color: #3cc1ff;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  color: rgb(0, 0, 0);
+  font-weight: 400;
+  font-size: 13px;
+  box-shadow: 2px 4px 8px rgb(122, 122, 122);
+  transition: background-color 0.2s ease-in-out; /* Add transition for smooth effect */
+}
+
+.new-appointment-slot-selection:hover label {
+  background-color: #0066ff;
+  box-shadow: none;
+  color: white;
+}
+
+.new-appointment-slot-selection input:checked + label {
+  box-shadow: none;
+  background-color: #ff4400;
+  color: white;
+}

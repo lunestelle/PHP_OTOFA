@@ -135,7 +135,7 @@ class Appointment_details
 
   private function generateMessage($date, $availableAppointmentsLeft)
   {
-    $slotsMessage = $availableAppointmentsLeft > 1 ? "Slots left are $availableAppointmentsLeft" : ($availableAppointmentsLeft === 1 ? "Slot left is 1" : "No slots left");
+    $slotsMessage = $availableAppointmentsLeft > 1 ? "Slots left are <strong>$availableAppointmentsLeft</strong>" : ($availableAppointmentsLeft === 1 ? "Slot left is <strong>1</strong>" : "No slots left");
     return "$date ($slotsMessage)";
   }
 
