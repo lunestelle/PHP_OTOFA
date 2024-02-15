@@ -24,7 +24,7 @@
                             </div>
                             <?php if ($userHasCin) { ?>
                               <div class="new-appointment-selection rounded-3">
-                                <input type="radio" id="renewalFranchise" name="appointmentType" value="Renewal of Franchise">
+                                <input type="radio" id="renewalFranchise" name="appointmentType" value="Renewal of Franchise" <?php echo $userHasRenewalStatus ? '' : 'disabled'; ?>>
                                 <label for="renewalFranchise">Renewal of Franchise</label>
                               </div>
                             <?php } ?>
@@ -32,7 +32,7 @@
                           <?php if ($userHasCin) { ?>
                             <div class="row-2">
                               <div class="new-appointment-selection rounded-3 mb-4">
-                                <input type="radio" id="changeMotorcycle" name="appointmentType" value="Change of Motorcycle">
+                                <input type="radio" id="changeMotorcycle" name="appointmentType" value="Change of Motorcycle" <?php echo $userHasChangeMotorStatus ? '' : 'disabled'; ?>>
                                 <label for="changeMotorcycle">Change of Motorcycle</label>
                               </div>
                               <div class="new-appointment-selection rounded-3">
@@ -90,7 +90,7 @@
                     <div class="bckgrnd pt-2">
                       <h6 class="text-uppercase text-center text-light fs-6">Select Tricycle CIN</h6>
                     </div>
-                    <div class="row px-3 p-4" id="transferTypeOptions">
+                    <div class="row px-3 p-4">
                       <div class="col-12 d-flex mb- py-3">
                         <div class="col-12 px-5">
                           <div class="d-flex gap-5 text-center">
@@ -98,9 +98,7 @@
                               <div class="row-1">
                                 <select id="tricycleCin" name="tricycleCin" class="form-select" style="text-align: center; font-weight: bold;">
                                   <option value="" selected disabled>Please Select Here</option>
-                                  <?php foreach ($tricycleCinNumbers as $tricycleCin) : ?>
-                                    <option style="text-align: center; font-weight: bold;" value='<?php echo $tricycleCin->cin_number; ?>'><?php echo $tricycleCin->cin_number; ?></option>
-                                  <?php endforeach; ?>
+                                  <!-- Options will be added dynamically using JavaScript the data in here should be the data from the fetch tricycle cin numbers where dropdown should be displayed here containing the cin number -->
                                 </select>
                               </div>
                             </div>
@@ -153,10 +151,35 @@
       }
     }
 
+    function fetchTricycleCinNumbers() {
+      let appointmentType = $("input[name='appointmentType']:checked").val();
+      if (appointmentType) { 
+        $.ajax({
+          url: 'fetch_tricycle_cin_numbers',
+          type: 'POST',
+          data: { appointmentType: appointmentType },
+          dataType: 'json',
+          success: function (response) {
+            let options = response.tricycleCinNumbers;
+            $('#tricycleCin').empty();
+            $('#tricycleCin').append('<option value="" selected disabled>Please Select Here</option>');
+            $.each(options, function(index, value) {
+              $('#tricycleCin').append('<option style="text-align: center; font-weight: bold;" value="' + value.cin_number + '">' + value.cin_number + '</option>');
+            });
+          },
+          error: function () {
+            console.error('Error fetching tricycle CIN numbers');
+          }
+        });
+      }
+    }
+
     toggleSections();
+    fetchTricycleCinNumbers();
 
     $("input[name='appointmentType'], input[name='transferType']").change(function () {
       toggleSections();
+      fetchTricycleCinNumbers();
     });
 
     $("#tricycleCin").change(function () {

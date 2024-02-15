@@ -68,6 +68,9 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
   <link rel="stylesheet" href="public/assets/css/flash_messages.css">
   {{css}}
 
+  <!-- FullCalendar.io CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet" />
+
   <!-- OFFLINE & ONLINE JS -->
 
   <!-- GSAP -->
@@ -95,6 +98,10 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js" integrity="sha512-5g2Nj3mqLOgClHi20oat1COW7jWvf7SyqnvwWUsMDwhjHeqeTl0C+uzjucLweruQxHbhDwiPLXlm8HBO0011pA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- FullCalendar.io JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
 </head>
 <style>
   .pop_msg {
@@ -297,29 +304,43 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
 </body>
 
-  <script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
     // Add an event listener to the account dropdown toggle
-    document.getElementById('accountDropdown').addEventListener('click', function() {
-      var icon = document.getElementById('profileIcon');
-      icon.classList.toggle('rotated');
-    });
+    var accountDropdown = document.getElementById('accountDropdown');
+    if (accountDropdown) {
+      accountDropdown.addEventListener('click', function() {
+        var icon = document.getElementById('profileIcon');
+        if (icon) {
+          icon.classList.toggle('rotated');
+        }
+      });
+    }
+  });
 
-    // Add an event listener to the maintenance dropdown toggle
-    document.getElementById('maintenanceDropdown').addEventListener('click', function() {
+  document.addEventListener('DOMContentLoaded', function() {
+  // Add an event listener to the maintenance dropdown toggle
+    var maintenanceDropdown = document.getElementById('maintenanceDropdown');
+    if (maintenanceDropdown) {
+      maintenanceDropdown.addEventListener('click', function() {
+        var icon = document.getElementById('maintenanceIcon');
+        if (icon) {
+          icon.classList.toggle('rotateMaintenance');
+        }
+      });
+    }
+  });
+
+  // Add an event listener to the maintenance links
+  var maintenanceLinks = document.querySelectorAll('#maintenanceSubMenu a');
+  maintenanceLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
       var icon = document.getElementById('maintenanceIcon');
       icon.classList.toggle('rotateMaintenance');
     });
+  });
 
-    // Add an event listener to the maintenance links
-    var maintenanceLinks = document.querySelectorAll('#maintenanceSubMenu a');
-    maintenanceLinks.forEach(function(link) {
-      link.addEventListener('click', function() {
-        var icon = document.getElementById('maintenanceIcon');
-        icon.classList.toggle('rotateMaintenance');
-      });
-    });
-
-    $(document).ready(function() {
+  $(document).ready(function() {
     // Handle hover state
     $('.nav-item').hover(
       function() {
@@ -344,5 +365,5 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
       $(this).addClass('focus');
     });
   });
-  </script>
+</script>
 </html>

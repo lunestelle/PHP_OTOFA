@@ -26,31 +26,37 @@ class Manage_account
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $postData = [
-        'email' => $_POST['email'],
-        'address' => $_POST['address'],
-        'phone_number' => $_POST['phone_number'],
-        'first_name' => $_POST['first_name'],
-        'last_name' => $_POST['last_name'],
-        'new_profile' => $_POST['selected-profile-photo'],
-        'current_password' => $_POST['current_password'],
-        'new_password' => $_POST['new_password'],
-        'password_confirmation' => $_POST['password_confirmation'],
+        'email' => $_POST['email'] ?? '',
+        'address' => $_POST['address'] ?? '',
+        'phone_number' => $_POST['phone_number'] ?? '',
+        'first_name' => $_POST['first_name'] ?? '',
+        'last_name' => $_POST['last_name'] ?? '',
+        'new_profile' => $_POST['selected-profile-photo'] ?? '',
+        'current_password' => $_POST['current_password'] ?? '',
+        'new_password' => $_POST['new_password'] ?? '',
+        'password_confirmation' => $_POST['password_confirmation'] ?? '',
       ];
-
+  
       // Format the phone number if it's in the example format (09513662322)
       if (preg_match('/^09[0-9]{9}$/', $postData['phone_number'])) {
         $postData['phone_number'] = '+63' . substr($postData['phone_number'], 1);
       }
-
+  
       if (isset($_POST['profile_info_save_btn'])) {
-        if ($user->validate_profile_info($postData)) {
-          $this->profile_info($user, $postData);
+        // Check if the required fields are set
+        if (isset($postData['current_password'], $postData['new_password'], $postData['password_confirmation'])) {
+          if ($user->validate_profile_info($postData)) {
+            $this->profile_info($user, $postData);
+          } else {
+            $data['errors'][0] = $user->getErrors();
+            $errorMessages = implode('', $data['errors'][0]);
+            set_flash_message($errorMessages, "error");
+            redirect("manage_account");
+          }
         } else {
-          $data['errors'][0] = $user->getErrors();
-          $errorMessages = implode('', $data['errors'][0]);
-          set_flash_message($errorMessages, "error");
+          set_flash_message("Required fields are missing for updating profile information.", "error");
           redirect("manage_account");
-        } 
+        }
       }
 
       if (isset($_POST['remove_profile'])){

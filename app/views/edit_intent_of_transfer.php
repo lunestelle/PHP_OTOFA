@@ -63,11 +63,35 @@
                       </div>
                       <div class="col-4 px-5">
                         <label for="appointment_date" class="form-label">Preferred Date</label>
-                        <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?php echo isset($appointment_date) ? date('Y-m-d', strtotime($appointment_date)) : ''; ?>" required>
+                        <div class="input-group">
+                          <input type="text" class="form-control phone-no" style="cursor: pointer;" id="appointment_date" name="appointment_date" value="<?php echo isset($appointment_date) ? $appointment_date : ''; ?>" readonly data-toggle="tooltip" data-bs-placement="top" title="Default appointment date. This field is read-only.">
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="col-4 px-5">
                         <label for="appointment_time" class="form-label">Preferred Time</label>
-                        <input type="time" class="form-control" id="appointment_time" name="appointment_time" value="<?php echo isset($appointment_time) ? $appointment_time : ''; ?>" required>
+                        <div class="input-group">
+                          <?php
+                          function formatAppointmentTime($appointment_time) {
+                              // Convert appointment time to timestamp
+                              $timestamp = strtotime($appointment_time);
+
+                              // Format the appointment time to include AM/PM
+                              $formatted_time = date("h:i A", $timestamp); // "h" for 12-hour format, "A" for AM/PM
+
+                              return $formatted_time;
+                          }
+
+                          // Check if appointment_time is set before formatting
+                          $appointment_time_value = isset($appointment_time) ? formatAppointmentTime($appointment_time) : '';
+                          ?>
+                          <input type="text" class="form-control phone-no" style="cursor: pointer;" id="appointment_time" name="appointment_time" value="<?php echo $appointment_time_value; ?>" readonly data-toggle="tooltip" data-bs-placement="top" title="Default appointment time. This field is read-only.">
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                     </div>
                     <div class="col-12 d-flex mt-3">
@@ -284,11 +308,21 @@
                     <div class="col-12 d-flex mb-2">
                       <div class="col-4 px-5">
                         <label for="driver_license_no" class="form-label">Driver License Number</label>
-                        <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?php echo isset($driver_license_no) ? $driver_license_no : ''; ?>" min="0" required>
+                        <div class="input-group">
+                          <input type="text" class="form-control" style="cursor: pointer;" id="driver_license_no" name="driver_license_no" value="<?= $driver_license_no ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="col-4 px-5">
                         <label for="driver_license_expiry_date" class="form-label">Driver License Expiry Date</label>
-                        <input type="date" class="form-control" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?php echo isset($driver_license_expiry_date) ? $driver_license_expiry_date : ''; ?>" required>
+                        <div class="input-group">
+                          <input type="text" class="form-control" style="cursor: pointer;" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?= $driver_license_expiry_date ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date." readonly required>
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>

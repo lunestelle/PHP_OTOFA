@@ -44,8 +44,12 @@ class Change_of_motorcycle
     if (!empty($data['driverData'])) {
       $driver = $data['driverData'][0];
       $data['driver_name'] = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
+      $data['driver_license_no'] = $driver->license_no;
+      $data['driver_license_expiry_date'] = $driver->license_expiry_date;
     } else {
       $data['driver_name'] = 'Selected CIN has no driver';
+      $data['driver_license_no'] = '';
+      $data['driver_license_expiry_date'] = '';
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
@@ -160,6 +164,33 @@ class Change_of_motorcycle
 
     if (empty($tricycleApplicationFormData['tricycle_cin_number_id'])) {
       $errors['tricycleApplication'][] = 'Tricycle CIN is required';
+    }
+
+    if (!empty($tricycleApplicationFormData['tricycle_cin_number_id'])) {
+      $cinId = $tricycleApplicationFormData['tricycle_cin_number_id'];
+      $currentYear = date('Y');
+      $statuses = ['Approved', 'Pending', 'On Process'];
+
+      $query = "SELECT COUNT(*) AS appointment_count FROM appointments INNER JOIN tricycle_applications ON appointments.appointment_id = tricycle_applications.appointment_id WHERE tricycle_applications.tricycle_cin_number_id = $cinId AND YEAR(appointments.appointment_date) = $currentYear AND appointments.status IN ('" . implode("','", $statuses) . "')";
+
+      $result = $appointmentModel->query($query);
+
+      if (!empty($result) && (is_array($result) || is_object($result))) {
+        if ($result[0]->appointment_count > 0) {
+          $query = "SELECT appointments.status, appointments.appointment_date FROM appointments INNER JOIN tricycle_applications ON appointments.appointment_id = tricycle_applications.appointment_id WHERE tricycle_applications.tricycle_cin_number_id = $cinId AND YEAR(appointments.appointment_date) = $currentYear AND appointments.status IN ('" . implode("','", $statuses) . "')";
+          $appointmentResult = $appointmentModel->query($query);
+          if (!empty($appointmentResult) && isset($appointmentResult[0])) {
+            $tricycleCinModel = new TricycleCinNumber();
+            $cinDataValidation = $tricycleCinModel->first(['tricycle_cin_number_id' => $cinId]);
+
+            // Check if the CIN belongs to the same owner as in the first appointment record
+            $cinNumber = $cinDataValidation->cin_number;
+            $appointmentStatus = $appointmentResult[0]->status;
+            $appointmentDate = date('F j, Y', strtotime($appointmentResult[0]->appointment_date));
+            $errors['tricycleApplication'][] = "There is an existing appointment for this tricycle CIN #$cinNumber with appointment <br> status '$appointmentStatus' and appointment date on $appointmentDate.";
+          }
+        }
+      }
     }
 
     if (!empty($tricycleApplicationFormData['driver_id'])) {

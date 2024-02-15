@@ -134,7 +134,6 @@ class TricycleApplication
         }
       }
     }
-
     return $errors;
   }
 
