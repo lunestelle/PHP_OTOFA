@@ -78,47 +78,49 @@ class Taripa
       // Loop through each taripa record to calculate regular_fare, discounted_fare, and senior_and_pwd_rate
       foreach ($taripasData as $taripa) {
         // Check if the selected year is in the rate adjustments table
-        $selected_year_index = array_search($year, $rate_adjustments_years);
+        $selected_year_index = in_array($year, $rate_adjustments_years);
 
         if ($selected_year_index !== false) {
           // Calculate regular_fare, discounted_fare, and senior_and_pwd_rate for the selected year from rate adjustment data
-          $rate_adjustment = $rateAdjustmentModel->getYear($year);
-          
-          $rate_action = $rate_adjustment->rate_action;
-          $percentage = $rate_adjustment->percentage;
-          $previous_year = $rate_adjustment->previous_year;
+          $rate_adjustment = $rateAdjustmentModel->getrecentYearData($year);
 
-          // If the previous year is in the rate adjustments table, get its rates
-          if (in_array($previous_year, $rate_adjustments_years)) {
-            $previous_rate_adjustment = $rateAdjustmentModel->first(['effective_date' => $previous_year]);
-            $previous_percentage = $previous_rate_adjustment->percentage;
-            $previous_rate_action = $previous_rate_adjustment->rate_action;
+          if ($rate_adjustment) {
+            $rate_action = $rate_adjustment['rate_action'];
+            $percentage = $rate_adjustment['percentage'];
+            $previous_year = $rate_adjustment['previous_year'];
 
-            // Calculate the rates for the previous year
-            $previous_regular_fare = $taripa->regular_fare;
-            $previous_discounted_fare = $taripa->discounted_fare;
+            // If the previous year is in the rate adjustments table, get its rates
+            if (in_array($previous_year, $rate_adjustments_years)) {
+              $previous_rate_adjustment = $rateAdjustmentModel->getpreviousYearData($previous_year);
+              $previous_percentage = $previous_rate_adjustment['percentage'];
+              $previous_rate_action = $previous_rate_adjustment['rate_action'];
 
-            if ($previous_rate_action === 'increase') {
-              $previous_regular_fare += $previous_regular_fare * $previous_percentage / 100;
-              $previous_discounted_fare += $previous_discounted_fare * $previous_percentage / 100;
-            } elseif ($previous_rate_action === 'decrease') {
-              $previous_regular_fare -= $previous_regular_fare * $previous_percentage / 100;
-              $previous_discounted_fare -= $previous_discounted_fare * $previous_percentage / 100;
+              // Calculate the rates for the previous year
+              $previous_regular_fare = $taripa->regular_fare;
+              $previous_discounted_fare = $taripa->discounted_fare;
+
+              if ($previous_rate_action === 'increase') {
+                $previous_regular_fare += $previous_regular_fare * $previous_percentage / 100;
+                $previous_discounted_fare += $previous_discounted_fare * $previous_percentage / 100;
+              } elseif ($previous_rate_action === 'decrease') {
+                $previous_regular_fare -= $previous_regular_fare * $previous_percentage / 100;
+                $previous_discounted_fare -= $previous_discounted_fare * $previous_percentage / 100;
+              }
+            } else {
+              // If the previous year is not in the rate adjustments table,
+              // fetch regular_fare, discounted_fare, and senior_and_pwd_rate directly from the taripa table
+              $previous_regular_fare = $taripa->regular_fare;
+              $previous_discounted_fare = $taripa->discounted_fare;
             }
-          } else {
-            // If the previous year is not in the rate adjustments table,
-            // fetch regular_fare, discounted_fare, and senior_and_pwd_rate directly from the taripa table
-            $previous_regular_fare = $taripa->regular_fare;
-            $previous_discounted_fare = $taripa->discounted_fare;
-          }
 
-          // Calculate regular_fare, discounted_fare, and senior_and_pwd_rate for the selected year
-          if ($rate_action === 'increase') {
-            $regular_fare = $previous_regular_fare + ($previous_regular_fare * $percentage / 100);
-            $discounted_fare = $previous_discounted_fare + ($previous_discounted_fare * $percentage / 100);
-          } elseif ($rate_action === 'decrease') {
-            $regular_fare = $previous_regular_fare - ($previous_regular_fare * $percentage / 100);
-            $discounted_fare = $previous_discounted_fare - ($previous_discounted_fare * $percentage / 100);
+            // Calculate regular_fare, discounted_fare, and senior_and_pwd_rate for the selected year
+            if ($rate_action === 'increase') {
+              $regular_fare = $previous_regular_fare + ($previous_regular_fare * $percentage / 100);
+              $discounted_fare = $previous_discounted_fare + ($previous_discounted_fare * $percentage / 100);
+            } elseif ($rate_action === 'decrease') {
+              $regular_fare = $previous_regular_fare - ($previous_regular_fare * $percentage / 100);
+              $discounted_fare = $previous_discounted_fare - ($previous_discounted_fare * $percentage / 100);
+            }
           }
         } else {
           // If the selected year is not in the rate adjustments table,
