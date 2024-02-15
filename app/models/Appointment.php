@@ -66,7 +66,7 @@ class Appointment
     } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
       $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
-      $errors[] = 'Appointments cannot be scheduled more than <br> 30 days in advance.';
+      $errors[] = 'Appointments cannot be scheduled more than <br> 15 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
       $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
     }
@@ -78,10 +78,9 @@ class Appointment
     }
 
     if ($this->isSlotTaken($data['appointment_date'], $data['appointment_time'])) {
-      $errors[] = '<strong>The preferred appointment slot is already taken.</strong> Please choose <br> another available slot or select a different date.';
+      $errors[] = 'The preferred appointment slot is already taken. Please choose another available slot or select a different date.';
     }
    
-  
     if ($this->hasDuplicatePhoneNumber($data['phone_number'], $data['appointment_date'], $data['appointment_time'])) {
       $errors[] = 'An appointment with this phone number already exists for the same date and time.';
     }
@@ -150,23 +149,21 @@ class Appointment
     }
 
     if ($this->isBlackoutDate($data['appointment_date'])) {
-      $errors[] = 'Appointments cannot be scheduled on this date due to a blackout period.';
+      $errors[] = 'Appointments cannot be scheduled on this date due to a holiday period.';
     }
 
     return $errors;
   }
 
-  private function isSlotTaken($date, $time)
+  public function isSlotTaken($date, $time)
   {
-    $existingAppointment = $this->first([
-      'appointment_date' => $date,
-      'appointment_time' => $time,
-      'status' => 'Pending',
-    ]);
-
+    $pendingAppointment = $this->count(['appointment_date' => $date, 'appointment_time' => $time, 'status' => 'Pending']);
+    $approvedAppointment = $this->count(['appointment_date' => $date, 'appointment_time' => $time, 'status' => 'Approved']);
+    
+    $existingAppointment = $pendingAppointment + $approvedAppointment;
     return !empty($existingAppointment);
   }
-
+  
   public function canBeCanceled($appointment_id)
   {
     $appointment = $this->first(['appointment_id' => $appointment_id]);
@@ -201,14 +198,14 @@ class Appointment
     return true; // Appointment successfully canceled
   }
 
-  private function isGovernmentWorkingDay($date)
+  public function isGovernmentWorkingDay($date)
   {
     // Assume government working days are Monday to Friday
     $dayOfWeek = date('N', strtotime($date));
     return ($dayOfWeek >= 1 && $dayOfWeek <= 5);
   }
 
-  private function isWorkingHour($time)
+  public function isWorkingHour($time)
   {
     date_default_timezone_set('Asia/Manila');
     $startTime = strtotime('08:00 AM');
@@ -218,14 +215,14 @@ class Appointment
     return ($appointmentTime >= $startTime && $appointmentTime <= $endTime);
   }
 
-  private function isPastDate($date)
+  public function isPastDate($date)
   {
     $today = strtotime(date('Y-m-d'));
     $selectedDate = strtotime($date);
     return ($selectedDate < $today);
   }
 
-  private function hasMinimumLeadTime($date)
+  public function hasMinimumLeadTime($date)
   {
     // Minimum lead time: 1 day -> checks if the selected date is at least one day ahead of the current date
     $today = strtotime(date('Y-m-d'));
@@ -234,16 +231,28 @@ class Appointment
     return ($selectedDate >= $oneDayAhead);
   }
 
-  private function isWithinMaximumAdvanceBooking($date)
+  public function isWithinMaximumAdvanceBooking($date)
   {
-    // Maximum advance booking: 15 days
+    // Maximum advance booking: 15 weekdays, excluding weekends
     $today = strtotime(date('Y-m-d'));
     $selectedDate = strtotime($date);
-    $fifteenDaysAhead = strtotime('+15 days', $today);
-    return ($selectedDate <= $fifteenDaysAhead);
-  }
 
-  private function hasMaximumDailyAppointments($date)
+    $weekdaysAhead = 0;
+    $currentDate = $today;
+    while ($weekdaysAhead < 15) {
+      $currentDate = strtotime('+1 day', $currentDate);
+      // Skip weekends (Saturday and Sunday)
+      $dayOfWeek = date('N', $currentDate);
+      if ($dayOfWeek < 6) { // Check if it's not Saturday (6) or Sunday (7)
+        $weekdaysAhead++;
+      }
+    }
+
+    // Check if selected date is within the 15 weekdays ahead
+    return ($selectedDate <= $currentDate);
+  }
+  
+  public function hasMaximumDailyAppointments($date)
   {
     // Assuming the appointments are in 1-hour intervals
     $totalSlots = 100; // Total available slots in a day
@@ -392,22 +401,4 @@ class Appointment
 
     return $this->query($query, $params);
   }
-
-  public function getAvailableSlotsByDate($date) {
-
-    $query = "SELECT COUNT(*) AS numAppointments
-              FROM {$this->table}
-              WHERE appointment_date = '{$date}' AND status IN ('Approved', 'Pending');";
-
-    $result = $this->query($query);
-
-    if (!empty($result) && (is_array($result) || is_object($result))) {
-        return $result[0]->numAppointments;
-    } else {
-        return 0;
-    }
-}
-
-
-
 }
