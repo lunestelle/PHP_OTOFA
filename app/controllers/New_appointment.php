@@ -13,15 +13,6 @@ class New_appointment
 
 		$cinModel = new TricycleCinNumber();
     $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
-    // $data['tricycleCinNumbers'] = $cinModel->where(["is_used" => 1, "user_id" => $_SESSION['USER']->user_id]);
-
-    // if (is_array($data['tricycleCinNumbers'])) {
-    //   usort($data['tricycleCinNumbers'], function ($a, $b) {
-    //     return strcmp($a->cin_number, $b->cin_number);
-    //   });
-    // } else {
-    //   $data['tricycleCinNumbers'] = [];
-    // }
 
     $tricycleStatusModel = new TricycleStatuses();
     $userTricycleStatuses = $tricycleStatusModel->where(["user_id" => $_SESSION['USER']->user_id]);
@@ -45,8 +36,6 @@ class New_appointment
       }
     }
 
-
-
     $data['userHasRenewalStatus'] = $userHasRenewalStatus;
     $data['userHasChangeMotorStatus'] = $userHasChangeMotorStatus;
 
@@ -56,7 +45,7 @@ class New_appointment
 
         switch ($appointmentType) {
           case 'New Franchise':
-            redirect('new_franchise');
+            redirect('appointment_details?appointmentType=' . urlencode($appointmentType));
             break;
 
           case 'Renewal of Franchise':
@@ -69,18 +58,14 @@ class New_appointment
                 if ($transferType === '') {
                   set_flash_message("Please select a transfer type.", "error");
                   redirect('new_appointment'); // Redirect back to the appointment page
-                } elseif ($transferType == 'Transfer of Ownership from Deceased Owner') {
-                  // Redirect to ownership_of_transfer_from_deceased_owner with the tricycle CIN
-                  $this->redirectToPage('ownership_transfer_from_deceased_owner', $tricycleCin);
-                } elseif ($transferType == 'Intent of Transfer') {
-                  // Redirect to ownership_of_transfer_from_deceased_owner with the tricycle CIN
-                  $this->redirectToPage('intent_of_transfer', $tricycleCin);
+                } elseif ($transferType == 'Transfer of Ownership from Deceased Owner' || $transferType == 'Intent of Transfer') {
+                  $this->redirectToPage('appointment_details', $appointmentType, $transferType, $tricycleCin);
                 } else {
                   // If transfer type is None, redirect to transfer_of_ownership
-                  $this->redirectToPage('transfer_of_ownership', $tricycleCin);
+                  redirect('appointment_details?appointmentType=' . urlencode($appointmentType) . '&tricycleCin=' . urlencode($tricycleCin));
                 }
               } else {
-                $this->redirectToPage(strtolower(str_replace(' ', '_', $appointmentType)), $tricycleCin);
+                redirect('appointment_details?appointmentType=' . urlencode(strtolower(str_replace(' ', '_', $appointmentType))) . '&tricycleCin=' . urlencode($tricycleCin));
               }
             }
             break;
@@ -107,8 +92,9 @@ class New_appointment
     return true;
   }
 
-  private function redirectToPage($page, $tricycleCin = '')
+  private function redirectToPage($page, $appointmentType, $transferType, $tricycleCin)
   {
-    redirect("$page?tricycleCin=$tricycleCin");
+    redirect("$page?appointmentType=" . urlencode($appointmentType) . "&transferType=" . urlencode($transferType) . "&tricycleCin=" . urlencode($tricycleCin));
   }
 }
+?>

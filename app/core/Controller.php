@@ -72,7 +72,7 @@ trait Controller
 
 	protected function getLayoutContent($page)
 	{
-		$userLayout = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_operator', 'view_appointment', 'view_driver', 'view_maintenance_log', 'edit_tricycle', 'edit_driver', 'edit_taripa', 'edit_appointment', 'edit_maintenance_log', 'new_taripa', 'new_driver', 'new_appointment', 'new_tricycle', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info', 'new_franchise', 'edit_new_franchise', 'renewal_of_franchise', 'edit_renewal_of_franchise', 'change_of_motorcycle', 'edit_change_of_motorcycle', 'view_change_of_motorcycle', 'transfer_of_ownership', 'edit_transfer_of_ownership', 'intent_of_transfer', 'edit_intent_of_transfer', 'ownership_transfer_from_deceased_owner', 'edit_ownership_transfer_from_deceased_owner', 'tricycles_reports', 'appointments_reports', 'cin_reports', 'maintenance_tracker', 'view_calculations', 'inquiries', 'calendar'];
+		$userLayout = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_operator', 'view_appointment', 'view_driver', 'view_maintenance_log', 'edit_tricycle', 'edit_driver', 'edit_taripa', 'edit_appointment', 'edit_maintenance_log', 'new_taripa', 'new_driver', 'new_appointment', 'new_tricycle', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info', 'new_franchise', 'edit_new_franchise', 'renewal_of_franchise', 'edit_renewal_of_franchise', 'change_of_motorcycle', 'edit_change_of_motorcycle', 'view_change_of_motorcycle', 'transfer_of_ownership', 'edit_transfer_of_ownership', 'intent_of_transfer', 'edit_intent_of_transfer', 'ownership_transfer_from_deceased_owner', 'edit_ownership_transfer_from_deceased_owner', 'tricycles_reports', 'appointments_reports', 'cin_reports', 'maintenance_tracker', 'view_calculations', 'inquiries', 'appointment_details'];
 
 		if (in_array($page, $userLayout)) {
 			extract($this->sharedData);
@@ -116,15 +116,13 @@ trait Controller
 
 	protected function getCSSFile($page)
 	{
-		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'view_maintenance_log', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info', 'new_franchise', 'edit_new_franchise', 'renewal_of_franchise', 'edit_renewal_of_franchise', 'change_of_motorcycle', 'edit_change_of_motorcycle', 'transfer_of_ownership', 'edit_transfer_of_ownership', 'intent_of_transfer', 'edit_intent_of_transfer', 'ownership_transfer_from_deceased_owner', 'edit_ownership_transfer_from_deceased_owner', 'tricycles_reports', 'appointments_reports', 'cin_reports', 'maintenance_tracker', 'view_calculations', 'inquiries', 'calendar'];
-
-		$calendarPage = ['calendar'];
+		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'view_maintenance_log', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info', 'new_franchise', 'edit_new_franchise', 'renewal_of_franchise', 'edit_renewal_of_franchise', 'change_of_motorcycle', 'edit_change_of_motorcycle', 'transfer_of_ownership', 'edit_transfer_of_ownership', 'intent_of_transfer', 'edit_intent_of_transfer', 'ownership_transfer_from_deceased_owner', 'edit_ownership_transfer_from_deceased_owner', 'tricycles_reports', 'appointments_reports', 'cin_reports', 'maintenance_tracker', 'view_calculations', 'inquiries', 'appointment_details'];
 		
 		$sidebarViewPages = ['view_tricycle', 'view_driver', 'view_appointment', 'view_operator', 'view_maintenance_log'];
 
 		$sidebarEditPages = ['edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'edit_new_franchise', 'edit_renewal_of_franchise', 'edit_change_of_motorcycle', 'edit_transfer_of_ownership', 'edit_intent_of_transfer', 'edit_ownership_transfer_from_deceased_owner'];
 
-		$sidebarNewPages = ['new_driver', 'new_taripa', 'new_tricycle', 'new_appointment', 'new_maintenance_log', 'new_franchise', 'renewal_of_franchise', 'change_of_motorcycle', 'transfer_of_ownership', 'intent_of_transfer', 'ownership_transfer_from_deceased_owner'];
+		$sidebarNewPages = ['new_driver', 'new_taripa', 'new_tricycle', 'new_appointment', 'new_maintenance_log', 'new_franchise', 'renewal_of_franchise', 'change_of_motorcycle', 'transfer_of_ownership', 'intent_of_transfer', 'ownership_transfer_from_deceased_owner', 'appointment_details'];
 
 		$cssFile = $page . '.css';
 		$cssFilePath = "public/assets/css/{$cssFile}";
@@ -144,8 +142,6 @@ trait Controller
 			$cssFiles[] ='edit_page.css';
 		} else if (in_array($page, $sidebarNewPages)) {
 			$cssFiles[] = 'new_page.css';
-		} else if (in_array($page, $calendarPage)) {
-			$cssFiles[] = 'calendar_page.css';
 		}
 
     if (empty($cssFiles)) {
