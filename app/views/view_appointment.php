@@ -104,9 +104,7 @@
                           <p><span class="fw-bolder mr-5 text-uppercase">Make Model:</span>
                           <p><span class="fw-bolder mr-5 text-uppercase">Model Year Acquired:</span>
                           <p><span class="fw-bolder mr-5 text-uppercase">C.O.C Number:</span>
-                          <?php if ($appointment->status === "Completed" || !empty($appointment->status)): ?>
-                            <p><span class="fw-bolder mr-5 text-uppercase">Tricycle CIN:</span>
-                          <?php endif; ?>
+                          <p><span class="fw-bolder mr-5 text-uppercase">Tricycle CIN:</span>
                           <?php if (!empty($tricycleApplication->lto_or_no)): ?>
                             <p><span class="fw-bolder mr-5 text-uppercase">LTO OR Number:</span>
                           <?php endif; ?>
@@ -125,9 +123,7 @@
                         <?php echo ucwords(strtolower($tricycleApplication->make_model)); ?></p>
                         <?php echo($tricycleApplication->make_model_year_acquired); ?></p>
                         <?php echo ucwords(strtolower($tricycleApplication->coc_no)); ?></p>
-                        <?php if ($appointment->status === "Completed" || !empty($appointment->status)): ?>
-                          <?php echo $tricycle_cin; ?></p>
-                        <?php endif; ?>
+                        <?php echo $tricycle_cin; ?></p>
                         <?php if (!empty($tricycleApplication->lto_or_no)): ?>
                           <?php echo $tricycleApplication->lto_or_no; ?></p>
                         <?php endif; ?>
@@ -151,8 +147,12 @@
                             <?php if (!empty($tricycleApplication->lto_cr_no)): ?>
                               <p><span class="fw-bolder mr-5 text-uppercase">LTO CR Number:</span>
                             <?php endif; ?>
-                            <?php if (!empty($driver_name)): ?>
-                              <p><span class="fw-bolder mr-5 text-uppercase">Name of Driver:</span>
+                            <?php if ($appointment->appointment_type === "New Franchise" && $appointment->status == "Pending" && !empty($driver_name)) : ?>
+
+                            <?php else : ?>
+                              <?php if (!empty($driver_name)) : ?>
+                                <p><span class="fw-bolder mr-5 text-uppercase">Name of Driver:</span>
+                              <?php endif; ?>
                             <?php endif; ?>
                           </div>
                           <div class="col-md-6">
@@ -166,8 +166,11 @@
                             <?php if (!empty($tricycleApplication->lto_cr_no)): ?>
                               <?php echo ($tricycleApplication->lto_cr_no); ?></p>
                             <?php endif; ?>
-                            <?php if (!empty($driver_name)): ?>
-                              <?php echo ($driver_name); ?></p>
+                            <?php if ($appointment->appointment_type === "New Franchise" && $appointment->status == "Pending" && !empty($driver_name)) : ?>
+                            <?php else : ?>
+                              <?php if (!empty($driver_name)) : ?>
+                                <?php echo ($driver_name); ?></p>
+                              <?php endif; ?>
                             <?php endif; ?>
                           </div>
                         </div>

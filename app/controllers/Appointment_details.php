@@ -70,8 +70,8 @@ class Appointment_details
 
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['appointmentDateModalBtn'])) {
       // Validation logic for the modal form submission
-      $appointment_date = $_POST['appointment_date'];
-      $appointment_time = $_POST['appointment_time'];
+      $appointment_date = date('Y-m-d', strtotime($_POST['appointment_date']));
+      $appointment_time = date('H:i:00', strtotime($_POST['appointment_time']));
 
       $appointmentDateTimeErrors = $this->validateAppointmentDateTime($appointment_date, $appointment_time);
 

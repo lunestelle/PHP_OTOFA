@@ -23,14 +23,17 @@ class View_appointment
     $mtopRequirementData = $mtopRequirementModel->first(['appointment_id' => $appointmentData->appointment_id]);
 
     $tricycleCinModel = new TricycleCinNumber();
-    $tricycleCinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
-    $tricyclePlateNumber = $tricycleCinData !== false ? $tricycleCinData->cin_number : '';
-
     $driverModel = new Driver();
-    $driverData = $driverModel->first(['driver_id' => $tricycleApplicationData->driver_id]);
+    $tricycleCinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
 
-    $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
-    $driverData = $driverModel->query($query, [':tricycle_cin_id' => $tricycleCinData->tricycle_cin_number_id]);
+    if ($tricycleCinData) {
+      $tricyclePlateNumber = $tricycleCinData->cin_number;
+      $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
+      $driverData = $driverModel->query($query, [':tricycle_cin_id' => $tricycleCinData->tricycle_cin_number_id]);
+    } else {
+      $tricyclePlateNumber = 'NO CIN';
+      $driverData = [];
+    }
 
     $data = []; 
     if (!empty($driverData)) {

@@ -73,7 +73,18 @@
                       <div class="col-4 px-5">
                         <label for="appointment_time" class="form-label">Preferred Time</label>
                         <div class="input-group">
-                          <input type="text" class="form-control" style="cursor: pointer;" id="appointment_time" name="appointment_time" value="<?php echo isset($_POST['appointment_time']) ? $_POST['appointment_time'] : (isset($_GET['appointmentTime']) ? $_GET['appointmentTime'] : ''); ?>" data-toggle="tooltip" data-bs-placement="top" title="Default appointment date. This field is read-only." readonly>
+                          <?php
+                            function formatAppointmentTime($appointment_time) {
+                              // Convert appointment time to timestamp
+                              $timestamp = strtotime($appointment_time);
+
+                              // Format the appointment time to include AM/PM
+                              $formatted_time = date("h:i A", $timestamp); // "h" for 12-hour format, "A" for AM/PM
+
+                              return $formatted_time;
+                            }
+                          ?>
+                          <input type="text" class="form-control" style="cursor: pointer;" id="appointment_time" name="appointment_time" value="<?php echo isset($_POST['appointment_time']) ? formatAppointmentTime($_POST['appointment_time']) : (isset($_GET['appointmentTime']) ? formatAppointmentTime($_GET['appointmentTime']) : ''); ?>" data-toggle="tooltip" data-bs-placement="top" title="Default appointment date. This field is read-only." readonly>
                           <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                             <i class="fa-solid fa-info-circle"></i>
                           </span>
