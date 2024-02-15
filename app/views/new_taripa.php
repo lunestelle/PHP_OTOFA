@@ -18,6 +18,7 @@
                   <option value="decrease" <?= isset($rate_action) && $rate_action === 'decrease' ? 'selected' : '' ?>>Decrease</option>
                 </select>
               </div>
+                            
               <div class="col-4 px-3">
                 <label for="year">Enter Effective Date:</label>
                 <input type="date" id="year" name="year" class="form-control" min="<?= $minYear ?>-01-01" max="<?= $currentYear ?>-12-31" value="<?= $year ?? date('Y-m-d') ?>" required>

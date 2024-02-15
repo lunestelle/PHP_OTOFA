@@ -69,10 +69,10 @@ class New_taripa
         $data['minYear'] = min($taripa_years);
       }
 
-      $data['currentYear'] = date('Y') + 3;
+      $data['currentYear'] = date('Y') + 1;
 
       if ($year < $data['minYear'] || $year > $data['currentYear']) {
-        $errors['year'] = "Invalid year input. Year must be between {$data['minYear']} and {$data['currentYear']}.";
+        $errors['year'] = "Invalid year input. Year must be between {$data['minYear']} to {$data['currentYear']}.";
       }
 
       if (in_array($year, $taripa_years) || in_array($year, $rate_adjustments_years)) {
