@@ -24,16 +24,20 @@ class New_appointment
     $renewalStatuses = ['Renewal Required', 'Expired Renewal (1st Notice)', 'Expired Renewal (2nd Notice)', 'Expired Renewal (3rd Notice)'];
     $changeMotorStatuses = ['Change Motor Required', 'Expired Motor (1st Notice)', 'Expired Motor (2nd Notice)', 'Expired Motor (3rd Notice)'];
 
-    if (count($userTricycleStatuses)) {
+    // Check if $userTricycleStatuses is an array before using count
+    if (!empty($userTricycleStatuses)) {
       foreach ($userTricycleStatuses as $status) {
         $statuses[$status->status][] = $status;
-
         if (in_array($status->status, $renewalStatuses)) {
           $userHasRenewalStatus = true;
         } elseif (in_array($status->status, $changeMotorStatuses)) {
           $userHasChangeMotorStatus = true;
         }
       }
+    } else {
+      $statuses = [];
+      $userHasRenewalStatus = false;
+      $userHasChangeMotorStatus = false;
     }
 
     $data['userHasRenewalStatus'] = $userHasRenewalStatus;
@@ -97,4 +101,3 @@ class New_appointment
     redirect("$page?appointmentType=" . urlencode($appointmentType) . "&transferType=" . urlencode($transferType) . "&tricycleCin=" . urlencode($tricycleCin));
   }
 }
-?>
