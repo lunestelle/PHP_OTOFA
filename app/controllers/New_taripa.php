@@ -208,6 +208,7 @@ class New_taripa
           'rate_action' => $formData['rate_action'],
           'percentage' => $formData['percentage'],
           'recentYear' => $recentYear,
+          'effective_date' => $formData['effective_date'],
         ]);
       } else {
         // Render the view without the calculated rates
