@@ -156,17 +156,17 @@ class Appointment_details
     } elseif (!$appointmentModel->isWithinMaximumAdvanceBooking($appointment_date)) {
       $errors[] = 'Appointments cannot be scheduled more than 15 weekdays in advance.';
     } elseif ($appointmentModel->hasMaximumDailyAppointments($appointment_date)) {
-      $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
+      $errors[] = 'Maximum appointments reached for this <br> day. Please choose another date.';
     }
 
     if (empty($appointment_time)) {
       $errors[] = 'Preferred Time is required.';
     } elseif (!$appointmentModel->isWorkingHour($appointment_time)) {
-      $errors[] = 'Appointments can only be scheduled during government working hours (8:00 AM to 5:00 PM).';
+      $errors[] = 'Appointments can only be scheduled during government <br> working hours (8:00 AM to 5:00 PM).';
     }
 
     if ($appointmentModel->isSlotTaken($appointment_date, $appointment_time)) {
-      $errors[] = 'The preferred appointment slot is already taken. Please choose another time.';
+      $errors[] = 'The preferred appointment slot is already <br> taken. Please choose another time.';
     }
 
     return $errors;

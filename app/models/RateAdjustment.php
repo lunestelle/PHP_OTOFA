@@ -42,4 +42,42 @@ class RateAdjustment
 
     return $result[0];
   }
+
+  public function getrecentYearData($recentYear) {
+    $query = "SELECT * FROM {$this->table} WHERE YEAR(effective_date) = :recentYear LIMIT 1;";
+    $params = array(':recentYear' => $recentYear);
+
+    $result = $this->query($query, $params);
+    
+    if (!is_array($result)) {
+      return [];
+    }
+    
+    $recent_rate_adjustment = [
+      'rate_action' => $result[0]->rate_action,
+      'percentage' => $result[0]->percentage,
+      'previous_year' => $result[0]->previous_year,
+    ];
+
+    return $recent_rate_adjustment;
+  }
+
+  public function getpreviousYearData($recent_previous_year) {
+    $query = "SELECT * FROM {$this->table} WHERE YEAR(effective_date) = :recent_previous_year LIMIT 1;";
+    $params = array(':recent_previous_year' => $recent_previous_year);
+
+    $result = $this->query($query, $params);
+    
+    if (!is_array($result)) {
+      return [];
+    }
+    
+    $previous_rate_adjustment = [
+      'rate_action' => $result[0]->rate_action,
+      'percentage' => $result[0]->percentage,
+      'previous_year' => $result[0]->previous_year,
+    ];
+
+    return $previous_rate_adjustment;
+  }
 }

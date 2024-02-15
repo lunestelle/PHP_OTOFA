@@ -10,6 +10,13 @@
             <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
           </div>
         <?php endif; ?>
+        <?php if (!empty($taripas) && $userRole === 'operator'): ?>
+          <div class="col-12 mt-3">
+            <form method="post" action="">
+              <button type="submit" id="exportCsv" name="exportCsv" class="text-uppercase sidebar-btnContent new-button">Export as CSV</button>
+            </form>    
+          </div>
+        <?php endif; ?>
         <div class="col-6">
           <label for="routeAreaFilter" class="fw-bold" style="font-size: 13px;">Filter Route Area:</label>
           <select id="routeAreaFilter" class="form-select" style="height: 35px; font-size: 14px;">
@@ -32,9 +39,11 @@
     </div>
     
     <div class="col-12">
-      <button class="taripa-print text-uppercase" onclick="printTaripa(event)">Print</button>
-      <button id="downloadPdfButton" class="taripa-download-pdf text-uppercase" onclick="downloadPdf()">Download PDF</button>
-      <?php if (!empty($taripas)): ?>
+      <div class="mb-3 pb-2">
+        <button class="taripa-print text-uppercase" onclick="printTaripa(event)">Print</button>
+        <button id="downloadPdfButton" class="taripa-download-pdf text-uppercase" onclick="downloadPdf()">Download PDF</button>
+      </div>
+      <?php if (!empty($taripas) && $userRole === 'admin') : ?>
         <div class="mt-3 text-end">
           <form method="post" action="">
             <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-taripa">Export as CSV</button>
