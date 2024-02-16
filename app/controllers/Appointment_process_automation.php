@@ -70,12 +70,41 @@ class Appointment_process_automation
 
   protected function pendingToRejectedAppointment()
   {
-    $oneMonthAgo = date('Y-m-d', strtotime('-1 month'));
+    $currentDate = date('Y-m-d');
     $appointments = new Appointment();
     $query = "UPDATE appointments
-            SET status = 'Rejected', comments = 'Automatically rejected because the appointment date has passed.'
-            WHERE status = 'Pending' AND appointment_date <= '{$oneMonthAgo}'";
-    $appointments->query($query);
+          SET status = 'Rejected', comments = 
+          CASE
+            WHEN appointment_date < '{$currentDate}' THEN 'Automatically rejected because the appointment date has passed.'
+            WHEN appointment_date = '{$currentDate}' THEN 'Automatically rejected because the appointment date is today.'
+          END
+          WHERE status = 'Pending' AND (appointment_date < '{$currentDate}' OR appointment_date = '{$currentDate}')";
+  
+    // Fetch appointments that are being rejected
+    $rejectedAppointments = $appointments->query($query);
+  
+    // Send notifications for rejected appointments
+    if (!empty($rejectedAppointments)) {
+      foreach ($rejectedAppointments as $appointment) {
+        $userModel = new User();
+        $user = $userModel->first(['user_id' => $appointment->user_id]);
+  
+        $phoneNumber = $user->phone_number;
+        $userName = $user->first_name . ' ' . $user->last_name;
+        $email = $user->email;
+        $subject = "Appointment Rejected";
+        $rootPath = ROOT;
+  
+        $customTextMessage = "Hello {$userName},\n\nWe regret to inform you that your appointment for {$appointment->appointment_type} has been automatically rejected. Reason: {$appointment->comments}\n\nFor more details, please check our website by clicking the link: {$rootPath}.\n";
+  
+        $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>We regret to inform you that your appointment for {$appointment->appointment_type} has been automatically rejected. Reason: {$appointment->comments}</div>";
+  
+        systemNotifications($phoneNumber, $userName, $email, $subject, $customTextMessage, $customEmailMessage);
+      }
+      echo "Rejected Appointments Notifications sent successfully.     ";
+    } else {
+      echo "No Rejected Appointments.  ";
+    }
   }
 
   protected function approvedAppointmentReminder()
@@ -95,6 +124,7 @@ class Appointment_process_automation
         $phoneNumber = $user->phone_number;
         $userName = $user->first_name . ' ' . $user->last_name;
         $email = $user->email;
+        $rootPath = ROOT;
   
         $formattedDate = date('F j, Y', strtotime($appointment->appointment_date));
         $formattedTime = date('h:i A', strtotime($appointment->appointment_time));
