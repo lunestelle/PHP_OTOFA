@@ -156,7 +156,7 @@ class Edit_ownership_transfer_from_deceased_owner
       }
 
       if (isset($_POST['update_ownership_transfer_from_deceased_owner'])) {
-        $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers);
+        $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel);
 
         if (!empty($formErrors)) {
           $firstError = reset($formErrors);
@@ -244,7 +244,7 @@ class Edit_ownership_transfer_from_deceased_owner
     echo $this->renderView('edit_ownership_transfer_from_deceased_owner', true, $data);
   }
 
-  private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers) {
+  private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel) {
     $errors = array();
   
     $appointmentErrors = $appointmentModel->updateValidation($appointmentFormData);

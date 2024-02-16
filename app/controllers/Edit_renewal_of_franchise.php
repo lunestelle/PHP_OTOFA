@@ -166,7 +166,7 @@ class Edit_renewal_of_franchise
       }
 
       if (isset($_POST['update_renewal_franchise'])) {
-        $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers);
+        $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel);
 
         if (!empty($formErrors)) {
           $firstError = reset($formErrors);
@@ -255,7 +255,7 @@ class Edit_renewal_of_franchise
     echo $this->renderView('edit_renewal_of_franchise', true, $data);
   }
 
-  private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers) {
+  private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel) {
     $errors = array();
   
     $appointmentErrors = $appointmentModel->updateValidation($appointmentFormData);

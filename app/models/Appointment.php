@@ -134,7 +134,7 @@ class Appointment
       $errors[] = 'Appointments can only be scheduled from Monday to Friday.';
     } elseif ($this->isPastDate($data['appointment_date'])) {
       $errors[] = 'Appointment date must be in the future.';
-    } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
+    } elseif (!$this->hasMinimumLeadTime($data['appointment_date'], $data['status'])) {
       $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
       $errors[] = 'Appointments cannot be scheduled more than <br> 15 days in advance.';
@@ -222,13 +222,19 @@ class Appointment
     return ($selectedDate < $today);
   }
 
-  public function hasMinimumLeadTime($date)
+  public function hasMinimumLeadTime($date, $status)
   {
-    // Minimum lead time: 1 day -> checks if the selected date is at least one day ahead of the current date
+    // Minimum lead time: 1 day
     $today = strtotime(date('Y-m-d'));
     $selectedDate = strtotime($date);
     $oneDayAhead = strtotime('+1 day', $today);
-    return ($selectedDate >= $oneDayAhead);
+
+    // Check if the appointment is pending and scheduled at least one day in advance
+    if ($status !== 'Approved' && $status !== 'On Process' && $status !== 'Completed') {
+      return ($selectedDate >= $oneDayAhead);
+    }
+
+    return true; // Allow appointments with other statuses regardless of lead time
   }
 
   public function isWithinMaximumAdvanceBooking($date)

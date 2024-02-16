@@ -155,7 +155,7 @@ class Edit_intent_of_transfer
       }
 
       if (isset($_POST['update_intent_of_transfer'])) {
-        $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers);
+        $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel);
 
         if (!empty($formErrors)) {
           $firstError = reset($formErrors);
@@ -243,7 +243,7 @@ class Edit_intent_of_transfer
     echo $this->renderView('edit_intent_of_transfer', true, $data);
   }
 
-  private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers) {
+  private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel) {
     $errors = array();
   
     $appointmentErrors = $appointmentModel->updateValidation($appointmentFormData);
