@@ -181,7 +181,7 @@
                     function displayImage($imagePath, $imageAlt) {
                       if ($imagePath) {
                         echo '<div class="col-md-4 text-center">';
-                        echo '<p class="form-label fw-semibold fs-6">' . $imageAlt . '</p>';
+                        echo '<p class="form-label fw-semibold fs-6 pt-1 mt-1" style="font-size: 14px !important;">' . $imageAlt . '</p>';
                         echo '<div class="image-container position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">';
                         echo '<img src="' . $imagePath . '" class="img-fluid rounded fixed-height-image" alt="' . $imageAlt . '">';
                         echo '</div>';

@@ -1,12 +1,8 @@
 <?php
-
-require 'public/phpmailer/src/Exception.php';
-require 'public/phpmailer/src/PHPMailer.php';
-require 'public/phpmailer/src/SMTP.php';
-
 require 'public/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 use Infobip\Api\SmsApi;
@@ -234,7 +230,7 @@ function sendEmail($to, $subject, $body)
 {
 	// Check if the code is running on localhost
 	if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_ADDR'] === '127.0.0.1') {
-		$mailerLocal = new PHPMailer;
+		$mailerLocal = new PHPMailer(true);
 		$mailerLocal->isSMTP();
 		$mailerLocal->Host = 'smtp.gmail.com';
 		$mailerLocal->Port = 465;
@@ -249,7 +245,7 @@ function sendEmail($to, $subject, $body)
 		$mailerLocal->Body = $body;
 		$mailerLocal->isHTML(true);
 	} else {
-		$mailerGoDaddy = new PHPMailer;
+		$mailerGoDaddy = new PHPMailer(true);
 		$mailerGoDaddy->isSMTP();
 		$mailerGoDaddy->Host = 'sg2plzcpnl503789.prod.sin2.secureserver.net';
 		$mailerGoDaddy->Port = 465;

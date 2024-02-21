@@ -109,6 +109,8 @@ class Appointment_process_automation
 
   protected function approvedAppointmentReminder()
   {
+    $rootPath = ROOT;
+
     $currentDate = date('Y-m-d');
     $oneDayAhead = date('Y-m-d', strtotime('+1 day'));
     $appointments = new Appointment();
@@ -124,7 +126,6 @@ class Appointment_process_automation
         $phoneNumber = $user->phone_number;
         $userName = $user->first_name . ' ' . $user->last_name;
         $email = $user->email;
-        $rootPath = ROOT;
   
         $formattedDate = date('F j, Y', strtotime($appointment->appointment_date));
         $formattedTime = date('h:i A', strtotime($appointment->appointment_time));
@@ -159,11 +160,9 @@ class Appointment_process_automation
         if ($appointment->appointment_type === 'Renewal of Franchise' && strtotime($appointment->appointment_date) > strtotime(date('Y-01-20'))) {
           $customTextMessage .= "\nRegrettably, this {$appointment->appointment_type} appointment for tricycle  CIN #{$cinNumber}, with route area {$routeArea}, is now beyond the renewal period of December 20th to January 20th. A penalty of &#8369;{$penaltyFee} is applicable for late renewal.\n\nFor more details, please check our website by clicking the link: {$rootPath}.\n";
 
-          $customEmailMessage .= "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Regrettably, this {$appointment->appointment_type} appointment for tricycle  CIN #{$cinNumber}, with route area {$routeArea}, is now beyond the renewal period of December 20th to January 20th. A penalty of &#8369;{$penaltyFee} is applicable for late renewal. For more details, please check our website by clicking the link: {$rootPath}.\n</div>";
+          $customEmailMessage .= "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Regrettably, this {$appointment->appointment_type} appointment for tricycle  CIN #{$cinNumber}, with route area {$routeArea}, is now beyond the renewal period of December 20th to January 20th. A penalty of &#8369;{$penaltyFee} is applicable for late renewal.\n</div>";
         } else {
           $customTextMessage .= "\nFor more details, please check our website by clicking the link: {$rootPath}.\n";
-
-          $customEmailMessage .= "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>For more details, please check our website by clicking the link: {$rootPath}.</div>";
         }
   
         $subject = "Appointment Reminder";
@@ -175,4 +174,5 @@ class Appointment_process_automation
       echo "No Approved Appointments.  ";
     }  
   }
+  
 }

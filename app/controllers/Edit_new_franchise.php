@@ -233,16 +233,18 @@
               $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
               $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
               $rootPath = ROOT;
+              $routeArea = isset($tricycleApplicationFormData['route_area']) && !empty($tricycleApplicationFormData['route_area'])
+              ? $tricycleApplicationFormData['route_area']
+              : (!empty($tricycleApplicationData->route_area) ? $tricycleApplicationData->route_area : '');          
 
-              $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber);
-              $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber);
+              $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber, $routeArea);
+              $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber, $routeArea);
               $customRequirementMessage = $this->generateCustomRequirementMessage();
-              $feeMessage = $this->generateFeeMessage($tricycleApplicationData->route_area);
 
               sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationData, $cinNumber, $customTextMessage, $customEmailMessage, $customRequirementMessage);
 
               set_flash_message("Scheduled appointment updated successfully.", "success");
-              redirect('appointments');;
+              redirect('appointments');
             } else {
               set_flash_message("Failed to update scheduled appointment. Please try again later.", "error");
               redirect('appointments');
@@ -310,22 +312,42 @@
       return $fileUploads;
     }
 
-    private function generateCustomTextMessage($name, $appointment_type, $formattedDate, $formattedTime, $rootPath, $cinNumber)
+    private function generateCustomTextMessage($name, $appointment_type, $formattedDate, $formattedTime, $rootPath, $cinNumber, $routeArea)
     {
-      $feeMessage = $this->generateFeeMessage($routeArea);
-      $message = "Hello {$name},\n\nCongratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
+      $feeMessage = "";
+      if (!empty($routeArea)) {
+        $feeMessage = $this->generateFeeMessage($routeArea);
+      }
+      
+      $message = "Hello {$name},\n\nCongratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\n";
+      
+      if (!empty($feeMessage)) {
+        $message .= "To ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
+      } else {
+        $message .= "To ensure a smooth process, please bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
+      }
+      
       $message .= $this->generateRequirementList();
       $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
-
+  
       return $message;
     }
 
-    private function generateCustomEmailMessage($formattedDate, $formattedTime, $appointment_type, $cinNumber)
+    private function generateCustomEmailMessage($formattedDate, $formattedTime, $appointment_type, $cinNumber, $routeArea)
     {
-      $feeMessage = $this->generateFeeMessage($routeArea);
+      $feeMessage = "";
+      if (!empty($routeArea)){
+        $feeMessage = $this->generateFeeMessage($routeArea);
+      }
+  
       $message = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
-      $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for New Franchise. </div>";
-
+  
+      if (!empty($feeMessage)) {
+        $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for New Franchise. </div>";
+      } else {
+        $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, please bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for New Franchise. </div>";
+      }
+  
       return $message;
     }
 
