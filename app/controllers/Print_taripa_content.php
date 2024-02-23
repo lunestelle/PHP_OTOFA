@@ -35,6 +35,9 @@ class Print_taripa_content
         $rate_adjustments_years = array_unique(array_map(function ($item) {
           return (new DateTime($item->effective_date))->format('Y');
         }, $rateAdjustmentsData));
+      } else {
+        // Initialize $rate_adjustments_years as an empty array if no adjustments are found
+        $rate_adjustments_years = [];
       }
       // Merge and sort the years in descending order
       $years = array_unique(array_merge($taripa_years, $rate_adjustments_years));
@@ -54,6 +57,9 @@ class Print_taripa_content
     if (!$year) {
       $year = reset($years);
     }
+
+    // Ensure $rate_adjustments_years is always defined, even if there are no rate adjustments
+    $rate_adjustments_years = $rate_adjustments_years ?? [];
 
     // If a year filter is selected, get the data for that year
     if ($year) {

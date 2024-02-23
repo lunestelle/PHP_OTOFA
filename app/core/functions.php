@@ -1,12 +1,8 @@
 <?php
-
-require 'public/phpmailer/src/Exception.php';
-require 'public/phpmailer/src/PHPMailer.php';
-require 'public/phpmailer/src/SMTP.php';
-
 require 'public/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 use Infobip\Api\SmsApi;
@@ -234,14 +230,14 @@ function sendEmail($to, $subject, $body)
 {
 	// Check if the code is running on localhost
 	if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_ADDR'] === '127.0.0.1') {
-		$mailerLocal = new PHPMailer;
+		$mailerLocal = new PHPMailer(true);
 		$mailerLocal->isSMTP();
 		$mailerLocal->Host = 'smtp.gmail.com';
 		$mailerLocal->Port = 465;
 		$mailerLocal->SMTPSecure = 'ssl';
 		$mailerLocal->SMTPAuth = true;
 		$mailerLocal->Username = 'sakaycle@gmail.com';
-		$mailerLocal->Password = 'hagfqeqlqdtyhqzi';
+		$mailerLocal->Password = 'nigelusqovmnfjuo';
 
 		$mailerLocal->setFrom('sakaycle@gmail.com', 'OTOFA');
 		$mailerLocal->addAddress($to);
@@ -249,16 +245,16 @@ function sendEmail($to, $subject, $body)
 		$mailerLocal->Body = $body;
 		$mailerLocal->isHTML(true);
 	} else {
-		$mailerGoDaddy = new PHPMailer;
+		$mailerGoDaddy = new PHPMailer(true);
 		$mailerGoDaddy->isSMTP();
-		$mailerGoDaddy->Host = 'sg2plzcpnl503789.prod.sin2.secureserver.net';
+		$mailerGoDaddy->Host = 'smtpout.secureserver.net';
 		$mailerGoDaddy->Port = 465;
 		$mailerGoDaddy->SMTPSecure = 'ssl';
 		$mailerGoDaddy->SMTPAuth = true;
-		$mailerGoDaddy->Username = 'info@otofa.com';
+		$mailerGoDaddy->Username = 'info@wlccicte.com';
 		$mailerGoDaddy->Password = 'otofa';
 
-		$mailerGoDaddy->setFrom('info@otofa.com', 'OTOFA');
+		$mailerGoDaddy->setFrom('info@wlccicte.com', 'OTOFA');
 		$mailerGoDaddy->addAddress($to);
 		$mailerGoDaddy->Subject = $subject;
 		$mailerGoDaddy->Body = $body;
