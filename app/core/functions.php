@@ -237,7 +237,7 @@ function sendEmail($to, $subject, $body)
 		$mailerLocal->SMTPSecure = 'ssl';
 		$mailerLocal->SMTPAuth = true;
 		$mailerLocal->Username = 'sakaycle@gmail.com';
-		$mailerLocal->Password = 'hagfqeqlqdtyhqzi';
+		$mailerLocal->Password = 'nigelusqovmnfjuo';
 
 		$mailerLocal->setFrom('sakaycle@gmail.com', 'OTOFA');
 		$mailerLocal->addAddress($to);
@@ -247,14 +247,14 @@ function sendEmail($to, $subject, $body)
 	} else {
 		$mailerGoDaddy = new PHPMailer(true);
 		$mailerGoDaddy->isSMTP();
-		$mailerGoDaddy->Host = 'sg2plzcpnl503789.prod.sin2.secureserver.net';
+		$mailerGoDaddy->Host = 'smtpout.secureserver.net';
 		$mailerGoDaddy->Port = 465;
 		$mailerGoDaddy->SMTPSecure = 'ssl';
 		$mailerGoDaddy->SMTPAuth = true;
-		$mailerGoDaddy->Username = 'info@otofa.com';
+		$mailerGoDaddy->Username = 'info@wlccicte.com';
 		$mailerGoDaddy->Password = 'otofa';
 
-		$mailerGoDaddy->setFrom('info@otofa.com', 'OTOFA');
+		$mailerGoDaddy->setFrom('info@wlccicte.com', 'OTOFA');
 		$mailerGoDaddy->addAddress($to);
 		$mailerGoDaddy->Subject = $subject;
 		$mailerGoDaddy->Body = $body;
