@@ -33,11 +33,11 @@
               <td><?php echo $report['operator_name']; ?></td>
               <td><a href="tricycles?user_id=<?php echo $report['user_id']; ?>" style="color: blue; font-weight: bold; text-decoration: none;"><?php echo $report['total_tricycles']; ?></a></td>
               <td><a href="tricycles?status=Active&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['active_tricycles']; ?></a></td>
-              <td><a href="tricycles?status=Dropped" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['dropped_tricycles']; ?></a></td>
-              <td><a href="tricycles?status=Renewal Required" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['renewal_required_tricycles']; ?></a></td>
-              <td><a href="tricycles?status=Change Motor Required" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['change_motor_required_tricycles']; ?></a></td>
-              <td><a href="tricycles?status=Expired Renewal" style="color: red; font-weight: bold; text-decoration: none;"><?php echo $report['expired_renewal_tricycles']; ?></a></td>
-              <td><a href="tricycles?status=Expired Motor" style="color: red; font-weight: bold; text-decoration: none;"><?php echo $report['expired_motor_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Dropped&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['dropped_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Renewal Required&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['renewal_required_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Change Motor Required&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['change_motor_required_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Expired Renewal&user_id=<?php echo $report['user_id']; ?>" style="color: red; font-weight: bold; text-decoration: none;"><?php echo $report['expired_renewal_tricycles']; ?></a></td>
+              <td><a href="tricycles?status=Expired Motor&user_id=<?php echo $report['user_id']; ?>" style="color: red; font-weight: bold; text-decoration: none;"><?php echo $report['expired_motor_tricycles']; ?></a></td>
             </tr>
           <?php endforeach; ?>
           </tbody>
