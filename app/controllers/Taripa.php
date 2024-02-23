@@ -55,12 +55,6 @@ class Taripa
     if (!$route_area || $route_area === 'All') {
       $taripasData = $taripaModel->findAll();
       $selectedFilter = 'All';
-    } else if ($route_area === 'Zone 2') {
-      $taripasData = $taripaModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 2']);
-    } else if ($route_area === 'Zone 3') {
-      $taripasData = $taripaModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 3']);
-    } else if ($route_area === 'Zone 4') {
-      $taripasData = $taripaModel->whereIn('route_area', ['Free Zone / Zone 1', 'Zone 4']);
     } else {
       $taripasData = $taripaModel->where(['route_area' => $route_area]);
       $selectedFilter = $route_area;

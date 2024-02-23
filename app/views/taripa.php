@@ -22,9 +22,9 @@
           <select id="routeAreaFilter" class="form-select" style="height: 35px; font-size: 14px;">
             <option value="All">All</option>
             <option value="Free Zone / Zone 1">Free Zone / Zone 1</option>
-            <option value="Zone 2">Freezone & Zone 2</option>
-            <option value="Zone 3">Freezone & Zone 3</option>
-            <option value="Zone 4">Freezone & Zone 4</option>
+            <option value="Free Zone & Zone 2">Freezone & Zone 2</option>
+            <option value="Free Zone & Zone 3">Freezone & Zone 3</option>
+            <option value="Free Zone & Zone 4">Freezone & Zone 4</option>
           </select>
         </div>
         <div class="col-6">
