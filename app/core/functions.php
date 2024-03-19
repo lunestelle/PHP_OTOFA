@@ -10,6 +10,7 @@ use Infobip\Configuration;
 use Infobip\Model\SmsAdvancedTextualRequest;
 use Infobip\Model\SmsDestination;
 use Infobip\Model\SmsTextualMessage;
+use Infobip\ApiException;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -161,13 +162,11 @@ function hasStatusToUpdate($statuses) {
 
 function sendSms($phoneNumber, $message)
 {
-	$infobipBaseUrl = "https://dk2ldr.api.infobip.com";
-	$infobipApiKey = "0aa57b4957d90ef24189830ed3d99fc1-43a40241-4c0d-426b-b27a-dc26a287849b";
 
-	// $infobipBaseUrl = "https://z1qe53.api.infobip.com";
-	// $infobipApiKey = "1a8624a577800d51f67b31bee7263d4f-13f19992-622f-4830-a87f-f5774d62cb89";
-
-	$infobipConfiguration = new Configuration(host: $infobipBaseUrl, apiKey: $infobipApiKey);
+	$infobipConfiguration = new Configuration(
+	    host: 'https://dk2ldr.api.infobip.com',
+	    apiKey: '0aa57b4957d90ef24189830ed3d99fc1-43a40241-4c0d-426b-b27a-dc26a287849b'
+	);
 	$infobipSmsApi = new SmsApi(config: $infobipConfiguration);
 	$infobipDestination = new SmsDestination(to: $phoneNumber);
 	$infobipMessage = new SmsTextualMessage(
@@ -247,7 +246,7 @@ function sendEmail($to, $subject, $body)
 	} else {
 		$mailerGoDaddy = new PHPMailer(true);
 		$mailerGoDaddy->isSMTP();
-		$mailerGoDaddy->Host = 'smtpout.secureserver.net';
+		$mailerGoDaddy->Host = 'wlccicte.com';
 		$mailerGoDaddy->Port = 465;
 		$mailerGoDaddy->SMTPSecure = 'ssl';
 		$mailerGoDaddy->SMTPAuth = true;
