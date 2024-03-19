@@ -247,7 +247,7 @@ function sendEmail($to, $subject, $body)
 	} else {
 		$mailerGoDaddy = new PHPMailer(true);
 		$mailerGoDaddy->isSMTP();
-		$mailerGoDaddy->Host = 'smtpout.secureserver.net';
+		$mailerGoDaddy->Host = 'wlccicte.com';
 		$mailerGoDaddy->Port = 465;
 		$mailerGoDaddy->SMTPSecure = 'ssl';
 		$mailerGoDaddy->SMTPAuth = true;
