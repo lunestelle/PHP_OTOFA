@@ -63,8 +63,6 @@ class Appointment
       $errors[] = 'Appointments can only be scheduled from Monday to Friday.';
     } elseif ($this->isPastDate($data['appointment_date'])) {
       $errors[] = 'Appointment date must be in the future.';
-    } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
-      $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
       $errors[] = 'Appointments cannot be scheduled more than <br> 15 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
@@ -132,10 +130,6 @@ class Appointment
       $errors[] = 'Preferred Date must be a valid date.';
     } elseif (!$this->isGovernmentWorkingDay($data['appointment_date'])) {
       $errors[] = 'Appointments can only be scheduled from Monday to Friday.';
-    } elseif ($this->isPastDate($data['appointment_date'])) {
-      $errors[] = 'Appointment date must be in the future.';
-    } elseif (!$this->hasMinimumLeadTime($data['appointment_date'], $data['status'])) {
-      $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
       $errors[] = 'Appointments cannot be scheduled more than <br> 15 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {

@@ -151,7 +151,7 @@ class Appointment_details
       $errors[] = 'Appointments can only be scheduled from Monday to Friday.';
     } elseif ($appointmentModel->isPastDate($appointment_date)) {
       $errors[] = 'Appointment date must be in the future.';
-    } elseif (!$appointmentModel->hasMinimumLeadTime($appointment_date)) {
+    } elseif (!$appointmentModel->hasMinimumLeadTime($appointment_date, 'Pending')) {
       $errors[] = 'Appointments must be scheduled at least one day in advance.';
     } elseif (!$appointmentModel->isWithinMaximumAdvanceBooking($appointment_date)) {
       $errors[] = 'Appointments cannot be scheduled more than 15 weekdays in advance.';
