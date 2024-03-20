@@ -242,6 +242,12 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                 </li>
               <?php } elseif ($userRole === 'admin') { ?>
                 <li class="nav-item">
+                  <a class="nav-link text-white" href="users">
+                    <i class="fas fa-users"></i>
+                    <span class="ms-2">Users</span>
+                  </a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link text-white" href="inquiries">
                     <i class="fas fa-envelope"></i>
                     <span class="ms-2">Inquiries</span>

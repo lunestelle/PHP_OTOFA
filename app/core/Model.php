@@ -36,6 +36,21 @@ Trait Model
     return $this->query($query, $data);
   }
 
+  public function whereNot($data)
+  {
+    $keys = array_keys($data);
+    $query = "SELECT * FROM {$this->table} WHERE ";
+
+    foreach ($keys as $key) {
+      $query .= $key . " != :" . $key . " AND ";
+    }
+
+    $query = rtrim($query, " AND ");
+    $query .= " ORDER BY {$this->order_column} {$this->order_type}";
+
+    return $this->query($query, $data);
+  }
+
     public function whereIn($column, $values)
   {
     $placeholders = implode(', ', array_fill(0, count($values), '?'));

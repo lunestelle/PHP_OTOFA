@@ -20,6 +20,8 @@ class User
 		'token_expiration',
 		'phone_verification_code',
 		'phone_number_status',
+		'role',
+		'permissions',
 	];
 	protected $order_column = 'user_id';
 	public $errors = [];
