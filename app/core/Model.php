@@ -211,4 +211,10 @@ Trait Model
     return 0;
   }
 
+  public function distinct($column) {
+    $query = "SELECT DISTINCT $column FROM {$this->table}";
+    return $this->query($query);
+  }
+
+
 }

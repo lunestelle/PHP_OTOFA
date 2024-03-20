@@ -18,15 +18,27 @@
               </form>
             </div>
           <?php endif; ?>
-          <div class="col-6 mt-3">
-            <label for="userNameFilter" class="fw-bold" style="font-size: 13px;">Filter By Users Name:</label>
-            <select id="userNameFilter" class="form-select" style="height: 35px; font-size: 14px;">
-              <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
-              <?php foreach ($users as $user): ?>
-                <option value="<?php echo $user['first_name'] . ' ' . $user['last_name']; ?>" <?php echo ($user['first_name'] . ' ' . $user['last_name'] == $selectedFilter) ? 'selected' : ''; ?>><?php echo $user['first_name'] . ' ' . $user['last_name']; ?></option>
-              <?php endforeach; ?>
-            </select>
+          <div class="row mt-3">
+            <div class="col-6">
+              <label for="userNameFilter" class="fw-bold" style="font-size: 13px;">Filter By Users Name:</label>
+              <select id="userNameFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
+                <?php foreach ($userNames as $userName): ?>
+                    <option value="<?php echo $userName; ?>" <?php echo ($selectedFilter == $userName) ? 'selected' : ''; ?>><?php echo $userName; ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="roleFilter" class="fw-bold" style="font-size: 13px;">Filter By Role:</label>
+              <select id="roleFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                <option value="all" <?php echo ($selectedRoleFilter == 'all') ? 'selected' : ''; ?>>All</option>
+                <?php foreach ($roles as $role): ?>
+                  <option value="<?php echo $role; ?>" <?php echo ($selectedRoleFilter == $role) ? 'selected' : ''; ?>><?php echo ucfirst($role); ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
           </div>
+
           <div class="table-responsive pt-4 pb-3">
             <table class="table table-hover" id="systemTable">
               <thead class="thead-custom">
@@ -54,8 +66,8 @@
                     <td><?php echo $user['role']; ?></td>
                     <td><?php echo $user['permissions']; ?></td>
                     <td>
-                      <a href="./view_user?user_id=<?php echo $user['user_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View User Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
-                      <a href="./edit_user?user_id=<?php echo $user['user_id']?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit User Details"><i class="fa-solid fa-file-pen fa-xl"></i></a>
+                      <a href="<?php echo ('view_user?user_id=') . $user['user_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View User Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
+                      <a href="<?php echo ('edit_user?user_id=') . $user['user_id']; ?>" class="edit_data px-1 me-1" style="color: #ff6c36;;" title="Edit User Details"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -68,13 +80,22 @@
 </main>
 <script>
   $(document).ready(function () {
-    $("#userNameFilter").change(function () {
+    $("#userNameFilter, #roleFilter").change(function () {
       const selectedName = $("#userNameFilter").val();
-      if (selectedName === 'all') {
-        window.location.href = "users";
-      } else {
-        window.location.href = "users?user_name=" + selectedName;
+      const selectedRole = $("#roleFilter").val();
+    
+      let queryParams = [];
+
+      if (selectedName !== 'all') {
+        queryParams.push('user_name=' + encodeURIComponent(selectedName));
       }
+      if (selectedRole !== 'all') {
+        queryParams.push('role=' + encodeURIComponent(selectedRole));
+      }
+
+      let queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+      window.location.href = "users" + queryString;
     });
   });
 </script>

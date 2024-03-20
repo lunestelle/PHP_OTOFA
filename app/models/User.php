@@ -254,4 +254,30 @@ class User
 	{
 		$this->errors[$field] = $message;
 	}
+
+  public function getFilteredUsers($selectedFilter, $selectedRoleFilter, $whereConditions = [])
+  {
+    $whereClause = '';
+    $queryParams = [];
+
+    if (!empty($whereConditions)) {
+        foreach ($whereConditions as $column => $value) {
+            $whereClause .= " AND $column = ?";
+            $queryParams[] = $value;
+        }
+    }
+
+    if ($selectedFilter !== 'all') {
+        $whereClause .= " AND CONCAT(first_name, ' ', last_name) = ?";
+        $queryParams[] = $selectedFilter;
+    }
+
+    if ($selectedRoleFilter !== 'all') {
+        $whereClause .= " AND role = ?";
+        $queryParams[] = $selectedRoleFilter;
+    }
+
+    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY user_id DESC";
+    return $this->query($query, $queryParams);
+  }
 }
