@@ -301,3 +301,85 @@ input[type=number] {
   background-color: #ff4400;
   color: white;
 }
+
+/* --- STEPS BUTTON --- */
+
+.step-buttons {
+  max-width: 75%;
+  margin: 0 auto;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-basis: 30%; /* Set flex-basis to 30% for each step item */
+  margin-bottom: 1rem; /* Add margin between items */
+}
+
+.step-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid rgb(179, 179, 179);
+  transition: background-color 0.4s ease;
+  font-weight: 700;
+  color:  rgb(0, 138, 46);
+}
+
+.step-button[aria-expanded="true"],
+.step-button.active {
+  background-color: rgb(0, 138, 46);
+  color: #fff;
+  border: 1px solid rgb(182, 182, 182);
+}
+
+.done {
+  background-color: rgb(0, 138, 46);
+  color: #fff;
+  border: 1px solid rgb(156, 156, 156);
+  box-shadow: 2px 4px 6px slategray;
+}
+
+.center-progress {
+  width: 50%;
+  margin: auto; 
+  display: block;
+}
+
+#progress {
+  -webkit-appearance: none;
+  position: absolute;
+  width: 70%;
+  z-index: -1;
+  height: 10px;
+  margin-left: 150px;
+  margin-bottom: 18px;
+}
+
+#progress::-webkit-progress-value {
+  background-color: rgba(0, 138, 46, 0.267);
+  transition: width 0.5s ease; 
+}
+
+#progress::-webkit-progress-bar {
+  background-color: #f3f3f3;
+}
+
+/* -- STEP BUTTONS LABEL */
+.step-buttons-label {
+  position: absolute;
+  top: 60px;
+  font-size: 13px;
+  color: #999999;
+}
