@@ -362,8 +362,7 @@
             <div id="taripaTableContainer" class="content-container mt-4">
               <div class="bckgrnd pt-2">
                 <?php
-                  $taripaTitle = isset($tricycleApplicationData->route_area) ? $tricycleApplicationData->route_area : '';
-                  $taripaTitle .= isset($recentYear) ? ' &mdash; ' . $recentYear . ' TARIPA' : '';
+                    $taripaTitle = isset($recentYear) ? $recentYear . ' TARIPA' : '';
                 ?>
                 <h6 class="pl-2 text-uppercase text-center text-dark fs-6">
                   <?php echo $taripaTitle; ?>

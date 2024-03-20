@@ -57,9 +57,9 @@ class Change_of_motorcycle
         'name' => $_POST['name'] ?? '',
         'phone_number' => $_POST['phone_number'] ?? '',
         'email' => $_POST['email'] ?? '',
-        'appointment_type' => $_POST['appointment_type'] ?? '',
+        'appointment_type' => 'Change of Motorcycle',
         'appointment_date' => $_POST['appointment_date'] ?? '',
-        'appointment_time' => $_POST['appointment_time'] ?? '',
+        'appointment_time' => date("H:i", strtotime($_POST['appointment_time'])) ?? '',
         'status' => 'Pending',
         'user_id' => $_SESSION['USER']->user_id,
       ];
@@ -168,28 +168,51 @@ class Change_of_motorcycle
 
     if (!empty($tricycleApplicationFormData['tricycle_cin_number_id'])) {
       $cinId = $tricycleApplicationFormData['tricycle_cin_number_id'];
+      $userId =  $appointmentFormData['user_id'];
+      $appointmentType = $appointmentFormData['appointment_type'];
       $currentYear = date('Y');
       $statuses = ['Approved', 'Pending', 'On Process'];
-
-      $query = "SELECT COUNT(*) AS appointment_count FROM appointments INNER JOIN tricycle_applications ON appointments.appointment_id = tricycle_applications.appointment_id WHERE tricycle_applications.tricycle_cin_number_id = $cinId AND YEAR(appointments.appointment_date) = $currentYear AND appointments.status IN ('" . implode("','", $statuses) . "')";
-
-      $result = $appointmentModel->query($query);
-
-      if (!empty($result) && (is_array($result) || is_object($result))) {
-        if ($result[0]->appointment_count > 0) {
-          $query = "SELECT appointments.status, appointments.appointment_date FROM appointments INNER JOIN tricycle_applications ON appointments.appointment_id = tricycle_applications.appointment_id WHERE tricycle_applications.tricycle_cin_number_id = $cinId AND YEAR(appointments.appointment_date) = $currentYear AND appointments.status IN ('" . implode("','", $statuses) . "')";
-          $appointmentResult = $appointmentModel->query($query);
+  
+      $statusPlaceholders = implode(',', array_fill(0, count($statuses), '?'));
+  
+      $query = "SELECT COUNT(*) AS appointment_count 
+                FROM appointments 
+                INNER JOIN tricycle_applications 
+                ON appointments.appointment_id = tricycle_applications.appointment_id 
+                WHERE tricycle_applications.tricycle_cin_number_id = ? 
+                AND YEAR(appointments.appointment_date) = ? 
+                AND appointments.status IN ($statusPlaceholders)";
+  
+      $params = array_merge([$cinId, $currentYear], $statuses);
+  
+      $result = $appointmentModel->query($query, $params);
+  
+      if (!empty($result) && $result[0]->appointment_count > 0) {
+          $query = "SELECT appointments.status, appointments.appointment_date, appointments.appointment_type 
+                    FROM appointments 
+                    INNER JOIN tricycle_applications 
+                    ON appointments.appointment_id = tricycle_applications.appointment_id 
+                    WHERE tricycle_applications.tricycle_cin_number_id = ? 
+                    AND YEAR(appointments.appointment_date) = ? 
+                    AND appointments.appointment_type = ? 
+                    AND appointments.user_id != ? 
+                    AND appointments.status IN ($statusPlaceholders)";
+  
+          $params = array_merge([$cinId, $currentYear, $appointmentType, $userId], $statuses);
+  
+          $appointmentResult = $appointmentModel->query($query, $params);
+  
           if (!empty($appointmentResult) && isset($appointmentResult[0])) {
-            $tricycleCinModel = new TricycleCinNumber();
-            $cinDataValidation = $tricycleCinModel->first(['tricycle_cin_number_id' => $cinId]);
-
-            // Check if the CIN belongs to the same owner as in the first appointment record
-            $cinNumber = $cinDataValidation->cin_number;
-            $appointmentStatus = $appointmentResult[0]->status;
-            $appointmentDate = date('F j, Y', strtotime($appointmentResult[0]->appointment_date));
-            $errors['tricycleApplication'][] = "There is an existing appointment for this tricycle CIN #$cinNumber with appointment <br> status '$appointmentStatus' and appointment date on $appointmentDate.";
+              $tricycleCinModel = new TricycleCinNumber();
+              $cinDataValidation = $tricycleCinModel->first(['tricycle_cin_number_id' => $cinId]);
+  
+              // Check if the CIN belongs to the same owner as in the first appointment record
+              $cinNumber = $cinDataValidation->cin_number;
+              $type = $appointmentResult[0]->appointment_type;
+              $appointmentStatus = $appointmentResult[0]->status;
+              $appointmentDate = date('F j, Y', strtotime($appointmentResult[0]->appointment_date));
+              $errors['tricycleApplication'][] = "There is an existing $type appointment for this tricycle CIN #$cinNumber with appointment <br> status '$appointmentStatus' and appointment date on $appointmentDate.";
           }
-        }
       }
     }
 

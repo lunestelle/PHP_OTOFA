@@ -22,9 +22,9 @@ class New_franchise
         'name' => $_POST['name'] ?? '',
         'phone_number' => $_POST['phone_number'] ?? '',
         'email' => $_POST['email'] ?? '',
-        'appointment_type' => $_POST['appointment_type'] ?? '',
+        'appointment_type' => 'New Franchise',
         'appointment_date' => $_POST['appointment_date'] ?? '',
-        'appointment_time' => $_POST['appointment_time'] ?? '',
+        'appointment_time' => date("H:i", strtotime($_POST['appointment_time'])) ?? '',
         'status' => 'Pending',
         'user_id' => $_SESSION['USER']->user_id,
       ];
