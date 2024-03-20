@@ -13,6 +13,12 @@ $(document).ready(function () {
           linkUrl.includes('tricycles') && !linkUrl.includes('tricycles_reports')
         ) ||
         (
+          (currentUrl.href.includes('new_user') ||
+            currentUrl.href.includes('edit_user') ||
+            currentUrl.href.includes('view_user') || currentUrl.href.includes('users?user_name') || currentUrl.href.includes('users?role')) &&
+          linkUrl.includes('users')
+        ) ||
+        (
           (currentUrl.href.includes('new_driver') ||
             currentUrl.href.includes('edit_driver') || currentUrl.href.includes('drivers?status')) &&
           linkUrl.includes('drivers')
