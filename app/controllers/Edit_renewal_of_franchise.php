@@ -224,7 +224,10 @@ class Edit_renewal_of_franchise
                 ];
           
                 if ($tricycleModel->update(['tricycle_id' => $tricycleData->tricycle_id], $tricycleUpdateData)) {
-                  $tricycleStatusesModel->deleteStatus($tricycleData->tricycle_id, $appointmentData->user_id, "Renewal Required");
+                  $statusesToDelete = ["Renewal Required", "Expired Renewal (1st Notice)", "Expired Renewal (2nd Notice)", "Expired Renewal (3rd Notice)"];
+                  foreach ($statusesToDelete as $statusToDelete) {
+                    $tricycleStatusesModel->deleteStatus($tricycleData->tricycle_id, $appointmentData->user_id, $statusToDelete);
+                  }
                 }
               }
             }

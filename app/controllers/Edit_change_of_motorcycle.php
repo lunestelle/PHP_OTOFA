@@ -229,7 +229,10 @@ class Edit_change_of_motorcycle
                 ];
       
                 if ($tricycleModel->update(['tricycle_id' => $tricycleData->tricycle_id], $tricycleUpdateData)) {
-                  $tricycleStatusesModel->deleteStatus($tricycleData->tricycle_id, $appointmentData->user_id, "Change Motor Required");
+                  $statusesToDelete = ["Change Motor Required", "Expired Motor (1st Notice)", "Expired Motor (2nd Notice)", "Expired Motor (3rd Notice)"];
+                  foreach ($statusesToDelete as $statusToDelete) {
+                    $tricycleStatusesModel->deleteStatus($tricycleData->tricycle_id, $appointmentData->user_id, $statusToDelete);
+                  }
                 }
               }
             }
