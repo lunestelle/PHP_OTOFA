@@ -88,7 +88,7 @@ input[type="number"]:hover {
 input[type=file] {
   font-size: 13px;
   width: 300px;
-  height: 80px;
+  height: 70px;
   border-radius: 10px;
   border: 2px dashed #f3906c;
   background: rgba(240, 95, 43, 0.171);
@@ -152,6 +152,29 @@ input[type=file]::file-selector-button:focus {
 
   thead, th, tr {
     font-size: 11px;
+  }
+}
+
+@media screen and (min-width: 1201px) and (max-width: 1800px) {
+  .form-control {
+    width: 170px;
+  }
+
+  .input-group {
+    display: flex;
+    flex-wrap: wrap;
+    width: 170px;
+  }
+
+  input[type=file] {
+    font-size: 12px;
+    width: 500px;
+    height: 60px;
+  }
+
+  input[type=number] {
+    font-size: 12px;
+    width: 270px;
   }
 }
 
@@ -323,8 +346,8 @@ input[type=number] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-basis: 30%; /* Set flex-basis to 30% for each step item */
-  margin-bottom: 1rem; /* Add margin between items */
+  flex-basis: 30%;
+  margin-bottom: 1rem;
 }
 
 .step-button {
