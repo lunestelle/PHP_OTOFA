@@ -66,11 +66,65 @@ class User
 		return true;
 	}
 
+  public function adminUserValidate($userData)
+  {
+    $errors = [];
+
+    $requiredFields = [
+      'first_name' => 'First Name',
+      'last_name' => 'Last Name',
+      'email' => 'Email',
+      'address' => 'Address',
+      'phone_number' => 'Phone Number',
+      'password' => 'Password',
+      'password_confirmation' => 'Confirm Password',
+      'role' => 'Role'
+    ];
+  
+    foreach ($requiredFields as $field => $fieldName) {
+      if (empty($userData[$field])) {
+        $errors[] = "{$fieldName} is required.";
+      }
+    }
+
+    if (empty($userData['phone_number'])) {
+        $errors[] = "Phone Number is required.";
+    } else {
+      $phoneNumber = $userData['phone_number'];
+
+      if (strlen($phoneNumber) !== 10) {
+        $errors[] = "Invalid phone number. Please enter a valid 10-digit number after '+63'.";
+      } elseif (!is_numeric(substr($phoneNumber, 3))) {
+        $errors[] = "Invalid phone number. Please enter only numeric digits (0-9) after '+63'.";
+      }
+    }
+
+    $email = $userData['email'];
+    $password = $userData['password'];
+    $passwordConfirmation = $userData['password_confirmation'];
+
+    if (empty($email)) {
+      $errors[] = 'Email is required.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $errors[] = 'Invalid email format.';
+    } elseif ($this->emailExists($email)) {
+      $errors[] = 'Email is already taken.';
+    }
+
+    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $password) || strlen($password) < 8 || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $passwordConfirmation) || strlen($passwordConfirmation) < 8) {
+      $errors[] = 'Passwords need to be at least 8 characters long, contain 1 upper and 1 <br>  lower-case letter, 1 number, and at least 1 special character (e.g. !"#$%&).';
+    } elseif ($password !== $passwordConfirmation) {
+      $errors[] = 'Passwords do not match. Please try again.';
+    }
+
+    return $errors;
+  }
+  
 	public function isVerificationTokenUsed($verification_token)
 	{
-			// Check if the token has already been used by verifying the verification_status
-			$result = $this->where(['verification_token' => $verification_token, 'verification_status' => 'verified']);
-			return !empty($result);
+    // Check if the token has already been used by verifying the verification_status
+    $result = $this->where(['verification_token' => $verification_token, 'verification_status' => 'verified']);
+    return !empty($result);
 	}
 	
 	public function validateEmailOrPhone($emailOrPhone)
@@ -93,7 +147,7 @@ class User
 		} elseif (!preg_match('/^(?:\+639[0-9]{9}|09[0-9]{9})$/', $phone_number)) {
 			$this->addError('phone_number', 'Invalid phone number format.');
 		} elseif (!empty($this->where(['phone_number' => $phone_number]))) {
-			$this->addError('phone_number', "The phone number '$emailOrPhone' has already been taken.");
+			$this->addError('phone_number', "The phone number '$phone_number' has already been taken.");
 		}
 	}
 
