@@ -66,13 +66,13 @@
                     <td><?php echo $user['role']; ?></td>
                     <td>
                       <?php if (!empty($user['permissions'])): ?>
-                        <ul style="padding-left: 0; text-align: left;">
+                        <ul style="padding-left: 10; text-align: left;">
                           <?php foreach ($user['permissions'] as $permission): ?>
                             <li><?php echo $permission; ?></li>
                           <?php endforeach; ?>
                         </ul>
                       <?php else: ?>
-                        <p class="text-black">This user has no specific permissions</p>
+                        <p class="text-black text-start ms-3">This user has no specific permissions.</p>
                       <?php endif; ?>
                     </td>
                     <td>

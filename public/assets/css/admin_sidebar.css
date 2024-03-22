@@ -8,7 +8,7 @@
     padding-top: 20px; /* Adjusted padding to accommodate fixed positioning */
     display: flex;
     flex-direction: column;
-    background-color: #090C1B;
+    background-color: #fc7646;
     overflow-y: auto; /* Enable vertical scrollbar */
     max-height: calc(100vh - 60px); /* Set a maximum height to fit within the viewport */
   }
@@ -89,14 +89,14 @@
   
   .nav-item a:hover {
     background: transparent;
-    border: #FF4200 1px solid;
+    border: #090C1B 1px solid;
     text-decoration: none;
     color: #fff;
     border-radius: 10px;
   }
   
   .nav-item .nav-link-active {
-    background: #FF4200;
+    background: #090C1B;
     border-radius: 10px;
     text-decoration: none;
     color: #fff;
@@ -113,7 +113,7 @@
   }
   
   .dropdown .color {
-    background-color: #FF4200;
+    background-color: #090C1B;
     color: white;
     font-weight: bold;
   }
@@ -125,7 +125,7 @@
   .profile-photo {
     width: 70px;
     height: 70px;
-    border: 3px solid #EBB803;
+    border: 3px solid #000000;
   }
   
   .profile-name {
@@ -214,8 +214,8 @@
   }
   
   .dropdown-header {
-    background-color: #EBB803;
-    border: 1px solid #EBB803;
+    background-color:  #090C1B;
+    border: 1px solid  #090C1B;
     border-radius: 10px 10px 0 0;
   }
   
@@ -233,7 +233,7 @@
   
   .dropdown-menu a.dropdown-item:hover {
     color: #fff;
-    background: #FF4200;
+    background: #EBB803;
     text-decoration: none;
   }
   
@@ -361,7 +361,8 @@
   }
   
   table.dataTable thead>tr>th {
-    background-color: #EBB803 !important;
+    background-color: #090C1B !important;
+    color: white;
   }
   
   table > :not(caption) > * > * {
@@ -447,8 +448,8 @@
   
   .update-status-btn {
     padding: 3px 10px;
-    background-color: rgb(0, 0, 0);
-    border: #000000 1px solid;
+    background-color: rgb(138, 138, 138);
+    border: #7e7e7e 1px solid;
     color: #ffffff;
     text-decoration: none;
     font-size: 10px;
