@@ -132,31 +132,36 @@ trait Controller
 			$cssFiles[] = $cssFile;
     }
 
-    if ($this->sharedData['userRole'] === 'admin') {
-      if (in_array($page, $sidebarViewPages)) {
-        $cssFiles[] = 'admin_view_page.css';
-      } else if (in_array($page, $sidebarEditPages)) {
-        $cssFiles[] ='admin_edit_page.css';
-      } else if (in_array($page, $sidebarNewPages)) {
-        $cssFiles[] ='admin_new_page.css';
-      }
+		if (isset($this->sharedData['userRole'])) {
+			if ($this->sharedData['userRole'] === 'admin') {
+				// Admin-specific CSS
+				if (in_array($page, $sidebarViewPages)) {
+					$cssFiles[] = 'admin_view_page.css';
+				} else if (in_array($page, $sidebarEditPages)) {
+					$cssFiles[] ='admin_edit_page.css';
+				} else if (in_array($page, $sidebarNewPages)) {
+					$cssFiles[] ='admin_new_page.css';
+				}
 
-      if (in_array($page, $sidebarPages)) {
-        $cssFiles[] = 'admin_sidebar.css';
-      }
-    } else {
-      if (in_array($page, $sidebarViewPages)) {
-        $cssFiles[] = 'view_page.css';
-      } else if (in_array($page, $sidebarEditPages)) {
-        $cssFiles[] ='edit_page.css';
-      } else if (in_array($page, $sidebarNewPages)) {
-        $cssFiles[] = 'new_page.css';
-      }
+				if (in_array($page, $sidebarPages)) {
+					$cssFiles[] = 'admin_sidebar.css';
+				}
+			} else if ($this->sharedData['userRole'] === 'personnel' || $this->sharedData['userRole'] === 'operator') {
+				// Personnel or operator-specific CSS
+				if (in_array($page, $sidebarViewPages)) {
+					$cssFiles[] = 'view_page.css';
+				} else if (in_array($page, $sidebarEditPages)) {
+					$cssFiles[] ='edit_page.css';
+				} else if (in_array($page, $sidebarNewPages)) {
+					$cssFiles[] = 'new_page.css';
+				}
 
-      if (in_array($page, $sidebarPages)) {
-        $cssFiles[] = 'sidebar.css';
-      }
-    }
+				if (in_array($page, $sidebarPages)) {
+					$cssFiles[] = 'sidebar.css';
+				}
+			}
+		}
+	
 
     if (empty($cssFiles)) {
 			$cssFiles[] = 'home.css';
