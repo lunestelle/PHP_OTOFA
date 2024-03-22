@@ -496,7 +496,8 @@
             </div>
             <div class="mt-3">
               <button type="button" class="sidebar-btnContent-1 text-start" onclick="showStep(2)">Previous</button>
-              <button type="submit" class="sidebar-btnContent text-end" name="schedule_appointment" id="scheduleAppointmentBtn">Schedule Appointment</button>
+              <button type="submit" class="sidebar-btnContent" name="update_new_franchise" id="update_new_franchise">Update</button>
+              <a href="./appointments" class="cancel-btn">Cancel</a>
             </div>
           </section>
         </div>
