@@ -54,6 +54,8 @@ class Users
 
     if (!empty($usersData)) {
       foreach ($usersData as $user) {
+        $permissions = isset($user->permissions) && $user->permissions !== '' ? explode(', ', $user->permissions) : null;
+        
         $data['users'][] = [
           'user_id' => $user->user_id,
           'first_name' => $user->first_name,
@@ -62,7 +64,7 @@ class Users
           'email' => $user->email,
           'address' => $user->address,
           'role' => $user->role,
-          'permissions' => $user->permissions,
+          'permissions' => $permissions
         ];
       }
     }

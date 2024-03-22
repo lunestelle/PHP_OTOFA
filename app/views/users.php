@@ -55,7 +55,7 @@
                 </tr>
               </thead>
               <tbody class="text-center text-capitalize">
-              <?php foreach ($users as $index => $user): ?>
+                <?php foreach ($users as $index => $user): ?>
                   <tr>
                     <td><?php echo $index + 1; ?></td>
                     <td><?php echo $user['first_name']; ?></td>
@@ -64,15 +64,26 @@
                     <td class="text-lowercase"><?php echo $user['email']; ?></td>
                     <td><?php echo $user['address']; ?></td>
                     <td><?php echo $user['role']; ?></td>
-                    <td><?php echo $user['permissions']; ?></td>
+                    <td>
+                      <?php if (!empty($user['permissions'])): ?>
+                        <ul style="padding-left: 0; text-align: left;">
+                          <?php foreach ($user['permissions'] as $permission): ?>
+                            <li><?php echo $permission; ?></li>
+                          <?php endforeach; ?>
+                        </ul>
+                      <?php else: ?>
+                        <p class="text-black">This user has no specific permissions.</p>
+                      <?php endif; ?>
+                    </td>
                     <td>
                       <a href="<?php echo ('view_user?user_id=') . $user['user_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View User Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
-                      <a href="<?php echo ('edit_user?user_id=') . $user['user_id']; ?>" class="edit_data px-1 me-1" style="color: #ff6c36;;" title="Edit User Details"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
+                      <a href="<?php echo ('edit_user?user_id=') . $user['user_id']; ?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit User Details"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>
-          </table>
+            </table>
+          </div>
         </div>
       </div>
     </div>
