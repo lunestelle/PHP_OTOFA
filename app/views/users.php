@@ -72,7 +72,7 @@
                           <?php endforeach; ?>
                         </ul>
                       <?php else: ?>
-                        <p class="text-black">This user has no specific permissions.</p>
+                        <p class="text-black">This user has no specific permissions</p>
                       <?php endif; ?>
                     </td>
                     <td>
