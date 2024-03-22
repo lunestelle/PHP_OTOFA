@@ -117,7 +117,7 @@ trait Controller
 	protected function getCSSFile($page)
 	{
 		$sidebarPages = ['dashboard', 'tricycles', 'drivers', 'appointments', 'maintenance_logs', 'operators', 'registration_approval', 'taripa', 'export', 'view_tricycle', 'view_driver', 'view_operator', 'view_appointment', 'view_maintenance_log', 'edit_taripa', 'edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'new_appointment', 'new_driver', 'new_taripa', 'new_tricycle', 'new_maintenance_log', 'blue_trike_info', 'green_trike_info', 'red_trike_info', 'yellow_trike_info', 'new_franchise', 'edit_new_franchise', 'renewal_of_franchise', 'edit_renewal_of_franchise', 'change_of_motorcycle', 'edit_change_of_motorcycle', 'transfer_of_ownership', 'edit_transfer_of_ownership', 'intent_of_transfer', 'edit_intent_of_transfer', 'ownership_transfer_from_deceased_owner', 'edit_ownership_transfer_from_deceased_owner', 'tricycles_reports', 'appointments_reports', 'cin_reports', 'maintenance_tracker', 'view_calculations', 'inquiries', 'appointment_details', 'users', 'new_user', 'view_user', 'edit_user'];
-		
+
 		$sidebarViewPages = ['view_tricycle', 'view_driver', 'view_appointment', 'view_operator', 'view_maintenance_log', 'view_user'];
 
 		$sidebarEditPages = ['edit_tricycle', 'edit_driver', 'edit_appointment', 'edit_maintenance_log', 'edit_new_franchise', 'edit_renewal_of_franchise', 'edit_change_of_motorcycle', 'edit_transfer_of_ownership', 'edit_intent_of_transfer', 'edit_ownership_transfer_from_deceased_owner', 'edit_user'];
@@ -132,17 +132,31 @@ trait Controller
 			$cssFiles[] = $cssFile;
     }
 
-    if (in_array($page, $sidebarPages)) {
-			$cssFiles[] = 'sidebar.css';
+    if ($this->sharedData['userRole'] === 'admin') {
+      if (in_array($page, $sidebarViewPages)) {
+        $cssFiles[] = 'admin_view_page.css';
+      } else if (in_array($page, $sidebarEditPages)) {
+        $cssFiles[] ='admin_edit_page.css';
+      } else if (in_array($page, $sidebarNewPages)) {
+        $cssFiles[] ='admin_new_page.css';
+      }
+
+      if (in_array($page, $sidebarPages)) {
+        $cssFiles[] = 'admin_sidebar.css';
+      }
+    } else {
+      if (in_array($page, $sidebarViewPages)) {
+        $cssFiles[] = 'view_page.css';
+      } else if (in_array($page, $sidebarEditPages)) {
+        $cssFiles[] ='edit_page.css';
+      } else if (in_array($page, $sidebarNewPages)) {
+        $cssFiles[] = 'new_page.css';
+      }
+
+      if (in_array($page, $sidebarPages)) {
+        $cssFiles[] = 'sidebar.css';
+      }
     }
-		
-		if (in_array($page, $sidebarViewPages)) {
-			$cssFiles[] = 'view_page.css';
-    } else if (in_array($page, $sidebarEditPages)) {
-			$cssFiles[] ='edit_page.css';
-		} else if (in_array($page, $sidebarNewPages)) {
-			$cssFiles[] = 'new_page.css';
-		}
 
     if (empty($cssFiles)) {
 			$cssFiles[] = 'home.css';
