@@ -31,36 +31,36 @@ class Edit_user
     $data = [];
   
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $errors = $userModel->editAdminUserValidate($_POST);
+      $errors = $userModel->adminUserValidate($_POST);
       if (empty($errors)) {
         // Proceed with data insertion if there are no errors
         $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $profilePhotoPath = generateProfilePicture(strtoupper($_POST['first_name'][0] . $_POST['last_name'][0]));
-
         $permissions = isset($_POST['permissions']) ? $_POST['permissions'] : [];
+
         // Convert permissions array to comma-separated string
         $permissionsString = implode(', ', $permissions);
 
         $updatedData = [
-          'user_id' => $userId,
+          'user_id' => $_POST['user_id'],
           'first_name' => ucwords($_POST['first_name']),
           'last_name' => ucwords($_POST['last_name']),
           'email' => $_POST['email'],
           'address' => ucwords($_POST['address']),
           'phone_number' => $_POST['phone_number'],
-          'password' => $hashedPassword,
+          'password' => $_POST['password'],
+          'password_confirmation' => $_POST['password_confirmation'],
           'role' => $_POST['role'],
           'permissions' => $permissionsString,
           'verification_status' => $_POST['verification_status'],
-          'phone_number_status' => $_POST['phone_number_status'],
-          'generated_profile_photo_path' => $profilePhotoPath
+          'phone_number_status' => $_POST['phone_number_status']
         ];
 
         $formattedPhoneNumber = $updatedData['phone_number'];
 				$updatedData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
+        $updatedData['password'] = $hashedPassword;
 
-        if ($userModel->insert($updatedData)) {
-          set_flash_message("User created successfully.", "success");
+        if ($userModel->update(['user_id' => $userId], $updatedData)) {
+          set_flash_message("User updated successfully.", "success");
           redirect('users');
         }
       } else {
@@ -83,8 +83,7 @@ class Edit_user
         'phone_number' => $this->formatPhoneNumber($userData->phone_number),
         'role' => $userData->role,
         'permissions' => $permissions
-      ],
-      'userId' => $userId
+      ]
     ]);
     
     echo $this->renderView('edit_user', true, $data);

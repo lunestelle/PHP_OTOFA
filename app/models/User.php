@@ -66,120 +66,87 @@ class User
 		return true;
 	}
 
-  public function adminUserValidate($userData)
-  {
-    $errors = [];
+	public function adminUserValidate($data)
+	{
+		$errors = [];
 
-    $requiredFields = [
-      'first_name' => 'First Name',
-      'last_name' => 'Last Name',
-      'email' => 'Email',
-      'address' => 'Address',
-      'phone_number' => 'Phone Number',
-      'password' => 'Password',
-      'password_confirmation' => 'Confirm Password',
-      'role' => 'Role'
-    ];
-  
-    foreach ($requiredFields as $field => $fieldName) {
-      if (empty($userData[$field])) {
-        $errors[] = "{$fieldName} is required.";
-      }
-    }
+		$requiredFields = [
+			'first_name' => 'First Name',
+			'last_name' => 'Last Name',
+			'email' => 'Email',
+			'address' => 'Address',
+			'phone_number' => 'Phone Number',
+			'role' => 'Role'
+		];
+	
+		foreach ($requiredFields as $field => $fieldName) {
+			if (empty($data[$field])) {
+				$errors[] = "{$fieldName} is required.";
+			}
+		}
 
-    if (empty($userData['phone_number'])) {
-        $errors[] = "Phone Number is required.";
-    } else {
-      $phoneNumber = $userData['phone_number'];
-
-      if (strlen($phoneNumber) !== 10) {
-        $errors[] = "Invalid phone number. Please enter a valid 10-digit number after '+63'.";
-      } elseif (!is_numeric(substr($phoneNumber, 3))) {
+		if (empty($data['phone_number'])) {
+			$errors[] = "Phone Number is required.";
+		} else {
+			$phoneNumber = $data['phone_number'];
+		
+			if (strlen($phoneNumber) !== 10) {
+				$errors[] = "Invalid phone number. Please enter a valid 10-digit number after '+63'.";
+			}  elseif (!is_numeric(substr($phoneNumber, 3))) {
         $errors[] = "Invalid phone number. Please enter only numeric digits (0-9) after '+63'.";
-      }
-    }
+			} else {
+				$existingUserWithPhoneNumber = $this->first(['phone_number' => $phoneNumber]);
+				$existingUserId = isset($existingUserWithEmail->user_id) ? intval($existingUserWithEmail->user_id) : null;
+				$userId = isset($data['user_id']) ? intval($data['user_id']) : null;
 
-    $email = $userData['email'];
-    $password = $userData['password'];
-    $passwordConfirmation = $userData['password_confirmation'];
+				if ($existingUserWithPhoneNumber) {
+					if ($userId !== null) {
+						if ($existingUserId !== $userId) {
+							$errors[] = "The phone number '$phoneNumber' has already been taken.";
+						}
+					} else {
+						$errors[] = "The phone number '$phoneNumber' has already been taken.";
+					}
+				}
+			}
+		}
+	
+		$email = $data['email'];
+		$password = $data['password'];
+		$passwordConfirmation = $data['password_confirmation'];
 
-    if (empty($email)) {
-      $errors[] = 'Email is required.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      $errors[] = 'Invalid email format.';
-    } elseif ($this->emailExists($email)) {
-      $errors[] = 'Email is already taken.';
-    }
+		if (!empty($email)) {
+			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				$errors[] = 'Invalid email format.';
+			} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				$errors[] = 'Invalid email format.';
+			} else {
+				$existingUserWithEmail = $this->first(['email' => $email]);
+				$existingUserId = isset($existingUserWithEmail->user_id) ? intval($existingUserWithEmail->user_id) : null;
+				$userId = isset($data['user_id']) ? intval($data['user_id']) : null;
 
-    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $password) || strlen($password) < 8 || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $passwordConfirmation) || strlen($passwordConfirmation) < 8) {
-      $errors[] = 'Passwords need to be at least 8 characters long, contain 1 upper and 1 <br>  lower-case letter, 1 number, and at least 1 special character (e.g. !"#$%&).';
-    } elseif ($password !== $passwordConfirmation) {
-      $errors[] = 'Passwords do not match. Please try again.';
-    }
+				if ($existingUserWithEmail) {
+					if ($userId !== null) {
+						if ($existingUserId !== $userId) {
+							$errors[] = "The email address '$email' has already been taken.";
+						}
+					} else {
+						$errors[] = "The email address '$email' has already been taken.";
+					}
+				}
+			}
+		}
+	
+		if (!empty($password) && !empty($passwordConfirmation)) {
+			if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $password) || strlen($password) < 8 || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $passwordConfirmation) || strlen($passwordConfirmation) < 8) {
+				$errors[] = 'Passwords need to be at least 8 characters long, contain 1 upper and 1 <br>  lower-case letter, 1 number, and at least 1 special character (e.g. !"#$%&).';
+			} elseif ($password !== $passwordConfirmation) {
+				$errors[] = 'Passwords do not match. Please try again.';
+			}
+		}
 
-    return $errors;
-  }
-
-  public function editAdminUserValidate($userData)
-  {
-    $errors = [];
-
-    $requiredFields = [
-      'first_name' => 'First Name',
-      'last_name' => 'Last Name',
-      'email' => 'Email',
-      'address' => 'Address',
-      'phone_number' => 'Phone Number',
-      'role' => 'Role'
-    ];
-  
-    foreach ($requiredFields as $field => $fieldName) {
-      if (empty($userData[$field])) {
-        $errors[] = "{$fieldName} is required.";
-      }
-    }
-
-    if (empty($userData['phone_number'])) {
-      $errors[] = "Phone Number is required.";
-    } else {
-      $phoneNumber = $userData['phone_number'];
-  
-      if (strlen($phoneNumber) !== 10) {
-        $errors[] = "Invalid phone number. Please enter a valid 10-digit number after '+63'.";
-      } elseif (!preg_match('/^\+639[0-9]{9}$/', $phoneNumber)) {
-        $errors[] = "Invalid phone number format. Please enter a valid phone number starting with '+63' followed by 10 digits.";
-      } else {
-        $existingUserWithPhoneNumber = $this->first(['phone_number' => $phoneNumber]);
-        if ($existingUserWithPhoneNumber && $existingUserWithPhoneNumber->user_id !== $data['user_id']) {
-          $errors[] = "The phone number '$phoneNumber' has already been taken.";
-        }
-      }
-    }
-  
-
-    $email = $userData['email'];
-    $password = $userData['password'];
-    $passwordConfirmation = $userData['password_confirmation'];
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      $errors[] = 'Invalid email format.';
-    } else {
-      $existingUserWithEmail = $this->first(['email' => $email]);
-      if ($existingUserWithEmail && $existingUserWithEmail->user_id !== $data['user_id']) {
-        $errors[] = "The email address '$email' has already been taken.";
-      }
-    }
-  
-    if (!empty($password) && !empty($password_confirmation)) {
-      if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $password) || strlen($password) < 8 || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $passwordConfirmation) || strlen($passwordConfirmation) < 8) {
-        $errors[] = 'Passwords need to be at least 8 characters long, contain 1 upper and 1 <br>  lower-case letter, 1 number, and at least 1 special character (e.g. !"#$%&).';
-      } elseif ($password !== $passwordConfirmation) {
-        $errors[] = 'Passwords do not match. Please try again.';
-      }
-    }
-
-    return $errors;
-  }
+		return $errors;
+	}
   
 	public function isVerificationTokenUsed($verification_token)
 	{

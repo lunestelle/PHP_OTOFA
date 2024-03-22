@@ -22,17 +22,18 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
     <div class="col-12 text-uppercase nav-top">
-      <h6 class="title-head">Add New User</h6>
+      <h6 class="title-head">Edit User</h6>
     </div>
     <div class="col-lg-12 mt-2">
       <div class="row">
         <div class="col-12 pt-2">
           <div class="container pt-4">
             <div id="newMaintenancerForm">
-              <form class="default-form" method="POST" action="" enctype="multipart/form-data">
+              <form class="default-form" method="POST" action="">
                 <!-- HIDDEN INPUTS TO OVERRIDE THE VERIFICATIONS -->
                 <input type="hidden" name="verification_status" id="verification_status" value="verified">
                 <input type="hidden" name="phone_number_status" id="phone_number_status" value="Verified">
+                <input type="hidden" name="user_id" value="<?= $userData['user_id'] ?>">
                 <div class="content-container mt-2 pb-3">
                   <div class="bckgrnd pt-2">
                     <h6 class="pl-2 text-uppercase text-center text-light fs-6">User Information</h6>
@@ -243,7 +244,7 @@
                 </div>
 
                 <div class="text-end my-3">
-                  <button type="submit" class="sidebar-btnContent">Update User Details</button>
+                <button type="submit" class="sidebar-btnContent" name="update_user_details">Update User Details</button>
                 </div>
               </form>
             </div>

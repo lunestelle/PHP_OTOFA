@@ -29,6 +29,7 @@ class New_user
         $profilePhotoPath = generateProfilePicture(strtoupper($_POST['first_name'][0] . $_POST['last_name'][0]));
 
         $permissions = isset($_POST['permissions']) ? $_POST['permissions'] : [];
+        
         // Convert permissions array to comma-separated string
         $permissionsString = implode(', ', $permissions);
 
@@ -38,7 +39,8 @@ class New_user
           'email' => $_POST['email'],
           'address' => ucwords($_POST['address']),
           'phone_number' => $_POST['phone_number'],
-          'password' => $hashedPassword,
+          'password' => $_POST['password'],
+          'password_confirmation' => $_POST['password_confirmation'],
           'role' => $_POST['role'],
           'permissions' => $permissionsString,
           'verification_status' => $_POST['verification_status'],
@@ -48,6 +50,7 @@ class New_user
 
         $formattedPhoneNumber = $userData['phone_number'];
 				$userData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
+        $userData['password'] = $hashedPassword;
 
         if ($userModel->insert($userData)) {
           set_flash_message("User created successfully.", "success");
