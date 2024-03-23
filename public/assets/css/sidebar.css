@@ -643,3 +643,35 @@ table > :not(caption) > * > * > :last-child {
   color: white;
   background-color:  #ff8b61;
 }
+
+/* --- EDIT BUTTONS ON INDEX PAGES --- */
+
+.edit-btn {
+  color: #ff6c36;
+}
+
+.view-btn {
+  color: #0766AD
+}
+
+.view-message-btn  {
+  padding: 3px 12px;
+  background-color: #ff4400d3 !important;
+  color: #ffffff;
+  border: 1px solid #FF4200;
+}
+
+.view-reponse-btn{
+  padding: 3px 12px;
+  background-color: #0766AD !important;
+  color: #ffffff !important;
+  border: 1px solid;
+  color: #0766AD;
+}
+
+.respond-btn {
+  padding: 4px 12px;
+  background-color: #cfaa06 !important;
+  color: #ffffff !important;
+  border: 1px solid #cfaa06;
+}

@@ -55,7 +55,7 @@
                       <?= !empty($inquiry['message']) ? $inquiry['message'] : '----------------'; ?>
                     </td>
                     <td class="text-center">
-                      <span class="badge bg-dark text-uppercase p-1"><?= !empty($inquiry['message_status']) ? $inquiry['message_status'] : '----------------'; ?></span>
+                      <span class="badge bg-warning text-uppercase p-1"><?= !empty($inquiry['message_status']) ? $inquiry['message_status'] : '----------------'; ?></span>
                     </td>
                     <td class="<?= !empty($inquiry['response']) ? 'text-start text-justify' : 'text-center'; ?>">
                       <?= !empty($inquiry['response']) ? substr($inquiry['response'], 0, 100) . '...' : '----------------'; ?>
@@ -65,15 +65,15 @@
                     </td>
                     <td>
                       <div class="btn-group">
-                        <button type="button" class="btn btn-danger btn-sm rounded-0" style="font-size: 11px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#readModal<?= $inquiry['id']; ?>">
+                        <button type="button" class="view-message-btn rounded-0" data-bs-toggle="modal" data-bs-target="#readModal<?= $inquiry['id']; ?>">
                           View Message
                         </button>
                         <?php if (!empty($inquiry['response'])): ?>
-                          <button type="button" class="btn btn-info btn-sm rounded-0" style="font-size: 11px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#viewResponseModal<?= $inquiry['id']; ?>">
+                          <button type="button" class="view-reponse-btn rounded-0" data-bs-toggle="modal" data-bs-target="#viewResponseModal<?= $inquiry['id']; ?>">
                             View Response
                           </button>
                         <?php else: ?>
-                          <button type="button" class="btn btn-warning btn-sm rounded-0" style="font-size: 12px; font-weight: bold;" data-bs-toggle="modal" data-bs-target="#respondModal<?= $inquiry['id']; ?>">
+                          <button type="button" class="respond-btn rounded-0" data-bs-toggle="modal" data-bs-target="#respondModal<?= $inquiry['id']; ?>">
                           Respond
                         </button>
                         <?php endif; ?>

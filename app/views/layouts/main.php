@@ -252,7 +252,7 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                   <a class="nav-link text-white" href="inquiries">
                     <i class="fas fa-envelope"></i>
                     <span class="ms-2">Inquiries</span>
-                    <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge ms-auto " . ($isCurrentPageInquiries ? 'bg-warning' : 'bg-danger') . "'>$unreadInquiriesCount</span>"; } ?>
+                    <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge count-badge ms-auto " . ($isCurrentPageInquiries ? 'count-badge' : 'count-badge') . "'>$unreadInquiriesCount</span>"; } ?>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -265,7 +265,7 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                   <a class="nav-link text-white" href="appointments">
                     <i class="fa-solid fa-calendar-days me-2"></i>
                     <span>Appointment Approval</span>                    
-                    <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge ms-auto p-1 " . ($isCurrentPageAppointments ? 'bg-warning' : 'bg-danger') . "'>$pendingAppointmentsCount</span>"; } ?>
+                    <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge count-badge ms-auto p-1 " . ($isCurrentPageAppointments ? 'count-badge' : 'count-badge') . "'>$pendingAppointmentsCount</span>"; } ?>
                   </a>
                 </li>
                 <li class="nav-item">

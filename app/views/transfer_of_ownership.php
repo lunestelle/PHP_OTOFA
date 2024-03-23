@@ -344,7 +344,7 @@
           <section id="step-3" style="display: none;">
             <div class="content-container mt-2 mb-3">
               <div class="px-3 pt-2 mt-2">
-                <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please ensure all uploaded images are clear for better processing.</p>
+                <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
               </div>
               <div class="row px-3 p-4">
                 <div class="col-12 d-flex mb-2">

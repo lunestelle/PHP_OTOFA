@@ -126,7 +126,7 @@
                       <span class="badge status-badge text-uppercase p-1 <?php echo $badgeColor; ?>"><?php echo $status; ?></span>
                     </td>
                     <td>
-                      <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
+                      <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1 view-btn" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
                       <?php if ($userRole === 'operator' && $appointment['status'] === "Pending"): ?>
                         <?php
                           $editUrl = '';
@@ -147,7 +147,7 @@
                               }
                           }
 
-                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1 edit-btn" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
                         ?>
                       <?php elseif ($userRole === 'admin' && ($appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process")): ?>
                         <?php
@@ -169,7 +169,7 @@
                               }
                           }
 
-                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1 edit-btn" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
                         ?>
                       <?php endif; ?>
 
