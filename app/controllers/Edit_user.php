@@ -33,9 +33,13 @@ class Edit_user
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $errors = $userModel->adminUserValidate($_POST);
       if (empty($errors)) {
-        // Proceed with data insertion if there are no errors
         $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $permissions = isset($_POST['permissions']) ? $_POST['permissions'] : [];
+
+        // If the role is admin, update permissions to grant all permissions
+        if ($_POST['role'] === 'admin') {
+          $permissions = $this->getAllPermissions();
+        }
 
         // Convert permissions array to comma-separated string
         $permissionsString = implode(', ', $permissions);
@@ -56,7 +60,7 @@ class Edit_user
         ];
 
         $formattedPhoneNumber = $updatedData['phone_number'];
-				$updatedData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
+        $updatedData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
         $updatedData['password'] = $hashedPassword;
 
         if ($userModel->update(['user_id' => $userId], $updatedData)) {
@@ -91,5 +95,29 @@ class Edit_user
 
   private function formatPhoneNumber($phoneNumber) {
     return preg_replace('/[^0-9]/', '', str_replace('+63', '', $phoneNumber));
+  }
+
+  private function getAllPermissions() {
+    $permissions = [
+      "Can approve appointment",
+      "Can reject appointment",
+      "Can on process appointment",
+      "Can completed appointment",
+      "Can view appointments reports",
+      "Can view tricycles report",
+      "Can view cin report",
+      "Can view taripa",
+      "Can generate taripa",
+      "Can view inquiries and read message",
+      "Can respond to inquiries",
+      "Can view list of tricycles",
+      "Can update tricycle status",
+      "Can view list of users",
+      "Can create and edit users",
+      "Can view list of operators",
+      "Can view maintenance tracker"
+    ];
+
+    return $permissions;
   }
 }

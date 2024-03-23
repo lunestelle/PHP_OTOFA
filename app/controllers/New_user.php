@@ -29,6 +29,11 @@ class New_user
         $profilePhotoPath = generateProfilePicture(strtoupper($_POST['first_name'][0] . $_POST['last_name'][0]));
 
         $permissions = isset($_POST['permissions']) ? $_POST['permissions'] : [];
+
+        // If the role is admin, grant all permissions
+        if ($_POST['role'] === 'admin') {
+          $permissions = $this->getAllPermissions();
+        }
         
         // Convert permissions array to comma-separated string
         $permissionsString = implode(', ', $permissions);
@@ -64,5 +69,29 @@ class New_user
     }
 
     echo $this->renderView('new_user', true, $data);
+  }
+
+  private function getAllPermissions() {
+    $permissions = [
+      "Can approve appointment",
+      "Can reject appointment",
+      "Can on process appointment",
+      "Can completed appointment",
+      "Can view appointments reports",
+      "Can view tricycles report",
+      "Can view cin report",
+      "Can view taripa",
+      "Can generate taripa",
+      "Can view inquiries and read message",
+      "Can respond to inquiries",
+      "Can view list of tricycles",
+      "Can update tricycle status",
+      "Can view list of users",
+      "Can create and edit users",
+      "Can view list of operators",
+      "Can view maintenance tracker"
+    ];
+
+    return $permissions;
   }
 }

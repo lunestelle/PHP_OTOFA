@@ -204,15 +204,31 @@
                     <div class="col-md-3">
                       <h6 class="text-uppercase">Tricycles</h6>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can view List of Tricycles" id="permissionTricyclesView" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view List of Tricycles', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can view list of tricycles" id="permissionTricyclesView" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view list of tricycles', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionTricyclesView">
-                          Can view List of Tricycles
+                          Can view list of tricycles
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can Update Tricycle status" id="permissionTricyclesUpdate" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can Update Tricycle status', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can update tricycle status" id="permissionTricyclesUpdate" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can update tricycle status', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionTricyclesUpdate">
-                          Can Update Tricycle status
+                          Can update tricycle status
+                        </label>
+                      </div>
+                      <!-- Add more tricycles permissions here -->
+                    </div>
+                    <div class="col-md-3">
+                      <h6 class="text-uppercase">Users</h6>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Can view list of users" id="permissionUsersView" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view list of users', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="permissionUsersView">
+                          Can view list of users
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Can create and edit users" id="permissionUsersCreateAndEdit" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can create and edit users', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="permissionUsersCreateAndEdit">
+                          Can create and edit users
                         </label>
                       </div>
                       <!-- Add more tricycles permissions here -->
@@ -237,9 +253,6 @@
                       </div>
                       <!-- Add more maintenance tracker permissions here -->
                     </div>
-                    <div class="col-md-3">
-                      <!-- Add more permissions here -->
-                    </div>
                   </div>
                 </div>
 
@@ -254,3 +267,33 @@
     </div>
   </div>
 </main>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const roleSelect = document.getElementById('role');
+    const permissionsCheckboxes = document.querySelectorAll('input[name="permissions[]"]');
+
+    // Function to toggle permissions based on the selected role
+    function togglePermissions() {
+      const selectedRole = roleSelect.value;
+      if (selectedRole === 'admin') {
+        // If role is admin, check all permissions and disable them
+        permissionsCheckboxes.forEach(function(checkbox) {
+          checkbox.checked = true;
+          checkbox.disabled = true;
+        });
+      } else {
+        // If role is not admin, uncheck all permissions and enable them
+        permissionsCheckboxes.forEach(function(checkbox) {
+          checkbox.checked = false;
+          checkbox.disabled = false;
+        });
+      }
+    }
+
+    // Initial call to togglePermissions to set initial state
+    togglePermissions();
+
+    // Add event listener to role select to detect changes in role
+    roleSelect.addEventListener('change', togglePermissions);
+  });
+</script>
