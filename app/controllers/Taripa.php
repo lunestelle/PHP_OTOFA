@@ -11,6 +11,19 @@ class Taripa
       redirect('');
     }
 
+    // Define the required permissions for accessing the edit user page
+    $requiredPermissions = [
+      "Can view taripas"
+    ];
+
+    // Check if the logged-in user has the required permissions, unless they are an operator
+    $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+    $userRole = isset($_SESSION['USER']->role) ? $_SESSION['USER']->role : '';
+    if (!hasAnyPermission($requiredPermissions, $userPermissions) && $userRole !== 'operator') {
+      set_flash_message("Access denied. You don't have the required permissions.", "error");
+      redirect('');
+    }
+
     $taripaModel = new Taripas();
     $rateAdjustmentModel = new RateAdjustment();
     $route_area = $_GET['route_area'] ?? null;

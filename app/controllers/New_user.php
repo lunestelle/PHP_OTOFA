@@ -11,10 +11,15 @@ class New_user
       redirect('');
     }
   
-    // Check if the user has the "admin" role
-    $userRole = $_SESSION['USER']->role;
-    if ($userRole !== 'admin') {
-      set_flash_message("Access denied. You don't have the required role.", "error");
+    // Define the required permissions for accessing the edit user page
+    $requiredPermissions = [
+      "Can create and edit users"
+    ];
+
+    // Check if the logged-in user has any of the required permissions
+    $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+    if (!hasAnyPermission($requiredPermissions, $userPermissions)) {
+      set_flash_message("Access denied. You don't have the required permissions.", "error");
       redirect('');
     }
   
@@ -73,20 +78,18 @@ class New_user
 
   private function getAllPermissions() {
     $permissions = [
-      "Can approve appointment",
-      "Can reject appointment",
-      "Can on process appointment",
-      "Can completed appointment",
+      "Can approve appointments",
+      "Can reject appointments",
+      "Can on process appointments",
+      "Can completed appointments",
       "Can view appointments reports",
-      "Can view tricycles report",
-      "Can view cin report",
-      "Can view taripa",
+      "Can view tricycles reports",
+      "Can view cin reports",
+      "Can view taripas",
       "Can generate taripa",
       "Can view inquiries and read message",
       "Can respond to inquiries",
-      "Can view list of tricycles",
-      "Can update tricycle status",
-      "Can view list of users",
+      "Can view and update tricycle statuses",
       "Can create and edit users",
       "Can view list of operators",
       "Can view maintenance tracker"

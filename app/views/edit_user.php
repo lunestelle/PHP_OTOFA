@@ -91,7 +91,7 @@
                             <!-- NEW PASSWORD -->
                             <div class="form-group password-toggle">
                               <label for="password" class="form-label">New Password</label>
-                              <input class="form-control w-100" autocomplete="off" type="password" name="password" id="password" style="text-transform: none;" value="<?php echo isset($password) ? $password : ''; ?>" autofocus>
+                              <input class="form-control w-100" autocomplete="off" type="password" name="password" id="password" style="text-transform: none;" value="<?php echo isset($_POST['password']) && !empty($_POST['password']) ? ($_POST['password']) : ''; ?>" autofocus>
                               <i id="password-toggle-icon" class="toggle-icon fas fa-eye-slash" onclick="togglePassword('password')"></i>
                             </div>
                           </div>
@@ -99,7 +99,7 @@
                             <!-- PASSWORD CONFIRMATION -->
                             <div class="form-group password-toggle">
                               <label for="password_confirmation" class="form-label">Confirm Password</label>
-                              <input class="form-control w-100" autocomplete="off" type="password" name="password_confirmation" id="password_confirmation" style="text-transform: none;" value="<?php echo isset($password_confirmation) ? $password_confirmation : ''; ?>" autofocus>
+                              <input class="form-control w-100" autocomplete="off" type="password" name="password_confirmation" id="password_confirmation" style="text-transform: none;" value="<?php echo isset($_POST['password_confirmation']) && !empty($_POST['password_confirmation']) ? ($_POST['password_confirmation']) : ''; ?>" autofocus>
                               <i id="password_confirmation-toggle-icon" class="toggle-icon fas fa-eye-slash" onclick="togglePassword('password_confirmation')"></i>
                             </div>
                           </div>
@@ -119,27 +119,27 @@
                     <div class="col-md-3">
                       <h6 class="text-uppercase">Appointment</h6>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can approve appointment" id="permissionApproved" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can approve appointment', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can approve appointments" id="permissionApproved" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can approve appointments', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionApproved">
-                          Can approve appointment
+                          Can approve appointments
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can reject appointment" id="permissionReject" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can reject appointment', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can reject appointments" id="permissionReject" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can reject appointments', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionReject">
-                          Can reject appointment
+                          Can reject appointments
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can on process appointment" id="permissionOnProcess" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can on process appointment', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can on process appointments" id="permissionOnProcess" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can on process appointments', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionOnProcess">
-                          Can on process appointment
+                          Can on process appointments
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can completed appointment" id="permissionCompleted" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can completed appointment', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can completed appointments" id="permissionCompleted" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can completed appointments', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionCompleted">
-                          Can completed appointment
+                          Can completed appointments
                         </label>
                       </div>
                       <!-- Add more appointment permissions here -->
@@ -153,15 +153,15 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can view tricycles report" id="permissionTricycleReports" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view tricycles report', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can view tricycles reports" id="permissionTricycleReports" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view tricycles reports', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionTricycleReports">
-                          Can view tricycles report
+                          Can view tricycles reports
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can view cin report" id="permissionCinReports" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view cin report', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can view cin reports" id="permissionCinReports" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view cin reports', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionCinReports">
-                          Can view cin report
+                          Can view cin reports
                         </label>
                       </div>
                       <!-- Add more report permissions here -->
@@ -169,9 +169,9 @@
                     <div class="col-md-3">
                       <h6 class="text-uppercase">Taripa</h6>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can view taripa" id="permissionTaripaView" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view taripa', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can view taripas" id="permissionTaripaView" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view taripas', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionTaripaView">
-                          Can view taripa
+                          Can view taripas
                         </label>
                       </div>
                       <div class="form-check">
@@ -183,48 +183,30 @@
                       <!-- Add more taripa permissions here -->
                     </div>
                     <div class="col-md-3">
-                      <h6 class="text-uppercase">Inquiries</h6>
+                      <h6 class="text-uppercase">Tricycles</h6>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can view inquiries and read message" id="permissionInquiryView" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view inquiries and read message', $userData['permissions']) ? 'checked' : ''; ?>>
-                        <label class="form-check-label" for="permissionInquiryView">
-                          Can view inquiries and read message
+                        <input class="form-check-input" type="checkbox" value="Can view and update tricycle statuses" id="permissionTricycles" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view and update tricycle statuses', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="permissionTricycles">
+                          Can view and update tricycle statuses
                         </label>
                       </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can respond to inquiries" id="permissionInquiryRespond" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can respond to inquiries', $userData['permissions']) ? 'checked' : ''; ?>>
-                        <label class="form-check-label" for="permissionInquiryRespond">
-                          Can respond to inquiries
-                        </label>
-                      </div>
-                      <!-- Add more inquiry permissions here -->
+                      <!-- Add more tricycles permissions here -->
                     </div>
                   </div>
 
                   <div class="row justify-content-evenly px-5 p-3 m-1">
                     <div class="col-md-3">
-                      <h6 class="text-uppercase">Tricycles</h6>
+                      <h6 class="text-uppercase">Inquiries</h6>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can view list of tricycles" id="permissionTricyclesView" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view list of tricycles', $userData['permissions']) ? 'checked' : ''; ?>>
-                        <label class="form-check-label" for="permissionTricyclesView">
-                          Can view list of tricycles
+                        <input class="form-check-input" type="checkbox" value="Can view and respond to inquiries" id="permissionInquiries" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view and respond to inquiries', $userData['permissions']) ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="permissionInquiries">
+                          Can view and respond to inquiries
                         </label>
                       </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can update tricycle status" id="permissionTricyclesUpdate" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can update tricycle status', $userData['permissions']) ? 'checked' : ''; ?>>
-                        <label class="form-check-label" for="permissionTricyclesUpdate">
-                          Can update tricycle status
-                        </label>
-                      </div>
-                      <!-- Add more tricycles permissions here -->
+                      <!-- Add more inquiry permissions here -->
                     </div>
                     <div class="col-md-3">
                       <h6 class="text-uppercase">Users</h6>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can view list of users" id="permissionUsersView" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can view list of users', $userData['permissions']) ? 'checked' : ''; ?>>
-                        <label class="form-check-label" for="permissionUsersView">
-                          Can view list of users
-                        </label>
-                      </div>
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="Can create and edit users" id="permissionUsersCreateAndEdit" name="permissions[]" <?php echo isset($userData['permissions']) && in_array('Can create and edit users', $userData['permissions']) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionUsersCreateAndEdit">
@@ -271,18 +253,28 @@
   document.addEventListener('DOMContentLoaded', function() {
     const roleSelect = document.getElementById('role');
     const permissionsCheckboxes = document.querySelectorAll('input[name="permissions[]"]');
+    const userDataPermissions = <?= json_encode($userData['permissions'] ?? []) ?>;
 
     // Function to toggle permissions based on the selected role
     function togglePermissions() {
       const selectedRole = roleSelect.value;
+
       if (selectedRole === 'admin') {
-        // If role is admin, check all permissions and disable them
         permissionsCheckboxes.forEach(function(checkbox) {
           checkbox.checked = true;
           checkbox.disabled = true;
         });
-      } else {
-        // If role is not admin, uncheck all permissions and enable them
+      } else if (selectedRole === 'personnel' || selectedRole === 'operator') {
+        permissionsCheckboxes.forEach(function(checkbox) {
+          if (userDataPermissions.includes(checkbox.value)) {
+            checkbox.checked = true;
+            checkbox.disabled = false;
+          } else {
+            checkbox.checked = false;
+            checkbox.disabled = false;
+          }
+        });
+      } else { // For other roles
         permissionsCheckboxes.forEach(function(checkbox) {
           checkbox.checked = false;
           checkbox.disabled = false;

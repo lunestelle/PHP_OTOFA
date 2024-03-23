@@ -11,10 +11,15 @@ class Users
       redirect('');
     }
 
-    // Check if the user has the "admin" role
-    $userRole = $_SESSION['USER']->role;
-    if ($userRole !== 'admin') {
-      set_flash_message("Access denied. You don't have the required role.", "error");
+    // Define the required permissions for accessing the edit user page
+    $requiredPermissions = [
+      "Can create and edit users"
+    ];
+
+    // Check if the logged-in user has any of the required permissions
+    $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+    if (!hasAnyPermission($requiredPermissions, $userPermissions)) {
+      set_flash_message("Access denied. You don't have the required permissions.", "error");
       redirect('');
     }
 

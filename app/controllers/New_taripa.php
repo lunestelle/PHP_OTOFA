@@ -11,6 +11,18 @@ class New_taripa
       redirect('');
     }
 
+    // Define the required permissions for accessing the edit user page
+    $requiredPermissions = [
+      "Can generate taripa"
+    ];
+
+    // Check if the logged-in user has any of the required permissions
+    $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+    if (!hasAnyPermission($requiredPermissions, $userPermissions)) {
+      set_flash_message("Access denied. You don't have the required permissions.", "error");
+      redirect('');
+    }
+
     $taripaModel = new Taripas();
     $rateAdjustmentModel = new RateAdjustment();
     $errors = [];

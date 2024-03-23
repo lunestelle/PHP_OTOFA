@@ -36,6 +36,8 @@ trait Controller
 					$phoneNoWithoutCountryCode = $phoneNo;
         }
 
+			$permissions = isset($user->permissions) ? explode(', ', $user->permissions) : [];
+			
 			$this->sharedData = [
 				'userRole' => $user->role,
 				'firstName' => $user->first_name,
@@ -43,7 +45,8 @@ trait Controller
 				'fullName' => $fullName,
 				'userEmail' => $user->email,
 				'userPhoneNo' => $phoneNoWithoutCountryCode,
-				'userAddress' => $user->address
+				'userAddress' => $user->address,
+				'permissions' => $permissions
 			];
     }
 	}

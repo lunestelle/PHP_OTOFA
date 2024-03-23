@@ -5,10 +5,12 @@
     </div>
     <div class="col-12">
       <div class="row mt-2">
-        <?php if ($userRole === 'admin'): ?>
-          <div class="col-12 mt-3">
-            <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
-          </div>
+        <?php if ($userRole === 'admin' || $userRole === 'personnel' || $userRole === 'operator'): ?>
+          <?php if (hasPermission('Can generate taripa', $permissions)) { ?>
+            <div class="col-12 mt-3">
+              <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
+            </div>
+          <?php } ?>
         <?php endif; ?>
         <?php if (!empty($taripas) && $userRole === 'operator'): ?>
           <div class="col-12 mt-3">

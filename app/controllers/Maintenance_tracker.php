@@ -11,6 +11,19 @@ class Maintenance_tracker
       redirect('');
     }
 
+    // Define the required permissions for accessing the edit user page
+    $requiredPermissions = [
+      "Can view maintenance tracker"
+    ];
+
+    // Check if the logged-in user has the required permissions, unless they are an operator
+    $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+    $userRole = isset($_SESSION['USER']->role) ? $_SESSION['USER']->role : '';
+    if (!hasAnyPermission($requiredPermissions, $userPermissions) && $userRole !== 'operator') {
+      set_flash_message("Access denied. You don't have the required permissions.", "error");
+      redirect('');
+    }
+
     $years = $this->getDistinctYears();
     $operators = $this->getDistinctOperators();
 
@@ -21,7 +34,9 @@ class Maintenance_tracker
     $selectedFilter = isset($_GET['year']) ? $_GET['year'] : (empty($years) ? null : 'all');
     $selectedOperatorName = isset($_GET['operator_name']) ? $_GET['operator_name'] : 'all';
 
-    if ($_SESSION['USER']->role === 'admin') {
+    // Check if the logged-in user has any of the required permissions
+    $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+    if (hasAnyPermission($requiredPermissions, $userPermissions)) {
       $maintenance_trackers = $this->getMaintenanceDataWithFilters($selectedFilter, $selectedOperatorName);
     } elseif ($_SESSION['USER']->role === 'operator') {
       $maintenance_trackers = $this->getMaintenanceData($selectedFilter);

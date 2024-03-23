@@ -416,3 +416,17 @@ function downloadCsv($data, $filename)
 
 	exit();
 }
+
+function hasPermission($permission, $userPermissions) {
+	return in_array($permission, $userPermissions);
+}
+
+function hasAnyPermission($requiredPermissions, $userPermissions) {
+  foreach ($requiredPermissions as $requiredPermission) {
+    // Check if the user has the current required permission
+    if (in_array($requiredPermission, $userPermissions)) {
+      return true;
+    }
+  }
+  return false;
+}
