@@ -149,7 +149,7 @@
 
                           echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1 edit-btn" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
                         ?>
-                      <?php elseif ($userRole === 'admin' && ($appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process")): ?>
+                      <?php elseif (($appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process") && hasAnyPermission(['Can approve appointments', 'Can reject appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                         <?php
                           $editUrl = '';
 
@@ -161,11 +161,11 @@
                               $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
                               if ($appointment['transfer_type'] === 'None') {
-                                  $editUrl = 'edit_transfer_of_ownership';
+                                $editUrl = 'edit_transfer_of_ownership';
                               } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
-                                  $editUrl = 'edit_intent_of_transfer';
+                                $editUrl = 'edit_intent_of_transfer';
                               } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
-                                  $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                                $editUrl = 'edit_ownership_transfer_from_deceased_owner';
                               }
                           }
 

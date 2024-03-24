@@ -125,20 +125,28 @@
                 </div>
                 <div class="col-12 d-flex mt-3">
                   <div class="col-4 px-5">
-                    <?php if ($userRole === 'admin'): ?>
+                    <?php if (hasAnyPermission(['Can approve appointments', 'Can reject appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                       <label for="status" class="form-label">Status</label>
                       <select class="form-control appointment-status-select fw-bold" id="status" name="status">
                         <option value="" selected disabled>Select Appointment Status</option>
                         <?php if ($status === 'Pending'): ?>
                           <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?> disabled>Pending</option>
-                          <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
-                          <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                          <?php if (hasPermission('Can approve appointments', $permissions)) { ?>
+                            <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
+                          <?php } ?>
+                          <?php if (hasPermission('Can reject appointments', $permissions)) { ?>
+                            <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                          <?php } ?>
                         <?php elseif ($status === "Approved"): ?>
                           <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?> disabled>Approved</option>
-                          <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?>>On Process</option>
+                          <?php if (hasPermission('Can on process appointments', $permissions)) { ?>
+                            <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?>>On Process</option>
+                          <?php } ?>
                         <?php elseif ($status === "On Process"): ?>
                           <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?> disabled>On Process</option>
-                          <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                          <?php if (hasPermission('Can completed appointments', $permissions)) { ?>
+                            <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                          <?php } ?>
                         <?php endif; ?>
                       </select>
                     <?php else: ?>
@@ -297,9 +305,6 @@
           <!-- *** STEP 3 *** -->
           <section id="step-3" style="display: none;">
             <div class="content-container mt-2 mb-3">
-              <div class="bckgrnd pt-2">
-                <h6 class="text-uppercase text-center text-light fs-6">MTOP Requirements Images</h6>
-              </div>
               <div class="px-3 pt-2">
                 <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
               </div>
