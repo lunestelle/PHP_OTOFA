@@ -19,7 +19,7 @@
                         <div class="d-flex gap-5 text-center px-2">
                           <div class="row-1">
                             <div class="new-appointment-selection rounded-3 mb-4">
-                              <input type="radio" id="newFranchise" name="appointmentType" value="New Franchise">
+                              <input type="radio" id="newFranchise" name="appointmentType" value="New Franchise" <?php echo ($data['userHasCin'] && !$data['allCinNumbersUsed']) ? '' : 'disabled'; ?>>
                               <label for="newFranchise">New Franchise</label>
                             </div>
                             <?php if ($userHasCin) { ?>

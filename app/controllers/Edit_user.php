@@ -125,7 +125,8 @@ class Edit_user
       "Can update tricycle status",
       "Can create and edit users",
       "Can view list of operators",
-      "Can view maintenance tracker"
+      "Can view maintenance tracker",
+      "Can manage CIN (Increase or Decrease)"
     ];
 
     return $permissions;

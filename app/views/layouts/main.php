@@ -293,6 +293,12 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                     <a class="nav-link text-white" href="maintenance_tracker"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Tracker</span></a>
                   </li>
                 <?php } ?>
+                <?php if (hasPermission('Can manage CIN (Increase or Decrease)', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="cin_management"><i class="fas fa-cogs"></i><span class="ms-2">CIN Management</span>
+                  </a>
+                  </li>
+                <?php } ?>
                 <?php
                   // Check if the user has at least one of the specified permissions
                   if (hasAnyPermission(['Can view appointments reports', 'Can view tricycles reports', 'Can view cin reports'], $permissions)) {

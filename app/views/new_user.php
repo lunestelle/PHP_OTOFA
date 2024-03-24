@@ -230,6 +230,25 @@
                       <!-- Add more maintenance tracker permissions here -->
                     </div>
                   </div>
+
+                  <div class="row justify-content-evenly px-5 p-3 m-1">
+                    <div class="col-md-3">
+                      <h6 class="text-uppercase">CIN Management</h6>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="Can manage CIN (Increase or Decrease)" id="permissionsCin" name="permissions[]" <?php echo isset($permissions) && in_array('Can manage CIN (Increase or Decrease)', $permissions) ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="permissionsCin">
+                          Can manage CIN (Increase or Decrease)
+                        </label>
+                      </div>
+                      <!-- Add more cin availability permissions here -->
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                  </div>
                 </div>
 
                 <div class="text-end my-3">
