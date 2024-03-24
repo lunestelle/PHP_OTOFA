@@ -302,16 +302,16 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                     <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-warning <?php if ($current_page_is_maintenance) echo 'show'; ?>">
                     <div>
                       <?php if (hasPermission('Can view appointments reports', $permissions)) { ?>
-                        <li class="nav-item mt-2 pt-1 px-2">
+                        <li class="nav-item mt-2 pt-1 px-2 mb-1">
                           <a class="nav-link text-white fw-bold reports" style="font-size: 11px;" href="appointments_reports">Appointments Reports</a>
                         </li>
                       <?php } ?>
-                      <?php if (hasPermission('Can view tricycles report', $permissions)) { ?>
+                      <?php if (hasPermission('Can view tricycles reports', $permissions)) { ?>
                         <li class="nav-item pb-1 px-2">
                           <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="tricycles_reports">Tricycles Reports</a>
                         </li>
                       <?php } ?>
-                      <?php if (!empty($usedCINs) && hasPermission('Can view cin report', $permissions)) { ?>
+                      <?php if (!empty($usedCINs) && hasPermission('Can view cin reports', $permissions)) { ?>
                         <li class="nav-item mb-2 pb-1 px-2">
                           <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="cin_reports">CIN Reports</a>
                         </li>
