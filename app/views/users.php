@@ -48,9 +48,7 @@
                   <th scope="col" class="text-center">Last Name</th>
                   <th scope="col" class="text-center">Phone Number</th>
                   <th scope="col" class="text-center">Email</th>
-                  <th scope="col" class="text-center">Address</th>
                   <th scope="col" class="text-center">Role</th>
-                  <th scope="col" class="text-center">Permissions</th>
                   <th scope="col" class="text-center">Actions</th>
                 </tr>
               </thead>
@@ -62,22 +60,10 @@
                     <td><?php echo $user['last_name']; ?></td>
                     <td><?php echo $user['phone_number']; ?></td>
                     <td class="text-lowercase"><?php echo $user['email']; ?></td>
-                    <td><?php echo $user['address']; ?></td>
                     <td><?php echo $user['role']; ?></td>
                     <td>
-                      <?php if (!empty($user['permissions'])): ?>
-                        <ul style="padding-left: 10; text-align: left;">
-                          <?php foreach ($user['permissions'] as $permission): ?>
-                            <li><?php echo $permission; ?></li>
-                          <?php endforeach; ?>
-                        </ul>
-                      <?php else: ?>
-                        <p class="text-black text-start ms-3">This user has no specific permissions.</p>
-                      <?php endif; ?>
-                    </td>
-                    <td>
-                      <a href="<?php echo ('view_user?user_id=') . $user['user_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View User Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
-                      <a href="<?php echo ('edit_user?user_id=') . $user['user_id']; ?>" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit User Details"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
+                      <a href="<?php echo ('view_user?user_id=') . $user['user_id']; ?>" class="view_data px-1 me-1 view-btn" title="View User Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
+                      <a href="<?php echo ('edit_user?user_id=') . $user['user_id']; ?>" class="edit_data px-1 me-1 edit-btn" title="Edit User Details"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>

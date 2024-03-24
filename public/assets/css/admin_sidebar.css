@@ -199,8 +199,6 @@
     }
   } 
   
-  
-  
   /* --- DROPDOWN MENU --- */
   
   .dropdown-menu {
@@ -644,4 +642,45 @@
     color: white;
     background-color:  #ff8b61;
   }
+
+  .edit-btn {
+    color: #429ebd;
+  }
+
+  .view-btn {
+    color: #f27f0c
+  }
+
+  .view-message-btn  {
+    padding: 3px 12px;
+    background-color: #d80000 !important;
+    color: #ffffff;
+    border: 1px solid #d80000;
+  }
   
+  .view-reponse-btn{
+    padding: 3px 12px;
+    background-color: #00305f !important;
+    color: #ffffff !important;
+    border: 1px solid #00305f;
+  }
+  
+  .respond-btn {
+    padding: 4px 12px;
+    background-color: #eddeba !important;
+    color: #000000 !important;
+    border: 1px solid #eddeba ;
+  }
+  
+  .count-badge {
+    background-color: black !important;
+    padding: 0 4px !important;
+    border-radius: 10px;
+    font-size: 10px;
+  }
+
+  .count-badge:hover {
+    background-color: rgb(255, 217, 0) !important;
+    padding: 0 4px !important;
+    border-radius: 10px;
+  }
