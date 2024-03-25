@@ -56,7 +56,6 @@ class TricycleCinNumber
     return $newCinNumber;
   }
 
-
   public function increaseCinAvailability($amount)
   {
     $this->query("ALTER TABLE {$this->table} AUTO_INCREMENT = 1");
@@ -74,7 +73,7 @@ class TricycleCinNumber
   public function decreaseCinAvailability($amount)
   {
     $this->query("ALTER TABLE {$this->table} AUTO_INCREMENT = 1");
-    
+
     $lastCinNumbers = $this->getLastInsertedCinNumbers($amount);
 
     if (count($lastCinNumbers) < $amount) {
