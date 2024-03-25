@@ -22,7 +22,7 @@ class TricycleCinNumber
     $result = $this->where(['is_used' => false]);
     return $result ? array_column($result, 'tricycle_cin_number_id') : [];
   }
-  
+
   // Function to get user ID of a specific CIN number
   public function getCinUserId($cinNumber) {
     $record = $this->first(['cin_number' => $cinNumber]);
@@ -46,37 +46,61 @@ class TricycleCinNumber
     return $record ? $record->tricycle_cin_number_id : null;
   }
 
-  public function generate_cin_number() {
-    $lastCinNumberRecord = $this->query("SELECT cin_number FROM $this->table ORDER BY cin_number DESC LIMIT 1");
-    $lastCinNumber = $lastCinNumberRecord ? $lastCinNumberRecord['cin_number'] : 2000; // Default starting value
+  public function generate_cin_number()
+  {
+    $lastCinNumberRecord = $this->getLastInsertedRecord()[0]->tricycle_cin_number_id;
+    $lastCinNumber = $lastCinNumberRecord ? $lastCinNumberRecord : 0; // Default starting value
 
     $newCinNumber = $lastCinNumber + 1;
 
     return $newCinNumber;
   }
 
-  public function increaseCinAvailability($amount) {
+
+  public function increaseCinAvailability($amount)
+  {
+    $this->query("ALTER TABLE {$this->table} AUTO_INCREMENT = 1");
     for ($i = 0; $i < $amount; $i++) {
+      $cinNumber = $this->generate_cin_number();
       $this->insert([
-        'cin_number' => $this->generate_cin_number(),
+        'tricycle_cin_number_id' => $cinNumber,
+        'cin_number' => $cinNumber,
         'is_used' => false,
         'user_id' => null,
       ]);
-    }
+    }    
   }
-
-  public function decreaseCinAvailability($amount) {
-    $availableCinNumbers = $this->getAvailableCinNumbers();
-    $count = count($availableCinNumbers);
+  
+  public function decreaseCinAvailability($amount)
+  {
+    $this->query("ALTER TABLE {$this->table} AUTO_INCREMENT = 1");
     
-    if ($count < $amount) {
+    $lastCinNumbers = $this->getLastInsertedCinNumbers($amount);
+
+    if (count($lastCinNumbers) < $amount) {
       set_flash_message("Not enough available CIN numbers to decrease.", "error");
       redirect('cin_management');
     }
 
-    // Delete the specified number of CIN number records
-    for ($i = 0; $i < $amount; $i++) {
-      $this->delete($availableCinNumbers[$i]);
+    foreach ($lastCinNumbers as $cinNumberId) {
+      $this->delete(['tricycle_cin_number_id' => $cinNumberId]);
     }
+  }
+  
+  public function getLastInsertedCinNumbers($amount)
+  {
+    $lastCinNumberRecord = $this->getLastInsertedRecord()[0];
+    $lastCinNumber = $lastCinNumberRecord ? $lastCinNumberRecord->tricycle_cin_number_id : 0;
+
+    // Get the last N Cin numbers to delete
+    $lastCinNumbers = [];
+    for ($i = $lastCinNumber; $i > $lastCinNumber - $amount; $i--) {
+      if ($i < 1) {
+        break; // Ensure not to go below 1
+      }
+      $lastCinNumbers[] = $i;
+    }
+
+    return $lastCinNumbers;
   }
 }

@@ -5,23 +5,23 @@
   }
   
   .cinBack-btnContent {
-  padding: 5px 18px;
-  color: white;
-  background-color: gray;
-  border: gray 1px solid;
-  text-decoration: none;
-  border-radius: 10px;
-  font-size: 12px;
-  letter-spacing: 2px;
-  float: right;
-  margin-right: 15px !important;
-}
+    padding: 5px 18px;
+    color: white;
+    background-color: gray;
+    border: gray 1px solid;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    float: right;
+    margin-right: 15px !important;
+  }
 
-.cinBack-btnContent:hover {
-  background-color: rgb(201, 201, 201);
-  border: gray 1px solid;
-  color: black;
-}
+  .cinBack-btnContent:hover {
+    background-color: rgb(201, 201, 201);
+    border: gray 1px solid;
+    color: black;
+  }
 </style>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
   <div class="row">
@@ -97,7 +97,7 @@
                   <button type="submit" class="sidebar-btnContent" name="update_user_details">Update CIN Availability</button>
                 </div>
                 <div class="text-end my-3" id="backButtonSection" style="display: none;">
-                  <button type="button" class="cinBack-btnContent" id="backButton">Back</button>
+                  <a href="cin_management" class="cinBack-btnContent" id="backButton">Back</a>
                 </div>
               </form>
             </div>

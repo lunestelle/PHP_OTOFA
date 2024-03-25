@@ -26,21 +26,31 @@ class Cin_management
       }
 
       // Get the amount to change
-      $amount = isset($_POST['increaseAmount']) ? $_POST['increaseAmount'] : $_POST['decreaseAmount'];
+      $amount = 0;
+      if ($changeType === 'increase') {
+        $amount = isset($_POST['increaseAmount']) ? $_POST['increaseAmount'] : 0;
+      } elseif ($changeType === 'decrease') {
+        $amount = isset($_POST['decreaseAmount']) ? $_POST['decreaseAmount'] : 0;
+      }
 
       // Validate the amount
       if (!is_numeric($amount) || $amount <= 0) {
-          set_flash_message("Invalid amount.", "error");
-          redirect('cin_management');
+        set_flash_message("Invalid amount.", "error");
+        redirect('cin_management');
       }
 
       // Update the CIN availability based on the change type
       if ($changeType === 'increase') {
-          // Perform increase operation
-          $tricycleCinNumberModel->increaseCinAvailability($amount);
+        // Perform increase operation
+        $tricycleCinNumberModel->increaseCinAvailability($amount);
       } else {
-          // Perform decrease operation
-          $tricycleCinNumberModel->decreaseCinAvailability($amount);
+        // Perform decrease operation
+        // Ensure that the amount to decrease does not exceed the total available CIN numbers
+        if ($amount > $data['totalAvailableCin']) {
+          set_flash_message("Amount to decrease exceeds total available CIN numbers.", "error");
+          redirect('cin_management');
+        }
+        $tricycleCinNumberModel->decreaseCinAvailability($amount);
       }
 
       set_flash_message("CIN availability updated successfully.", "success");
