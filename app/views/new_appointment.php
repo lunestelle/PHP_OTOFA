@@ -128,9 +128,15 @@
                 <?php } ?>
 
                 <div class="text-end my-3">
-                  <button type="button" class="sidebar-btnContent" id="prevBtn" style="display: none;">Previous</button>
-                  <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn" style="display: none;">Next</button>
+                  <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn">Nessdfsxt</button>
                 </div>
+                
+                <div class="text-end my-3">
+                  <button type="button" class="sidebar-btnContent" id="nextBtn">Next</button>
+                </div>
+                <div class="text-end my-3">
+                  <button type="button" class="sidebar-btnContent" id="prevBtn">Previous</button>
+                </div> 
               </form>
             </div>
           </div>
@@ -148,45 +154,39 @@
       let noOfTricycle = $("input[name='numberOfTricycles']").val();
 
       // Hide all containers initially
-      $("#noOfTricyclesContainer, #transferTypeContainer, #tricycleCinContainer").hide();
+      $("#noOfTricyclesContainer, #transferTypeContainer, #tricycleCinContainer, #prevBtn, #nextBtn, #scheduleAppointmentBtn").hide();
 
       // Show containers based on selected appointment type
       if (appointmentType === "New Franchise") {
-        $("#noOfTricyclesContainer").show();
+        $("#noOfTricyclesContainer, #prevBtn, #scheduleAppointmentBtn").show();
         $("#tricycleHeader").text("Select Number of Tricycles for the New Franchise");
         $("#appointmentTypeContainer").hide();
-      } else if (appointmentType === "Renewal of Franchise") {
+      } else if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle") {
         if (noOfTricycle) {
-          $("#tricycleCinContainer").show();
+          $("#tricycleCinContainer, #prevBtn, #scheduleAppointmentBtn").show();
         } else {
-          $("#noOfTricyclesContainer").show();
-          $("#tricycleHeader").text("Select Number of Tricycles for the Renewal of Franchise");
-          $("#appointmentTypeContainer, #tricycleCinContainer").hide();
-        }
-      } else if (appointmentType === "Change of Motorcycle") {
-        if (noOfTricycle) {
-          $("#tricycleCinContainer").show();
-        } else {
-          $("#noOfTricyclesContainer").show();
-          $("#tricycleHeader").text("Select Number of Tricycles for the Change of Motorcycle");
+          $("#noOfTricyclesContainer, #prevBtn, #nextBtn").show();
+          $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
           $("#appointmentTypeContainer, #tricycleCinContainer").hide();
         }
       } else if (appointmentType === "Transfer of Ownership") {
         if (noOfTricycle) {
-          $("#transferTypeContainer").show();
-        } else if (noOfTricycle && transferType){
-          $("#tricycleCinContainer").show();
-          $("#noOfTricyclesContainer, #transferTypeContainer").hide();
+          $("#transferTypeContainer, #prevBtn, #nextBtn").show();
+          $("#scheduleAppointmentBtn").hide();
+        } else if (transferType) {
+          $("#tricycleCinContainer, #prevBtn, #scheduleAppointmentBtn").show();
+          $("#nextBtn").hide();
         } else {
-          $("#noOfTricyclesContainer").show();
-          $("#tricycleHeader").text("Select Number of Tricycles for the Change of Motorcycle");
-          $("#appointmentTypeContainer, #tricycleCinContainer").hide();
+          $("#noOfTricyclesContainer, #prevBtn, #nextBtn").show();
+          $("#tricycleHeader").text("Select Number of Tricycles for the Transfer of Ownership");
+          $("#appointmentTypeContainer, #tricycleCinContainer, #transferTypeContainer").hide();
         }
       } else {
         $("#appointmentTypeContainer").show();
+        $("#prevBtn, #nextBtn, #scheduleAppointmentBtn").hide()
       }
 
-      let isSaveButtonDisabled = !appointmentType || (appointmentType === "Transfer of Ownership" && !transferType) || (appointmentType !== "New Franchise" && !tricycleCin);
+      let isSaveButtonDisabled = !appointmentType ||  (appointmentType === "New Franchise" && !noOfTricycle) ||  (appointmentType === "Transfer of Ownership" && !transferType) || (appointmentType !== "New Franchise" && !tricycleCin && !noOfTricycle);
       $("#scheduleAppointmentBtn").prop("disabled", isSaveButtonDisabled);
 
       if (isSaveButtonDisabled) {
@@ -234,6 +234,68 @@
 
     $("#tricycleCin").change(function () {
       toggleSections();
+    });
+
+    $("#prevBtn").click(function() {
+      // Find the currently visible container
+      let visibleContainerId = $(".content-container:visible").attr("id");
+      let appointmentType = $("input[name='appointmentType']:checked").val();
+
+      // Hide the current container
+      $("#" + visibleContainerId).hide();
+
+      // Show the previous container based on the current one
+      if (visibleContainerId === "noOfTricyclesContainer") {
+        if (appointmentType) {
+          $("#appointmentTypeContainer, #nextBtn").show();
+          $("#prevBtn, #scheduleAppointmentBtn").hide();
+        }
+      } else if (visibleContainerId === "tricycleCinContainer") {
+        if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle" || appointmentType === "Transfer of Ownership") {
+          $("#noOfTricyclesContainer, #prevBtn, #nextBtn").show();
+          $("#scheduleAppointmentBtn").hide();
+        }
+      } else if (visibleContainerId === "transferTypeContainer") {
+        if (appointmentType === "Transfer of Ownership") {
+          $("#tricycleCinContainer, #prevBtn, #nextBtn").show();
+          $("#scheduleAppointmentBtn").hide();
+        }
+      }
+    });
+
+    $("#nextBtn").click(function() {
+      // Find the currently visible container
+      let visibleContainerId = $(".content-container:visible").attr("id");
+      let appointmentType = $("input[name='appointmentType']:checked").val();
+
+      // Hide the current container
+      $("#" + visibleContainerId).hide();
+
+      // Show the next container based on the current one
+      if (visibleContainerId === "appointmentTypeContainer") {
+        if (appointmentType === "New Franchise") {
+          $("#noOfTricyclesContainer, #prevBtn, #scheduleAppointmentBtn").show();
+          $("#nextBtn").hide();
+        } else if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle" || appointmentType === "Transfer of Ownership") {
+          $("#noOfTricyclesContainer, #prevBtn, #nextBtn").show();
+          $("#scheduleAppointmentBtn").hide();
+        }
+      } else if (visibleContainerId === "noOfTricyclesContainer") {
+        if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle") {
+          $("#tricycleCinContainer, #prevBtn, #scheduleAppointmentBtn").show();
+          $("#nextBtn").hide();
+        } else if (appointmentType === "Transfer of Ownership") {
+          $("#tricycleCinContainer, #prevBtn, #nextBtn").show();
+          $("#scheduleAppointmentBtn").hide();
+        }
+      } else if (visibleContainerId === "tricycleCinContainer") {
+        let transferType = $("input[name='transferType']:checked").val();
+
+        if (appointmentType === "Transfer of Ownership") {
+          $("#transferTypeContainer, #prevBtn, #scheduleAppointmentBtn").show();
+          $("#nextBtn").hide();
+        }
+      }
     });
   });
 </script>
