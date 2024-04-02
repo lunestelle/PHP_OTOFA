@@ -97,7 +97,7 @@
                   <button type="submit" class="sidebar-btnContent" name="update_user_details">Update CIN Availability</button>
                 </div>
                 <div class="text-end my-3" id="backButtonSection" style="display: none;">
-                  <a href="cin_management" class="cinBack-btnContent" id="backButton">Back</a>
+                  <a href="cin_management" class="cinBack-btnContent" id="backButton">Previous</a>
                 </div>
               </form>
             </div>
