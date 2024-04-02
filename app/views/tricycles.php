@@ -63,7 +63,7 @@
                 <?php foreach ($tricycles as $tricycle): ?>
                   <tr>
                   <td><?php echo $index++; ?></td>
-                  <td><?php echo $tricycle['cin']; ?></td>
+                  <td><?php echo $tricycle['tricycle_application_data']->tricycle_cin_number_id; ?></td>
                   <td><?php echo $tricycle['operator_name']; ?></td>
                   <td><?php echo $tricycle['tricycle_application_data']->make_model; ?></td>
                   <td><?php echo $tricycle['tricycle_application_data']->motor_number; ?></td>

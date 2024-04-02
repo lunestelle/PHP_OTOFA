@@ -80,8 +80,26 @@ class TricycleCinNumber
       set_flash_message("Not enough available CIN numbers to decrease.", "error");
       redirect('cin_management');
     }
-
+  
     foreach ($lastCinNumbers as $cinNumberId) {
+      $cinNumberData = $this->first(['tricycle_cin_number_id' => $cinNumberId]);
+
+      if ($cinNumberData->is_used == 1) {
+        // Get tricycle id with the same cin id
+        $tricycleIdResult = $this->query("SELECT tricycle_id, user_id FROM tricycles WHERE cin_id = ?", [$cinNumberId]);
+        $tricycleId = $tricycleIdResult[0]->tricycle_id ?? null;
+        $userId = $tricycleIdResult[0]->user_id ?? null;
+
+        if ($tricycleId) {
+          // Delete existing statuses associated with the tricycle_id
+          $this->query("DELETE FROM tricycle_statuses WHERE tricycle_id = ?", [$tricycleId]);
+
+          // Insert new tricycle status
+          $this->query("INSERT INTO tricycle_statuses (tricycle_id, user_id, status) VALUES (?, ?, 'Dropped')", [$tricycleId, $userId]);
+        }
+      }
+    
+      // Delete the tricycle cin number
       $this->delete(['tricycle_cin_number_id' => $cinNumberId]);
     }
   }

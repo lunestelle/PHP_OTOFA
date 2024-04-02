@@ -146,18 +146,28 @@
                     </div>
                   <?php endif; ?>
                   <?php if (empty($tricycleApplicationData->driver_license_no) && !empty($statuses)): ?>
-                    <div class="col-3">
-                      <p for="coc_no_expiry_date" class="form-label">COC Expiry Date</p>
-                      <div class="form-control">
-                        <?php echo isset($tricycleApplicationData->coc_no_expiry_date) ? $tricycleApplicationData->coc_no_expiry_date : ''; ?>
+                    <div class="col-12 d-flex justify-content-between pt-2">
+                      <div>
+                        <p for="coc_no_expiry_date" class="form-label">COC Expiry Date</p>
+                        <div class="form-control">
+                          <?php echo isset($tricycleApplicationData->coc_no_expiry_date) ? $tricycleApplicationData->coc_no_expiry_date : ''; ?>
+                        </div>
+                      </div>
+                      <div>
+                        <p for="status" class="form-label">Tricycle Status</p>
+                        <div class="form-control">
+                          <?php echo isset($statuses) ? $statuses : ''; ?>
+                        </div>
+                      </div>
+                      <div>
+                        <p for="status" class="form-label"></p>
+                        <div class="form-control" style="background: none; color: none; border: none;"></div>
+                      </div>
+                      <div>
+                        <p for="status" class="form-label"></p>
+                        <div class="form-control" style="background: none; color: none; border: none;"></div>
                       </div>
                     </div>
-                    <div class="col-3 px-2">
-                    <p for="status" class="form-label">Tricycle Status</p>
-                    <div class="form-control">
-                      <?php echo isset($statuses) ? $statuses : ''; ?>
-                    </div>
-                  </div>
                   <?php endif; ?>
                   <?php if (!empty($tricycleApplicationData->driver_license_no) && (!empty($tricycleApplicationData->driver_license_expiry_date) && $tricycleApplicationData->driver_license_expiry_date != "0000-00-00") && !empty($statuses)) : ?>
                     <div class="col-3 px-4 mx-1">
