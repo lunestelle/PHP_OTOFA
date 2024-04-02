@@ -47,6 +47,24 @@
                   </div>                  
                 </div>
 
+                <div class="content-container mt-2 mb-3" id="noOfTricycles" style="display: none;">
+                  <div class="bckgrnd pt-2">
+                    <h6 class="text-uppercase text-center text-light fs-6" id="tricycleHeader">Select Number of Tricycles</h6>
+                    <p class="text-muted m-2 p-1 fst-italic fw-bold" style="font-size: 13px;">Please specify the number of tricycles you want to franchise. You can select up to 5 tricycles.</p>
+                  </div>
+                  <div class="row px-3 p-4" id="">
+                    <div class="col-12 d-flex mb- py-3">
+                      <div class="col-12 px-5">
+                        <div class="d-flex gap-5 text-center">
+                          <div class="col-12">
+                            <input type="number" id="numberOfTricycles" name="numberOfTricycles" class="form-control w-100" min="1" max="5" required>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                            
                 <div class="content-container mt-2 mb-3" id="transferTypeContainer">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6">Select Transfer Type</h6>
@@ -110,7 +128,7 @@
                 <?php } ?>
 
                 <div class="text-end my-3">
-                  <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn">Save</button>
+                  <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn">Next</button>
                 </div>
               </form>
             </div>
@@ -126,6 +144,22 @@
       let appointmentType = $("input[name='appointmentType']:checked").val();
       let transferType = $("input[name='transferType']:checked").val();
       let tricycleCin = $("#tricycleCin").val();
+
+      // Toggle the number of tricycles section
+      if (appointmentType) {
+        $("#noOfTricycles").show();
+      } else {
+        $("#noOfTricycles").hide();
+      }
+
+      // Change header text based on appointment type
+      if (appointmentType === "New Franchise") {
+        $("#tricycleHeader").text("Select Number of Tricycles for the New Franchise");
+      } else if (appointmentType === "Renewal of Franchise") {
+        $("#tricycleHeader").text("Select Number of Tricycles for the Renewal of Franchise");
+      } else if (appointmentType === "Change of Motorcycle") {
+        $("#tricycleHeader").text("Select Number of Tricycles for the Change of Motorcycle");
+      }
 
       $("#transferTypeContainer, #tricycleCinContainer").hide();
 
