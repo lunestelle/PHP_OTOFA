@@ -9,7 +9,7 @@
           <div class="container pt-3">
             <div id="newAppointmentForm">
               <form class="default-form" method="POST" action="" id="appointmentForm">
-                <div class="content-container mt-2 mb-3">
+                <div class="content-container mt-2 mb-3" id="appointmentTypeContainer">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6">Select Appointment Type</h6>
                   </div>
@@ -47,7 +47,7 @@
                   </div>                  
                 </div>
 
-                <div class="content-container mt-2 mb-3" id="noOfTricycles" style="display: none;">
+                <div class="content-container mt-2 mb-3" id="noOfTricyclesContainer">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6" id="tricycleHeader">Select Number of Tricycles</h6>
                     <p class="text-muted m-2 p-1 fst-italic fw-bold" style="font-size: 13px;">Please specify the number of tricycles you want to franchise. You can select up to 5 tricycles.</p>
@@ -128,7 +128,8 @@
                 <?php } ?>
 
                 <div class="text-end my-3">
-                  <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn">Next</button>
+                  <button type="button" class="sidebar-btnContent" id="prevBtn" style="display: none;">Previous</button>
+                  <button type="submit" class="sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn" style="display: none;">Next</button>
                 </div>
               </form>
             </div>
@@ -144,30 +145,45 @@
       let appointmentType = $("input[name='appointmentType']:checked").val();
       let transferType = $("input[name='transferType']:checked").val();
       let tricycleCin = $("#tricycleCin").val();
+      let noOfTricycle = $("input[name='numberOfTricycles']").val();
 
-      // Toggle the number of tricycles section
-      if (appointmentType) {
-        $("#noOfTricycles").show();
-      } else {
-        $("#noOfTricycles").hide();
-      }
+      // Hide all containers initially
+      $("#noOfTricyclesContainer, #transferTypeContainer, #tricycleCinContainer").hide();
 
-      // Change header text based on appointment type
+      // Show containers based on selected appointment type
       if (appointmentType === "New Franchise") {
+        $("#noOfTricyclesContainer").show();
         $("#tricycleHeader").text("Select Number of Tricycles for the New Franchise");
+        $("#appointmentTypeContainer").hide();
       } else if (appointmentType === "Renewal of Franchise") {
-        $("#tricycleHeader").text("Select Number of Tricycles for the Renewal of Franchise");
+        if (noOfTricycle) {
+          $("#tricycleCinContainer").show();
+        } else {
+          $("#noOfTricyclesContainer").show();
+          $("#tricycleHeader").text("Select Number of Tricycles for the Renewal of Franchise");
+          $("#appointmentTypeContainer, #tricycleCinContainer").hide();
+        }
       } else if (appointmentType === "Change of Motorcycle") {
-        $("#tricycleHeader").text("Select Number of Tricycles for the Change of Motorcycle");
-      }
-
-      $("#transferTypeContainer, #tricycleCinContainer").hide();
-
-      if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle") {
-        $("#tricycleCinContainer").show();
+        if (noOfTricycle) {
+          $("#tricycleCinContainer").show();
+        } else {
+          $("#noOfTricyclesContainer").show();
+          $("#tricycleHeader").text("Select Number of Tricycles for the Change of Motorcycle");
+          $("#appointmentTypeContainer, #tricycleCinContainer").hide();
+        }
       } else if (appointmentType === "Transfer of Ownership") {
-        $("#transferTypeContainer").show();
-        $("#tricycleCinContainer").show();
+        if (noOfTricycle) {
+          $("#transferTypeContainer").show();
+        } else if (noOfTricycle && transferType){
+          $("#tricycleCinContainer").show();
+          $("#noOfTricyclesContainer, #transferTypeContainer").hide();
+        } else {
+          $("#noOfTricyclesContainer").show();
+          $("#tricycleHeader").text("Select Number of Tricycles for the Change of Motorcycle");
+          $("#appointmentTypeContainer, #tricycleCinContainer").hide();
+        }
+      } else {
+        $("#appointmentTypeContainer").show();
       }
 
       let isSaveButtonDisabled = !appointmentType || (appointmentType === "Transfer of Ownership" && !transferType) || (appointmentType !== "New Franchise" && !tricycleCin);
