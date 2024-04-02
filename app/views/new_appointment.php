@@ -179,14 +179,14 @@
         } else {
           $("#noOfTricyclesContainer, #prevBtn, #nextBtn").show();
           $("#tricycleHeader").text("Select Number of Tricycles for the Transfer of Ownership");
-          $("#appointmentTypeContainer, #tricycleCinContainer, #transferTypeContainer").hide();
+          $("#appointmentTypeContainer, #tricycleCinContainer, #transferTypeContainer, #scheduleAppointmentBtn").hide();
         }
       } else {
         $("#appointmentTypeContainer").show();
         $("#prevBtn, #nextBtn, #scheduleAppointmentBtn").hide()
       }
 
-      let isSaveButtonDisabled = !appointmentType ||  (appointmentType === "New Franchise" && !noOfTricycle) ||  (appointmentType === "Transfer of Ownership" && !transferType) || (appointmentType !== "New Franchise" && !tricycleCin && !noOfTricycle);
+      let isSaveButtonDisabled = !appointmentType ||  (appointmentType === "New Franchise" && !noOfTricycle) ||  (appointmentType === "Transfer of Ownership" && !transferType && !noOfTricycle && !tricycleCin) || (appointmentType !== "New Franchise" && !tricycleCin && !noOfTricycle);
       $("#scheduleAppointmentBtn").prop("disabled", isSaveButtonDisabled);
 
       if (isSaveButtonDisabled) {
@@ -227,14 +227,12 @@
     toggleSections();
     fetchTricycleCinNumbers();
 
-    $("input[name='appointmentType'], input[name='transferType']").change(function () {
+    $("input[name='appointmentType']").change(function () {
       toggleSections();
       fetchTricycleCinNumbers();
     });
 
-    $("#tricycleCin").change(function () {
-      toggleSections();
-    });
+
 
     $("#prevBtn").click(function() {
       // Find the currently visible container
@@ -251,14 +249,17 @@
           $("#prevBtn, #scheduleAppointmentBtn").hide();
         }
       } else if (visibleContainerId === "tricycleCinContainer") {
-        if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle" || appointmentType === "Transfer of Ownership") {
+        if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle") {
           $("#noOfTricyclesContainer, #prevBtn, #nextBtn").show();
+          $("#scheduleAppointmentBtn").hide();
+        } else if (appointmentType === "Transfer of Ownership") {
+          $("#transferTypeContainer, #prevBtn, #nextBtn").show();
           $("#scheduleAppointmentBtn").hide();
         }
       } else if (visibleContainerId === "transferTypeContainer") {
         if (appointmentType === "Transfer of Ownership") {
-          $("#tricycleCinContainer, #prevBtn, #nextBtn").show();
-          $("#scheduleAppointmentBtn").hide();
+          $("#tricycleCinContainer, #prevBtn, #scheduleAppointmentBtn").show();
+          $("#nextBtn").hide();
         }
       }
     });
@@ -285,14 +286,14 @@
           $("#tricycleCinContainer, #prevBtn, #scheduleAppointmentBtn").show();
           $("#nextBtn").hide();
         } else if (appointmentType === "Transfer of Ownership") {
-          $("#tricycleCinContainer, #prevBtn, #nextBtn").show();
+          $("#transferTypeContainer, #prevBtn, #nextBtn").show();
           $("#scheduleAppointmentBtn").hide();
         }
-      } else if (visibleContainerId === "tricycleCinContainer") {
+      } else if (visibleContainerId === "transferTypeContainer") {
         let transferType = $("input[name='transferType']:checked").val();
 
         if (appointmentType === "Transfer of Ownership") {
-          $("#transferTypeContainer, #prevBtn, #scheduleAppointmentBtn").show();
+          $("#tricycleCinContainer, #prevBtn, #scheduleAppointmentBtn").show();
           $("#nextBtn").hide();
         }
       }
