@@ -142,7 +142,7 @@
                 <!-- Save, Next, and Previous Buttons -->
                 <div class="text-end my-3">
                   <button type="submit" class="sidebar-btnContent" style="margin-right: 10px !important;" name="schedule_appointment" id="scheduleAppointmentBtn">Save</button>
-                  <button type="button" class="sidebar-btnContent" style="" id="nextBtn">Next</button>
+                  <button type="button" class="sidebar-btnContent d-none" id="nextBtn">Next</button>
                   <button type="button" class="sidebar-btnContent" style="margin-right: 10px !important;" id="prevBtn">Previous</button>
                   <a href="appointments" class="sidebar-btnContent" style="margin-right: 10px !important;" id="cancelBtn">Cancel</a>
                 </div>
@@ -156,6 +156,9 @@
 </main>
 <script>
   $(document).ready(function () {
+    let triggeredByPrevBtn = false;
+    let triggeredByNextBtn = false;
+
     function fetchTricycleCinNumbers() {
       let appointmentType = $("input[name='appointmentType']:checked").val();
       if (appointmentType) { 
@@ -228,8 +231,19 @@
     }
 
     function toggleNextButton() {
+      const visibleContainerId = $(".content-container:visible").attr("id");
       const appointmentType = $("input[name='appointmentType']:checked").val();
-      const isNextBtnDisabled = !appointmentType;
+      const noOfTricycle = $("input[name='numberOfTricycles']").val(); 
+      const isNextBtnDisabled
+
+      if (!appointmentType) {
+        if (visibleContainerId === "noOfTricyclesContainer") {
+          if (appointmentType === "New Franchise") {
+            isNextBtnDisabled = true;
+          }
+        } 
+      }
+
       $("#nextBtn").prop("disabled", isNextBtnDisabled);
 
       if (isNextBtnDisabled) {
@@ -241,6 +255,12 @@
         });
       } else {
         $("#nextBtn").removeAttr("style");
+      }
+
+      if (appointmentType) {
+        $("#nextBtn").removeClass("d-none");
+      } else {
+        $("#nextBtn").addClass("d-none");
       }
     }
 
@@ -265,6 +285,16 @@
       }
     }
 
+    $("#prevBtn").click(function () {
+      triggeredByPrevBtn = true;
+      triggeredByNextBtn = false;
+    });
+
+    $("#nextBtn").click(function () {
+      triggeredByPrevBtn = false;
+      triggeredByNextBtn = true;
+    });
+
     $("#prevBtn, #nextBtn").click(function () {
       const visibleContainerId = $(".content-container:visible").attr("id");
       const appointmentType = $("input[name='appointmentType']:checked").val();
@@ -287,9 +317,19 @@
         }
       } else if (visibleContainerId === "noOfTricyclesContainer") {
         if (appointmentType === "New Franchise") {
-          $("#appointmentTypeContainer, #cancelBtn").show();
-          $("#prevBtn, #scheduleAppointmentBtn, #tricycleCinContainer, #nextBtn").hide();
+          $("#appointmentTypeContainer, #cancelBtn, #nextBtn").show();
+          $("#prevBtn, #scheduleAppointmentBtn, #tricycleCinContainer").hide();
           $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
+        } else if (appointmentType === "Change of Motorcycle") {
+          if (triggeredByPrevBtn) {
+            $("#appointmentTypeContainer, #cancelBtn, #nextBtn").show();
+            $("#prevBtn, #scheduleAppointmentBtn, #tricycleCinContainer").hide();
+            $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
+          } else if (triggeredByNextBtn) {
+            $("#tricycleCinContainer, #scheduleAppointmentBtn, #prevBtn").show();
+            $("#nextBtn, #cancelBtn").hide();
+            $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
+          }
         }
       } else if (visibleContainerId === "tricycleCinContainer") {
         if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle") {
@@ -313,6 +353,8 @@
       const appointmentType = $("input[name='appointmentType']:checked").val();
       if (appointmentType === "New Franchise") {
         toggleSaveButton();
+      } else if (appointmentType === "Change of Motorcycle") {
+        toggleNextButton();
       }
     });
 
