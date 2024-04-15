@@ -21,6 +21,8 @@ class New_appointment
 		$cinModel = new TricycleCinNumber();
     $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
 
+    $data["totalAvailableCins"] = count($cinModel->getAvailableCinNumbers());
+
     // Check if all CIN numbers are used
     $allCinNumbersUsed = empty($cinModel->getAvailableCinNumbers());
     $data['allCinNumbersUsed'] = $allCinNumbersUsed;
