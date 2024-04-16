@@ -134,7 +134,7 @@
     top: 0;
     left: 0;
     background-color: #ffffff;
-    min-height: 40px;
+    min-height: 45px !important;
     box-shadow: 2px 3px #00000009;
   }
   

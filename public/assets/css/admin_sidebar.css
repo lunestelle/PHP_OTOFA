@@ -246,8 +246,9 @@
     white-space: nowrap;
     position: relative;
     left: 160px; /* Adjusted left position for the title-head */
-    top: 8px;
+    top: 11px !important;
     display: flex;
+    font-size: 20px;
   } 
   
   @media only screen and (min-width: 1250px) {
@@ -280,7 +281,7 @@
     }
   }
   .sidebar-btnContent {
-    padding: 5px 18px;
+    padding: 7px 18px;
     color: white;
     background-color: #FF4200;
     border: #FF4200 1px solid;
@@ -326,6 +327,7 @@
       position: relative;
       left: 220px;
       top: 8px;
+      font-size: 22px;
     }
   } 
   
@@ -438,7 +440,7 @@
     top: 0;
     left: 0;
     background-color: #ffffff;
-    min-height: 40px;
+    min-height: 50px !important;
     box-shadow: 2px 3px #00000009;
   }
   

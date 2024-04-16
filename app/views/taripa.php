@@ -8,14 +8,16 @@
         <?php if ($userRole === 'admin' || $userRole === 'personnel' || $userRole === 'operator'): ?>
           <?php if (hasPermission('Can generate taripa', $permissions)) { ?>
             <div class="col-12 mt-3">
-              <a href="new_taripa" class="text-uppercase sidebar-btnContent new-button">New</a>
+              <a href="new_taripa" class="text-uppercase sidebar-btnContent mt-1 new-button">New</a>
             </div>
           <?php } ?>
         <?php endif; ?>
         <?php if (!empty($taripas) && $userRole === 'operator'): ?>
           <div class="col-12 mt-3">
             <form method="post" action="">
-              <button type="submit" id="exportCsv" name="exportCsv" class="text-uppercase sidebar-btnContent new-button">Export as CSV</button>
+              <button type="submit" id="exportCsv" name="exportCsv" style="border: none; background: none; padding: 0; margin: 0;">
+                <img src="public/assets/images/export-csv.png" style="height: 38px; width: 40px; position: absolute; top: 5px; right: 35px;" alt="export file">
+              </button>
             </form>    
           </div>
         <?php endif; ?>
@@ -48,7 +50,9 @@
       <?php if (!empty($taripas) && $userRole === 'admin') : ?>
         <div class="mt-3 text-end">
           <form method="post" action="">
-            <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-taripa">Export as CSV</button>
+            <button type="submit" id="exportCsv" name="exportCsv" style="border: none; background: none; padding: 0; margin: 0;">
+              <img src="public/assets/images/export-csv.png" style="height: 38px; width: 40px; position: absolute; top: 5px; right: 100px;" alt="export file">
+            </button>
           </form>    
         </div>
       <?php endif; ?>

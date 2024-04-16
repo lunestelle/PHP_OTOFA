@@ -7,17 +7,20 @@
       <div class="row">
         <div class="col-12">
           <div class="mt-3">
-            <a href="new_user" class="text-uppercase sidebar-btnContent new-button">New</a>
+            <a href="new_user" class="text-uppercase sidebar-btnContent mt-1 new-button">New</a>
           </div>
         </div>
         <div class="col-12">
           <?php if (!empty($users)): ?>
             <div class="mt-3 text-end">
               <form method="post" action="">
-                <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-operator">Export as CSV</button>
+                  <button type="submit" id="exportCsv" name="exportCsv" style="border: none; background: none; padding: 0; margin: 0;">
+                    <img src="public/assets/images/export-csv.png" style="height: 38px; width: 40px; position: absolute; top: 5px; right: 100px;" alt="export file">
+                  </button>
               </form>
             </div>
           <?php endif; ?>
+
           <div class="row mt-3">
             <div class="col-6">
               <label for="userNameFilter" class="fw-bold" style="font-size: 13px;">Filter By Users Name:</label>
