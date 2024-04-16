@@ -159,6 +159,7 @@
     let triggeredByPrevBtn = false;
     let triggeredByNextBtn = false;
     let availableCinCount = <?php echo $totalAvailableCins; ?>;
+    let fetchedCINs = [];
 
     function fetchTricycleCinNumbers() {
       let appointmentType = $("input[name='appointmentType']:checked").val();
@@ -169,6 +170,7 @@
           data: { appointmentType: appointmentType },
           dataType: 'json',
           success: function (response) {
+            fetchedCINs = response.tricycleCinNumbers.map(value => value.cin_number);
             let options = response.tricycleCinNumbers;
             $('#tricycleCin').empty();
             $('#tricycleCin').append('<option value="" selected disabled>Please Select Here</option>');
@@ -201,27 +203,41 @@
             $("#noOfTricyclesContainer, #scheduleAppointmentBtn, #prevBtn").show();
             $("#cancelBtn, #nextBtn").hide();
             $("#tricycleHeader").text("Select Number of Tricycles for the New Franchise");
-            $("#noOftricycleDetails").text("Please specify the number of tricycles you want to franchise. Currently, there are " + availableCinCount + " available CINs for franchising.");
+            $("#noOftricycleDetails").text("Please specify the number of tricycles you want to franchise. Currently, there are " + availableCinCount + " available CINs for franchising. You can franchise up to 5 CINs.");
             break;
           case "Renewal of Franchise":
           case "Change of Motorcycle":
             if (noOfTricycle) {
-                $("#tricycleCinContainer, #scheduleAppointmentBtn, #prevBtn").show();
-                $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
-                $("#noOftricycleDetails").text("Please indicate the number of tricycles you wish to change motorcycles. The CIN numbers eligible for this change are CIN Number 1 and 5.");
+              $("#tricycleCinContainer, #scheduleAppointmentBtn, #prevBtn").show();
+              $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
+              
+              // Update the text with fetched CIN numbers
+              let cinText = ""; // Initialize the text variable
+              if (fetchedCINs.length === 1) {
+                cinText = fetchedCINs[0];
+              } else {
+                if (fetchedCINs.length === 2) {
+                  cinText = fetchedCINs.join(" and ");
+                } else {
+                  cinText = fetchedCINs.slice(0, -1).join(", ") + ", and " + fetchedCINs.slice(-1);
+                }
+              }
+              $("#noOftricycleDetails").text(`Please indicate the number of tricycles you wish to change motorcycles. The CIN numbers eligible for this change are ${cinText}.`);
+
+              
             } else {
-                $("#noOfTricyclesContainer, #prevBtn").show();
-                $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
+              $("#noOfTricyclesContainer, #prevBtn").show();
+              $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
             }
             break;
           case "Transfer of Ownership":
             if (noOfTricycle) {
-                $("#transferTypeContainer, #prevBtn").show();
+              $("#transferTypeContainer, #prevBtn").show();
             } else if (transferType) {
-                $("#tricycleCinContainer, #prevBtn, #scheduleAppointmentBtn").show();
+              $("#tricycleCinContainer, #prevBtn, #scheduleAppointmentBtn").show();
             } else {
-                $("#noOfTricyclesContainer, #prevBtn").show();
-                $("#tricycleHeader").text("Select Number of Tricycles for the Transfer of Ownership");
+              $("#noOfTricyclesContainer, #prevBtn").show();
+              $("#tricycleHeader").text("Select Number of Tricycles for the Transfer of Ownership");
             }
             break;
           default:
@@ -334,12 +350,40 @@
         if (appointmentType === "New Franchise") {
           $("#noOfTricyclesContainer, #prevBtn, #scheduleAppointmentBtn").show();
           $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
-          $("#noOftricycleDetails").text("Please specify the number of tricycles you want to franchise. Currently, there are " + availableCinCount + " available CINs for franchising.");
+          $("#noOftricycleDetails").text("Please specify the number of tricycles you want to franchise. Currently, there are " + availableCinCount + " available CINs for franchising. You can franchise up to 5 CINs.");
           $("#nextBtn, #cancelBtn").hide();
+
+          if (availableCinCount >= 5) {
+            $("#numberOfTricycles").attr("max", 5);
+          } else {
+            $("#numberOfTricycles").attr("max", availableCinCount);
+          }
         } else if (appointmentType === "Renewal of Franchise" || appointmentType === "Change of Motorcycle") {
           $("#noOfTricyclesContainer, #prevBtn, #nextBtn").show();
           $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
           $("#scheduleAppointmentBtn, #cancelBtn").hide();
+
+          // Update the text with fetched CIN numbers
+          let cinText = ""; // Initialize the text variable
+          if (fetchedCINs.length === 1) {
+            cinText = fetchedCINs[0];
+          } else {
+            if (fetchedCINs.length === 2) {
+              cinText = fetchedCINs.join(" and ");
+            } else {
+              cinText = fetchedCINs.slice(0, -1).join(", ") + ", and " + fetchedCINs.slice(-1);
+            }
+          }
+          $("#noOftricycleDetails").text(`Please indicate the number of tricycles you wish to change motorcycles. The CIN numbers eligible for this change are ${cinText}.`);
+
+          if (fetchedCINs.length >= 5) {
+            $("#numberOfTricycles").attr("max", 5);
+          } else {
+            $("#numberOfTricycles").attr("max", fetchedCINs.length);
+          }
+
+
+
 
           toggleNextBtn();
         }
@@ -353,12 +397,13 @@
             $("#appointmentTypeContainer, #cancelBtn, #nextBtn").show();
             $("#prevBtn, #scheduleAppointmentBtn, #tricycleCinContainer").hide();
             $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
+
+            toggleNextBtn();
           } else if (triggeredByNextBtn) {
             $("#tricycleCinContainer, #scheduleAppointmentBtn, #prevBtn").show();
             $("#nextBtn, #cancelBtn").hide();
             $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
 
-            fetchTricycleCinNumbers();
           }
         }
       } else if (visibleContainerId === "tricycleCinContainer") {
@@ -378,6 +423,7 @@
     // Event listener for radio button changes
     $("input[name='appointmentType']").change(function() {
       toggleNextBtn();
+      fetchTricycleCinNumbers();
     });
 
     $("select[name='tricycleCin']").change(function() {
