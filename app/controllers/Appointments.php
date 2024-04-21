@@ -14,7 +14,7 @@ class Appointments
     // Define the required permissions for accessing the edit user page
     $requiredPermissions = [
       "Can approve appointments",
-      "Can reject appointments",
+      "Can decline appointments",
       "Can on process appointments",
       "Can completed appointments"
     ];

@@ -312,10 +312,10 @@ function sendAppointmentNotifications($appointmentFormData, $data, $tricycleAppl
 
 		sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
-	} elseif ($status === 'Rejected') {
+	} elseif ($status === 'Declined') {
 		$message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for {$appointmentFormData['appointment_type']} appointment for tricycle CIN #{$cinNumber} on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
 
-		$subject = "Appointment Rejected";
+		$subject = "Appointment Declined";
 		$user = "Hello {$appointmentFormData['name']},";
 		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We regret to inform you that your request for {$appointmentFormData['appointment_type']} appointment for tricycle CIN #{$cinNumber} on <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out by replying to this email. Additionally, please review the feedback or comment section on the website for more details about your appointment by clicking the button below.</div>";
 		$buttonLink = "$rootPath";

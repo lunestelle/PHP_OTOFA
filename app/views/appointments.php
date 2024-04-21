@@ -54,7 +54,7 @@
                   <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
                   <option value="Pending" <?php echo ($statusFilter === 'Pending') ? 'selected' : ''; ?>>Pending</option>
                   <option value="Approved" <?php echo ($statusFilter === 'Approved') ? 'selected' : ''; ?>>Approved</option>
-                  <option value="Rejected" <?php echo ($statusFilter === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                  <option value="Declined" <?php echo ($statusFilter === 'Declined') ? 'selected' : ''; ?>>Declined</option>
                   <option value="On Process" <?php echo ($statusFilter === 'On Process') ? 'selected' : ''; ?>>On Process</option>
                   <option value="Completed" <?php echo ($statusFilter === 'Completed') ? 'selected' : ''; ?>>Completed</option>
                 </select>
@@ -109,8 +109,8 @@
                           case 'Pending':
                             $badgeColor = 'bg-dark'; // Green color for pending
                             break;
-                          case 'Rejected':
-                            $badgeColor = 'bg-danger'; // Red color for rejected
+                          case 'Declined':
+                            $badgeColor = 'bg-danger'; // Red color for declined
                             break;
                           case 'Completed':
                             $badgeColor = 'bg-warning text-dark'; // Blue color for completed
@@ -153,7 +153,7 @@
 
                           echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1 edit-btn" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
                         ?>
-                      <?php elseif (($appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process") && hasAnyPermission(['Can approve appointments', 'Can reject appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
+                      <?php elseif (($appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process") && hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                         <?php
                           $editUrl = '';
 

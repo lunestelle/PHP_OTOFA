@@ -317,7 +317,7 @@ class Appointment
         SUM(CASE WHEN a.status = 'Pending' THEN 1 ELSE 0 END) AS pending_appointments,
         SUM(CASE WHEN a.status = 'Completed' THEN 1 ELSE 0 END) AS completed_appointments,
         SUM(CASE WHEN a.status = 'Approved' THEN 1 ELSE 0 END) AS approved_appointments,
-        SUM(CASE WHEN a.status = 'Rejected' THEN 1 ELSE 0 END) AS rejected_appointments,
+        SUM(CASE WHEN a.status = 'Declined' THEN 1 ELSE 0 END) AS declined_appointments,
         SUM(CASE WHEN a.status = 'On Process' THEN 1 ELSE 0 END) AS on_process_appointments,
         YEAR(a.appointment_date) AS year
       FROM {$this->table} a

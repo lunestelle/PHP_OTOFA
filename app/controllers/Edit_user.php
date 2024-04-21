@@ -112,7 +112,7 @@ class Edit_user
   private function getAllPermissions() {
     $permissions = [
       "Can approve appointments",
-      "Can reject appointments",
+      "Can decline appointments",
       "Can on process appointments",
       "Can completed appointments",
       "Can view appointments reports",

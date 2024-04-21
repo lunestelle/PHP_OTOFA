@@ -125,7 +125,7 @@
                 </div>
                 <div class="col-12 d-flex mt-3">
                   <div class="col-4 px-5">
-                    <?php if (hasAnyPermission(['Can approve appointments', 'Can reject appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
+                    <?php if (hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                       <label for="status" class="form-label">Status</label>
                       <select class="form-control appointment-status-select fw-bold" id="status" name="status">
                         <option value="" selected disabled>Select Appointment Status</option>
@@ -134,8 +134,8 @@
                           <?php if (hasPermission('Can approve appointments', $permissions)) { ?>
                             <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
                           <?php } ?>
-                          <?php if (hasPermission('Can reject appointments', $permissions)) { ?>
-                            <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                          <?php if (hasPermission('Can decline appointments', $permissions)) { ?>
+                            <option value="Declined" <?php echo (isset($status) && $status === 'Declined') ? 'selected' : ''; ?>>Declined</option>
                           <?php } ?>
                         <?php elseif ($status === "Approved"): ?>
                           <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?> disabled>Approved</option>

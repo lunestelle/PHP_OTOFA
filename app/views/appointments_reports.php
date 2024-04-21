@@ -33,7 +33,7 @@
               <th scope="col" class="text-center">Total Appointments</th>
               <th scope="col" class="text-center">Pending Appointments</th>
               <th scope="col" class="text-center">Approved Appointments</th>
-              <th scope="col" class="text-center">Rejected Appointments</th>
+              <th scope="col" class="text-center">Declined Appointments</th>
               <th scope="col" class="text-center">On Process Appointments</th>
               <th scope="col" class="text-center">Completed Appointments</th>
               <?php if ($selectedFilter == 'all'): ?>
@@ -51,7 +51,7 @@
                   <td><a href="appointments?user_id=<?php echo $report['user_id']; ?>" style="color: #FF4200; font-weight: bold; text-decoration: none;"><?php echo $report['total_appointments']; ?></a></td>
                   <td><a href="appointments?status=Pending&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['pending_appointments']; ?></a></td>
                   <td><a href="appointments?status=Approved&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['approved_appointments']; ?></a></td>
-                  <td><a href="appointments?status=Rejected&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['rejected_appointments']; ?></a></td>
+                  <td><a href="appointments?status=Declined&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['declined_appointments']; ?></a></td>
                   <td><a href="appointments?status=On Process&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['on_process_appointments']; ?></a></td>
                   <td><a href="appointments?status=Completed&user_id=<?php echo $report['user_id']; ?>" style="color: blue; font-weight: bold; text-decoration: none;"><?php echo $report['completed_appointments']; ?></a></td>
                   <?php if ($selectedFilter == 'all'): ?>

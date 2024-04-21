@@ -273,7 +273,7 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                 <?php } ?>
                 <?php
                   // Check if the user has at least one of the specified permissions
-                  if (hasAnyPermission(['Can approve appointments', 'Can reject appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)) {
+                  if (hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)) {
                 ?>
                   <li class="nav-item">
                     <a class="nav-link text-white" href="appointments">

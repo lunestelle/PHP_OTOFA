@@ -102,7 +102,7 @@
                 </div>
               </div>
 
-              <?php if (strtolower($appointment->status) == 'rejected' && !empty($appointment->comments)): ?>
+              <?php if (strtolower($appointment->status) == 'declined' && !empty($appointment->comments)): ?>
                 <div class="content-container mt-4">
                   <div class="bckgrnd pt-2">
                     <h6 class="pl-2 text-uppercase text-center text-dark fs-6">Appointment Rejection Comment</h6>

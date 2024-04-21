@@ -14,7 +14,7 @@ class Edit_transfer_of_ownership
     // Define the required permissions for accessing the edit user page
     $requiredPermissions = [
       "Can approve appointments",
-      "Can reject appointments",
+      "Can decline appointments",
       "Can on process appointments",
       "Can completed appointments"
     ];
@@ -183,8 +183,8 @@ class Edit_transfer_of_ownership
           $appointmentFormData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
 
           // Check if the appointment status is "REJECTED"
-          if ($_POST['status'] != 'Rejected') {
-            // Update comments to empty for rejected appointments
+          if ($_POST['status'] != 'Declined') {
+            // Update comments to empty for declined appointments
             $appointmentFormData['comments'] = '';
           }
 
@@ -271,11 +271,11 @@ class Edit_transfer_of_ownership
     }
 
     // Check if the appointment status is "REJECTED"
-    if ($appointmentFormData['status'] === 'Rejected') {
-      // Require comments for rejected appointments
+    if ($appointmentFormData['status'] === 'Declined') {
+      // Require comments for declined appointments
       $comments = trim($appointmentFormData['comments']);
       if (empty($comments)) {
-        $errors['appointment'][] = 'Comments are required for rejected appointments.';
+        $errors['appointment'][] = 'Comments are required for declined appointments.';
       }
     }
     

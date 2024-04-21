@@ -119,9 +119,9 @@
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="Can reject appointments" id="permissionReject" name="permissions[]" <?php echo isset($permissions) && in_array('Can reject appointments', $permissions) ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" value="Can decline appointments" id="permissionReject" name="permissions[]" <?php echo isset($permissions) && in_array('Can decline appointments', $permissions) ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="permissionReject">
-                          Can reject appointments
+                          Can decline appointments
                         </label>
                       </div>
                       <div class="form-check">
