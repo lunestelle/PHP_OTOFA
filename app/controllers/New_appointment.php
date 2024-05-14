@@ -59,10 +59,11 @@ class New_appointment
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (isset($_POST['appointmentType'])) {
         $appointmentType = $_POST['appointmentType'];
+        $numberOfTricycles = $_POST['numberOfTricycles'];
 
         switch ($appointmentType) {
           case 'New Franchise':
-            redirect('appointment_details?appointmentType=' . urlencode($appointmentType));
+            redirect('appointment_details?appointmentType=' . urlencode($appointmentType) . '&numberOfTricycles=' . $numberOfTricycles);
             break;
 
           case 'Renewal of Franchise':

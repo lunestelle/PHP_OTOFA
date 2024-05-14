@@ -210,6 +210,109 @@
           </div>
         </div>
       </div>
+ 
+   </section>
+
+       <!-- *** STEP 2 *** -->
+    <section id="step-2" style="">
+      <div class="content-container mt-2 mb-3">
+        <div class="row px-3 p-3">
+          <div class="col-12 d-flex mb-1">
+            <div class="col-4 px-5">
+              <label for="operator_name" class="form-label">Name of Operator</label>
+              <div class="input-group">
+                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name" name="operator_name" value="<?php echo isset($_POST['operator_name']) ? $_POST['operator_name'] : $fullName; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile.">
+                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                  <i class="fa-solid fa-info-circle"></i>
+                </span>
+              </div>
+            </div>
+            <div class="col-4 px-5 mt-3">
+              <label for="tricycle_phone_number" class="form-label">Phone Number</label>
+              <div class="input-group">
+                <span class="input-group-text">+63</span>
+                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number" name="tricycle_phone_number" placeholder="e.g., 9123456789" value="<?php echo isset($_POST['tricycle_phone_number']) ? $_POST['tricycle_phone_number'] : $userPhoneNo; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
+                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                  <i class="fa-solid fa-info-circle"></i>
+                </span>
+              </div>
+            </div>
+            <div class="col-4 px-5 mt-3">
+              <label for="address" class="form-label">Address</label>
+              <div class="input-group">
+                <input type="text" class="form-control" style="cursor: pointer;" id="address" name="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : $userAddress; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
+                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                  <i class="fa-solid fa-info-circle"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+       
+                
+          <div class="col-12 d-flex mb-2">
+            <div class="col-4 px-5">
+              <label for="mtop_no" class="form-label">MTOP Number</label>
+              <input type="text" class="form-control" id="mtop_no" name="mtop_no" value="<?php echo isset($_POST['mtop_no']) ? $_POST['mtop_no'] : ''; ?>" min="0" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="color_code" class="form-label">Color Code</label>
+              <select class="form-control" id="color_code" name="color_code" required>
+                <option selected disabled>Please Select Here</option>
+                <option value="Red" data-route-area="Free Zone / Zone 1" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Red' ? 'selected' : ''); ?>>Red</option>
+                <option value="Blue" data-route-area="Free Zone & Zone 2" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue' ? 'selected' : ''); ?>>Blue</option>
+                <option value="Yellow" data-route-area="Free Zone & Zone 3" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow' ? 'selected' : ''); ?>>Yellow</option>
+                <option value="Green" data-route-area="Free Zone & Zone 4" <?php echo (isset($_POST['color_code']) && $_POST['color_code'] == 'Green' ? 'selected' : ''); ?>>Green</option>
+              </select>
+            </div>
+            <div class="col-4 px-5">
+              <label for="route_area" class="form-label">Route Area</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="route_area" name="route_area" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?php echo isset($_POST['route_area']) ? $_POST['route_area'] : ''; ?>" readonly required>
+                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                  <i class="fa-solid fa-info-circle"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 d-flex mb-5">
+            <div class="col-4 px-5">
+              <label for="make_model" class="form-label">Make Model</label>
+              <input type="text" class="form-control" id="make_model" name="make_model" value="<?php echo isset($_POST['make_model']) ? $_POST['make_model'] : ''; ?>" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="make_model_year_acquired" class="form-label">Model Year Acquired</label>
+              <input type="text" class="form-control text-uppercase" id="make_model_year_acquired" name="make_model_year_acquired" value="<?php echo isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ''; ?>" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="make_model_expiry_date" class="form-label">Model Expiry Date</label>
+              <input type="date" class="form-control text-uppercase" id="make_model_expiry_date" name="make_model_expiry_date" value="<?php echo isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ''; ?>" required>
+            </div>
+          </div>
+
+          <div class="col-12 d-flex mb-2">
+            <div class="col-4 px-5">
+              <label for="motor_number" class="form-label">Motor Number</label>
+              <input type="text" class="form-control" id="motor_number" name="motor_number" value="<?php echo isset($_POST['motor_number']) ? $_POST['motor_number'] : ''; ?>" min="0" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="insurer" class="form-label">Insurer</label>
+              <input type="text" class="form-control" id="insurer" name="insurer" value="<?php echo isset($_POST['insurer']) ? $_POST['insurer'] : ''; ?>" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="coc_no" class="form-label">C.O.C Number</label>
+              <input type="text" class="form-control" id="coc_no" name="coc_no" value="<?php echo isset($_POST['coc_no']) ? $_POST['coc_no'] : ''; ?>" min="0" required>
+            </div>
+          </div>
+
+          <div class="col-12 d-flex mb-5" id="coc_expiry_field">
+            <div class="col-4 px-5">
+              <label for="coc_no_expiry_date" class="form-label">C.O.C Expiry Date</label>
+              <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?php echo isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : ''; ?>" required>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="mt-3">
         <button type="button" class="sidebar-btnContent-1 text-start" onclick="showStep(1)">Previous</button>
         <button type="button" class="sidebar-btnContent text-end" onclick="showStep(3)">Next</button>

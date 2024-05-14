@@ -57,7 +57,7 @@
                 <div class="content-container mt-2 mb-3" id="noOfTricyclesContainer">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6" id="tricycleHeader">Select Number of Tricycles</h6>
-                    <p class="text-muted m-2 p-1 fst-italic fw-bold" id="noOftricycleDetails" style="font-size: 13px;">Please specify the number of tricycles you want to franchise. You can select up to 5 tricycles.</p>
+                    <p class="text-muted m-2 p-1 fst-italic fw-bold" id="noOftricycleDetails" style="font-size: 13px;">Please specify the number of tricycles you want to franchise. You can select up to 3 tricycles.</p>
                   </div>
                   <div class="row px-3 p-4" id="">
                     <div class="col-12 d-flex mb- py-3">
@@ -204,7 +204,7 @@
             $("#noOfTricyclesContainer, #scheduleAppointmentBtn, #prevBtn").show();
             $("#cancelBtn, #nextBtn").hide();
             $("#tricycleHeader").text("Select Number of Tricycles for the New Franchise");
-            $("#noOftricycleDetails").text(`Please specify the number of tricycles you want to franchise. Currently, there ${availableCinCount === 1 ? 'is' : 'are'} ${availableCinCount} available CIN${availableCinCount === 1 ? '' : 's'} for franchising. You can franchise up to 5 CINs.`);
+            $("#noOftricycleDetails").text(`Please specify the number of tricycles you want to franchise. Currently, there ${availableCinCount === 1 ? 'is' : 'are'} ${availableCinCount} available CIN${availableCinCount === 1 ? '' : 's'} for franchising. You can franchise up to 3 CINs.`);
             break;
           case "Renewal of Franchise":
           case "Change of Motorcycle":
@@ -472,11 +472,11 @@
         if (appointmentType === "New Franchise") {
           $("#noOfTricyclesContainer, #prevBtn, #scheduleAppointmentBtn").show();
           $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
-          $("#noOftricycleDetails").text("Please specify the number of tricycles you want to franchise. Currently, there are " + availableCinCount + " available CINs for franchising. You can franchise up to 5 CINs.");
+          $("#noOftricycleDetails").text("Please specify the number of tricycles you want to franchise. Currently, there are " + availableCinCount + " available CINs for franchising. You can franchise up to 3 CINs.");
           $("#nextBtn, #cancelBtn").hide();
 
           if (availableCinCount >= 5) {
-            $("#numberOfTricycles").attr("max", 5);
+            $("#numberOfTricycles").attr("max", 3);
           } else {
             $("#numberOfTricycles").attr("max", availableCinCount);
           }
@@ -511,7 +511,7 @@
 
 
           if (fetchedCINs.length >= 5) {
-            $("#numberOfTricycles").attr("max", 5);
+            $("#numberOfTricycles").attr("max", 3);
           } else {
             $("#numberOfTricycles").attr("max", fetchedCINs.length);
           }
