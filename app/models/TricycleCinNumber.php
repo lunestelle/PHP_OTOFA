@@ -96,6 +96,7 @@ class TricycleCinNumber
         'cin_number' => $cinNumber,
         'is_used' => false,
         'user_id' => null,
+        'ownership_date' => null,
       ]);
     }    
   }

@@ -51,7 +51,7 @@ class Appointment_process_automation
         $cinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
 
         if (!empty($cinData)) {
-          $tricycleCinModel->update(['cin_number' => $cinData->cin_number], ['is_used' => 0, 'user_id' => null]);
+          $tricycleCinModel->update(['cin_number' => $cinData->cin_number], ['is_used' => 0, 'user_id' => null, 'ownership_date' => null]);
         }
 
         $cinNumber = $cinData->cin_number;

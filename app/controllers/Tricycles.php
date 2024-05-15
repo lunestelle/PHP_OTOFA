@@ -161,7 +161,7 @@ class Tricycles
               if ($tricycleCinData) {
                 $tricycleCinModel->update(
                   ['cin_number' => $tricycleCinData->cin_number],
-                  ['is_used' => 0, 'user_id' => null]
+                  ['is_used' => 0, 'user_id' => null, 'ownership_date' => null]
                 );
               }
 

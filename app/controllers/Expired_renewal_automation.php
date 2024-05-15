@@ -93,7 +93,7 @@ class Expired_renewal_automation
               // Update tricycle CIN status
               $tricycleCinData = $tricycleCinModel->first(['tricycle_cin_number_id' => $tricycleData->cin_id]);
               if (!empty($tricycleCinData)) {
-                $tricycleCinModel->update(['cin_number' => $tricycleCinData->cin_number], ['is_used' => 0, 'user_id' => null]);
+                $tricycleCinModel->update(['cin_number' => $tricycleCinData->cin_number], ['is_used' => 0, 'user_id' => null, 'ownership_date' => null]);
               }
 
               $this->sendDroppedNotification($user, $tricycleApplicationData);
