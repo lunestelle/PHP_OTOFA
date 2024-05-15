@@ -9,8 +9,38 @@ class TricycleCinNumber
     'cin_number',
     'is_used',
     'user_id',
+    'ownership_date',
   ];
   protected $order_column = 'tricycle_cin_number_id';
+
+  public function getUsedYears() {
+    $query = "SELECT YEAR(ownership_date) AS year, COUNT(*) AS count FROM {$this->table} WHERE is_used = 1 GROUP BY YEAR(ownership_date)";
+    $results = $this->query($query);
+
+    $formattedResults = [];
+    foreach ($results as $result) {
+      $formattedResults[$result->year] = $result->count;
+    }
+
+    $earliestYear = PHP_INT_MAX;
+    $currentYear = date('Y');
+    foreach ($formattedResults as $year => $count) {
+      if ($year < $earliestYear) {
+        $earliestYear = $year;
+      }
+    }
+
+    // Fill missing years with zero counts from the earliest year until the current year
+    for ($year = $earliestYear; $year <= $currentYear; $year++) {
+      if (!isset($formattedResults[$year])) {
+        $formattedResults[$year] = 0;
+      }
+    }
+
+    ksort($formattedResults); // Sort the array by year
+
+    return $formattedResults;
+  }
 
   // Function to get all CIN numbers
   public function getAllCinNumbers() {

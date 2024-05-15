@@ -215,6 +215,7 @@
                 $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $selectedCinNumberId], [
                   'is_used' => true,
                   'user_id' => $appointmentData->user_id,
+                  'ownership_date' => date('Y-m-d'),
                 ]);
               }
 
@@ -225,6 +226,7 @@
                 $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id], [
                   'is_used' => false,
                   'user_id' => null,
+                  'ownership_date' => null, 
                 ]);
               }
 

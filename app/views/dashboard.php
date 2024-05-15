@@ -223,7 +223,7 @@
       </div>
       <div class="col-lg-6 mt-4">
         <div class="col-12 text-uppercase">
-          <h6 class="text-secondary fw-bolder">Avail Franchise</h6>
+          <h6 class="text-secondary fw-bolder">Franchise Availed</h6>
         </div>
         <div class="row">
           <div class="col-12">
@@ -232,46 +232,52 @@
               <div class="mt-2">
                 <div id="chartContainer" style="height: 400px; width: 100%;">
                 </div>
-                  <script>
-                    window.onload = function () {
-                      var dataPoints = [
-                          { y: 50, label: "2022", color: "#FFD700", showInLegend: true }, // Light yellow
-                          { y: 70, label: "2023", color: "#FFA07A", showInLegend: true }, // Light salmon
-                          { y: 60, label: "2024", color: "#90EE90", showInLegend: true }  // Light green
-                      ];
+                <script>
+                  window.onload = function () {
+                    var dataPoints = <?php echo json_encode($data['chartData']); ?>.map(function(item, index) {
+                      return { 
+                        y: item.count, 
+                        label: item.year, 
+                        color: getRandomPastelColor(index), // Pass index to ensure different colors
+                        showInLegend: true 
+                      };
+                    });
 
-                        // Calculate total number of operators for all years
-                        var total = dataPoints.reduce((acc, dataPoint) => acc + dataPoint.y, 0);
+                    function getRandomPastelColor(index) {
+                      var hue = (index * 57) % 360; // Vary the hue based on the index
+                      var pastel = 'hsl(' + hue + ', 100%, 80%)';
+                      return pastel;
+                    }    
 
-                        var chart = new CanvasJS.Chart("chartContainer", {
-                            animationEnabled: true,
-
-                            legend: {
-                                horizontalAlign: "right", // Place legend on the right
-                                verticalAlign: "center", // Place legend in the center vertically
-                                itemHeight: 36, // Set line height between data points
-                                fontSize: 24, // Set font size for legend items to 14px
-                                itemTextFormatter: function(e) {
-                                    var percentage = ((e.dataPoint.y / total) * 100).toFixed(0) + "%"; // Calculate percentage
-                                    return e.dataPoint.label + " (" + e.dataPoint.y + ")"; // Add total number and percentage
-                                }
-                            },
-                            data: [{
-                                type: "pie",
-                                startAngle: 240,
-                                yValueFormatString: "##0",
-                                indexLabel: "{label} - #percent%",
-                                indexLabelPlacement: "inside", // Place the data label inside the slice
-                                indexLabelFontColor: "#000", // Set font color for data label to black
-                                indexLabelFontSize: 16, // Set font size for data label
-                                showInLegend: true, // Show data label in legend
-                                dataPoints: dataPoints
-                            }]
-                        });
-                        chart.render();
-                    };
-                  </script>
-                </div>
+                    // Calculate total number of operators for all years
+                    var total = dataPoints.reduce((acc, dataPoint) => acc + dataPoint.y, 0);
+                    var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                      legend: {
+                        horizontalAlign: "right", // Place legend on the right
+                        verticalAlign: "center", // Place legend in the center vertically
+                        itemHeight: 36, // Set line height between data points
+                        fontSize: 24, // Set font size for legend items
+                        itemTextFormatter: function(e) {
+                          var percentage = ((e.dataPoint.y / total) * 100).toFixed(0) + "%"; // Calculate percentage
+                          return e.dataPoint.label + " (" + e.dataPoint.y + ")"; // Add total number and percentage
+                        }
+                      },
+                      data: [{
+                        type: "pie",
+                        startAngle: 240,
+                        yValueFormatString: "##0",
+                        indexLabel: "{label} - #percent%",
+                        indexLabelPlacement: "inside", // Place the data label inside the slice
+                        indexLabelFontColor: "#000", // Set font color for data label to black
+                        indexLabelFontSize: 18, // Set font size for data label
+                        showInLegend: true, // Show data label in legend
+                        dataPoints: dataPoints
+                      }]
+                    });
+                    chart.render();
+                  };
+                </script>
               </div>
             </div>
           </div>

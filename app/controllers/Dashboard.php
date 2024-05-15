@@ -29,6 +29,19 @@ class Dashboard
     $cinModel = new TricycleCinNumber();
     $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
 
+    // DASHBOARD FRANCHISE AVAILED CHART DATA
+    $usedYearsData = $cinModel->getUsedYears();
+    $chartData = [];
+
+    foreach ($usedYearsData as $year => $count) {
+      $chartData[] = array(
+        'count' => $count,
+        'year' => $year
+      );
+    }
+
+    $data['chartData'] = $chartData;
+
     $taripaModel = new Taripas();
     $rateAdjustmentModel = new RateAdjustment();
 
