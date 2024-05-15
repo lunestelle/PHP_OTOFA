@@ -78,11 +78,12 @@ class Appointment_details
         $appointmentType = isset($_GET['appointmentType']) ? $_GET['appointmentType'] : '';
         $tricycleCin = isset($_GET['tricycleCin']) ? $_GET['tricycleCin'] : '';
         $transferType = isset($_GET['transferType']) ? $_GET['transferType'] : '';
+        $numberOfTricycles = isset($_GET['numberOfTricycles']) ? $_GET['numberOfTricycles'] : '';
         $redirectURL = "appointment_details";
 				if ($appointmentType === "New Franchise") {
-					$redirectURL .= "?appointmentType=$appointmentType";
+					$redirectURL .= "?appointmentType=$appointmentType&numberOfTricycles=$numberOfTricycles";
 				} else {
-					$redirectURL .= "?appointmentType=$appointmentType&tricycleCin=$tricycleCin";
+					$redirectURL .= "?appointmentType=$appointmentType&tricycleCin=$tricycleCin&numberOfTricycles=$numberOfTricycles";
 				}
         if (!empty($transferType)) {
           $redirectURL .= "&transferType=$transferType";
@@ -94,22 +95,41 @@ class Appointment_details
         $appointmentType = strtolower(str_replace(' ', '_', $appointmentType));
         $tricycleCin = isset($_GET['tricycleCin']) ? $_GET['tricycleCin'] : '';
         $transferType = isset($_GET['transferType']) ? $_GET['transferType'] : '';
+        $numberOfTricycles = isset($_GET['numberOfTricycles']) ? $_GET['numberOfTricycles'] : '';
         $redirectURL = "";
         switch ($appointmentType) {
+          case 'new_franchise':
+            if ($numberOfTricycles == 1) {
+              $redirectURL .= "new_franchise";
+            } elseif ($numberOfTricycles == 2) {
+              $redirectURL .= "new_franchise_2";
+            }
+            break;
           case 'transfer_of_ownership':
-            if ($transferType == 'Intent of Transfer') {
-              $redirectURL .= "intent_of_transfer";
-            } elseif ($transferType == 'Transfer of Ownership from Deceased Owner') {
-              $redirectURL .= "ownership_transfer_from_deceased_owner";
-            } else {
-              $redirectURL .= "transfer_of_ownership";
+            if ($numberOfTricycles == 1) {
+              if ($transferType == 'Intent of Transfer') {
+                $redirectURL .= "intent_of_transfer";
+              } elseif ($transferType == 'Transfer of Ownership from Deceased Owner') {
+                $redirectURL .= "ownership_transfer_from_deceased_owner";
+              } else {
+                $redirectURL .= "transfer_of_ownership";
+              }
+            } elseif ($numberOfTricycles == 2) {
+              if ($transferType == 'Intent of Transfer2') {
+                $redirectURL .= "intent_of_transfer";
+              } elseif ($transferType == 'Transfer of Ownership from Deceased Owner') {
+                $redirectURL .= "ownership_transfer_from_deceased_owner";
+              } else {
+                $redirectURL .= "transfer_of_ownership";
+              }
             }
             break;
           default:
             $redirectURL .= $appointmentType;
             break;
-        }
-        $redirectURL .= "?tricycleCin=$tricycleCin&appointmentDate=$appointment_date&appointmentTime=$appointment_time";
+          }
+      
+        $redirectURL .= "?tricycleCin=$tricycleCin&appointmentDate=$appointment_date&appointmentTime=$appointment_time&numberOfTricycles=$numberOfTricycles";
         redirect($redirectURL);
       }
     }

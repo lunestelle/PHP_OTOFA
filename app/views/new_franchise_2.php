@@ -32,21 +32,26 @@
   <div class="col-12 text-uppercase nav-top" id="mainAppointmentForm">
     <h6 class="title-head">Schedule <span class="mx-2" style="color:#ff8356;">New Franchise</span> Appointment</h6>
   </div>
-  <?php if ($userRole === 'operator'): ?>  
-    <div class="row assessmentFeeContainer">
-      <div class="col-12 mx-auto text-center mt-4">
-        <p id="assessmentFeeText" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
-      </div>
-    </div>
-  <?php endif; ?>
+
   
   <form class="default-form" method="POST" action="" enctype="multipart/form-data" id="appointmentForm">
     <!-- *** STEP 3 *** -->
     <section id="step-3" style="display: none;">
       <div class="col-lg-12">
+        <?php if ($userRole === 'operator'): ?>  
+          <div class="row assessmentFeeContainer3">
+            <div class="col-12 mx-auto text-center mt-4">
+              <p id="assessmentFeeText3" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
+            </div>
+          </div>
+        <?php endif; ?>
+
+        <div class="px-3 pt-1 mt-1">
+          <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
+        </div>
         <div class="content-container mt-2 mb-3">
           <div class="px-3 pt-2 mt-2">
-              <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
+            <p class="text-muted fw-bold fst-italic fs-5"><span class="text-black">FORM I</p>
           </div>
           <div class="row px-3 p-2 justify-content-center">
             <div class="col-12 d-flex mb-2">
@@ -99,6 +104,71 @@
             </div>
           </div>
         </div>
+
+        <?php if ($userRole === 'operator'): ?>  
+          <div class="row assessmentFeeContainer4">
+            <div class="col-12 mx-auto text-center mt-4">
+              <p id="assessmentFeeText4" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
+            </div>
+          </div>
+        <?php endif; ?>
+        <div class="content-container mt-2 mb-3">
+          <div class="px-3 pt-2 mt-2">
+            <p class="text-muted fw-bold fst-italic fs-5"><span class="text-black">FORM II</p>
+          </div>
+
+          <div class="row px-3 p-2 justify-content-center">
+            <div class="col-12 d-flex mb-2">
+              <div class="col-4 px-4">
+                <label for="mc_lto_certificate_of_registration2" class="form-label appointment-label">LTO Certificate of Registration (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_lto_certificate_of_registration2" name="mc_lto_certificate_of_registration2" accept="image/*" required/>
+              </div>
+              <div class="col-4 px-4">
+                <label for="mc_lto_official_receipt2" class="form-label appointment-label">LTO Official Receipt (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_lto_official_receipt2" name="mc_lto_official_receipt2" accept="image/*" required/>
+              </div>
+              <div class="col-4 px-4">
+                <label for="mc_plate_authorization2" class="form-label appointment-label">Plate Authorization (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_plate_authorization2" name="mc_plate_authorization2" accept="image/*" required/>
+              </div>
+            </div>
+            <div class="col-12 d-flex mb-2">
+              <div class="col-4 px-4 mt-3">
+                <label for="tc_insurance_policy2" class="form-label appointment-label">Insurance Policy (TC) (New Owner)</label>
+                <input type="file" class="form-control" id="tc_insurance_policy2" name="tc_insurance_policy2" accept="image/*" required/>
+              </div>
+              <div class="col-4 px-4 mt-3">
+                <label for="unit_front_view_image2" class="form-label appointment-label">Picture of New Unit (Front View)</label>
+                <input type="file" class="form-control" id="unit_front_view_image2" name="unit_front_view_image2" accept="image/*" required/>
+              </div>
+              <div class="col-4 px-4 mt-3">
+                <label for="unit_side_view_image2" class="form-label appointment-label">Picture of New Unit (Side View)</label>
+                <input type="file" class="form-control" id="unit_side_view_image2" name="unit_side_view_image2" accept="image/*" required/>
+              </div>
+            </div>
+            <div class="col-12 d-flex mb-2">
+              <div class="col-4 px-4 mt-3 tricycle-fields">
+                <label for="sketch_location_of_garage2" class="form-label appointment-label">Sketch Location of Garage</label>
+                <input type="file" class="form-control" id="sketch_location_of_garage2" name="sketch_location_of_garage2" accept="image/*" required/>
+              </div>
+              <div class="col-4 px-4 mt-3 tricycle-fields">
+                <label for="affidavit_of_income_tax_return2" class="form-label appointment-label">Affidavit of No Income or Latest Income Tax Return</label>
+                <input type="file" class="form-control" id="affidavit_of_income_tax_return2" name="affidavit_of_income_tax_return2" accept="image/*" required/>
+              </div>
+              <div class="col-4 px-4 mt-3 tricycle-fields">
+                <label for="driver_cert_safety_driving_seminar2" class="form-label appointment-label">Driver's Certificate of Safety Driving Seminar</label>
+                <input type="file" class="form-control" id="driver_cert_safety_driving_seminar2" name="driver_cert_safety_driving_seminar2" accept="image/*" required/>
+              </div>
+            </div>
+            <div class="col-12 d-flex mb-2">
+              <div class="col-4 pb-4 px-4 mt-3 tricycle-fields">
+                <label for="proof_of_id2" class="form-label appointment-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
+                <input type="file" class="form-control" id="proof_of_id2" name="proof_of_id2" accept="image/*" required/>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="my-3 mt-3">
           <button type="button" class="text-start sidebar-btnContent-1" onclick="showStep(2)">Previous</button>
           <button type="submit" class="text-end sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn">Schedule Appointment</button>
@@ -108,7 +178,17 @@
 
     <!-- *** STEP 2 *** -->
     <section id="step-2" style="display: none;">
+      <?php if ($userRole === 'operator'): ?>  
+        <div class="row assessmentFeeContainer">
+          <div class="col-12 mx-auto text-center mt-4">
+            <p id="assessmentFeeText" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
+          </div>
+        </div>
+      <?php endif; ?>
       <div class="content-container mt-2 mb-3">
+        <div class="px-3 pt-2 mt-2">
+          <p class="text-muted fw-bold fst-italic fs-5"><span class="text-black">FORM I</p>
+        </div>
         <div class="row px-3 p-3">
           <div class="col-12 d-flex mb-1">
             <div class="col-4 px-5">
@@ -202,6 +282,112 @@
           </div>
         </div>
       </div>
+
+      <?php if ($userRole === 'operator'): ?>  
+        <div class="row assessmentFeeContainer2">
+          <div class="col-12 mx-auto text-center mt-4">
+            <p id="assessmentFeeText2" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
+          </div>
+        </div>
+      <?php endif; ?>
+      <div class="content-container mt-2 mb-3">
+        <div class="px-3 pt-2 mt-2">
+          <p class="text-muted fw-bold fst-italic fs-5"><span class="text-black">FORM II</p>
+        </div>
+        <div class="row px-3 p-3">
+          <div class="col-12 d-flex mb-1">
+            <div class="col-4 px-5">
+              <label for="operator_name2" class="form-label">Name of Operator</label>
+              <div class="input-group">
+                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name2" name="operator_name2" value="<?php echo isset($_POST['operator_name2']) ? $_POST['operator_name2'] : $fullName; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile.">
+                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                  <i class="fa-solid fa-info-circle"></i>
+                </span>
+              </div>
+            </div>
+            <div class="col-4 px-5 mt-3">
+              <label for="tricycle_phone_number2" class="form-label">Phone Number</label>
+              <div class="input-group">
+                <span class="input-group-text">+63</span>
+                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number2" name="tricycle_phone_number2" placeholder="e.g., 9123456789" value="<?php echo isset($_POST['tricycle_phone_number2']) ? $_POST['tricycle_phone_number2'] : $userPhoneNo; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
+                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                  <i class="fa-solid fa-info-circle"></i>
+                </span>
+              </div>
+            </div>
+            <div class="col-4 px-5 mt-3">
+              <label for="address2" class="form-label">Address</label>
+              <div class="input-group">
+                <input type="text" class="form-control" style="cursor: pointer;" id="address2" name="address2" value="<?php echo isset($_POST['address2']) ? $_POST['address2'] : $userAddress; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
+                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                  <i class="fa-solid fa-info-circle"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 d-flex mb-2">
+            <div class="col-4 px-5">
+              <label for="mtop_no2" class="form-label">MTOP Number</label>
+              <input type="text" class="form-control" id="mtop_no2" name="mtop_no2" value="<?php echo isset($_POST['mtop_no2']) ? $_POST['mtop_no2'] : ''; ?>" min="0" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="color_code2" class="form-label">Color Code</label>
+              <select class="form-control" id="color_code2" name="color_code2" required>
+                <option selected disabled>Please Select Here</option>
+                <option value="Red" data-route-area2="Free Zone / Zone 1" <?php echo (isset($_POST['color_code2']) && $_POST['color_code2'] == 'Red' ? 'selected' : ''); ?>>Red</option>
+                <option value="Blue" data-route-area2="Free Zone & Zone 2" <?php echo (isset($_POST['color_code2']) && $_POST['color_code2'] == 'Blue' ? 'selected' : ''); ?>>Blue</option>
+                <option value="Yellow" data-route-area2="Free Zone & Zone 3" <?php echo (isset($_POST['color_code2']) && $_POST['color_code2'] == 'Yellow' ? 'selected' : ''); ?>>Yellow</option>
+                <option value="Green" data-route-area2="Free Zone & Zone 4" <?php echo (isset($_POST['color_code2']) && $_POST['color_code2'] == 'Green' ? 'selected' : ''); ?>>Green</option>
+              </select>
+            </div>
+            <div class="col-4 px-5">
+              <label for="route_area2" class="form-label">Route Area</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="route_area2" name="route_area2" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?php echo isset($_POST['route_area2']) ? $_POST['route_area2'] : ''; ?>" readonly required>
+                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                  <i class="fa-solid fa-info-circle"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 d-flex mb-5">
+            <div class="col-4 px-5">
+              <label for="make_model2" class="form-label">Make Model</label>
+              <input type="text" class="form-control" id="make_model2" name="make_model2" value="<?php echo isset($_POST['make_model2']) ? $_POST['make_model2'] : ''; ?>" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="make_model_year_acquired2" class="form-label">Model Year Acquired</label>
+              <input type="text" class="form-control text-uppercase" id="make_model_year_acquired2" name="make_model_year_acquired2" value="<?php echo isset($_POST['make_model_year_acquired2']) ? $_POST['make_model_year_acquired2'] : ''; ?>" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="make_model_expiry_date2" class="form-label">Model Expiry Date</label>
+              <input type="date" class="form-control text-uppercase" id="make_model_expiry_date2" name="make_model_expiry_date2" value="<?php echo isset($_POST['make_model_expiry_date2']) ? $_POST['make_model_expiry_date2'] : ''; ?>" required>
+            </div>
+          </div>
+          <div class="col-12 d-flex mb-2">
+            <div class="col-4 px-5">
+              <label for="motor_number2" class="form-label">Motor Number</label>
+              <input type="text" class="form-control" id="motor_number2" name="motor_number2" value="<?php echo isset($_POST['motor_number2']) ? $_POST['motor_number2'] : ''; ?>" min="0" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="insurer2" class="form-label">Insurer</label>
+              <input type="text" class="form-control" id="insurer2" name="insurer2" value="<?php echo isset($_POST['insurer2']) ? $_POST['insurer2'] : ''; ?>" required>
+            </div>
+            <div class="col-4 px-5">
+              <label for="coc_no2" class="form-label">C.O.C Number</label>
+              <input type="text" class="form-control" id="coc_no2" name="coc_no2" value="<?php echo isset($_POST['coc_no2']) ? $_POST['coc_no2'] : ''; ?>" min="0" required>
+            </div>
+          </div>
+          <div class="col-12 d-flex mb-5" id="coc_expiry_field">
+            <div class="col-4 px-5">
+              <label for="coc_no_expiry_date2" class="form-label">C.O.C Expiry Date</label>
+              <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date2" name="coc_no_expiry_date2" value="<?php echo isset($_POST['coc_no_expiry_date2']) ? $_POST['coc_no_expiry_date2'] : ''; ?>" required>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="mt-3">
         <button type="button" class="sidebar-btnContent-1 text-start" onclick="showStep(1)">Previous</button>
         <button type="button" class="sidebar-btnContent text-end" onclick="showStep(3)">Next</button>
@@ -298,7 +484,29 @@
       } else {
         $(".assessmentFeeContainer").show();
       }
+
+      let assessmentText2 = $("#assessmentFeeText2").text().trim();
+      if (assessmentText2 === "") {
+        $(".assessmentFeeContainer2").hide();
+      } else {
+        $(".assessmentFeeContainer2").show();
+      }
+
+      let assessmentText3 = $("#assessmentFeeText3").text().trim();
+      if (assessmentText3 === "") {
+        $(".assessmentFeeContainer3").hide();
+      } else {
+        $(".assessmentFeeContainer3").show();
+      }
+
+      let assessmentText4 = $("#assessmentFeeText4").text().trim();
+      if (assessmentText4 === "") {
+        $(".assessmentFeeContainer4").hide();
+      } else {
+        $(".assessmentFeeContainer4").show();
+      }
     }
+
     $("#color_code").change(function () {
       let selectedColorCode = $(this).val();
       let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
@@ -319,9 +527,37 @@
       }
       // Display the assessment fee text
       $("#assessmentFeeText").text(assessmentFeeText);
+      $("#assessmentFeeText3").text(assessmentFeeText);
       // Toggle visibility of assessment fee container
       toggleAssessmentFeeContainer();
     });
+
+    $("#color_code2").change(function () {
+      let selectedColorCode = $(this).val();
+      let selectedRouteArea = $("#color_code2").find(":selected").data("route-area2");
+      $("#route_area2").val(selectedRouteArea);
+      // Update assessment fee text based on the selected route area
+      let assessmentFeeText2 = "";
+      switch (selectedRouteArea) {
+        case "Free Zone / Zone 1":
+          assessmentFeeText2 = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 route is ₱430.00.";
+          break;
+        case "Free Zone & Zone 2":
+        case "Free Zone & Zone 3":
+        case "Free Zone & Zone 4":
+          assessmentFeeText2 = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " route is ₱1,030.00.";
+          break;
+        default:
+          assessmentFeeText2 = "Please select a route area to view the assessment fee.";
+      }
+
+      // Display the assessment fee text
+      $("#assessmentFeeText2").text(assessmentFeeText2);
+      $("#assessmentFeeText4").text(assessmentFeeText2);
+      // Toggle visibility of assessment fee container
+      toggleAssessmentFeeContainer();
+    });
+
     // Hide the assessment fee container initially
     toggleAssessmentFeeContainer();
     // Scroll to the main appointment form in case of error
@@ -333,6 +569,7 @@
       });
     }
   });
+  
   function showStep(step) {
     const stepButtons = document.querySelectorAll('.step-button');
     const progress = document.querySelector('#progress');
@@ -361,6 +598,7 @@
     // Scroll to the step buttons container
     stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
   }
+  
   // Event listener for the Next button
   document.getElementById('nextButton').addEventListener('click', () => {
     const activeStepButton = document.querySelector('.step-button.active');
@@ -370,6 +608,7 @@
       showStep(nextStep);
     }
   });
+
   // Event listener for the Previous button
   document.getElementById('prevButton').addEventListener('click', () => {
     const activeStepButton = document.querySelector('.step-button.active');
