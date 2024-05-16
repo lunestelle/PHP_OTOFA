@@ -49,10 +49,11 @@
         <div class="px-3 pt-1 mt-1">
           <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
         </div>
-        <div class="content-container mt-2 mb-3">
-          <div class="px-3 pt-2 mt-2">
-            <p class="text-muted fw-bold fst-italic fs-5"><span class="text-black">FORM I</p>
-          </div>
+        <button class="collapsible-3 fw-bold fs-5 d-flex" id="step3form1">
+          <p class="fs-6">FORM I</p>
+          <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
+        </button>
+        <div class="content-3 content-form-3 active-content content-container mt-2 mb-3">
           <div class="row px-3 p-2 justify-content-center">
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-4">
@@ -112,11 +113,11 @@
             </div>
           </div>
         <?php endif; ?>
-        <div class="content-container mt-2 mb-3">
-          <div class="px-3 pt-2 mt-2">
-            <p class="text-muted fw-bold fst-italic fs-5"><span class="text-black">FORM II</p>
-          </div>
-
+        <button class="collapsible-3 fw-bold fs-5 d-flex" id="step3form2">
+          <p class="fs-6">FORM II</p>
+          <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
+        </button>
+        <div class="content-3 content-form-3 content-container mt-2 mb-3">
           <div class="row px-3 p-2 justify-content-center">
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-4">
@@ -177,7 +178,7 @@
     </section>
 
     <!-- *** STEP 2 *** -->
-    <section id="step-2" style="display: none;">
+    <section id="step-2" style="display: none;" class="mt-4">
       <?php if ($userRole === 'operator'): ?>  
         <div class="row assessmentFeeContainer">
           <div class="col-12 mx-auto text-center mt-4">
@@ -185,10 +186,12 @@
           </div>
         </div>
       <?php endif; ?>
-      <div class="content-container mt-2 mb-3">
-        <div class="px-3 pt-2 mt-2">
-          <p class="text-muted fw-bold fst-italic fs-5"><span class="text-black">FORM I</p>
-        </div>
+      <button class="collapsible fw-bold fs-5 d-flex" id="form1">
+        <p class="fs-6">FORM I</p>
+        <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
+      </button>
+      
+      <div class="content content-form active-content content-container mt-2 mb-3">
         <div class="row px-3 p-3">
           <div class="col-12 d-flex mb-1">
             <div class="col-4 px-5">
@@ -290,10 +293,11 @@
           </div>
         </div>
       <?php endif; ?>
-      <div class="content-container mt-2 mb-3">
-        <div class="px-3 pt-2 mt-2">
-          <p class="text-muted fw-bold fst-italic fs-5"><span class="text-black">FORM II</p>
-        </div>
+      <button class="collapsible fw-bold fs-5 d-flex" id="form2">
+        <p class="fs-6">FORM II</p>
+        <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
+      </button>
+      <div class="content content-form content-container mt-2 mb-3">
         <div class="row px-3 p-3">
           <div class="col-12 d-flex mb-1">
             <div class="col-4 px-5">
@@ -574,48 +578,59 @@
     const stepButtons = document.querySelectorAll('.step-button');
     const progress = document.querySelector('#progress');
     const stepButtonsContainer = document.getElementById('stepButtons');
+    
     // Hide all steps except the current one
     for (let i = 1; i <= 3; i++) {
-      document.getElementById('step-' + i).style.display = 'none';
+        document.getElementById('step-' + i).style.display = 'none';
     }
     document.getElementById('step-' + step).style.display = 'block';
+    
     // Update progress bar value based on the current step
     progress.setAttribute('value', (step - 1) * 50);
+    
     // Remove 'active' class from all step buttons
     stepButtons.forEach((button) => {
-      button.classList.remove('active');
+        button.classList.remove('active');
     });
+    
     // Add 'active' class to the clicked step button
     stepButtons[step - 1].classList.add('active');
-    // Add 'done' class to previous step buttons
-    for (let i = 0; i < step - 1; i++) {
-      stepButtons[i].classList.add('done');
-    }
-    // Remove 'done' class from subsequent step buttons
-    for (let i = step; i < stepButtons.length; i++) {
-      stepButtons[i].classList.remove('done');
-    }
+    
     // Scroll to the step buttons container
     stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
-  }
-  
-  // Event listener for the Next button
-  document.getElementById('nextButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const nextStepButton = activeStepButton.nextElementSibling;
-    if (nextStepButton) {
-      const nextStep = parseInt(nextStepButton.textContent);
-      showStep(nextStep);
+    
+    // Maintain active state of forms
+    const activeForm = document.querySelector('.content.active-content');
+    if (activeForm) {
+        activeForm.style.display = 'block';
     }
-  });
+}
 
-  // Event listener for the Previous button
-  document.getElementById('prevButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const prevStepButton = activeStepButton.previousElementSibling;
-    if (prevStepButton) {
-      const prevStep = parseInt(prevStepButton.textContent);
-      showStep(prevStep);
-    }
-  });
+    // Event listener for the Next button
+    document.getElementById('nextButton').addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        const nextStepButton = activeStepButton.nextElementSibling;
+        if (nextStepButton) {
+            const nextStep = parseInt(nextStepButton.textContent);
+            showStep(nextStep);
+        }
+    });
+
+    // Event listener for the Previous button
+    document.getElementById('prevButton').addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        const prevStepButton = activeStepButton.previousElementSibling;
+        if (prevStepButton) {
+            const prevStep = parseInt(prevStepButton.textContent);
+            showStep(prevStep);
+        }
+    });
+
+    // Update active state of forms when step buttons are clicked
+    document.querySelectorAll('.step-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const step = parseInt(button.textContent);
+            showStep(step);
+        });
+    });
 </script>
