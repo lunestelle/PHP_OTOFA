@@ -112,7 +112,7 @@ class New_franchise_2
                   'driver_cert_safety_driving_seminar_path' => '',
                   'proof_of_id_path' => '',
                 ];
-
+              
                 $mtopRequirementFormData2 = [
                   'appointment_id' => $appointmentLastId,
                   'tricycle_application_id' => $tricycleApplicationLastId2,
@@ -127,14 +127,16 @@ class New_franchise_2
                   'driver_cert_safety_driving_seminar_path' => '',
                   'proof_of_id_path' => '',
                 ];
-
-                $fileUploads1 = $this->handleFileUploads($mtopRequirementFormData1, 1);
-                $fileUploads2 = $this->handleFileUploads($mtopRequirementFormData2, 2);
-
+              
+              
+                $fileUploads1 = $this->handleFileUploads($mtopRequirementFormData1, '1');
+                $fileUploads2 = $this->handleFileUploads($mtopRequirementFormData2, '2');
+              
                 if ($fileUploads1['success'] && $fileUploads2['success']) {
+                  $mtopRequirementModel = new MtopRequirement();
                   $mtopRequirementModel->insert($fileUploads1['data']);
                   $mtopRequirementModel->insert($fileUploads2['data']);
-
+              
                   set_flash_message("Appointment scheduled successfully.", "success");
                   redirect('appointments');
                 } else {
@@ -187,21 +189,17 @@ class New_franchise_2
     return $errors;
   }
 
-  private function handleFileUploads($mtopRequirementFormData, $index)
+  private function handleFileUploads($mtopRequirementFormData, $suffix)
   {
     $uniqueId = uniqid();
-    $uploadDirectory = 'public/uploads/mtop_requirements_images/' . $uniqueId . '/';
-
-    if (!file_exists($uploadDirectory)) {
-      mkdir($uploadDirectory, 0777, true);
-    }
-
+    $uploadDirectory = 'public/uploads/mtop_requirements_images/' . $uniqueId;
+  
     foreach ($_FILES as $inputName => $file) {
-      if ($file['error'] == UPLOAD_ERR_OK && is_uploaded_file($file['tmp_name'])) {
+      if (strpos($inputName, $suffix) !== false) {
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $columnName = $inputName . '_path';
-        $targetFile = $uploadDirectory . $inputName . '_' . $index . '.' . $extension;
-
+        $columnName = str_replace($suffix, '', $inputName) . '_path';
+        $targetFile = $uploadDirectory . '_' . $inputName . '.' . $extension;
+  
         if (move_uploaded_file($file['tmp_name'], $targetFile)) {
           $mtopRequirementFormData[$columnName] = $targetFile;
         } else {
@@ -209,7 +207,7 @@ class New_franchise_2
         }
       }
     }
-
+  
     return ['success' => true, 'data' => $mtopRequirementFormData];
   }
 }

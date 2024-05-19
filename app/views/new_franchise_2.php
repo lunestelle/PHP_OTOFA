@@ -49,58 +49,58 @@
         <div class="px-3 pt-1 mt-1">
           <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
         </div>
-        <button class="collapsible-3 fw-bold fs-5 d-flex" id="step3form1">
+        <button class="collapsible fw-bold fs-5 d-flex active-button" id="step3btnform1" onclick="toggleForm('step3form1', 'step3form2')">
           <p class="fs-6">FORM I</p>
           <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
         </button>
-        <div class="content-3 content-form-3 active-content content-container mt-2 mb-3">
+        <div class="content-3 content-form-3 active-content content-container mt-2 mb-3" id="step3form1">
           <div class="row px-3 p-2 justify-content-center">
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-4">
-                <label for="mc_lto_certificate_of_registration" class="form-label appointment-label">LTO Certificate of Registration (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_lto_certificate_of_registration" name="mc_lto_certificate_of_registration" accept="image/*" required/>
+                <label for="mc_lto_certificate_of_registration1" class="form-label appointment-label">LTO Certificate of Registration (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_lto_certificate_of_registration1" name="mc_lto_certificate_of_registration1" accept="image/*" required/>
               </div>
               <div class="col-4 px-4">
-                <label for="mc_lto_official_receipt" class="form-label appointment-label">LTO Official Receipt (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_lto_official_receipt" name="mc_lto_official_receipt" accept="image/*" required/>
+                <label for="mc_lto_official_receipt1" class="form-label appointment-label">LTO Official Receipt (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_lto_official_receipt1" name="mc_lto_official_receipt1" accept="image/*" required/>
               </div>
               <div class="col-4 px-4">
-                <label for="mc_plate_authorization" class="form-label appointment-label">Plate Authorization (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_plate_authorization" name="mc_plate_authorization" accept="image/*" required/>
+                <label for="mc_plate_authorization1" class="form-label appointment-label">Plate Authorization (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_plate_authorization1" name="mc_plate_authorization1" accept="image/*" required/>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-4 mt-3">
-                <label for="tc_insurance_policy" class="form-label appointment-label">Insurance Policy (TC) (New Owner)</label>
-                <input type="file" class="form-control" id="tc_insurance_policy" name="tc_insurance_policy" accept="image/*" required/>
+                <label for="tc_insurance_policy1" class="form-label appointment-label">Insurance Policy (TC) (New Owner)</label>
+                <input type="file" class="form-control" id="tc_insurance_policy1" name="tc_insurance_policy1" accept="image/*" required/>
               </div>
               <div class="col-4 px-4 mt-3">
-                <label for="unit_front_view_image" class="form-label appointment-label">Picture of New Unit (Front View)</label>
-                <input type="file" class="form-control" id="unit_front_view_image" name="unit_front_view_image" accept="image/*" required/>
+                <label for="unit_front_view_image1" class="form-label appointment-label">Picture of New Unit (Front View)</label>
+                <input type="file" class="form-control" id="unit_front_view_image1" name="unit_front_view_image1" accept="image/*" required/>
               </div>
               <div class="col-4 px-4 mt-3">
-                <label for="unit_side_view_image" class="form-label appointment-label">Picture of New Unit (Side View)</label>
-                <input type="file" class="form-control" id="unit_side_view_image" name="unit_side_view_image" accept="image/*" required/>
+                <label for="unit_side_view_image1" class="form-label appointment-label">Picture of New Unit (Side View)</label>
+                <input type="file" class="form-control" id="unit_side_view_image1" name="unit_side_view_image1" accept="image/*" required/>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-4 mt-3 tricycle-fields">
-                <label for="sketch_location_of_garage" class="form-label appointment-label">Sketch Location of Garage</label>
-                <input type="file" class="form-control" id="sketch_location_of_garage" name="sketch_location_of_garage" accept="image/*" required/>
+                <label for="sketch_location_of_garage1" class="form-label appointment-label">Sketch Location of Garage</label>
+                <input type="file" class="form-control" id="sketch_location_of_garage1" name="sketch_location_of_garage1" accept="image/*" required/>
               </div>
               <div class="col-4 px-4 mt-3 tricycle-fields">
-                <label for="affidavit_of_income_tax_return" class="form-label appointment-label">Affidavit of No Income or Latest Income Tax Return</label>
-                <input type="file" class="form-control" id="affidavit_of_income_tax_return" name="affidavit_of_income_tax_return" accept="image/*" required/>
+                <label for="affidavit_of_income_tax_return1" class="form-label appointment-label">Affidavit of No Income or Latest Income Tax Return</label>
+                <input type="file" class="form-control" id="affidavit_of_income_tax_return1" name="affidavit_of_income_tax_return1" accept="image/*" required/>
               </div>
               <div class="col-4 px-4 mt-3 tricycle-fields">
-                <label for="driver_cert_safety_driving_seminar" class="form-label appointment-label">Driver's Certificate of Safety Driving Seminar</label>
-                <input type="file" class="form-control" id="driver_cert_safety_driving_seminar" name="driver_cert_safety_driving_seminar" accept="image/*" required/>
+                <label for="driver_cert_safety_driving_seminar1" class="form-label appointment-label">Driver's Certificate of Safety Driving Seminar</label>
+                <input type="file" class="form-control" id="driver_cert_safety_driving_seminar1" name="driver_cert_safety_driving_seminar1" accept="image/*" required/>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
               <div class="col-4 pb-4 px-4 mt-3 tricycle-fields">
-                <label for="proof_of_id" class="form-label appointment-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
-                <input type="file" class="form-control" id="proof_of_id" name="proof_of_id" accept="image/*" required/>
+                <label for="proof_of_id1" class="form-label appointment-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
+                <input type="file" class="form-control" id="proof_of_id1" name="proof_of_id1" accept="image/*" required/>
               </div>
             </div>
           </div>
@@ -113,11 +113,11 @@
             </div>
           </div>
         <?php endif; ?>
-        <button class="collapsible-3 fw-bold fs-5 d-flex" id="step3form2">
+        <button class="collapsible fw-bold fs-5 d-flex" id="step3btnform2" onclick="toggleForm('step3form2', 'step3form1')">
           <p class="fs-6">FORM II</p>
           <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
         </button>
-        <div class="content-3 content-form-3 content-container mt-2 mb-3">
+        <div class="content-3 content-form-3 content-container mt-2 mb-3" id="step3form2"  style="display:none;">
           <div class="row px-3 p-2 justify-content-center">
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-4">
@@ -186,12 +186,12 @@
           </div>
         </div>
       <?php endif; ?>
-      <button class="collapsible fw-bold fs-5 d-flex" id="form1">
+      <button class="collapsible fw-bold fs-5 d-flex" id="step2btnform1" onclick="toggleForm('step2form1', 'step2form2')">
         <p class="fs-6">FORM I</p>
         <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
       </button>
       
-      <div class="content content-form active-content content-container mt-2 mb-3">
+      <div class="content content-form active-content content-container mt-2 mb-3" id="step2form1">
         <div class="row px-3 p-3">
           <div class="col-12 d-flex mb-1">
             <div class="col-4 px-5">
@@ -293,11 +293,11 @@
           </div>
         </div>
       <?php endif; ?>
-      <button class="collapsible fw-bold fs-5 d-flex" id="form2">
+      <button class="collapsible fw-bold fs-5 d-flex" id="step2btnform2" onclick="toggleForm('step2form2', 'step2form1')">
         <p class="fs-6">FORM II</p>
         <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
       </button>
-      <div class="content content-form content-container mt-2 mb-3">
+      <div class="content content-form content-container mt-2 mb-3" id="step2form2"  style="display:none;">
         <div class="row px-3 p-3">
           <div class="col-12 d-flex mb-1">
             <div class="col-4 px-5">
@@ -478,6 +478,7 @@
     </section>
   </form>
 </main>
+<script src="public/assets/js/appointments_form_toggle.js"></script>
 <script>
   $(document).ready(function () {
     // Function to toggle the visibility of assessment fee container
@@ -581,7 +582,7 @@
     
     // Hide all steps except the current one
     for (let i = 1; i <= 3; i++) {
-        document.getElementById('step-' + i).style.display = 'none';
+      document.getElementById('step-' + i).style.display = 'none';
     }
     document.getElementById('step-' + step).style.display = 'block';
     
@@ -602,35 +603,35 @@
     // Maintain active state of forms
     const activeForm = document.querySelector('.content.active-content');
     if (activeForm) {
-        activeForm.style.display = 'block';
+      activeForm.style.display = 'block';
     }
-}
+  }
 
-    // Event listener for the Next button
-    document.getElementById('nextButton').addEventListener('click', () => {
-        const activeStepButton = document.querySelector('.step-button.active');
-        const nextStepButton = activeStepButton.nextElementSibling;
-        if (nextStepButton) {
-            const nextStep = parseInt(nextStepButton.textContent);
-            showStep(nextStep);
-        }
-    });
+  // Event listener for the Next button
+  document.getElementById('nextButton').addEventListener('click', () => {
+    const activeStepButton = document.querySelector('.step-button.active');
+    const nextStepButton = activeStepButton.nextElementSibling;
+    if (nextStepButton) {
+      const nextStep = parseInt(nextStepButton.textContent);
+      showStep(nextStep);
+    }
+  });
 
-    // Event listener for the Previous button
-    document.getElementById('prevButton').addEventListener('click', () => {
-        const activeStepButton = document.querySelector('.step-button.active');
-        const prevStepButton = activeStepButton.previousElementSibling;
-        if (prevStepButton) {
-            const prevStep = parseInt(prevStepButton.textContent);
-            showStep(prevStep);
-        }
-    });
+  // Event listener for the Previous button
+  document.getElementById('prevButton').addEventListener('click', () => {
+    const activeStepButton = document.querySelector('.step-button.active');
+    const prevStepButton = activeStepButton.previousElementSibling;
+    if (prevStepButton) {
+      const prevStep = parseInt(prevStepButton.textContent);
+      showStep(prevStep);
+    }
+  });
 
-    // Update active state of forms when step buttons are clicked
-    document.querySelectorAll('.step-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const step = parseInt(button.textContent);
-            showStep(step);
-        });
+  // Update active state of forms when step buttons are clicked
+  document.querySelectorAll('.step-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const step = parseInt(button.textContent);
+      showStep(step);
     });
+  });
 </script>

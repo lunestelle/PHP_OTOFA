@@ -129,8 +129,18 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
   }
 
   .collapsible.active {
-    background-color: #008A2E;
-    color: white;
+    background-color: #008A2E !important;
+    color: white !important;
+  }
+
+  .collapsible-active-button {
+    background-color: #008A2E !important;
+    color: white !important;
+  }
+
+  .collapsible-inactive-button {
+    background-color: #8dd06c;
+    color: black;
   }
 
   .collapsible i {
@@ -165,67 +175,6 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
     background-color: #008A2E;
     color: white;
   }
-
-/* --------------------- STEP 3 -------------------------- */
-
-  .collapsible-3 {
-    cursor: pointer;
-    padding: 5px 15px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    box-shadow: 2px 4px 8px gray;
-    text-align: left;
-    outline: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #8dd06c;
-    margin-bottom: 10px;
-    border-radius: 10px;
-  }
-
-  .collapsible-3:hover {
-    border: 1px solid #8dd06c;
-    background-color: white;
-  }
-
-  .collapsible-3.active {
-    background-color: #008A2E;
-    color: white;
-  }
-
-  .collapsible-3 i {
-    margin-left: auto;
-  }
-
-  .collapsible-3 p {
-    margin: 0;
-  }
-
-  .collapsible-3 .icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-  }
-
-  .content-3 {
-    padding: 0 18px;
-    display: none;
-    overflow: hidden;
-  }
-
-  .content-form-3:first-child {
-    display: block;
-  }
-
-  .collapsible-3-active {
-    background-color: #008A2E;
-    color: white;
-  }
-
 
   /* --------------------------------------------- */
 
@@ -530,52 +479,5 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
       $(this).addClass('focus');
     });
   });
-
-  // ----------------------------------------------------------------
-  var activeCollapsible = localStorage.getItem('activeCollapsible');
-if (activeCollapsible) {
-    document.getElementById(activeCollapsible).click();
-} else {
-    // Display Form I by default and set it as active if no active state is found
-    showStep(2);
-    document.querySelector("#form1").classList.add("active");
-}
-
-// Add event listeners to toggle forms and close others
-document.getElementById("form1").addEventListener("click", function() {
-    var form1Content = document.querySelectorAll(".content")[0];
-    var form2Content = document.querySelectorAll(".content")[1];
-    form1Content.style.display = "block";
-    form2Content.style.display = "none";
-    document.querySelector("#form1").classList.add("active");
-    document.querySelector("#form2").classList.remove("active");
-});
-
-document.getElementById("form2").addEventListener("click", function() {
-    var form1Content = document.querySelectorAll(".content")[0];
-    var form2Content = document.querySelectorAll(".content")[1];
-    form1Content.style.display = "none";
-    form2Content.style.display = "block";
-    document.querySelector("#form1").classList.remove("active");
-    document.querySelector("#form2").classList.add("active");
-});
-
-document.getElementById("step3form1").addEventListener("click", function() {
-    var form1Content = document.querySelectorAll(".content-3")[0];
-    var form2Content = document.querySelectorAll(".content-3")[1];
-    form1Content.style.display = "block";
-    form2Content.style.display = "none";
-    document.querySelector("#step3form1").classList.add("active");
-    document.querySelector("#step3form2").classList.remove("active");
-});
-
-document.getElementById("step3form2").addEventListener("click", function() {
-    var form1Content = document.querySelectorAll(".content-3")[0];
-    var form2Content = document.querySelectorAll(".content-3")[1];
-    form1Content.style.display = "none";
-    form2Content.style.display = "block";
-    document.querySelector("#step3form1").classList.remove("active");
-    document.querySelector("#step3form2").classList.add("active");
-});
 </script>
 </html>
