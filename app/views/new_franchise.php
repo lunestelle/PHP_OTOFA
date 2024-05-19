@@ -1,4 +1,5 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+
   <div class="step-buttons">
     <div class="accordion" id="accordionExample">
       <div class="row">
@@ -29,6 +30,7 @@
       </div>
     </div>
   </div>
+
   <div class="col-12 text-uppercase nav-top" id="mainAppointmentForm">
     <h6 class="title-head">Schedule <span class="mx-2" style="color:#ff8356;">New Franchise</span> Appointment</h6>
   </div>
@@ -41,10 +43,12 @@
   <?php endif; ?>
   
   <form class="default-form" method="POST" action="" enctype="multipart/form-data" id="appointmentForm">
-    <!-- *** STEP 3 *** -->
     <section id="step-3" style="display: none;">
+      <div class="col-12 text-uppercase nav-top" id="mainAppointmentForm">
+        <h6 class="title-head">Schedule <span class="mx-2" style="color:#ff8356;">New Franchise</span> Appointment</h6>
+      </div>
       <div class="col-lg-12">
-        <div class="content-container mt-2 mb-3">
+        <div class="content-container">
           <div class="px-3 pt-2 mt-2">
               <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
           </div>
@@ -140,7 +144,8 @@
               </div>
             </div>
           </div>
-
+       
+                
           <div class="col-12 d-flex mb-2">
             <div class="col-4 px-5">
               <label for="mtop_no" class="form-label">MTOP Number</label>
@@ -166,6 +171,7 @@
               </div>
             </div>
           </div>
+
           <div class="col-12 d-flex mb-5">
             <div class="col-4 px-5">
               <label for="make_model" class="form-label">Make Model</label>
@@ -180,6 +186,7 @@
               <input type="date" class="form-control text-uppercase" id="make_model_expiry_date" name="make_model_expiry_date" value="<?php echo isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ''; ?>" required>
             </div>
           </div>
+
           <div class="col-12 d-flex mb-2">
             <div class="col-4 px-5">
               <label for="motor_number" class="form-label">Motor Number</label>
@@ -194,6 +201,7 @@
               <input type="text" class="form-control" id="coc_no" name="coc_no" value="<?php echo isset($_POST['coc_no']) ? $_POST['coc_no'] : ''; ?>" min="0" required>
             </div>
           </div>
+
           <div class="col-12 d-flex mb-5" id="coc_expiry_field">
             <div class="col-4 px-5">
               <label for="coc_no_expiry_date" class="form-label">C.O.C Expiry Date</label>
@@ -242,6 +250,7 @@
               </div>
             </div>
           </div>
+
           <div class="col-12 d-flex mb-1">
             <div class="col-4 px-5">
               <label for="appointment_type" class="form-label">Appointment Type</label>
@@ -268,8 +277,10 @@
                   function formatAppointmentTime($appointment_time) {
                     // Convert appointment time to timestamp
                     $timestamp = strtotime($appointment_time);
+
                     // Format the appointment time to include AM/PM
                     $formatted_time = date("h:i A", $timestamp); // "h" for 12-hour format, "A" for AM/PM
+
                     return $formatted_time;
                   }
                 ?>
@@ -288,8 +299,9 @@
     </section>
   </form>
 </main>
+
 <script>
-  $(document).ready(function () {
+    $(document).ready(function () {
     // Function to toggle the visibility of assessment fee container
     function toggleAssessmentFeeContainer() {
       let assessmentText = $("#assessmentFeeText").text().trim();
@@ -299,12 +311,15 @@
         $(".assessmentFeeContainer").show();
       }
     }
+
     $("#color_code").change(function () {
       let selectedColorCode = $(this).val();
       let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
       $("#route_area").val(selectedRouteArea);
+
       // Update assessment fee text based on the selected route area
       let assessmentFeeText = "";
+
       switch (selectedRouteArea) {
         case "Free Zone / Zone 1":
           assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 route is ₱430.00.";
@@ -317,13 +332,17 @@
         default:
           assessmentFeeText = "Please select a route area to view the assessment fee.";
       }
+
       // Display the assessment fee text
       $("#assessmentFeeText").text(assessmentFeeText);
+
       // Toggle visibility of assessment fee container
       toggleAssessmentFeeContainer();
     });
+
     // Hide the assessment fee container initially
     toggleAssessmentFeeContainer();
+
     // Scroll to the main appointment form in case of error
     let errorMessage = $(".flash-message.error");
     if (errorMessage.length > 0) {
@@ -337,43 +356,54 @@
     const stepButtons = document.querySelectorAll('.step-button');
     const progress = document.querySelector('#progress');
     const stepButtonsContainer = document.getElementById('stepButtons');
+
     // Hide all steps except the current one
     for (let i = 1; i <= 3; i++) {
       document.getElementById('step-' + i).style.display = 'none';
     }
     document.getElementById('step-' + step).style.display = 'block';
+
     // Update progress bar value based on the current step
     progress.setAttribute('value', (step - 1) * 50);
+
     // Remove 'active' class from all step buttons
     stepButtons.forEach((button) => {
       button.classList.remove('active');
     });
+
     // Add 'active' class to the clicked step button
     stepButtons[step - 1].classList.add('active');
+
     // Add 'done' class to previous step buttons
     for (let i = 0; i < step - 1; i++) {
       stepButtons[i].classList.add('done');
     }
+
     // Remove 'done' class from subsequent step buttons
     for (let i = step; i < stepButtons.length; i++) {
       stepButtons[i].classList.remove('done');
     }
+
     // Scroll to the step buttons container
     stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
   }
+
   // Event listener for the Next button
   document.getElementById('nextButton').addEventListener('click', () => {
     const activeStepButton = document.querySelector('.step-button.active');
     const nextStepButton = activeStepButton.nextElementSibling;
+
     if (nextStepButton) {
       const nextStep = parseInt(nextStepButton.textContent);
       showStep(nextStep);
     }
   });
+
   // Event listener for the Previous button
   document.getElementById('prevButton').addEventListener('click', () => {
     const activeStepButton = document.querySelector('.step-button.active');
     const prevStepButton = activeStepButton.previousElementSibling;
+
     if (prevStepButton) {
       const prevStep = parseInt(prevStepButton.textContent);
       showStep(prevStep);
