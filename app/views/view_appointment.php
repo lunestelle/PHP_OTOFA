@@ -212,6 +212,95 @@
                   </div>
                 </div>
               </div>
+
+              <div class="content-container mt-4">
+                <div class="container mt-3">
+                  <div class="d-flex justify-content-center">
+                    <div class="row px-3">
+                      <div class="col-md-3">
+                        <div class="row mt-3">
+                          <p> <span class="fw-bolder mr-5 text-uppercase">Name of Operator:</span> 
+                          <p><span class="fw-bolder mr-5 text-uppercase">Phone Number:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">Color Code:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">Make Model:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">Model Year Acquired:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">C.O.C Number:</span>
+                          <p><span class="fw-bolder mr-5 text-uppercase">Tricycle CIN:</span>
+                          <?php if (!empty($tricycleApplication->lto_or_no)): ?>
+                            <p><span class="fw-bolder mr-5 text-uppercase">LTO OR Number:</span>
+                          <?php endif; ?>
+                          <?php if (!empty($driver_license_no)): ?>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Driver License Number:</span>
+                          <?php endif; ?>
+                          <?php if (!empty($driver_license_expiry_date) && $driver_license_expiry_date != "0000-00-00"): ?>
+                            <p><span class="fw-bolder mr-5 text-uppercase">License Expiry Date:</span>
+                          <?php endif; ?>
+                        </div>
+                      </div>
+                      <div class="col-md-3 mt-3">
+                        <?php echo ucwords(strtolower($tricycleApplication->operator_name)); ?></p>
+                        <?php echo ($tricycleApplication->tricycle_phone_number); ?></p>
+                        <?php echo ucwords(strtolower($tricycleApplication->color_code)); ?></p>
+                        <?php echo ucwords(strtolower($tricycleApplication->make_model)); ?></p>
+                        <?php echo($tricycleApplication->make_model_year_acquired); ?></p>
+                        <?php echo ucwords(strtolower($tricycleApplication->coc_no)); ?></p>
+                        <?php echo $tricycle_cin; ?></p>
+                        <?php if (!empty($tricycleApplication->lto_or_no)): ?>
+                          <?php echo $tricycleApplication->lto_or_no; ?></p>
+                        <?php endif; ?>
+                        <?php if (!empty($driver_license_no)): ?>
+                          <?php echo  $driver_license_no; ?></p>
+                        <?php endif; ?>
+                        <?php if (!empty($driver_license_expiry_date && $driver_license_expiry_date != "0000-00-00")): ?>
+                          <?php echo ($driver_license_expiry_date); ?></p>
+                        <?php endif; ?>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row mt-3">
+                          <div class="col-md-6">
+                            <p><span class="fw-bolder mr-5 text-uppercase">Address:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">MTOP Number:</span> 
+                            <p><span class="fw-bolder mr-5 text-uppercase">Route Area:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Model Expiry Date:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Motor Number:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">C.O.C Expiry Date:</span>
+                            <p><span class="fw-bolder mr-5 text-uppercase">Insurer:</span>
+                            <?php if (!empty($tricycleApplication->lto_cr_no)): ?>
+                              <p><span class="fw-bolder mr-5 text-uppercase">LTO CR Number:</span>
+                            <?php endif; ?>
+                            <?php if ($appointment->appointment_type === "New Franchise" && $appointment->status == "Pending" && !empty($driver_name)) : ?>
+
+                            <?php else : ?>
+                              <?php if (!empty($driver_name)) : ?>
+                                <p><span class="fw-bolder mr-5 text-uppercase">Name of Driver:</span>
+                              <?php endif; ?>
+                            <?php endif; ?>
+                          </div>
+                          <div class="col-md-6">
+                            <p style="overflow: hidden; white-space: nowrap;"><?php echo ucwords(strtolower($tricycleApplication->address)); ?></p>
+                            <?php echo strtoupper($tricycleApplication->mtop_no); ?></p>
+                            <?php echo ($tricycleApplication->route_area); ?></p>
+                            <?php echo ($tricycleApplication->make_model_expiry_date); ?></p>
+                            <?php echo ucwords(strtolower($tricycleApplication->motor_number)); ?></p>
+                            <?php echo ($tricycleApplication->coc_no_expiry_date); ?></p>
+                            <?php echo ($tricycleApplication->insurer); ?></p>
+                            <?php if (!empty($tricycleApplication->lto_cr_no)): ?>
+                              <?php echo ($tricycleApplication->lto_cr_no); ?></p>
+                            <?php endif; ?>
+                            <?php if ($appointment->appointment_type === "New Franchise" && $appointment->status == "Pending" && !empty($driver_name)) : ?>
+                            <?php else : ?>
+                              <?php if (!empty($driver_name)) : ?>
+                                <?php echo ($driver_name); ?></p>
+                              <?php endif; ?>
+                            <?php endif; ?>
+                          </div>
+                        </div>
+                      </div>                        
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
               <div class="mt-3">
                 <button type="button" class="sidebar-btnContent-1 text-start" onclick="showStep(1)">Previous</button>
                 <button type="button" class="sidebar-btnContent text-end" onclick="showStep(3)">Next</button>
