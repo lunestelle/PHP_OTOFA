@@ -579,27 +579,29 @@
     const stepButtons = document.querySelectorAll('.step-button');
     const progress = document.querySelector('#progress');
     const stepButtonsContainer = document.getElementById('stepButtons');
-    
+
     // Hide all steps except the current one
     for (let i = 1; i <= 3; i++) {
       document.getElementById('step-' + i).style.display = 'none';
     }
     document.getElementById('step-' + step).style.display = 'block';
-    
+
     // Update progress bar value based on the current step
     progress.setAttribute('value', (step - 1) * 50);
-    
+
     // Remove 'active' class from all step buttons
     stepButtons.forEach((button) => {
-        button.classList.remove('active');
+      button.classList.remove('active');
     });
-    
-    // Add 'active' class to the clicked step button
-    stepButtons[step - 1].classList.add('active');
-    
+
+    // Add 'active' class to the clicked step button and all preceding step buttons
+    for (let i = 0; i < step; i++) {
+      stepButtons[i].classList.add('active');
+    }
+
     // Scroll to the step buttons container
     stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
-    
+
     // Maintain active state of forms
     const activeForm = document.querySelector('.content.active-content');
     if (activeForm) {
