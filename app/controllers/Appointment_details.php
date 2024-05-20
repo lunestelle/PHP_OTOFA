@@ -103,6 +103,8 @@ class Appointment_details
               $redirectURL .= "new_franchise";
             } elseif ($numberOfTricycles == 2) {
               $redirectURL .= "new_franchise_2";
+            } elseif ($numberOfTricycles == 3) {
+              $redirectURL .= "new_franchise_3";
             }
             break;
           case 'transfer_of_ownership':

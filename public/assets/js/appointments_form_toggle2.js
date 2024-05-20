@@ -24,12 +24,14 @@ function toggleForm(showId, hideId) {
     step3btnform1.classList.add("collapsible-active-button");
     step3btnform2.classList.remove("collapsible-active-button");
     step3btnform2.classList.add("collapsible-inactive-button");
+    step3form2.style.display = "none";
     step3form2assessmentText.style.display = "none";
     step3form1assessmentText.style.display = "block";
   } else if (step3form2.style.display !== "none") {
     step3btnform2.classList.add("collapsible-active-button");
     step3btnform1.classList.remove("collapsible-active-button");
     step3btnform1.classList.add("collapsible-inactive-button");
+    step3form1.style.display = "none";
     step3form2assessmentText.style.display = "block";
     step3form1assessmentText.style.display = "none";
   }
@@ -38,12 +40,14 @@ function toggleForm(showId, hideId) {
     step2btnform1.classList.add("collapsible-active-button");
     step2btnform2.classList.remove("collapsible-active-button");
     step2btnform2.classList.add("collapsible-inactive-button");
+    step2form2.style.display = "none";
     step2form2assessmentText.style.display = "none";
     step2form1assessmentText.style.display = "block";
   } else if (step2form2.style.display !== "none") {
     step2btnform2.classList.add("collapsible-active-button");
     step2btnform1.classList.remove("collapsible-active-button");
     step2btnform1.classList.add("collapsible-inactive-button");
+    step2form1.style.display = "none";
     step2form2assessmentText.style.display = "block";
     step2form1assessmentText.style.display = "none";
   }
@@ -69,4 +73,4 @@ window.onload = function() {
   step2form2.style.display = "none";
   step2btnform1.classList.add("collapsible-active-button");
   step2btnform2.classList.add("collapsible-inactive-button");
-};  
+};
