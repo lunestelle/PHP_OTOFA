@@ -136,7 +136,17 @@
                           $editUrl = '';
 
                           if ($appointment['appointment_type'] === 'New Franchise') {
+                            $tricycleApplicationModel = new TricycleApplication();
+                            $tricycleApplicationData = $tricycleApplicationModel->where(['appointment_id' => $appointment['appointment_id']]);
+                            $dataCount = count($tricycleApplicationData);
+                
+                            if ($dataCount == 1) {
                               $editUrl = 'edit_new_franchise';
+                            } elseif ($dataCount == 2) {
+                              $editUrl = 'edit_new_franchise_2';
+                            } elseif ($dataCount == 3) {
+                              $editUrl = 'edit_new_franchise_3';
+                            }
                           } elseif ($appointment['appointment_type'] === 'Renewal of Franchise') {
                               $editUrl = 'edit_renewal_of_franchise';
                           } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
