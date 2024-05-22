@@ -1,28 +1,24 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-
   <div class="step-buttons">
     <div class="accordion" id="accordionExample">
       <div class="row">
         <div class="steps d-flex">
           <progress id="progress" value="0" max="100" class="center-progress"></progress>
           <div class="step-item">
-            <button class="step-button text-center" type="button" data-toggle="collapse"
-                data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="showStep(1)">
-                1
+            <button class="step-button text-center" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="showStep(1)">
+              1
             </button>
             <p class="step-buttons-label">Appointment Information</p>
           </div>
           <div class="step-item">
-            <button class="step-button text-center collapsed" type="button" data-toggle="collapse"
-                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" onclick="showStep(2)">
-                2
+            <button class="step-button text-center collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" onclick="showStep(2)">
+              2
             </button>
             <p class="step-buttons-label">Tricycle Application Form</p>
           </div>
           <div class="step-item">
-            <button class="step-button text-center collapsed" type="button" data-toggle="collapse"
-                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" onclick="showStep(3)">
-                3
+            <button class="step-button text-center collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" onclick="showStep(3)">
+              3
             </button>
             <p class="step-buttons-label">MTOP Requirements Images</p>
           </div>
@@ -34,13 +30,6 @@
   <div class="col-12 text-uppercase nav-top" id="mainAppointmentForm">
     <h6 class="title-head">Schedule <span class="mx-2" style="color:#ff8356;">New Franchise</span> Appointment</h6>
   </div>
-  <?php if ($userRole === 'operator'): ?>  
-    <div class="row assessmentFeeContainer">
-      <div class="col-12 mx-auto text-center mt-4">
-        <p id="assessmentFeeText" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
-      </div>
-    </div>
-  <?php endif; ?>
   
   <form class="default-form" method="POST" action="" enctype="multipart/form-data" id="appointmentForm">
     <section id="step-3" style="display: none;">
@@ -48,6 +37,13 @@
         <h6 class="title-head">Schedule <span class="mx-2" style="color:#ff8356;">New Franchise</span> Appointment</h6>
       </div>
       <div class="col-lg-12">
+        <?php if ($userRole === 'operator'): ?>  
+          <div class="row assessmentFeeContainer">
+            <div class="col-12 mx-auto text-center mt-4">
+              <p id="assessmentFeeText" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
+            </div>
+          </div>
+        <?php endif; ?>
         <div class="content-container">
           <div class="px-3 pt-2 mt-2">
               <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
@@ -112,6 +108,13 @@
 
     <!-- *** STEP 2 *** -->
     <section id="step-2" style="display: none;">
+      <?php if ($userRole === 'operator'): ?>  
+        <div class="row assessmentFeeContainer2">
+          <div class="col-12 mx-auto text-center mt-4">
+            <p id="assessmentFeeText2" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
+          </div>
+        </div>
+      <?php endif; ?>
       <div class="content-container mt-2 mb-3">
         <div class="row px-3 p-3">
           <div class="col-12 d-flex mb-1">
@@ -145,7 +148,6 @@
             </div>
           </div>
        
-                
           <div class="col-12 d-flex mb-2">
             <div class="col-4 px-5">
               <label for="mtop_no" class="form-label">MTOP Number</label>
@@ -303,12 +305,11 @@
 <script>
   $(document).ready(function () {
     // Function to toggle the visibility of assessment fee container
-    function toggleAssessmentFeeContainer() {
-      let assessmentText = $("#assessmentFeeText").text().trim();
+    function toggleAssessmentFeeContainer(container, assessmentText) {
       if (assessmentText === "") {
-        $(".assessmentFeeContainer").hide();
+        container.hide();
       } else {
-        $(".assessmentFeeContainer").show();
+        container.show();
       }
     }
 
@@ -334,14 +335,15 @@
       }
 
       // Display the assessment fee text
-      $("#assessmentFeeText").text(assessmentFeeText);
+      $("#assessmentFeeText, #assessmentFeeText2").text(assessmentFeeText);
 
-      // Toggle visibility of assessment fee container
-      toggleAssessmentFeeContainer();
+      // Toggle visibility of assessment fee containers
+      toggleAssessmentFeeContainer($(".assessmentFeeContainer"), assessmentFeeText);
+      toggleAssessmentFeeContainer($(".assessmentFeeContainer2"), assessmentFeeText);
     });
 
-    // Hide the assessment fee container initially
-    toggleAssessmentFeeContainer();
+    // Hide the assessment fee containers initially
+    $(".assessmentFeeContainer, .assessmentFeeContainer2").hide();
 
     // Scroll to the main appointment form in case of error
     let errorMessage = $(".flash-message.error");

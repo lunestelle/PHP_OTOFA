@@ -152,13 +152,13 @@
                           } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
                               $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
-                              if ($appointment['transfer_type'] === 'None') {
-                                  $editUrl = 'edit_transfer_of_ownership';
-                              } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
-                                  $editUrl = 'edit_intent_of_transfer';
-                              } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
-                                  $editUrl = 'edit_ownership_transfer_from_deceased_owner';
-                              }
+                            if ($appointment['transfer_type'] === 'None') {
+                              $editUrl = 'edit_transfer_of_ownership';
+                            } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
+                              $editUrl = 'edit_intent_of_transfer';
+                            } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
+                              $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                            }
                           }
 
                           echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1 edit-btn" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
@@ -168,19 +168,29 @@
                           $editUrl = '';
 
                           if ($appointment['appointment_type'] === 'New Franchise') {
+                            $tricycleApplicationModel = new TricycleApplication();
+                            $tricycleApplicationData = $tricycleApplicationModel->where(['appointment_id' => $appointment['appointment_id']]);
+                            $dataCount = count($tricycleApplicationData);
+                
+                            if ($dataCount == 1) {
                               $editUrl = 'edit_new_franchise';
+                            } elseif ($dataCount == 2) {
+                              $editUrl = 'edit_new_franchise_2';
+                            } elseif ($dataCount == 3) {
+                              $editUrl = 'edit_new_franchise_3';
+                            }
                           } elseif ($appointment['appointment_type'] === 'Renewal of Franchise') {
-                              $editUrl = 'edit_renewal_of_franchise';
+                            $editUrl = 'edit_renewal_of_franchise';
                           } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
-                              $editUrl = 'edit_change_of_motorcycle';
+                            $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
-                              if ($appointment['transfer_type'] === 'None') {
-                                $editUrl = 'edit_transfer_of_ownership';
-                              } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
-                                $editUrl = 'edit_intent_of_transfer';
-                              } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
-                                $editUrl = 'edit_ownership_transfer_from_deceased_owner';
-                              }
+                            if ($appointment['transfer_type'] === 'None') {
+                              $editUrl = 'edit_transfer_of_ownership';
+                            } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
+                              $editUrl = 'edit_intent_of_transfer';
+                            } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
+                              $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                            }
                           }
 
                           echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1 edit-btn" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';

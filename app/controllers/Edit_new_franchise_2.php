@@ -11,6 +11,7 @@ class Edit_new_franchise_2
       redirect('');
     }
 
+    // Define the required permissions for accessing the edit user page
     $requiredPermissions = [
       "Can approve appointments",
       "Can decline appointments",
@@ -18,6 +19,7 @@ class Edit_new_franchise_2
       "Can completed appointments"
     ];
 
+    // Check if the logged-in user has the required permissions, unless they are an operator
     $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
     $userRole = isset($_SESSION['USER']->role) ? $_SESSION['USER']->role : '';
     if (!hasAnyPermission($requiredPermissions, $userPermissions) && $userRole !== 'operator') {
@@ -36,36 +38,73 @@ class Edit_new_franchise_2
     }
 
     $tricycleApplicationModel = new TricycleApplication();
-    $tricycleApplicationsData = $tricycleApplicationModel->where(['appointment_id' => $appointmentId]);
+    $tricycleApplicationData = $tricycleApplicationModel->where(['appointment_id' => $appointmentId]);
 
     $tricycleCinNumberModel = new TricycleCinNumber();
     $selectedUserId = $appointmentData->user_id;
 
-    $mtopRequirementModel = new MtopRequirement();
-    $mtopRequirementsData = $mtopRequirementModel->where(['appointment_id' => $appointmentId]);
-
-    // If tricycle_cin_number_id is set, get the selected CIN number and other available CIN numbers
-    $selectedCinNumberId = $tricycleApplications[0]['tricycle_cin_number_id'] ?? null;
-    if (!empty($selectedCinNumberId)) {
-      $selectedCin = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumberId]);
-      $selectedCinNumber = $selectedCin->cin_number;
-      $availableCinNumbers = $tricycleCinNumberModel->getAvailableCinNumbers();
-    } else {
-      // If tricycle_cin_number_id is not set, show all available CIN numbers where is_used is false
-      $availableCinNumbers = $tricycleCinNumberModel->getAvailableCinNumbers();
-      $selectedCinNumber = null; // No pre-selected CIN number
+    $tricycleApplicationDataArray = [];
+    foreach ($tricycleApplicationData as $key => $data) {
+      $tricycleApplicationDataArray[$key] = $data;
     }
-
-    // Transform the availableCinNumbers to associate tricycle_cin_number_id with cin_number
+    
+    if (count($tricycleApplicationDataArray) > 1) {
+      foreach ($tricycleApplicationDataArray as $key => $data) {
+        $tricycleApplicationDataArray[$key] = $data;
+      }
+    } else {
+      $tricycleApplicationData = reset($tricycleApplicationDataArray);
+    }
+    
+    // Initialize arrays to hold selected and available CIN numbers
+    $selectedCinNumbers = [];
+    $availableCinNumbers = [];
+    
+    // Initialize an array to hold CIN numbers by ID
     $cinNumbersById = [];
+    
+    foreach ($tricycleApplicationData as $tricycleData) {
+      $selectedCinNumberId = $tricycleData->tricycle_cin_number_id;
+  
+      // If tricycle_cin_number_id is set, get the selected CIN number
+      if (!empty($selectedCinNumberId)) {
+        $selectedCin = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumberId]);
+        $selectedCinNumbers[] = $selectedCin->cin_number;
+      }
+  
+      // Get all available CIN numbers where is_used is false
+      $availableCinNumbers = array_merge($availableCinNumbers, $tricycleCinNumberModel->getAvailableCinNumbers());
+    }
+    
+    // Remove duplicate CIN numbers
+    $selectedCinNumbers = array_unique($selectedCinNumbers);
+    $availableCinNumbers = array_unique($availableCinNumbers);
+    
+    // Transform the availableCinNumbers to associate tricycle_cin_number_id with cin_number
     foreach ($availableCinNumbers as $cinNumberId) {
       $cinNumber = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $cinNumberId])->cin_number;
       $cinNumbersById[$cinNumberId] = $cinNumber;
     }
-
+    
     // Sort the array in ascending order
-    asort($cinNumbersById);
+    asort($cinNumbersById);    
 
+    $mtopRequirementModel = new MtopRequirement();
+    $mtopRequirementData = $mtopRequirementModel->where(['appointment_id' => $appointmentId]);
+
+    $mtopRequirementDataArray = []; // Initialize MTOP requirement data array
+    foreach ($mtopRequirementData as $key => $data) {
+      $mtopRequirementDataArray[$key] = $data;
+    }
+    
+    if (count($mtopRequirementDataArray) > 1) {
+      foreach ($mtopRequirementDataArray as $key => $data) {
+        $mtopRequirementDataArray[$key] = $data;
+      }
+    } else {
+      $mtopRequirementData = reset($mtopRequirementDataArray);
+    }
+    
     $data = [
       'name' => $appointmentData->name,
       'phone_number' => $this->formatPhoneNumber($appointmentData->phone_number),
@@ -75,11 +114,13 @@ class Edit_new_franchise_2
       'appointment_time' => $appointmentData->appointment_time,
       'status' => $appointmentData->status,
       'comments' => $appointmentData->comments,
-      'tricycleApplicationsData' => $tricycleApplicationsData,
-      'mtopRequirements' => $mtopRequirements,
+      'tricycle_phone_number_1' => isset($tricycleApplicationDataArray[0]) ? $this->formatPhoneNumber($tricycleApplicationDataArray[0]->tricycle_phone_number) : '',
+      'tricycle_phone_number_2' => isset($tricycleApplicationDataArray[1]) ? $this->formatPhoneNumber($tricycleApplicationDataArray[1]->tricycle_phone_number) : '',
+      'tricycleApplicationData' => $tricycleApplicationDataArray,
+      'mtopRequirementData' => $mtopRequirementDataArray,
       'availableCinNumbers' => $cinNumbersById,
       'selectedCinNumberId' => $selectedCinNumberId,
-      'selectedCinNumber' => $selectedCinNumber,
+      'selectedCinNumber' => $selectedCinNumbers,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -259,10 +300,7 @@ class Edit_new_franchise_2
     }
 
     echo $this->renderView('edit_new_franchise_2', true, $data);
-
   }
-
-
 
   private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers) {
     $errors = array();
@@ -299,8 +337,6 @@ class Edit_new_franchise_2
 
     return $errors;
   }
-
-  
 
   private function formatPhoneNumber($phoneNumber) {
     return preg_replace('/[^0-9]/', '', str_replace('+63', '', $phoneNumber));
@@ -340,15 +376,11 @@ class Edit_new_franchise_2
       $message .= "To ensure a smooth process, please bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
     }
 
-    
-
     $message .= $this->generateRequirementList();
     $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
 
     return $message;
   }
-
-
 
   private function generateCustomEmailMessage($formattedDate, $formattedTime, $appointment_type, $cinNumber, $routeArea)
   {
@@ -375,8 +407,6 @@ class Edit_new_franchise_2
 
     return $feeMessage;
   }
-
-
 
   private function generateCustomRequirementMessage()
   {

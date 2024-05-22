@@ -33,22 +33,22 @@
     <h6 class="title-head">Schedule <span class="mx-2" style="color:#ff8356;">New Franchise</span> Appointment</h6>
   </div>
 
-  
   <form class="default-form" method="POST" action="" enctype="multipart/form-data" id="appointmentForm">
     <!-- *** STEP 3 *** -->
     <section id="step-3" style="display: none;">
       <div class="col-lg-12">
+        <div class="px-3 pt-1 mt-3">
+          <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
+        </div>
+
         <?php if ($userRole === 'operator'): ?>  
           <div class="row assessmentFeeContainer4">
-            <div class="col-12 mx-auto text-center mt-4">
+            <div class="col-12 mx-auto text-center mt-2">
               <p id="assessmentFeeText4" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
             </div>
           </div>
         <?php endif; ?>
 
-        <div class="px-3 pt-1 mt-1">
-          <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
-        </div>
         <button class="collapsible fw-bold fs-5 d-flex active-button" id="step3btnform1" onclick="toggleForm('step3form1', ['step3form2', 'step3form3'])">
           <p class="fs-6">FORM I</p>
           <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
@@ -652,54 +652,46 @@
 <script>
   $(document).ready(function () {
     // Function to toggle the visibility of assessment fee container
-    function toggleAssessmentFeeContainer() {
-      let assessmentText = $("#assessmentFeeText").text().trim();
-      if (assessmentText === "") {
-        $(".assessmentFeeContainer").hide();
+    function toggleAssessmentFeeContainer(assessmentFeeText, assessmentFeeContainer) {
+      if (assessmentFeeText.trim() === "") {
+        $(assessmentFeeContainer).hide();
       } else {
-        $(".assessmentFeeContainer").show();
-      }
-
-      let assessmentText2 = $("#assessmentFeeText2").text().trim();
-      if (assessmentText2 === "") {
-        $(".assessmentFeeContainer2").hide();
-      } else {
-        $(".assessmentFeeContainer2").show();
-      }
-
-      let assessmentText3 = $("#assessmentFeeText3").text().trim();
-      if (assessmentText3 === "") {
-        $(".assessmentFeeContainer3").hide();
-      } else {
-        $(".assessmentFeeContainer3").show();
-      }
-
-      let assessmentText4 = $("#assessmentFeeText4").text().trim();
-      if (assessmentText4 === "") {
-        $(".assessmentFeeContainer4").hide();
-      } else {
-        $(".assessmentFeeContainer4").show();
-      }
-
-      let assessmentText5 = $("#assessmentFeeText5").text().trim();
-      if (assessmentText5 === "") {
-        $(".assessmentFeeContainer5").hide();
-      } else {
-        $(".assessmentFeeContainer5").show();
-      }
-
-      let assessmentText6 = $("#assessmentFeeText6").text().trim();
-      if (assessmentText6 === "") {
-        $(".assessmentFeeContainer6").hide();
-      } else {
-        $(".assessmentFeeContainer6").show();
+        $(assessmentFeeContainer).show();
       }
     }
 
-    $("#color_code").change(function () {
+    $("#color_code, #color_code2, #color_code3").change(function () {
       let selectedColorCode = $(this).val();
-      let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
-      $("#route_area").val(selectedRouteArea);
+      let selectedRouteArea = $(this).find(":selected").data("route-area") || 
+                              $(this).find(":selected").data("route-area2") || 
+                              $(this).find(":selected").data("route-area3");
+
+      // Determine which assessmentFeeText and assessmentFeeContainer to update based on the element ID
+      let assessmentFeeTextSelector = "";
+      let assessmentFeeContainer = "";
+      let routeAreaSelector = "";
+      
+      switch ($(this).attr("id")) {
+        case "color_code":
+          assessmentFeeTextSelector = "#assessmentFeeText, #assessmentFeeText4";
+          assessmentFeeContainer = ".assessmentFeeContainer, .assessmentFeeContainer4";
+          routeAreaSelector = "#route_area";
+          break;
+        case "color_code2":
+          assessmentFeeTextSelector = "#assessmentFeeText2, #assessmentFeeText5";
+          assessmentFeeContainer = ".assessmentFeeContainer2, .assessmentFeeContainer5";
+          routeAreaSelector = "#route_area2";
+          break;
+        case "color_code3":
+          assessmentFeeTextSelector = "#assessmentFeeText3, #assessmentFeeText6";
+          assessmentFeeContainer = ".assessmentFeeContainer3, .assessmentFeeContainer6";
+          routeAreaSelector = "#route_area3";
+          break;
+      }
+
+      // Update the corresponding route_area field
+      $(routeAreaSelector).val(selectedRouteArea);
+
       // Update assessment fee text based on the selected route area
       let assessmentFeeText = "";
       switch (selectedRouteArea) {
@@ -714,67 +706,17 @@
         default:
           assessmentFeeText = "Please select a route area to view the assessment fee.";
       }
-      // Display the assessment fee text
-      $("#assessmentFeeText").text(assessmentFeeText);
-      $("#assessmentFeeText4").text(assessmentFeeText);
-      // Toggle visibility of assessment fee container
-      toggleAssessmentFeeContainer();
-    });
-
-    $("#color_code2").change(function () {
-      let selectedColorCode = $(this).val();
-      let selectedRouteArea = $("#color_code2").find(":selected").data("route-area2");
-      $("#route_area2").val(selectedRouteArea);
-      // Update assessment fee text based on the selected route area
-      let assessmentFeeText2 = "";
-      switch (selectedRouteArea) {
-        case "Free Zone / Zone 1":
-          assessmentFeeText2 = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 route is ₱430.00.";
-          break;
-        case "Free Zone & Zone 2":
-        case "Free Zone & Zone 3":
-        case "Free Zone & Zone 4":
-          assessmentFeeText2 = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " route is ₱1,030.00.";
-          break;
-        default:
-          assessmentFeeText2 = "Please select a route area to view the assessment fee.";
-      }
 
       // Display the assessment fee text
-      $("#assessmentFeeText2").text(assessmentFeeText2);
-      $("#assessmentFeeText5").text(assessmentFeeText2);
+      $(assessmentFeeTextSelector).text(assessmentFeeText);
+
       // Toggle visibility of assessment fee container
-      toggleAssessmentFeeContainer();
+      toggleAssessmentFeeContainer(assessmentFeeText, assessmentFeeContainer);
     });
 
-    $("#color_code3").change(function () {
-      let selectedColorCode = $(this).val();
-      let selectedRouteArea = $("#color_code3").find(":selected").data("route-area3");
-      $("#route_area3").val(selectedRouteArea);
-      // Update assessment fee text based on the selected route area
-      let assessmentFeeText2 = "";
-      switch (selectedRouteArea) {
-        case "Free Zone / Zone 1":
-          assessmentFeeText2 = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 route is ₱430.00.";
-          break;
-        case "Free Zone & Zone 2":
-        case "Free Zone & Zone 3":
-        case "Free Zone & Zone 4":
-          assessmentFeeText2 = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " route is ₱1,030.00.";
-          break;
-        default:
-          assessmentFeeText2 = "Please select a route area to view the assessment fee.";
-      }
+    // Initial hide of assessment fee containers
+    $(".assessmentFeeContainer, .assessmentFeeContainer2, .assessmentFeeContainer3, .assessmentFeeContainer4, .assessmentFeeContainer5, .assessmentFeeContainer6").hide();
 
-      // Display the assessment fee text
-      $("#assessmentFeeText3").text(assessmentFeeText2);
-      $("#assessmentFeeText6").text(assessmentFeeText2);
-      // Toggle visibility of assessment fee container
-      toggleAssessmentFeeContainer();
-    });
-
-    // Hide the assessment fee container initially
-    toggleAssessmentFeeContainer();
     // Scroll to the main appointment form in case of error
     let errorMessage = $(".flash-message.error");
     if (errorMessage.length > 0) {
@@ -784,7 +726,7 @@
       });
     }
   });
-  
+
   function showStep(step) {
     const stepButtons = document.querySelectorAll('.step-button');
     const progress = document.querySelector('#progress');
