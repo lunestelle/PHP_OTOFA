@@ -159,10 +159,10 @@
   padding: 15px;
 }
 
-/* --- CHART --- */
+/* --- BAR CHART --- */
 
 canvas {
-  max-width: 600px;
+  width: 600px;
   margin: 20px 0;
 }
 
@@ -180,4 +180,8 @@ canvas {
 
 .animate {
   animation: moveFromBottom 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#chartContainer {
+  width: 100%;
 }
