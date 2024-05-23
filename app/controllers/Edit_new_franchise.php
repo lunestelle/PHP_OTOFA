@@ -1,6 +1,7 @@
   <?php
 
   class Edit_new_franchise
+
   {
     use Controller;
 
@@ -8,6 +9,22 @@
     {
       if (!is_authenticated()) {
         set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
+        redirect('');
+      }
+
+      // Define the required permissions for accessing the edit user page
+      $requiredPermissions = [
+        "Can approve appointments",
+        "Can decline appointments",
+        "Can on process appointments",
+        "Can completed appointments"
+      ];
+
+      // Check if the logged-in user has the required permissions, unless they are an operator
+      $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+      $userRole = isset($_SESSION['USER']->role) ? $_SESSION['USER']->role : '';
+      if (!hasAnyPermission($requiredPermissions, $userPermissions) && $userRole !== 'operator') {
+        set_flash_message("Access denied. You don't have the required permissions.", "error");
         redirect('');
       }
 
@@ -20,14 +37,14 @@
         set_flash_message("Appointment not found.", "error");
         redirect('appointments');
       }
-      
+
       $tricycleApplicationModel = new TricycleApplication();
       $tricycleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointmentId]);
-      
+
       $tricycleCinNumberModel = new TricycleCinNumber();
       $selectedUserId = $appointmentData->user_id;
       $selectedCinNumberId = $tricycleApplicationData->tricycle_cin_number_id;
-      
+
       // If tricycle_cin_number_id is set, get the selected CIN number and other available CIN numbers
       if (!empty($selectedCinNumberId)) {
         $selectedCin = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumberId]);
@@ -38,14 +55,14 @@
         $availableCinNumbers = $tricycleCinNumberModel->getAvailableCinNumbers();
         $selectedCinNumber = null; // No pre-selected CIN number
       }
-      
+
       // Transform the availableCinNumbers to associate tricycle_cin_number_id with cin_number
       $cinNumbersById = [];
       foreach ($availableCinNumbers as $cinNumberId) {
         $cinNumber = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $cinNumberId])->cin_number;
         $cinNumbersById[$cinNumberId] = $cinNumber;
       }
-      
+
       // Sort the array in ascending order
       asort($cinNumbersById);
 
@@ -101,7 +118,7 @@
           'email' => $_POST['email'] ?? '',
           'appointment_type' => $_POST['appointment_type'] ?? '',
           'appointment_date' => $_POST['appointment_date'] ?? '',
-          'appointment_time' => $_POST['appointment_time'] ?? '',
+          'appointment_time' => date("H:i", strtotime($_POST['appointment_time'])) ?? '',
           'status' => $_POST['status'] ?? $appointmentData->status,
           'comments' => $_POST['comments'] ?? '',
         ];
@@ -125,11 +142,13 @@
         if (isset($_POST['confirm_delete_image'])) {
           $imageType = $_POST['image_type'];
           $imagePathColumn = "{$imageType}_path";
+
           
+
           // Check if the file exists before attempting to delete
           if (file_exists($_POST['original_image_path'])) {
             $deleted = unlink($_POST['original_image_path']);
-            
+
             // Update the database column with an empty value if deletion was successful
             if ($deleted) {
               $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], [$imagePathColumn => null]);
@@ -159,8 +178,8 @@
             $appointmentFormData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
 
             // Check if the appointment status is "REJECTED"
-            if ($_POST['status'] != 'Rejected') {
-              // Update comments to empty for rejected appointments
+            if ($appointmentFormData['status'] != 'Declined') {
+              // Update comments to empty for declined appointments
               $appointmentFormData['comments'] = '';
             }
 
@@ -183,7 +202,6 @@
             $fileUploads = $this->handleFileUploads($mtopRequirementFormData);
 
             if ($appointmentModel->update(['appointment_id' => $appointmentId], $appointmentFormData) && $tricycleApplicationModel->update(['appointment_id' => $appointmentId], $tricycleApplicationFormData)) {
-
               if (!empty($fileUploads)) {
                 $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], $fileUploads);
               }
@@ -197,6 +215,7 @@
                 $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $selectedCinNumberId], [
                   'is_used' => true,
                   'user_id' => $appointmentData->user_id,
+                  'ownership_date' => date('Y-m-d'),
                 ]);
               }
 
@@ -205,8 +224,9 @@
               $selectedCinNumberId != $tricycleApplicationData->tricycle_cin_number_id) {
                 // Update the previous tricycle_cin_numbers entry
                 $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id], [
-                    'is_used' => false,
-                    'user_id' => null,
+                  'is_used' => false,
+                  'user_id' => null,
+                  'ownership_date' => null, 
                 ]);
               }
 
@@ -220,25 +240,41 @@
                   'mtop_requirements_new_franchise_id' => $mtopRequirementId,
                   'user_id' => $appointmentData->user_id,
                 ];
-            
+
                 if ($tricycleModel->insert($tricycleData)) {
                   $tricycleId = $tricycleModel->getLastInsertedRecord()[0]->tricycle_id;
                   $tricycleStatusesModel->insert(['tricycle_id' => $tricycleId, 'user_id' => $appointmentData->user_id, 'status' => 'Active']);
                 }
               }
 
+              $cinNumber = null; // Default value in case tricycle_cin_number_id is not set
+
+              if ($tricycleApplicationData->tricycle_cin_number_id) {
+                $cinDataForNotifs = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+
+                if ($cinDataForNotifs) {
+                  $cinNumber = $cinDataForNotifs->cin_number;
+                } else {
+                  // Handle the case where $cinDataForNotifs is false (not found in the database)
+                  // You can set a default value or handle the absence of $cinDataForNotifs in a way appropriate for your application logic.
+                  $cinNumber = null; // Or any default value you prefer
+                }
+              }
+
               $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
               $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
               $rootPath = ROOT;
+              $routeArea = isset($tricycleApplicationFormData['route_area']) && !empty($tricycleApplicationFormData['route_area'])
+              ? $tricycleApplicationFormData['route_area']
+              : (!empty($tricycleApplicationData->route_area) ? $tricycleApplicationData->route_area : '');          
 
-              $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $formattedDate, $formattedTime, $rootPath);
-              $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime);
+              $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber, $routeArea);
+              $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber, $routeArea);
               $customRequirementMessage = $this->generateCustomRequirementMessage();
 
-              sendAppointmentNotifications($appointmentFormData, $data, $customTextMessage, $customEmailMessage, $customRequirementMessage);
-
+              sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationData, $cinNumber, $customTextMessage, $customEmailMessage, $customRequirementMessage);
               set_flash_message("Scheduled appointment updated successfully.", "success");
-              redirect('appointments');;
+              redirect('appointments');
             } else {
               set_flash_message("Failed to update scheduled appointment. Please try again later.", "error");
               redirect('appointments');
@@ -246,31 +282,37 @@
           }
         }
       }
+
       echo $this->renderView('edit_new_franchise', true, $data);
+
     }
+
+
 
     private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers) {
       $errors = array();
-    
       $appointmentErrors = $appointmentModel->updateValidation($appointmentFormData);
+
       if (!empty($appointmentErrors)) {
         $errors['appointment'] = $appointmentErrors;
       }
 
       $tricycleApplicationErrors = $tricycleApplicationModel->validate($tricycleApplicationFormData);
+
       if (!empty($tricycleApplicationErrors)) {
         $errors['tricycleApplication'] = $tricycleApplicationErrors;
       }
 
       // Check if the appointment status is "REJECTED"
-      if ($appointmentFormData['status'] === 'Rejected') {
-        // Require comments for rejected appointments
+      if ($appointmentFormData['status'] === 'Declined') {
+        // Require comments for declined appointments
         $comments = trim($appointmentFormData['comments']);
         if (empty($comments)) {
-          $errors['appointment'][] = 'Comments are required for rejected appointments.';
+          $errors['appointment'][] = 'Comments are required for declined appointments.';
         }
       }
-      
+
+    
       if ($_SESSION['USER']->role === 'admin'){
         if ($appointmentFormData['status'] === 'Completed' || $appointmentFormData['status'] === 'Approved') {
           $cinNumber = ($tricycleApplicationFormData['tricycle_cin_number_id']);
@@ -282,7 +324,9 @@
 
       return $errors;
     }
+
     
+
     private function formatPhoneNumber($phoneNumber) {
       return preg_replace('/[^0-9]/', '', str_replace('+63', '', $phoneNumber));
     }
@@ -306,31 +350,66 @@
       return $fileUploads;
     }
 
-    private function generateCustomTextMessage($name, $formattedDate, $formattedTime, $rootPath)
+    private function generateCustomTextMessage($name, $appointment_type, $formattedDate, $formattedTime, $rootPath, $cinNumber, $routeArea)
     {
-      $message = "Hello {$name},\n\nCongratulations! Your appointment has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\nTo ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
+      $feeMessage = "";
+      if (!empty($routeArea)) {
+        $feeMessage = $this->generateFeeMessage($routeArea);
+      }
+
+      $message = "Hello {$name},\n\nCongratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\n";
+
+      if (!empty($feeMessage)) {
+        $message .= "To ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
+      } else {
+        $message .= "To ensure a smooth process, please bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
+      }
+
+      
+
       $message .= $this->generateRequirementList();
       $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
 
       return $message;
     }
 
-    private function generateCustomEmailMessage($formattedDate, $formattedTime)
+
+
+    private function generateCustomEmailMessage($formattedDate, $formattedTime, $appointment_type, $cinNumber, $routeArea)
     {
-      $message = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your appointment has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
-      $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for New Franchise. </div>";
+      $feeMessage = "";
+      if (!empty($routeArea)){
+        $feeMessage = $this->generateFeeMessage($routeArea);
+      }
+
+      $message = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
+
+      if (!empty($feeMessage)) {
+        $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for New Franchise. </div>";
+      } else {
+        $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, please bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for New Franchise. </div>";
+      }
 
       return $message;
     }
 
+    private function generateFeeMessage($routeArea)
+    {
+      $fee = ($routeArea === 'Free Zone / Zone 1') ? '430.00' : '1,030.00';
+      $feeMessage = "be informed that a processing fee of &#8369;{$fee} is required for your appointment and please";
+
+      return $feeMessage;
+    }
+
+
+
     private function generateCustomRequirementMessage()
     {
-      return "<div style='text-align: start; color:#455056'>" . $this->generateRequirementList() . "</div>";
+      return "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>" . $this->generateRequirementList() . "</div>";
     }
 
     private function generateRequirementList()
     {
       return "1. LTO Certificate of Registration (MC of New Unit) (2 copies)<br>2. LTO Official Receipt (MC of New Unit) (2 copies)<br>3. Plate authorization (MC of New Unit) (2 copies)<br>4. Insurance Policy (TC) (New Owner) (2 copies)<br>5. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)<br>6. Sketch Location of Garage (2 copies)<br>7. Affidavit of No Income Or Latest Income Tax Return (2 copies)<br>8. Picture of New Unit (Front view & Side view) (2 copies)<br>9. Driver's Certificate of Safety Driving Seminar (2 copies)<br>10. Brown long envelope (1 pc.)";
     }
-    
   }

@@ -11,6 +11,13 @@ class New_franchise
       redirect('');
     }
 
+    // Check if the user has the "admin" role
+    $userRole = $_SESSION['USER']->role;
+    if ($userRole !== 'operator') {
+      set_flash_message("Access denied. You don't have the required role to access this page.", "error");
+      redirect('');
+    }
+
     $data = [];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
@@ -22,9 +29,9 @@ class New_franchise
         'name' => $_POST['name'] ?? '',
         'phone_number' => $_POST['phone_number'] ?? '',
         'email' => $_POST['email'] ?? '',
-        'appointment_type' => $_POST['appointment_type'] ?? '',
+        'appointment_type' => 'New Franchise',
         'appointment_date' => $_POST['appointment_date'] ?? '',
-        'appointment_time' => $_POST['appointment_time'] ?? '',
+        'appointment_time' => date("H:i", strtotime($_POST['appointment_time'])) ?? '',
         'status' => 'Pending',
         'user_id' => $_SESSION['USER']->user_id,
       ];

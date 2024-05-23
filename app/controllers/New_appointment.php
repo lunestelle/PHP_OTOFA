@@ -11,25 +11,59 @@ class New_appointment
       redirect('');
     }
 
+    // Check if the user has the "admin" role
+    $userRole = $_SESSION['USER']->role;
+    if ($userRole !== 'operator') {
+      set_flash_message("Access denied. You don't have the required role to access this page.", "error");
+      redirect('');
+    }
+
 		$cinModel = new TricycleCinNumber();
     $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
-    $data['tricycleCinNumbers'] = $cinModel->where(["is_used" => 1, "user_id" => $_SESSION['USER']->user_id]);
 
-    if (is_array($data['tricycleCinNumbers'])) {
-      usort($data['tricycleCinNumbers'], function ($a, $b) {
-        return strcmp($a->cin_number, $b->cin_number);
-      });
+    $data["totalAvailableCins"] = count($cinModel->getAvailableCinNumbers());
+
+    // Check if all CIN numbers are used
+    $allCinNumbersUsed = empty($cinModel->getAvailableCinNumbers());
+    $data['allCinNumbersUsed'] = $allCinNumbersUsed;
+
+    $tricycleStatusModel = new TricycleStatuses();
+    $userTricycleStatuses = $tricycleStatusModel->where(["user_id" => $_SESSION['USER']->user_id]);
+    $statuses = [];
+
+    $userHasRenewalStatus = false;
+    $userHasChangeMotorStatus = false;
+
+    $renewalStatuses = ['Renewal Required', 'Expired Renewal (1st Notice)', 'Expired Renewal (2nd Notice)', 'Expired Renewal (3rd Notice)'];
+    $changeMotorStatuses = ['Change Motor Required', 'Expired Motor (1st Notice)', 'Expired Motor (2nd Notice)', 'Expired Motor (3rd Notice)'];
+
+    // Check if $userTricycleStatuses is an array before using count
+    if (!empty($userTricycleStatuses)) {
+      foreach ($userTricycleStatuses as $status) {
+        $statuses[$status->status][] = $status;
+        if (in_array($status->status, $renewalStatuses)) {
+          $userHasRenewalStatus = true;
+        } elseif (in_array($status->status, $changeMotorStatuses)) {
+          $userHasChangeMotorStatus = true;
+        }
+      }
     } else {
-      $data['tricycleCinNumbers'] = [];
+      $statuses = [];
+      $userHasRenewalStatus = false;
+      $userHasChangeMotorStatus = false;
     }
+
+    $data['userHasRenewalStatus'] = $userHasRenewalStatus;
+    $data['userHasChangeMotorStatus'] = $userHasChangeMotorStatus;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (isset($_POST['appointmentType'])) {
         $appointmentType = $_POST['appointmentType'];
+        $numberOfTricycles = $_POST['numberOfTricycles'];
 
         switch ($appointmentType) {
           case 'New Franchise':
-            redirect('new_franchise');
+            redirect('appointment_details?appointmentType=' . urlencode($appointmentType) . '&numberOfTricycles=' . $numberOfTricycles);
             break;
 
           case 'Renewal of Franchise':
@@ -41,11 +75,16 @@ class New_appointment
                 $transferType = isset($_POST['transferType']) ? $_POST['transferType'] : '';
                 if ($transferType === '') {
                   set_flash_message("Please select a transfer type.", "error");
-                  break;
+                  redirect('new_appointment'); // Redirect back to the appointment page
+                } elseif ($transferType == 'Transfer of Ownership from Deceased Owner' || $transferType == 'Intent of Transfer') {
+                  $this->redirectToPage('appointment_details', $appointmentType, $transferType, $tricycleCin);
+                } else {
+                  // If transfer type is None, redirect to transfer_of_ownership
+                  redirect('appointment_details?appointmentType=' . urlencode($appointmentType) . '&tricycleCin=' . urlencode($tricycleCin));
                 }
+              } else {
+                redirect('appointment_details?appointmentType=' . urlencode(strtolower(str_replace(' ', '_', $appointmentType))) . '&tricycleCin=' . urlencode($tricycleCin));
               }
-
-              $this->redirectToPage(strtolower(str_replace(' ', '_', $appointmentType)), $tricycleCin);
             }
             break;
 
@@ -71,8 +110,8 @@ class New_appointment
     return true;
   }
 
-  private function redirectToPage($page, $tricycleCin = '')
+  private function redirectToPage($page, $appointmentType, $transferType, $tricycleCin)
   {
-    redirect("$page?tricycleCin=$tricycleCin");
+    redirect("$page?appointmentType=" . urlencode($appointmentType) . "&transferType=" . urlencode($transferType) . "&tricycleCin=" . urlencode($tricycleCin));
   }
 }

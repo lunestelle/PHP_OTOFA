@@ -353,7 +353,7 @@ class Appointment
       $whereClause .= "AND appointment_date BETWEEN '$startDate' AND '$endDate'";
     }
 
-    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY appointment_date DESC";
+    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY appointment_date DESC, appointment_time DESC";
     return $this->query($query);
   }
 
@@ -362,21 +362,18 @@ class Appointment
     $params = [':userId' => $userId];
     $query = "SELECT * FROM {$this->table} WHERE user_id = :userId";
 
-    $whereClause = '';
     if ($statusFilter !== 'all') {
-      $whereClause .= " AND status = :statusFilter";
+      $query .= " AND status = :statusFilter";
       $params[':statusFilter'] = $statusFilter;
     }
 
     if (!empty($startDate) && !empty($endDate)) {
-      $whereClause .= " AND appointment_date BETWEEN :startDate AND :endDate";
+      $query .= " AND appointment_date BETWEEN :startDate AND :endDate";
       $params[':startDate'] = $startDate;
       $params[':endDate'] = $endDate;
     }
 
-    if (!empty($whereClause)) {
-      $query .= $whereClause;
-    }
+    $query .= " ORDER BY appointment_date DESC, appointment_time DESC";
 
     return $this->query($query, $params);
   }

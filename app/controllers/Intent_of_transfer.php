@@ -11,6 +11,13 @@ class Intent_of_transfer
       redirect('');
     }
 
+    // Check if the user has the "admin" role
+    $userRole = $_SESSION['USER']->role;
+    if ($userRole !== 'operator') {
+      set_flash_message("Access denied. You don't have the required role to access this page.", "error");
+      redirect('');
+    }
+
     $data = [];
 
     $tricycleCin = isset($_GET['tricycleCin']) ? $_GET['tricycleCin'] : '';
@@ -24,14 +31,22 @@ class Intent_of_transfer
 
     $cinData = $tricycleCinModel->first(['cin_number' => $tricycleCin]);
     $existingTricycleData = $tricycleModel->first(['cin_id' => $cinData->tricycle_cin_number_id]);
-    $data['driverData'] = $driverModel->first(['tricycle_cin_number_id' => $cinData->tricycle_cin_number_id]);
+
+    $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
+    $data['driverData'] = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
+    
     $data['existingTricycleApplicationData'] = $tricycleApplicationModel->first(['tricycle_application_id' => $existingTricycleData->tricycle_application_id]);
     $data['cin_number'] = $cinData->cin_number;
 
     if (!empty($data['driverData'])) {
-      $data['driver_name'] = $data['driverData']->first_name . ' ' . $data['driverData']->middle_name . ' ' . $data['driverData']->last_name;
+      $driver = $data['driverData'][0];
+      $data['driver_name'] = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
+      $data['driver_license_no'] = $driver->license_no;
+      $data['driver_license_expiry_date'] = $driver->license_expiry_date;
     } else {
       $data['driver_name'] = 'Selected CIN has no driver';
+      $data['driver_license_no'] = '';
+      $data['driver_license_expiry_date'] = '';
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
@@ -39,10 +54,10 @@ class Intent_of_transfer
         'name' => $_POST['name'] ?? '',
         'phone_number' => $_POST['phone_number'] ?? '',
         'email' => $_POST['email'] ?? '',
-        'appointment_type' => $_POST['appointment_type'] ?? '',
-        'transfer_type' => $_POST['transfer_type'] ?? '',
+        'appointment_type' => 'Transfer of Ownership',
+        'transfer_type' => 'Intent of Transfer',
         'appointment_date' => $_POST['appointment_date'] ?? '',
-        'appointment_time' => $_POST['appointment_time'] ?? '',
+        'appointment_time' => date("H:i", strtotime($_POST['appointment_time'])) ?? '',
         'status' => 'Pending',
         'user_id' => $_SESSION['USER']->user_id,
       ];
@@ -149,6 +164,56 @@ class Intent_of_transfer
 
     if (empty($tricycleApplicationFormData['tricycle_cin_number_id'])) {
       $errors['tricycleApplication'][] = 'Tricycle CIN is required';
+    }
+
+    if (!empty($tricycleApplicationFormData['tricycle_cin_number_id'])) {
+      $cinId = $tricycleApplicationFormData['tricycle_cin_number_id'];
+      $userId =  $appointmentFormData['user_id'];
+      $appointmentType = $appointmentFormData['appointment_type'];
+      $currentYear = date('Y');
+      $statuses = ['Approved', 'Pending', 'On Process'];
+  
+      $statusPlaceholders = implode(',', array_fill(0, count($statuses), '?'));
+  
+      $query = "SELECT COUNT(*) AS appointment_count 
+                FROM appointments 
+                INNER JOIN tricycle_applications 
+                ON appointments.appointment_id = tricycle_applications.appointment_id 
+                WHERE tricycle_applications.tricycle_cin_number_id = ? 
+                AND YEAR(appointments.appointment_date) = ? 
+                AND appointments.status IN ($statusPlaceholders)";
+  
+      $params = array_merge([$cinId, $currentYear], $statuses);
+  
+      $result = $appointmentModel->query($query, $params);
+  
+      if (!empty($result) && $result[0]->appointment_count > 0) {
+          $query = "SELECT appointments.status, appointments.appointment_date, appointments.appointment_type 
+                    FROM appointments 
+                    INNER JOIN tricycle_applications 
+                    ON appointments.appointment_id = tricycle_applications.appointment_id 
+                    WHERE tricycle_applications.tricycle_cin_number_id = ? 
+                    AND YEAR(appointments.appointment_date) = ? 
+                    AND appointments.appointment_type = ? 
+                    AND appointments.user_id != ? 
+                    AND appointments.status IN ($statusPlaceholders)";
+  
+          $params = array_merge([$cinId, $currentYear, $appointmentType, $userId], $statuses);
+  
+          $appointmentResult = $appointmentModel->query($query, $params);
+  
+          if (!empty($appointmentResult) && isset($appointmentResult[0])) {
+              $tricycleCinModel = new TricycleCinNumber();
+              $cinDataValidation = $tricycleCinModel->first(['tricycle_cin_number_id' => $cinId]);
+  
+              // Check if the CIN belongs to the same owner as in the first appointment record
+              $cinNumber = $cinDataValidation->cin_number;
+              $type = $appointmentResult[0]->appointment_type;
+              $appointmentStatus = $appointmentResult[0]->status;
+              $appointmentDate = date('F j, Y', strtotime($appointmentResult[0]->appointment_date));
+              $errors['tricycleApplication'][] = "There is an existing $type appointment for this tricycle CIN #$cinNumber with appointment <br> status '$appointmentStatus' and appointment date on $appointmentDate.";
+          }
+      }
     }
 
     if (!empty($tricycleApplicationFormData['driver_id'])) {

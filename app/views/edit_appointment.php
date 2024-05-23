@@ -53,11 +53,35 @@
                       </div>
                       <div class="col-4 px-5">
                         <label for="appointment_date" class="form-label">Preferred Date</label>
-                        <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?php echo isset($appointment_date) ? date('Y-m-d', strtotime($appointment_date)) : ''; ?>" required>
+                        <div class="input-group">
+                          <input type="text" class="form-control phone-no" style="cursor: pointer;" id="appointment_date" name="appointment_date" value="<?php echo isset($appointment_date) ? $appointment_date : ''; ?>" readonly data-toggle="tooltip" data-bs-placement="top" title="Default appointment date. This field is read-only.">
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                       <div class="col-4 px-5">
                         <label for="appointment_time" class="form-label">Preferred Time</label>
-                        <input type="time" class="form-control" id="appointment_time" name="appointment_time" value="<?php echo isset($appointment_time) ? $appointment_time : ''; ?>" required>
+                        <div class="input-group">
+                          <?php
+                          function formatAppointmentTime($appointment_time) {
+                              // Convert appointment time to timestamp
+                              $timestamp = strtotime($appointment_time);
+
+                              // Format the appointment time to include AM/PM
+                              $formatted_time = date("h:i A", $timestamp); // "h" for 12-hour format, "A" for AM/PM
+
+                              return $formatted_time;
+                          }
+
+                          // Check if appointment_time is set before formatting
+                          $appointment_time_value = isset($appointment_time) ? formatAppointmentTime($appointment_time) : '';
+                          ?>
+                          <input type="text" class="form-control phone-no" style="cursor: pointer;" id="appointment_time" name="appointment_time" value="<?php echo $appointment_time_value; ?>" readonly data-toggle="tooltip" data-bs-placement="top" title="Default appointment time. This field is read-only.">
+                          <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                            <i class="fa-solid fa-info-circle"></i>
+                          </span>
+                        </div>
                       </div>
                     </div>
                     <div class="col-12 d-flex mt-3">
@@ -68,7 +92,7 @@
                               <option value="" selected disabled>Select Appointment Status</option>
                               <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?>>Pending</option>
                               <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
-                              <option value="Rejected" <?php echo (isset($status) && $status === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                              <option value="Declined" <?php echo (isset($status) && $status === 'Declined') ? 'selected' : ''; ?>>Declined</option>
                               <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
                             </select>
                           <?php else: ?>
