@@ -36,6 +36,21 @@ Trait Model
     return $this->query($query, $data);
   }
 
+  public function whereNot($data)
+  {
+    $keys = array_keys($data);
+    $query = "SELECT * FROM {$this->table} WHERE ";
+
+    foreach ($keys as $key) {
+      $query .= $key . " != :" . $key . " AND ";
+    }
+
+    $query = rtrim($query, " AND ");
+    $query .= " ORDER BY {$this->order_column} {$this->order_type}";
+
+    return $this->query($query, $data);
+  }
+
     public function whereIn($column, $values)
   {
     $placeholders = implode(', ', array_fill(0, count($values), '?'));
@@ -173,4 +188,33 @@ Trait Model
 
     return 0;
   }
+
+  public function countWithPattern($pattern)
+  {
+    $query = "SELECT COUNT(*) as count FROM {$this->table} WHERE ";
+    
+    // Assume $pattern is an associative array where keys represent column names
+    // and values represent the patterns to match
+    $conditions = [];
+    foreach ($pattern as $column => $value) {
+        $conditions[] = "$column LIKE :$column";
+    }
+    
+    $query .= implode(" AND ", $conditions);
+
+    $result = $this->query($query, $pattern);
+
+    if (!empty($result)) {
+        return $result[0]->count;
+    }
+
+    return 0;
+  }
+
+  public function distinct($column) {
+    $query = "SELECT DISTINCT $column FROM {$this->table}";
+    return $this->query($query);
+  }
+
+
 }
