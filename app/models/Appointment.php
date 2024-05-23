@@ -5,6 +5,7 @@ class Appointment
   use Model;
 
   protected $table = 'appointments';
+
   protected $allowedColumns = [
     'appointment_id',
     'user_id',
@@ -19,12 +20,12 @@ class Appointment
     'comments',
     'date_created',
   ];
+
   protected $order_column = 'date_created';
 
   public function validate($data)
   {
     $errors = [];
-
     $requiredFields = [
       'name' => 'Full Name',
       'email' => 'Email',
@@ -32,18 +33,15 @@ class Appointment
       'appointment_date' => 'Preferred Date',
       'appointment_time' => 'Preferred Time'
     ];
-
     foreach ($requiredFields as $field => $fieldName) {
       if (empty($data[$field])) {
         $errors[] = $fieldName . ' is required.';
       }
     }
-
     if (empty($data['phone_number'])) {
       $errors[] = "Appointment Phone Number is required.";
     } else {
       $phoneNumber = $data['phone_number'];
-  
       if (strlen($phoneNumber) !== 10) {
         $errors[] = "Invalid Appointment phone number. Please <br> enter a valid 10-digit number after '+63'.";
       } elseif (!is_numeric(substr($phoneNumber, 3))) {
@@ -52,51 +50,40 @@ class Appointment
         $errors[] = "Invalid Appointment phone number. Please <br> type only the next digit after '+63'.";
       }
     }
-
     if (!empty($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
       $errors[] = 'Invalid email format.';
     }
-
     if (!empty($data['appointment_date']) && !strtotime($data['appointment_date'])) {
       $errors[] = 'Preferred Date must be a valid date.';
     } elseif (!$this->isGovernmentWorkingDay($data['appointment_date'])) {
       $errors[] = 'Appointments can only be scheduled from Monday to Friday.';
     } elseif ($this->isPastDate($data['appointment_date'])) {
       $errors[] = 'Appointment date must be in the future.';
-    } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
-      $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
-      $errors[] = 'Appointments cannot be scheduled more than <br> 30 days in advance.';
+      $errors[] = 'Appointments cannot be scheduled more than <br> 15 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
       $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
     }
-
     if (empty($data['appointment_time'])) {
       $errors[] = 'Preferred Time is required.';
     } elseif (!$this->isWorkingHour($data['appointment_time'])) {
       $errors[] = 'Appointments can only be scheduled <br> during government working hours (8:00 AM to 5:00 PM).';
     }
-
     if ($this->isSlotTaken($data['appointment_date'], $data['appointment_time'])) {
-      $errors[] = '<strong>The preferred appointment slot is already taken.</strong> Please choose <br> another available slot or select a different date.';
+      $errors[] = 'The preferred appointment slot is already taken. Please choose another available slot or select a different date.';
     }
-   
-  
     if ($this->hasDuplicatePhoneNumber($data['phone_number'], $data['appointment_date'], $data['appointment_time'])) {
       $errors[] = 'An appointment with this phone number already exists for the same date and time.';
     }
-
     if ($this->isBlackoutDate($data['appointment_date'])) {
       $errors[] = 'Appointments cannot be scheduled on this date due to a blackout period.';
     }
-
     return $errors;
   }
 
   public function updateValidation($data)
   {
     $errors = [];
-
     $requiredFields = [
       'name' => 'Full Name',
       'email' => 'Email',
@@ -104,18 +91,15 @@ class Appointment
       'appointment_date' => 'Preferred Date',
       'appointment_time' => 'Preferred Time'
     ];
-
     foreach ($requiredFields as $field => $fieldName) {
       if (empty($data[$field])) {
         $errors[] = $fieldName . ' is required.';
       }
     }
-
     if (empty($data['phone_number'])) {
       $errors[] = "Appointment Phone Number is required.";
     } else {
       $phoneNumber = $data['phone_number'];
-  
       if (strlen($phoneNumber) !== 10) {
         $errors[] = "Invalid Appointment phone number. Please <br> enter a valid 10-digit number after '+63'.";
       } elseif (!is_numeric(substr($phoneNumber, 3))) {
@@ -124,73 +108,60 @@ class Appointment
         $errors[] = "Invalid Appointment phone number. Please <br> type only the next digit after '+63'.";
       }
     }
-
     if (!empty($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
       $errors[] = 'Invalid email format.';
     }
-
     if (!empty($data['appointment_date']) && !strtotime($data['appointment_date'])) {
       $errors[] = 'Preferred Date must be a valid date.';
     } elseif (!$this->isGovernmentWorkingDay($data['appointment_date'])) {
       $errors[] = 'Appointments can only be scheduled from Monday to Friday.';
-    } elseif ($this->isPastDate($data['appointment_date'])) {
-      $errors[] = 'Appointment date must be in the future.';
-    } elseif (!$this->hasMinimumLeadTime($data['appointment_date'])) {
-      $errors[] = 'Appointments must be scheduled at <br> least one day in advance.';
     } elseif (!$this->isWithinMaximumAdvanceBooking($data['appointment_date'])) {
       $errors[] = 'Appointments cannot be scheduled more than <br> 15 days in advance.';
     } elseif ($this->hasMaximumDailyAppointments($data['appointment_date'])) {
       $errors[] = 'Maximum appointments reached for this day. Please choose another date.';
     }
-
     if (empty($data['appointment_time'])) {
       $errors[] = 'Preferred Time is required.';
     } elseif (!$this->isWorkingHour($data['appointment_time'])) {
       $errors[] = 'Appointments can only be scheduled <br> during government working hours (8:00 AM to 5:00 PM).';
     }
-
     if ($this->isBlackoutDate($data['appointment_date'])) {
-      $errors[] = 'Appointments cannot be scheduled on this date due to a blackout period.';
+      $errors[] = 'Appointments cannot be scheduled on this date due to a holiday period.';
     }
-
     return $errors;
   }
 
-  private function isSlotTaken($date, $time)
+  public function isSlotTaken($date, $time)
   {
-    $existingAppointment = $this->first([
-      'appointment_date' => $date,
-      'appointment_time' => $time,
-      'status' => 'Pending',
-    ]);
-
+    $pendingAppointment = $this->count(['appointment_date' => $date, 'appointment_time' => $time, 'status' => 'Pending']);
+    $approvedAppointment = $this->count(['appointment_date' => $date, 'appointment_time' => $time, 'status' => 'Approved']);
+    $existingAppointment = $pendingAppointment + $approvedAppointment;
     return !empty($existingAppointment);
   }
 
   public function canBeCanceled($appointment_id)
   {
     $appointment = $this->first(['appointment_id' => $appointment_id]);
-  
     if (!$appointment) {
       return false; // Appointment not found
     }
-  
+
     if ($appointment->status === 'Cancelled' || $appointment->status === 'Approved') {
       return false; // Already cancelled or approved
     }
-  
+
     $currentTime = strtotime('now');
     $appointmentTime = strtotime($appointment->appointment_date . ' ' . $appointment->appointment_time);
     $timeDifference = $appointmentTime - $currentTime;
     $hoursDifference = $timeDifference / (60 * 60);
-  
+
     if ($hoursDifference <= 24) {
       return false; // Cannot be canceled as per cancellation policy
     }
-  
+
     return true; // Appointment can be canceled
   }
-  
+
   public function cancelAppointment($appointment_id)
   {
     if (!$this->canBeCanceled($appointment_id)) {
@@ -201,14 +172,14 @@ class Appointment
     return true; // Appointment successfully canceled
   }
 
-  private function isGovernmentWorkingDay($date)
+  public function isGovernmentWorkingDay($date)
   {
     // Assume government working days are Monday to Friday
     $dayOfWeek = date('N', strtotime($date));
     return ($dayOfWeek >= 1 && $dayOfWeek <= 5);
   }
 
-  private function isWorkingHour($time)
+  public function isWorkingHour($time)
   {
     date_default_timezone_set('Asia/Manila');
     $startTime = strtotime('08:00 AM');
@@ -218,35 +189,53 @@ class Appointment
     return ($appointmentTime >= $startTime && $appointmentTime <= $endTime);
   }
 
-  private function isPastDate($date)
+  public function isPastDate($date)
   {
     $today = strtotime(date('Y-m-d'));
     $selectedDate = strtotime($date);
     return ($selectedDate < $today);
   }
 
-  private function hasMinimumLeadTime($date)
+  public function hasMinimumLeadTime($date, $status)
   {
-    // Minimum lead time: 1 day -> checks if the selected date is at least one day ahead of the current date
+    // Minimum lead time: 1 day
     $today = strtotime(date('Y-m-d'));
     $selectedDate = strtotime($date);
     $oneDayAhead = strtotime('+1 day', $today);
-    return ($selectedDate >= $oneDayAhead);
+
+    // Check if the appointment is pending and scheduled at least one day in advance
+    if ($status !== 'Approved' && $status !== 'On Process' && $status !== 'Completed') {
+      return ($selectedDate >= $oneDayAhead);
+    }
+
+    return true; // Allow appointments with other statuses regardless of lead time
   }
 
-  private function isWithinMaximumAdvanceBooking($date)
+  public function isWithinMaximumAdvanceBooking($date)
   {
-    // Maximum advance booking: 15 days
+    // Maximum advance booking: 15 weekdays, excluding weekends
     $today = strtotime(date('Y-m-d'));
     $selectedDate = strtotime($date);
-    $fifteenDaysAhead = strtotime('+15 days', $today);
-    return ($selectedDate <= $fifteenDaysAhead);
+    $weekdaysAhead = 0;
+    $currentDate = $today;
+
+    while ($weekdaysAhead < 15) {
+      $currentDate = strtotime('+1 day', $currentDate);
+      // Skip weekends (Saturday and Sunday)
+      $dayOfWeek = date('N', $currentDate);
+      if ($dayOfWeek < 6) { // Check if it's not Saturday (6) or Sunday (7)
+        $weekdaysAhead++;
+      }
+    }
+
+    // Check if selected date is within the 15 weekdays ahead
+    return ($selectedDate <= $currentDate);
   }
 
-  private function hasMaximumDailyAppointments($date)
+  public function hasMaximumDailyAppointments($date)
   {
     // Assuming the appointments are in 1-hour intervals
-    $totalSlots = 50; // Total available slots in a day
+    $totalSlots = 100; // Total available slots in a day
     $appointments = $this->where(['appointment_date' => $date]);
 
     // Check if $appointments is a valid result set (array or object)
@@ -297,7 +286,7 @@ class Appointment
 
     return in_array($date, $blackoutDatesWithYear);
   }
-  
+
   public function getUniqueYears()
   {
     $query = "SELECT DISTINCT YEAR(appointment_date) AS year FROM {$this->table} ORDER BY year DESC";
@@ -327,6 +316,9 @@ class Appointment
         COUNT(*) AS total_appointments,
         SUM(CASE WHEN a.status = 'Pending' THEN 1 ELSE 0 END) AS pending_appointments,
         SUM(CASE WHEN a.status = 'Completed' THEN 1 ELSE 0 END) AS completed_appointments,
+        SUM(CASE WHEN a.status = 'Approved' THEN 1 ELSE 0 END) AS approved_appointments,
+        SUM(CASE WHEN a.status = 'Declined' THEN 1 ELSE 0 END) AS declined_appointments,
+        SUM(CASE WHEN a.status = 'On Process' THEN 1 ELSE 0 END) AS on_process_appointments,
         YEAR(a.appointment_date) AS year
       FROM {$this->table} a
       JOIN users o ON a.user_id = o.user_id
@@ -339,11 +331,11 @@ class Appointment
     if (!empty($result) && (is_array($result) || is_object($result))) {
       return $result;
     } else {
-      return []; // Return an empty array if the result is not valid
+      return [];
     }
   }
 
-  public function getAppointmentsByDateRange($statusFilter, $startDate, $endDate, $whereConditions = [])
+  public function getAppointmentsByDateRangeAndStatus($startDate, $endDate, $statusFilter, $whereConditions = [])
   {
     $whereClause = '';
 
@@ -353,7 +345,7 @@ class Appointment
       }
     }
 
-    if ($statusFilter !== '') {
+    if ($statusFilter !== 'all') {
       $whereClause .= "AND status = '$statusFilter'";
     }
 
@@ -361,7 +353,31 @@ class Appointment
       $whereClause .= "AND appointment_date BETWEEN '$startDate' AND '$endDate'";
     }
 
-    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY date_created DESC";
+    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY appointment_date DESC";
     return $this->query($query);
+  }
+
+  public function getAppointmentsForAdminWithSpecificUser($userId, $statusFilter, $startDate, $endDate)
+  {
+    $params = [':userId' => $userId];
+    $query = "SELECT * FROM {$this->table} WHERE user_id = :userId";
+
+    $whereClause = '';
+    if ($statusFilter !== 'all') {
+      $whereClause .= " AND status = :statusFilter";
+      $params[':statusFilter'] = $statusFilter;
+    }
+
+    if (!empty($startDate) && !empty($endDate)) {
+      $whereClause .= " AND appointment_date BETWEEN :startDate AND :endDate";
+      $params[':startDate'] = $startDate;
+      $params[':endDate'] = $endDate;
+    }
+
+    if (!empty($whereClause)) {
+      $query .= $whereClause;
+    }
+
+    return $this->query($query, $params);
   }
 }
