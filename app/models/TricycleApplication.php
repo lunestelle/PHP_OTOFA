@@ -128,13 +128,12 @@ class TricycleApplication
         $expiryYear = date('Y', strtotime($data['make_model_expiry_date']));
         $acquiredYear = intval($data['make_model_year_acquired']);
 
-        // Validate that Model Expiry Date year should be 10 years from the Model Year Acquired
-        if ($expiryYear != ($acquiredYear + 10)) {
-          $errors[] = 'Model Expiry Date year should be 10 years <br> from the Model Year Acquired.';
+        // Validate that Model Expiry Date year should be 12 years from the Model Year Acquired
+        if ($expiryYear != ($acquiredYear + 12)) {
+          $errors[] = 'Model Expiry Date year should be 12 years <br> from the Model Year Acquired.';
         }
       }
     }
-
     return $errors;
   }
 

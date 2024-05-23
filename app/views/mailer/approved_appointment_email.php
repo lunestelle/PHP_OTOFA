@@ -8,8 +8,7 @@
           </tr>
           <tr>
             <td style="text-align:center;">
-              <img class="logo" src="public/assets/images/logo.png" alt="">
-              <a href="<?= ROOT ?>" title="logo" target="_blank" style="font-size: 48px; font-weight: bold; color: #FF4200; text-decoration: none;">Sakay<span style="color: #000;">cle.</span></a>
+              <a href="<?= ROOT ?>" title="logo" target="_blank" style="width: 100px;"><img src="https://wlccicte.com/otofa.com/public/assets/images/logo-email.png"></a>
             </td>
           </tr>
           <tr>
@@ -37,7 +36,7 @@
                     <p style="color:#455056; font-size:15px;line-height:24px; margin-top:15px;">
                       {{SubMessage}}
                     </p>
-                    <a href="{{SiteLink}}" style="display: inline-block; background-color: #FF4200; color: #fff; text-decoration: none !important; font-weight: 500; margin-top: 20px; text-transform: uppercase; font-size: 14px; padding: 10px 24px; border-radius: 50px; transition: background-color 0.3s ease; color: #fff;" class="btn reset-button">Sakaycle</a>
+                    <a href="{{SiteLink}}" style="display: inline-block; background-color: #FF4200; color: #fff; text-decoration: none !important; font-weight: 500; margin-top: 20px; text-transform: uppercase; font-size: 14px; padding: 10px 24px; border-radius: 50px; transition: background-color 0.3s ease; color: #fff;" class="btn reset-button">OTOFA</a>
                   </td>
                 </tr>
                 <tr>
@@ -50,7 +49,7 @@
             </tr>
             <tr>
               <td style="text-align:center;">
-                <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <?php echo date("Y"); ?> Sakaycle</p>
+                <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <?php echo date("Y"); ?> OTOFA</p>
               </td>
             </tr>
             <tr>

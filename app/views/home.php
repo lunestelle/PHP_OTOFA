@@ -9,15 +9,14 @@
 
  <header>
     <div class="d-flex">
-      <a href="<?=ROOT?>" class="d-flex text-decoration-none">
-        <img class="logo-1" src="public/assets/images/logo.png" alt="Sakaycle Logo">
-        <p>Sakay<span>cle</span></p>
+      <a href="<?=ROOT?>" class="text-decoration-none">
+        <img class="logo-home" src="public/assets/images/logo-dashboard.png" alt="OTOFA Logo">
       </a>
     </div>
     <nav class="navbar navbar-expand" id="navbar">
       <a href="#home" class="nav-link text-white scrollto active">HOME</a>
       <a href="#about" class="nav-link scrollto text-white">ABOUT</a>
-      <a href="#team" class="nav-link scrollto text-white">TEAM</a>
+      <a href="#team" class="nav-link scrollto text-white">DEVELOPER</a>
       <a href="#contact" class="nav-link scrollto text-white">CONTACT</a>
       <?php if (is_authenticated()): ?>
         <a href="dashboard" class="nav-link">DASHBOARD</a>
@@ -27,10 +26,11 @@
 
   <section class="home" id="home">
     <div class="background container">
-      <img class="logo" src="public/assets/images/oc_logo.png" alt="Ormoc Logo">
+      <p class="text-white logo-meaning">Ormoc Tricycle Online Franchise Appointment</p>
+      <img class="logo mt-3" src="public/assets/images/oc_logo.png" alt="Ormoc Logo">
       <div class="text-container mt-4">
         <h1 class="text-uppercase">Transportation Development Franchising <span></span></h1>
-        <h1 class="text-uppercase">and Regulatory office<span></span></h1>
+        <h1 class="text-uppercase">and Regulatory<span></span></h1>
       </div>
       <?php if (!is_authenticated()): ?>
         <a href="javascript:void(0)" id="sign_in_btn" class="cta">SIGN IN/REGISTER</a>
@@ -98,7 +98,7 @@
         <div class="col-12 col-sm-10 col-lg-12">
           <!-- Section Heading-->
           <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-            <h1>OUR <span class="text-warning">TEAM</span></h1>
+            <h1>THE <span class="text-warning">DEVELOPER</span></h1>
             <p class="team-description">We are a group of BSIT students who are passionate and committed to using our various skills and knowledge to create innovative solutions through teamwork.</p>
           </div>
         </div>
@@ -156,12 +156,8 @@
           </p>
           <div class="mt-4">
             <!-- Facebook -->
-            <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-facebook-f"></i></a>
-            <!-- Twitter -->
-            <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-twitter"></i></a>
-            <!-- Google + -->
-            <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-google-plus-g"></i></a>
-            <!-- Linkedin -->
+            <a href="https://www.facebook.com/profile.php?id=100093952094602" type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-facebook-f"></i></a>
+      
           </div>
         </div>
         <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
@@ -186,16 +182,16 @@
           <div class="mt-2">
             <ul class="fa-ul" style="margin-left: 1.65em;">
               <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Aunubing St. Cogon, Ormoc City</span>
+                <span class="fa-li"><i class="fas fa-home fa-lg"></i></span><span class="ms-2">Aunubing St. Cogon, Ormoc City</span>
               </li>
               <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">info@sakaycle.com</span>
+                <span class="fa-li"><i class="fas fa-envelope fa-lg"></i></span><span class="ms-2">info@otofa.com</span>
               </li>
               <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">+ 561 2485 52416</span>
+                <span class="fa-li"><i class="fas fa-phone fa-lg"></i></span><span class="ms-2">(053) 255-7395 / 560-8140 local 1072</span>
               </li>
               <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-print"></i></span><span class="ms-2">+ 01 234 567 89</span>
+                <span class="fa-li"><i class="fa-solid fa-mobile-screen fa-lg"></i></span><span class="ms-2">09955755468</span>
               </li>
             </ul>
           </div>
@@ -223,8 +219,8 @@
       </div>
     </div>
     <div class="text-center p-1 mt-2" style="background-color: #FF4200;">
-      © 2023 Copyright:
-      <a class="text-white" href="#">wlcresearch2023.com</a>
+      © 2024 Copyright:
+      <a class="text-white" href="#team">wlcresearch2024.com</a>
     </div>
   </footer>
   <script>

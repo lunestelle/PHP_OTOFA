@@ -5,8 +5,8 @@
     </div>
     <div class="col-lg-12 mt-2">
       <div class="row">
-        <div class="col-12 pt-2">
-          <div class="container pt-4">
+        <div class="col-12">
+          <div class="container">
             <div id="mainteanceLogForm">
               <form class="default-form" method="POST" action="" enctype="multipart/form-data">
                 <div class="content-container mx-1 mt-3 pb-4">
@@ -153,8 +153,9 @@
             let driverData = response.data.driverData;
 
             if (driverData) {
-              driverIdInput.val(driverData.driver_id); // Set the driver_id input value
-              driverNameInput.val(driverData.first_name + ' ' + driverData.middle_name + ' ' + driverData.last_name);
+              let driver = driverData[0];
+              driverIdInput.val(driver.driver_id);
+              driverNameInput.val(driver.first_name + ' ' + driver.middle_name + ' ' + driver.last_name);
               driverNameInput.tooltip('hide').attr('data-bs-original-title', '');
             } else {
               driverIdInput.val(''); // Reset the driver_id input value

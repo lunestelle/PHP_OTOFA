@@ -38,4 +38,33 @@ class TricycleStatuses
       return false;
     }
   }
+
+  public function getTricycleCinNumbersWithStatuses($userId, $appointmentType = null)
+  {
+    switch ($appointmentType) {
+      case 'Renewal of Franchise':
+        $statuses = ['Renewal Required', 'Expired Renewal (1st Notice)', 'Expired Renewal (2nd Notice)', 'Expired Renewal (3rd Notice)'];
+        break;
+      case 'Change of Motorcycle':
+        $statuses = ['Change Motor Required', 'Expired Motor (1st Notice)', 'Expired Motor (2nd Notice)', 'Expired Motor (3rd Notice)'];
+        break;
+      default:
+        $statuses = null;
+        break;
+    }
+
+    if ($statuses !== null) {
+      $statusString = "'" . implode("','", $statuses) . "'";
+
+      $query = "SELECT DISTINCT tricycle_cin_numbers.cin_number FROM {$this->table}  INNER JOIN tricycles ON tricycle_statuses.tricycle_id = tricycles.tricycle_id INNER JOIN tricycle_cin_numbers ON tricycles.cin_id = tricycle_cin_numbers.tricycle_cin_number_id WHERE tricycle_statuses.user_id = ? AND tricycle_statuses.status IN ($statusString)";
+        
+      $params = [$userId];
+    } else {
+      // For Transfer of Ownership, show all tricycle CIN numbers
+      $query = "SELECT DISTINCT cin_number FROM tricycle_cin_numbers WHERE user_id = ?";
+      $params = [$userId];
+    }
+
+    return $this->query($query, $params);
+  }
 }

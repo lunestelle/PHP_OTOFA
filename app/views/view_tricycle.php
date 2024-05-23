@@ -146,18 +146,28 @@
                     </div>
                   <?php endif; ?>
                   <?php if (empty($tricycleApplicationData->driver_license_no) && !empty($statuses)): ?>
-                    <div class="col-3">
-                      <p for="coc_no_expiry_date" class="form-label">COC Expiry Date</p>
-                      <div class="form-control">
-                        <?php echo isset($tricycleApplicationData->coc_no_expiry_date) ? $tricycleApplicationData->coc_no_expiry_date : ''; ?>
+                    <div class="col-12 d-flex justify-content-between pt-2">
+                      <div>
+                        <p for="coc_no_expiry_date" class="form-label">COC Expiry Date</p>
+                        <div class="form-control">
+                          <?php echo isset($tricycleApplicationData->coc_no_expiry_date) ? $tricycleApplicationData->coc_no_expiry_date : ''; ?>
+                        </div>
+                      </div>
+                      <div>
+                        <p for="status" class="form-label">Tricycle Status</p>
+                        <div class="form-control">
+                          <?php echo isset($statuses) ? $statuses : ''; ?>
+                        </div>
+                      </div>
+                      <div>
+                        <p for="status" class="form-label"></p>
+                        <div class="form-control" style="background: none; color: none; border: none;"></div>
+                      </div>
+                      <div>
+                        <p for="status" class="form-label"></p>
+                        <div class="form-control" style="background: none; color: none; border: none;"></div>
                       </div>
                     </div>
-                    <div class="col-3 px-2">
-                    <p for="status" class="form-label">Tricycle Status</p>
-                    <div class="form-control">
-                      <?php echo isset($statuses) ? $statuses : ''; ?>
-                    </div>
-                  </div>
                   <?php endif; ?>
                   <?php if (!empty($tricycleApplicationData->driver_license_no) && (!empty($tricycleApplicationData->driver_license_expiry_date) && $tricycleApplicationData->driver_license_expiry_date != "0000-00-00") && !empty($statuses)) : ?>
                     <div class="col-3 px-4 mx-1">
@@ -181,7 +191,7 @@
                     function displayImage($imagePath, $imageAlt) {
                       if ($imagePath) {
                         echo '<div class="col-md-4 text-center">';
-                        echo '<p class="form-label fw-semibold fs-6">' . $imageAlt . '</p>';
+                        echo '<p class="form-label fw-semibold fs-6 pt-1 mt-1" style="font-size: 14px !important;">' . $imageAlt . '</p>';
                         echo '<div class="image-container position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">';
                         echo '<img src="' . $imagePath . '" class="img-fluid rounded fixed-height-image" alt="' . $imageAlt . '">';
                         echo '</div>';
@@ -362,8 +372,7 @@
             <div id="taripaTableContainer" class="content-container mt-4">
               <div class="bckgrnd pt-2">
                 <?php
-                  $taripaTitle = isset($tricycleApplicationData->route_area) ? $tricycleApplicationData->route_area : '';
-                  $taripaTitle .= isset($recentYear) ? ' &mdash; ' . $recentYear . ' TARIPA' : '';
+                    $taripaTitle = isset($recentYear) ? $recentYear . ' TARIPA' : '';
                 ?>
                 <h6 class="pl-2 text-uppercase text-center text-dark fs-6">
                   <?php echo $taripaTitle; ?>
@@ -374,18 +383,16 @@
                   <thead>
                     <tr>
                       <th class="text-white text-center" style="background-color:#090C1B !important;">Barangay</th>
-                      <th class="text-white text-center" style="background-color:#090C1B !important;">Regular Rate</th>
-                      <th class="text-white text-center" style="background-color:#090C1B !important;">Student Rate</th>
-                      <th class="text-white text-center" style="background-color:#090C1B !important;">Senior Citizen & PWD Rate</th>
+                      <th class="text-white text-center" style="background-color:#090C1B !important;">Regular Fare</th>
+                      <th class="text-white text-center" style="background-color:#090C1B !important;">Discounted Fare</th>
                     </tr>
                 </thead>
                   <tbody>
                     <?php foreach ($recentTaripaData as $taripa): ?>
                       <tr>
                         <td><?php echo $taripa['barangay']; ?></td>
-                        <td><?php echo '₱' . number_format($taripa['regular_rate'], 2); ?></td>
-                        <td><?php echo '₱' . number_format($taripa['student_rate'], 2); ?></td>
-                        <td><?php echo '₱' . number_format($taripa['senior_and_pwd_rate'], 2); ?></td>
+                        <td><?php echo '₱' . number_format($taripa['regular_fare'], 2); ?></td>
+                        <td><?php echo '₱' . number_format($taripa['discounted_fare'], 2); ?></td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>

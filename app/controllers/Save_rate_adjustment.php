@@ -1,4 +1,5 @@
 <?php
+
 class Save_rate_adjustment
 {
   use Controller;
@@ -11,13 +12,14 @@ class Save_rate_adjustment
       $rate_action = $_POST['rate_action'];
       $percentage = $_POST['percentage'];
       $year = $_POST['year'];
+      $effective_date = $_POST['effective_date'];
       $previous_year = $_POST['previous_year'];
 
       $rateAdjustmentModel = new RateAdjustment();
       $data = [
         'rate_action' => $rate_action,
         'percentage' => $percentage,
-        'effective_year' => $year,
+        'effective_date' => $effective_date,
         'previous_year' => $previous_year,
         'created_at' => date('Y-m-d H:i:s'),
       ];

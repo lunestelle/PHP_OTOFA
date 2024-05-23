@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>404 Not Found</title>
+  <link rel="icon" href="public/assets/images/icon-logo.png" type="image/x-icon">
   <link rel="stylesheet" href="public/assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="public/assets/fontawesome/css/all.min.css">
   <style>

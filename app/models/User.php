@@ -20,6 +20,8 @@ class User
 		'token_expiration',
 		'phone_verification_code',
 		'phone_number_status',
+		'role',
+		'permissions',
 	];
 	protected $order_column = 'user_id';
 	public $errors = [];
@@ -64,14 +66,95 @@ class User
 		return true;
 	}
 
+	public function adminUserValidate($data)
+	{
+		$errors = [];
+
+		$requiredFields = [
+			'first_name' => 'First Name',
+			'last_name' => 'Last Name',
+			'email' => 'Email',
+			'address' => 'Address',
+			'phone_number' => 'Phone Number',
+			'role' => 'Role'
+		];
+	
+		foreach ($requiredFields as $field => $fieldName) {
+			if (empty($data[$field])) {
+				$errors[] = "{$fieldName} is required.";
+			}
+		}
+
+		if (empty($data['phone_number'])) {
+			$errors[] = "Phone Number is required.";
+		} else {
+			$phoneNumber = $data['phone_number'];
+		
+			if (strlen($phoneNumber) !== 10) {
+				$errors[] = "Invalid phone number. Please enter a valid 10-digit number after '+63'.";
+			}  elseif (!is_numeric(substr($phoneNumber, 3))) {
+        $errors[] = "Invalid phone number. Please enter only numeric digits (0-9) after '+63'.";
+			} else {
+				$existingUserWithPhoneNumber = $this->first(['phone_number' => $phoneNumber]);
+				$existingUserId = isset($existingUserWithEmail->user_id) ? intval($existingUserWithEmail->user_id) : null;
+				$userId = isset($data['user_id']) ? intval($data['user_id']) : null;
+
+				if ($existingUserWithPhoneNumber) {
+					if ($userId !== null) {
+						if ($existingUserId !== $userId) {
+							$errors[] = "The phone number '$phoneNumber' has already been taken.";
+						}
+					} else {
+						$errors[] = "The phone number '$phoneNumber' has already been taken.";
+					}
+				}
+			}
+		}
+	
+		$email = $data['email'];
+		$password = $data['password'];
+		$passwordConfirmation = $data['password_confirmation'];
+
+		if (!empty($email)) {
+			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				$errors[] = 'Invalid email format.';
+			} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				$errors[] = 'Invalid email format.';
+			} else {
+				$existingUserWithEmail = $this->first(['email' => $email]);
+				$existingUserId = isset($existingUserWithEmail->user_id) ? intval($existingUserWithEmail->user_id) : null;
+				$userId = isset($data['user_id']) ? intval($data['user_id']) : null;
+
+				if ($existingUserWithEmail) {
+					if ($userId !== null) {
+						if ($existingUserId !== $userId) {
+							$errors[] = "The email address '$email' has already been taken.";
+						}
+					} else {
+						$errors[] = "The email address '$email' has already been taken.";
+					}
+				}
+			}
+		}
+	
+		if (!empty($password) && !empty($passwordConfirmation)) {
+			if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $password) || strlen($password) < 8 || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $passwordConfirmation) || strlen($passwordConfirmation) < 8) {
+				$errors[] = 'Passwords need to be at least 8 characters long, contain 1 upper and 1 <br>  lower-case letter, 1 number, and at least 1 special character (e.g. !"#$%&).';
+			} elseif ($password !== $passwordConfirmation) {
+				$errors[] = 'Passwords do not match. Please try again.';
+			}
+		}
+
+		return $errors;
+	}
+  
 	public function isVerificationTokenUsed($verification_token)
 	{
-			// Check if the token has already been used by verifying the verification_status
-			$result = $this->where(['verification_token' => $verification_token, 'verification_status' => 'verified']);
-			return !empty($result);
+    // Check if the token has already been used by verifying the verification_status
+    $result = $this->where(['verification_token' => $verification_token, 'verification_status' => 'verified']);
+    return !empty($result);
 	}
 	
-
 	public function validateEmailOrPhone($emailOrPhone)
 	{
 		if (empty($emailOrPhone)) {
@@ -92,10 +175,9 @@ class User
 		} elseif (!preg_match('/^(?:\+639[0-9]{9}|09[0-9]{9})$/', $phone_number)) {
 			$this->addError('phone_number', 'Invalid phone number format.');
 		} elseif (!empty($this->where(['phone_number' => $phone_number]))) {
-			$this->addError('phone_number', "The phone number '$emailOrPhone' has already been taken.");
+			$this->addError('phone_number', "The phone number '$phone_number' has already been taken.");
 		}
 	}
-
 
 	private function validateEmail($email)
 	{
@@ -222,6 +304,25 @@ class User
 		return true;
 	}
 
+	public function countOperatorsWithActiveOrDroppedTricycleStatus()
+	{
+		$query = "SELECT COUNT(DISTINCT u.user_id) AS count
+							FROM users u
+							INNER JOIN tricycles t ON u.user_id = t.user_id
+							INNER JOIN tricycle_statuses ts ON t.tricycle_id = ts.tricycle_id
+							WHERE u.role = 'operator'
+							AND ts.status IN ('Active', 'Dropped')";
+
+		$result = $this->query($query);
+
+		$count = 0;
+
+		if ($result && isset($result[0]->count)) {
+			$count = $result[0]->count;
+		}
+
+		return $count;
+	}
 
 	private function validateRequired($value, $field)
 	{
@@ -235,4 +336,30 @@ class User
 	{
 		$this->errors[$field] = $message;
 	}
+
+  public function getFilteredUsers($selectedFilter, $selectedRoleFilter, $whereConditions = [])
+  {
+    $whereClause = '';
+    $queryParams = [];
+
+    if (!empty($whereConditions)) {
+        foreach ($whereConditions as $column => $value) {
+            $whereClause .= " AND $column = ?";
+            $queryParams[] = $value;
+        }
+    }
+
+    if ($selectedFilter !== 'all') {
+        $whereClause .= " AND CONCAT(first_name, ' ', last_name) = ?";
+        $queryParams[] = $selectedFilter;
+    }
+
+    if ($selectedRoleFilter !== 'all') {
+        $whereClause .= " AND role = ?";
+        $queryParams[] = $selectedRoleFilter;
+    }
+
+    $query = "SELECT * FROM {$this->table} WHERE 1 $whereClause ORDER BY user_id DESC";
+    return $this->query($query, $queryParams);
+  }
 }

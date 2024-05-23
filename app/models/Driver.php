@@ -5,7 +5,7 @@ class Driver
   use Model;
 
   protected $table = 'drivers';
-  protected $allowedColumns = ['first_name', 'last_name', 'middle_name', 'address', 'phone_no', 'birth_date', 'license_no', 'license_validity', 'user_id', 'tricycle_cin_number_id'];
+  protected $allowedColumns = ['first_name', 'last_name', 'middle_name', 'address', 'phone_no', 'birth_date', 'license_no', 'license_expiry_date', 'user_id', 'tricycle_cin_number_id', 'last_notification_date'];
   protected $order_column = 'driver_id';
 
   public function validateData($formData)
@@ -55,11 +55,23 @@ class Driver
     }
 
     if (empty($formData['license_no'])) {
-      $errors[] = "License No. is required.";
+      $errors[] = "License Number is required.";
     }
 
-    if (empty($formData['license_validity'])) {
-      $errors[] = "License Validity is required.";
+    if (empty($formData['license_expiry_date'])) {
+      $errors[] = "License Expiry Date is required.";
+    } else {
+      // Check if the license expiry date is not in the past
+      $expiryDate = new DateTime($formData['license_expiry_date']);
+      $currentDate = new DateTime();
+      
+      if ($expiryDate <= $currentDate) {
+        $errors[] = "License Expiry Date must be in the future.";
+      }
+    }
+
+    if (empty($formData['tricycle_cin_number_id'])) {
+      $errors[] = "Tricycle CIN Number is required.";
     }
     
     return $errors;

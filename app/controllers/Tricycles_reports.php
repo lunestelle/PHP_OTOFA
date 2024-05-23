@@ -11,6 +11,18 @@ class Tricycles_reports
       redirect('');
     }
 
+    // Define the required permissions for accessing the edit user page
+    $requiredPermissions = [
+      "Can view tricycles reports"
+    ];
+
+    // Check if the logged-in user has any of the required permissions
+    $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+    if (!hasAnyPermission($requiredPermissions, $userPermissions)) {
+      set_flash_message("Access denied. You don't have the required permissions.", "error");
+      redirect('');
+    }
+
     $tricycleModel = new Tricycle();
     $tricycleStatusesModel = new TricycleStatuses;
     $userModel = new User();
@@ -30,15 +42,19 @@ class Tricycles_reports
           $droppedTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Dropped']);
           $renewalRequiredTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Renewal Required']);
           $changeMotorRequiredTricycles = $tricycleStatusesModel->count(['user_id' => $operator->user_id, 'status' => 'Change Motor Required']);
-  
-  
+          $expiredRenewalTricycles = $tricycleStatusesModel->countWithPattern(['user_id' => $operator->user_id, 'status' => 'Expired Renewal%']);
+          $expiredMotorTricycles = $tricycleStatusesModel->countWithPattern(['user_id' => $operator->user_id, 'status' => 'Expired Motor%']);
+
           $data['tricycleReports'][] = [
+            'user_id' => $operator->user_id,
             'operator_name' => $operator->first_name . ' ' . $operator->last_name,
             'total_tricycles' => $totalTricycles,
             'active_tricycles' => $activeTricycles,
             'dropped_tricycles' => $droppedTricycles,
             'renewal_required_tricycles' => $renewalRequiredTricycles,
             'change_motor_required_tricycles' => $changeMotorRequiredTricycles,
+            'expired_renewal_tricycles' => $expiredRenewalTricycles,
+            'expired_motor_tricycles' => $expiredMotorTricycles,
           ];
         }
       }
@@ -62,7 +78,6 @@ class Tricycles_reports
 
       downloadCsv($csvData, 'Tricycle_Reports_Export');
     }
-
 
     echo $this->renderView('tricycles_reports', true, $data);
   }

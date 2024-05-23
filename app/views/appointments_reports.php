@@ -7,13 +7,15 @@
       <?php if (!empty($appointmentsReports) && is_array($appointmentsReports)): ?>
         <div class="mt-3 text-end">
           <form method="post" action="">
-            <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
+            <button type="submit" id="exportCsv" name="exportCsv" style="border: none; background: none; padding: 0; margin: 0;">
+              <img src="public/assets/images/export-csv.png" style="height: 38px; width: 40px; position: absolute; top: 5px; right: 35px;" alt="export file">
+            </button>
           </form>
         </div>
 
         <div class="col-6 mt-3">
-          <label for="yearFilter" class="fw-bold">Filter By Year:</label>
-          <select id="yearFilter" class="form-select">
+          <label for="yearFilter" class="fw-bold" style="font-size: 13px;">Filter By Year:</label>
+          <select id="yearFilter" class="form-select" style="height: 35px; font-size: 14px;">
             <option value="all" <?php echo ($selectedFilter == 'all') ? 'selected' : ''; ?>>All</option>
             <?php foreach ($years as $year): ?>
               <option value="<?php echo $year; ?>" <?php echo ($year == $selectedFilter) ? 'selected' : ''; ?>><?php echo $year; ?></option>
@@ -30,6 +32,9 @@
               <th scope="col" class="text-center">Phone Number</th>
               <th scope="col" class="text-center">Total Appointments</th>
               <th scope="col" class="text-center">Pending Appointments</th>
+              <th scope="col" class="text-center">Approved Appointments</th>
+              <th scope="col" class="text-center">Declined Appointments</th>
+              <th scope="col" class="text-center">On Process Appointments</th>
               <th scope="col" class="text-center">Completed Appointments</th>
               <?php if ($selectedFilter == 'all'): ?>
                 <th scope="col" class="text-center">Appointment Year</th>
@@ -43,9 +48,12 @@
                   <td><?php echo $index++; ?></td>
                   <td><?php echo $report['operator_name']; ?></td>
                   <td><?php echo $report['phone_number']; ?></td>
-                  <td><?php echo $report['total_appointments']; ?></td>
-                  <td><?php echo $report['pending_appointments']; ?></td>
-                  <td><?php echo $report['completed_appointments']; ?></td>
+                  <td><a href="appointments?user_id=<?php echo $report['user_id']; ?>" style="color: #FF4200; font-weight: bold; text-decoration: none;"><?php echo $report['total_appointments']; ?></a></td>
+                  <td><a href="appointments?status=Pending&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['pending_appointments']; ?></a></td>
+                  <td><a href="appointments?status=Approved&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['approved_appointments']; ?></a></td>
+                  <td><a href="appointments?status=Declined&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['declined_appointments']; ?></a></td>
+                  <td><a href="appointments?status=On Process&user_id=<?php echo $report['user_id']; ?>" style="color: black; font-weight: bold; text-decoration: none;"><?php echo $report['on_process_appointments']; ?></a></td>
+                  <td><a href="appointments?status=Completed&user_id=<?php echo $report['user_id']; ?>" style="color: blue; font-weight: bold; text-decoration: none;"><?php echo $report['completed_appointments']; ?></a></td>
                   <?php if ($selectedFilter == 'all'): ?>
                     <td><?php echo $report['year']; ?></td>
                   <?php endif; ?>

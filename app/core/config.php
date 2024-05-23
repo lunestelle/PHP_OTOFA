@@ -11,17 +11,17 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('ROOT', 'http://localhost/PHP_Sakaycle');
 } else {
 	/** Database configuration **/
-	define('DB_NAME', 'sakaycle'); 
+	define('DB_NAME', 'otofa'); 
 	define('DB_HOST', 'localhost');
-	define('DB_USER', 'sakaycle_admin');
-	define('DB_PASS', 'KYio]63K{9bf'); 
+	define('DB_USER', 'otofa');
+	define('DB_PASS', 'otofa'); 
 	define('DB_DRIVER', 'mysql');
 
-	define('ROOT', 'https://wlccicte.com/sakaycle.com');
+	define('ROOT', 'https://wlccicte.com/otofa.com');
 }
 
-define('APP_NAME', "Sakaycle");
-define('APP_DESC', "A Web-Based Tricycle Management");
+define('APP_NAME', "OTOFA");
+define('APP_DESC', "Ormoc Tricycle Online Franchise Appointment");
 
 /** Set to true to show errors **/
 define('DEBUG', true);

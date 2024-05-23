@@ -9,10 +9,40 @@
           <?php if (!empty($tricycles)): ?>
             <div class="mt-3 text-end">
               <form method="post" action="">
-                <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
+                <button type="submit" id="exportCsv" name="exportCsv" style="border: none; background: none; padding: 0; margin: 0;">
+                  <img src="public/assets/images/export-csv.png" style="height: 38px; width: 40px; position: absolute; top: 5px; right: 35px;" alt="export file">
+                </button>
               </form>
             </div>
           <?php endif; ?>
+          <div class="row mt-3">
+            <div class="col-6">
+              <label for="statusFilter" class="fw-bold" style="font-size: 13px;">Filter By Status:</label>
+              <select id="statusFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                <option value="Active" <?php echo ($statusFilter === 'Active') ? 'selected' : ''; ?>>Active</option>
+                <option value="Change Motor Required" <?php echo ($statusFilter === 'Change Motor Required') ? 'selected' : ''; ?>>Change Motor Required</option>
+                <option value="Renewal Required" <?php echo ($statusFilter === 'Renewal Required') ? 'selected' : ''; ?>>Renewal Required</option>
+                <option value="Dropped" <?php echo ($statusFilter === 'Dropped') ? 'selected' : ''; ?>>Dropped</option>
+                <option value="Expired Renewal (1st Notice)" <?php echo ($statusFilter === 'Expired Renewal (1st Notice)') ? 'selected' : ''; ?>>Expired Renewal (1st Notice)</option>
+                <option value="Expired Renewal (2nd Notice)" <?php echo ($statusFilter === 'Expired Renewal (2nd Notice)') ? 'selected' : ''; ?>>Expired Renewal (2nd Notice)</option>
+                <option value="Expired Renewal (3rd Notice)" <?php echo ($statusFilter === 'Expired Renewal (3rd Notice)') ? 'selected' : ''; ?>>Expired Renewal (3rd Notice)</option>
+                <option value="Expired Motor (1st Notice)" <?php echo ($statusFilter === 'Expired Motor (1st Notice)') ? 'selected' : ''; ?>>Expired Motor (1st Notice)</option>
+                <option value="Expired Motor (2nd Notice)" <?php echo ($statusFilter === 'Expired Motor (2nd Notice)') ? 'selected' : ''; ?>>Expired Motor (2nd Notice)</option>
+                <option value="Expired Motor (3rd Notice)" <?php echo ($statusFilter === 'Expired Motor (3rd Notice)') ? 'selected' : ''; ?>>Expired Motor (3rd Notice)</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="routeAreaFilter" class="fw-bold"  style="font-size: 13px;">Filter By Route Area:</label>
+              <select id="routeAreaFilter" class="form-select" style="height: 35px; font-size: 14px;">
+                <option value="all" <?php echo ($routeAreaFilter === 'all') ? 'selected' : ''; ?>>All</option>
+                <option value="Free Zone / Zone 1" <?php echo ($routeAreaFilter === 'Free Zone / Zone 1') ? 'selected' : ''; ?>>Free Zone / Zone 1</option>
+                <option value="Free Zone & Zone 2" <?php echo ($routeAreaFilter === 'Free Zone & Zone 2') ? 'selected' : ''; ?>>Free Zone & Zone 2</option>
+                <option value="Free Zone & Zone 3" <?php echo ($routeAreaFilter === 'Free Zone & Zone 3') ? 'selected' : ''; ?>>Free Zone & Zone 3</option>
+                <option value="Free Zone & Zone 4" <?php echo ($routeAreaFilter === 'Free Zone & Zone 4') ? 'selected' : ''; ?>>Free Zone & Zone 4</option>
+              </select>
+            </div>
+          </div>
           <div class="table-responsive pt-4">
             <table class="table table-hover" id="systemTable">
               <thead class="thead-custom">
@@ -26,16 +56,16 @@
                   <th scope="col" class="text-center">Route Area</td>
                   <th scope="col" class="text-center">Status</th>
                   <th scope="col" class="text-center">Actions</th>
-                  <?php if ($userRole === 'admin'): ?>
+                  <?php if (hasPermission('Can view and update tricycle statuses', $permissions)) { ?>
                     <th scope="col" class="text-center px-5">Update</th>
-                  <?php endif; ?>
+                  <?php } ?>
                 </tr>
               </thead>
               <tbody class="text-center text-capitalize">
                 <?php foreach ($tricycles as $tricycle): ?>
                   <tr>
                   <td><?php echo $index++; ?></td>
-                  <td><?php echo $tricycle['cin']; ?></td>
+                  <td><?php echo $tricycle['tricycle_application_data']->tricycle_cin_number_id; ?></td>
                   <td><?php echo $tricycle['operator_name']; ?></td>
                   <td><?php echo $tricycle['tricycle_application_data']->make_model; ?></td>
                   <td><?php echo $tricycle['tricycle_application_data']->motor_number; ?></td>
@@ -44,16 +74,16 @@
                   <td>  
                     <?php if (!empty($tricycle['statuses'])): ?>
                       <?php foreach ($tricycle['statuses'] as $status): ?>
-                        <span class="badge status-badge text-uppercase p-2 <?php echo $status['badgeColor']; ?>"><?php echo $status['status']; ?></span>
+                        <span class="badge status-badge text-uppercase text-center p-1 <?php echo $status['badgeColor']; ?>"><?php echo $status['status']; ?></span>
                       <?php endforeach; ?>
                     <?php else: ?>
-                      <span class="badge status-badge text-uppercase p-2 bg-secondary">No Status</span>
+                      <span class="badge status-badge text-capitalize p-1 bg-secondary">No Status</span>
                     <?php endif; ?>
                   </td>
                   <td>
-                    <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="view_data px-1 me-1" style="color:#26CC00;" title="View Operator Details"><i class="fa-solid fa-file-lines fa-lg"></i></a>
+                    <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Tricycle Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
                   </td>
-                  <?php if ($userRole === 'admin'): ?>
+                  <?php if (hasPermission('Can view and update tricycle statuses', $permissions)) { ?>
                     <td>
                       <?php if (hasStatusToUpdate($tricycle['statuses'])): ?>
                         <button type="button" class="update-status-btn" data-bs-toggle="modal" data-bs-target="#exampleModal-<?php echo $tricycle['tricycle_id']; ?>">
@@ -61,7 +91,7 @@
                         </button>
                       <?php endif; ?>
                     </td>
-                  <?php endif; ?>
+                  <?php } ?>
                 </tr>
                 <!-- UPDATE STATUS MODAL -->
                 <div class="modal fade" id="exampleModal-<?php echo $tricycle['tricycle_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -154,5 +184,27 @@
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+
+  $(document).ready(function () {
+    $("#statusFilter, #routeAreaFilter").change(function () {
+      const selectedStatus = $("#statusFilter").val();
+      const selectedRouteArea = $("#routeAreaFilter").val();
+      
+      let queryParams = [];
+
+      if (selectedStatus !== 'all') {
+        queryParams.push('status=' + encodeURIComponent(selectedStatus));
+      }
+      if (selectedRouteArea !== 'all') {
+        queryParams.push('route_area=' + encodeURIComponent(selectedRouteArea));
+      }
+
+      // Construct the URL based on selected filters
+      let queryString = queryParams.length > 0 ? '?' + queryParams.join('&') : '';
+
+      // Redirect to the page with selected filters
+      window.location.href = "tricycles" + queryString;
+    });
   });
 </script>
