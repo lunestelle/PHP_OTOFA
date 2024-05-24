@@ -175,14 +175,14 @@ class User
 			$this->addError('phone_number', 'Phone number is required.');
 		} 
 		// Check if the phone number matches the valid formats
-		elseif (!preg_match('/^(?:\+639[0-9]{9}|09[0-9]{9})$/', $phone_number)) {
+		elseif (!preg_match('/^(?:\+639\d{9}|09\d{9})$/', $phone_number)) {
 			$this->addError('phone_number', 'Invalid phone number format.');
 		} 
 		// Check if the phone number is already taken
 		elseif (!empty($this->where(['phone_number' => $phone_number]))) {
 			$this->addError('phone_number', "The phone number '$phone_number' has already been taken.");
 		}
-	}	
+	}
 
 	private function validateEmail($email)
 	{

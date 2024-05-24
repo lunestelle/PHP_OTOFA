@@ -39,7 +39,7 @@ if ($userRole === 'operator') {
     'user_id' => $_SESSION['USER']->user_id,
     'status' => 'pending'
   ]) : 0;
-} elseif ($userRole === 'admin') {
+} elseif ($userRole === 'admin' || $userRole === 'personnel') {
   // Get the count of all pending appointments for admin
   $pendingAppointmentsCount = method_exists($appointmentModel, 'count') ? $appointmentModel->count(['status' => 'pending']) : 0;
 }
