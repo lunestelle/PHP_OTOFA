@@ -170,14 +170,19 @@ class User
 
 	private function validatePhoneNumber($phone_number)
 	{
+		// Check if the phone number is empty
 		if (empty($phone_number)) {
 			$this->addError('phone_number', 'Phone number is required.');
-		} elseif (!preg_match('/^(?:\+639[0-9]{9}|09[0-9]{9})$/', $phone_number)) {
+		} 
+		// Check if the phone number matches the valid formats
+		elseif (!preg_match('/^(?:\+639[0-9]{9}|09[0-9]{9})$/', $phone_number)) {
 			$this->addError('phone_number', 'Invalid phone number format.');
-		} elseif (!empty($this->where(['phone_number' => $phone_number]))) {
+		} 
+		// Check if the phone number is already taken
+		elseif (!empty($this->where(['phone_number' => $phone_number]))) {
 			$this->addError('phone_number', "The phone number '$phone_number' has already been taken.");
 		}
-	}
+	}	
 
 	private function validateEmail($email)
 	{
