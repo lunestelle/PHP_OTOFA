@@ -156,30 +156,28 @@ class Edit_new_franchise_2
       ];
 
       if (isset($_POST['confirm_delete_image'])) {
+        $mtopRequirementId = $_POST['mtop_id'];
         $imageType = $_POST['image_type'];
-        $imagePathColumn = "{$imageType}_path";
+        $originalImagePath = $_POST['original_image_path'];
 
-        
+        if (file_exists($originalImagePath)) {
+          $deleted = unlink($originalImagePath);
 
-        // Check if the file exists before attempting to delete
-        if (file_exists($_POST['original_image_path'])) {
-          $deleted = unlink($_POST['original_image_path']);
-
-          // Update the database column with an empty value if deletion was successful
           if ($deleted) {
+            $imagePathColumn = $imageType . '_path';
             $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], [$imagePathColumn => null]);
             set_flash_message("Image deleted successfully.", "success");
-            redirect('edit_new_franchise?appointment_id=' . $appointmentId);
+            redirect('edit_new_franchise_2?appointment_id=' . $appointmentId);
           } else {
             set_flash_message("Failed to delete the image.", "error");
-            redirect('edit_new_franchise?appointment_id=' . $appointmentId);
+            redirect('edit_new_franchise_2?appointment_id=' . $appointmentId);
           }
         } else {
           set_flash_message("File not found. Image may have been deleted already.", "error");
-          redirect('edit_new_franchise?appointment_id=' . $appointmentId);
+          redirect('edit_new_franchise_2?appointment_id=' . $appointmentId);
         }
       }
-
+      
       if (isset($_POST['update_new_franchise'])) {
         $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers);
 
@@ -187,7 +185,7 @@ class Edit_new_franchise_2
           $firstError = reset($formErrors);
           set_flash_message($firstError[0], "error");
           $data = array_merge($data, $_POST);
-          echo $this->renderView('edit_new_franchise', true, $data);
+          echo $this->renderView('edit_new_franchise_2', true, $data);
           return;
         } else {
           $formattedPhoneNumber = $appointmentFormData['phone_number'];

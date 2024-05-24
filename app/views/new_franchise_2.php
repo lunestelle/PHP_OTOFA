@@ -49,7 +49,7 @@
           </div>
         <?php endif; ?>
 
-        <button class="collapsible fw-bold fs-5 d-flex active-button" id="step3btnform1" onclick="toggleForm('step3form1', 'step3form2')">
+        <button type="button" class="collapsible fw-bold fs-5 d-flex active-button" id="step3btnform1" onclick="toggleForm('step3form1', 'step3form2')">
           <p class="fs-6">FORM I</p>
           <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
         </button>
@@ -114,7 +114,7 @@
             </div>
           </div>
         <?php endif; ?>
-        <button class="collapsible fw-bold fs-5 d-flex" id="step3btnform2" onclick="toggleForm('step3form2', 'step3form1')">
+        <button type="button" class="collapsible fw-bold fs-5 d-flex" id="step3btnform2" onclick="toggleForm('step3form2', 'step3form1')" style="display:none;">
           <p class="fs-6">FORM II</p>
           <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
         </button>
@@ -187,7 +187,7 @@
           </div>
         </div>
       <?php endif; ?>
-      <button class="collapsible fw-bold fs-5 d-flex" id="step2btnform1" onclick="toggleForm('step2form1', 'step2form2')">
+      <button type="button" class="collapsible fw-bold fs-5 d-flex" id="step2btnform1" onclick="toggleForm('step2form1', 'step2form2')">
         <p class="fs-6">FORM I</p>
         <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
       </button>
@@ -294,7 +294,7 @@
           </div>
         </div>
       <?php endif; ?>
-      <button class="collapsible fw-bold fs-5 d-flex" id="step2btnform2" onclick="toggleForm('step2form2', 'step2form1')">
+      <button type="button" class="collapsible fw-bold fs-5 d-flex" id="step2btnform2" onclick="toggleForm('step2form2', 'step2form1')">
         <p class="fs-6">FORM II</p>
         <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
       </button>

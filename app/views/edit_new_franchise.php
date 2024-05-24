@@ -315,7 +315,7 @@
                       if (isset($mc_lto_certificate_of_registration_path) && $mc_lto_certificate_of_registration_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $mc_lto_certificate_of_registration_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_certificate_of_registration" alt="LTO Certificate of Registration (MC of New Unit)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_certificate_of_registration" data-original-image="' . $mc_lto_certificate_of_registration_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_certificate_of_registration" data-original-image="' . $mc_lto_certificate_of_registration_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -333,7 +333,7 @@
                       if (isset($mc_lto_official_receipt_path) && $mc_lto_official_receipt_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $mc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_official_receipt" alt="LTO Official Receipt (MC of New Unit)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_official_receipt" data-original-image="' . $mc_lto_official_receipt_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_official_receipt" data-original-image="' . $mc_lto_official_receipt_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -351,7 +351,7 @@
                       if (isset($mc_plate_authorization_path) && $mc_plate_authorization_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $mc_plate_authorization_path . '" class="img-fluid rounded fixed-height-image" id="mc_plate_authorization" alt="Plate Authorization (MC of New Unit)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_plate_authorization" data-original-image="' . $mc_plate_authorization_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_plate_authorization" data-original-image="' . $mc_plate_authorization_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -371,7 +371,7 @@
                       if (isset($tc_insurance_policy_path) && $tc_insurance_policy_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $tc_insurance_policy_path . '" class="img-fluid rounded fixed-height-image" id="tc_insurance_policy" alt="Insurance Policy (TC) (New Owner)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_insurance_policy" data-original-image="' . $tc_insurance_policy_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_insurance_policy" data-original-image="' . $tc_insurance_policy_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -389,7 +389,7 @@
                       if (isset($unit_front_view_image_path) && $unit_front_view_image_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $unit_front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_front_view_image" alt="Picture of New Unit (Front View)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_front_view_image" data-original-image="' . $unit_front_view_image_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_front_view_image" data-original-image="' . $unit_front_view_image_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -407,7 +407,7 @@
                       if (isset($unit_side_view_image_path) && $unit_side_view_image_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $unit_side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_side_view_image" alt="Picture of New Unit (Side View)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_side_view_image" data-original-image="' . $unit_side_view_image_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_side_view_image" data-original-image="' . $unit_side_view_image_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -427,7 +427,7 @@
                       if (isset($sketch_location_of_garage_path) && $sketch_location_of_garage_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $sketch_location_of_garage_path . '" class="img-fluid rounded fixed-height-image" id="sketch_location_of_garage" alt="Sketch Location of Garage">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="sketch_location_of_garage" data-original-image="' . $sketch_location_of_garage_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="sketch_location_of_garage" data-original-image="' . $sketch_location_of_garage_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -445,7 +445,7 @@
                       if (isset($affidavit_of_income_tax_return_path) && $affidavit_of_income_tax_return_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $affidavit_of_income_tax_return_path . '" class="img-fluid rounded fixed-height-image" id="affidavit_of_income_tax_return" alt="Affidavit of No Income or Latest Income Tax Return">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="affidavit_of_income_tax_return" data-original-image="' . $affidavit_of_income_tax_return_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="affidavit_of_income_tax_return" data-original-image="' . $affidavit_of_income_tax_return_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -463,7 +463,7 @@
                       if (isset($driver_cert_safety_driving_seminar_path) && $driver_cert_safety_driving_seminar_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $driver_cert_safety_driving_seminar_path . '" class="img-fluid rounded fixed-height-image" id="driver_cert_safety_driving_seminar" alt="Driver\'s Certificate of Safety Driving Seminar">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="driver_cert_safety_driving_seminar" data-original-image="' . $driver_cert_safety_driving_seminar_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="driver_cert_safety_driving_seminar" data-original-image="' . $driver_cert_safety_driving_seminar_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -483,7 +483,7 @@
                       if (isset($proof_of_id_path) && $proof_of_id_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id" alt="Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="proof_of_id" data-original-image="' . $proof_of_id_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="proof_of_id" data-original-image="' . $proof_of_id_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -510,25 +510,27 @@
   </div>
 </main>
 
-<!-- Confirmation Modal -->
+<!-- Delete Image Modal -->
 <div class="modal fade" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="deleteImageModalLabel">Delete Image Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        Are you sure you want to delete this image?
-      </div>
-      <div class="modal-footer">
-        <form method="POST" action="">
-          <input type="hidden" name="image_type" id="imageTypeInput">
-          <input type="hidden" name="original_image_path" id="originalImagePathInput">
+      <form method="POST">
+        <input type="hidden" name="mtop_id" id="mtopIdInput">
+        <input type="hidden" name="image_type" id="imageTypeInput">
+        <input type="hidden" name="original_image_path" id="originalImagePathInput">
+        <div class="modal-body text-center">
+          <p class="pt-1 mt-1">Are you sure you want to delete this image?</p>
+          <img src="" id="imagePreview" style="max-width: 100%; max-height: 300px;">
+        </div>
+        <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-danger" name="confirm_delete_image">Delete</button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -572,6 +574,7 @@
       });
     }
   });
+
   function showStep(step) {
     const stepButtons = document.querySelectorAll('.step-button');
     const progress = document.querySelector('#progress');
@@ -605,28 +608,59 @@
     }
 
     // Scroll to the step buttons container
-    stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
+    if (stepButtonsContainer) {
+      stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
-  // Event listener for the Next button
-  document.getElementById('nextButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const nextStepButton = activeStepButton.nextElementSibling;
+  document.addEventListener('DOMContentLoaded', function() {
+    // Event listener for the Next button
+    const nextButton = document.getElementById('nextButton');
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        const nextStepButton = activeStepButton.nextElementSibling;
+        if (nextStepButton) {
+          const nextStep = parseInt(nextStepButton.textContent);
+          showStep(nextStep);
+        }
+      });
+    }
 
-    if (nextStepButton) {
-      const nextStep = parseInt(nextStepButton.textContent);
-      showStep(nextStep);
+
+    // Event listener for the Previous button
+    const prevButton = document.getElementById('prevButton');
+    if (prevButton) {
+      prevButton.addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        const prevStepButton = activeStepButton.previousElementSibling;
+        if (prevStepButton) {
+          const prevStep = parseInt(prevStepButton.textContent);
+          showStep(prevStep);
+        }
+      });
     }
   });
 
-  // Event listener for the Previous button
-  document.getElementById('prevButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const prevStepButton = activeStepButton.previousElementSibling;
+  document.addEventListener('DOMContentLoaded', function () {
+    var deleteImageModal = document.getElementById('deleteImageModal');
+    deleteImageModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget;
+      var imageType = button.getAttribute('data-image-type');
+      var originalImagePath = button.getAttribute('data-original-image');
+      var mtopId = button.getAttribute('data-mtop-id');
 
-    if (prevStepButton) {
-      const prevStep = parseInt(prevStepButton.textContent);
-      showStep(prevStep);
-    }
+      // Update the modal's hidden input values
+      var mtopIdInput = deleteImageModal.querySelector('#mtopIdInput');
+      var imageTypeInput = deleteImageModal.querySelector('#imageTypeInput');
+      var originalImagePathInput = deleteImageModal.querySelector('#originalImagePathInput');
+      mtopIdInput.value = mtopId;
+      imageTypeInput.value = imageType;
+      originalImagePathInput.value = originalImagePath;
+
+      // Update the image preview
+      var imagePreview = deleteImageModal.querySelector('#imagePreview');
+      imagePreview.src = originalImagePath;
+    });
   });
 </script>

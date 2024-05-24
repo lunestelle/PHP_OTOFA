@@ -92,6 +92,7 @@
         'insurer' => $tricycleApplicationData->insurer,
         'coc_no' => $tricycleApplicationData->coc_no,
         'coc_no_expiry_date' => $tricycleApplicationData->coc_no_expiry_date,
+        'mtop_requirement_id' => $mtopRequirementId,
         'mc_lto_certificate_of_registration_path' => $mtopRequirementData->mc_lto_certificate_of_registration_path,
         'mc_lto_official_receipt_path' => $mtopRequirementData->mc_lto_official_receipt_path,
         'mc_plate_authorization_path' => $mtopRequirementData->mc_plate_authorization_path,
@@ -140,17 +141,15 @@
         ];
 
         if (isset($_POST['confirm_delete_image'])) {
+          $mtopRequirementId = $_POST['mtop_id'];
           $imageType = $_POST['image_type'];
-          $imagePathColumn = "{$imageType}_path";
-
-          
-
-          // Check if the file exists before attempting to delete
-          if (file_exists($_POST['original_image_path'])) {
-            $deleted = unlink($_POST['original_image_path']);
-
-            // Update the database column with an empty value if deletion was successful
+          $originalImagePath = $_POST['original_image_path'];
+  
+          if (file_exists($originalImagePath)) {
+            $deleted = unlink($originalImagePath);
+  
             if ($deleted) {
+              $imagePathColumn = $imageType . '_path';
               $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], [$imagePathColumn => null]);
               set_flash_message("Image deleted successfully.", "success");
               redirect('edit_new_franchise?appointment_id=' . $appointmentId);
