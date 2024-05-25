@@ -985,6 +985,9 @@
       document.getElementById("assessmentFeeText").style.display = "none";
       document.getElementById("assessmentFeeText3").style.display = "none";
     } 
+    
+    // Initial hide of assessment fee containers
+    $(".assessmentFeeContainer2, .assessmentFeeContainer4").hide();
 
     let errorMessage = $(".flash-message.error");
     if (errorMessage.length > 0) {
