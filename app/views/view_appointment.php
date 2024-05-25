@@ -393,28 +393,36 @@
     }
 
     // Scroll to the step buttons container
-    stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
+    if (stepButtonsContainer) {
+      stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
-  // Event listener for the Next button
-  document.getElementById('nextButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const nextStepButton = activeStepButton.nextElementSibling;
-
-    if (nextStepButton) {
-      const nextStep = parseInt(nextStepButton.textContent);
-      showStep(nextStep);
+  document.addEventListener('DOMContentLoaded', function() {
+    // Event listener for the Next button
+    const nextButton = document.getElementById('nextButton');
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        const nextStepButton = activeStepButton.nextElementSibling;
+        if (nextStepButton) {
+          const nextStep = parseInt(nextStepButton.textContent);
+          showStep(nextStep);
+        }
+      });
     }
-  });
 
-  // Event listener for the Previous button
-  document.getElementById('prevButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const prevStepButton = activeStepButton.previousElementSibling;
-
-    if (prevStepButton) {
-      const prevStep = parseInt(prevStepButton.textContent);
-      showStep(prevStep);
+    // Event listener for the Previous button
+    const prevButton = document.getElementById('prevButton');
+    if (prevButton) {
+      prevButton.addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        const prevStepButton = activeStepButton.previousElementSibling;
+        if (prevStepButton) {
+          const prevStep = parseInt(prevStepButton.textContent);
+          showStep(prevStep);
+        }
+      });
     }
   });
 </script>
