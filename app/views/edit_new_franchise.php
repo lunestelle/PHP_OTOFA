@@ -482,7 +482,7 @@
                     <?php
                       if (isset($proof_of_id_path) && $proof_of_id_path) {
                         echo '<div class="image-container position-relative">';
-                        echo '<img src="' . $proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id" alt="Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)">';
+                        echo '<img src="' . $proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id" alt="Proof of ID/ Residence(Voters/Birth/Baptismal/Marriage Cert.)">';
                         echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="proof_of_id" data-original-image="' . $proof_of_id_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {

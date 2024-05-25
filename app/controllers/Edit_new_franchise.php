@@ -362,15 +362,11 @@
         $message .= "To ensure a smooth process, please bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
       }
 
-      
-
       $message .= $this->generateRequirementList();
       $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
 
       return $message;
     }
-
-
 
     private function generateCustomEmailMessage($formattedDate, $formattedTime, $appointment_type, $cinNumber, $routeArea)
     {
@@ -397,8 +393,6 @@
 
       return $feeMessage;
     }
-
-
 
     private function generateCustomRequirementMessage()
     {

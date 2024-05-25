@@ -268,20 +268,18 @@
                       <div class="col-4 px-4">
                         <label for="tricycle_cin_number_id2" class="form-label">Tricycle CIN</label>
                         <?php if (!empty($availableCinNumbers)): ?>
-                          <select class="form-control" id="tricycle_cin_number_id2" name="tricycle_cin_number_id2" required>
+                          <select class="form-control cin-number" id="tricycle_cin_number_id2" name="tricycle_cin_number_id2" required>
                             <option selected disabled>Please Select Here</option>
                             <?php if (!empty($tricycleData2->tricycle_cin_number_id)): ?>
                               <option value="<?= $tricycleData2->tricycle_cin_number_id ?>" selected>
-                                <?= isset($cinNumbersById[$tricycleData2->tricycle_cin_number_id]) ? $cinNumbersById[$tricycleData2->tricycle_cin_number_id] : '' ?>
+                                <?= $tricycleData2->tricycle_cin_number_id ?>
                               </option>
                             <?php endif; ?>
-
+                            
                             <?php foreach ($availableCinNumbers as $cinNumberId => $cinNumber): ?>
-                              <?php if ($cinNumberId !== $tricycleData2->tricycle_cin_number_id): ?>
-                                <option value="<?= $cinNumberId ?>">
-                                  <?= $cinNumber ?>
-                                </option>
-                              <?php endif; ?>
+                              <option value="<?= $cinNumberId ?>">
+                                <?= $cinNumber ?>
+                              </option>
                             <?php endforeach; ?>
                           </select>
                         <?php else: ?>
@@ -410,20 +408,18 @@
                       <div class="col-4 px-4">
                         <label for="tricycle_cin_number_id1" class="form-label">Tricycle CIN</label>
                         <?php if (!empty($availableCinNumbers)): ?>
-                          <select class="form-control" id="tricycle_cin_number_id1" name="tricycle_cin_number_id1" required>
+                          <select class="form-control cin-number" id="tricycle_cin_number_id1" name="tricycle_cin_number_id1" required>
                             <option selected disabled>Please Select Here</option>
                             <?php if (!empty($tricycleData1->tricycle_cin_number_id)): ?>
                               <option value="<?= $tricycleData1->tricycle_cin_number_id ?>" selected>
-                                <?= isset($cinNumbersById[$tricycleData1->tricycle_cin_number_id]) ? $cinNumbersById[$tricycleData1->tricycle_cin_number_id] : '' ?>
+                                <?= $tricycleData1->tricycle_cin_number_id ?>
                               </option>
                             <?php endif; ?>
 
                             <?php foreach ($availableCinNumbers as $cinNumberId => $cinNumber): ?>
-                              <?php if ($cinNumberId !== $tricycleData1->tricycle_cin_number_id): ?>
-                                <option value="<?= $cinNumberId ?>">
-                                  <?= $cinNumber ?>
-                                </option>
-                              <?php endif; ?>
+                              <option value="<?= $cinNumberId ?>">
+                                <?= $cinNumber ?>
+                              </option>
                             <?php endforeach; ?>
                           </select>
                         <?php else: ?>
@@ -643,7 +639,7 @@
                       <?php
                         if (isset($mtopData2->proof_of_id_path) && $mtopData2->proof_of_id_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData2->proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id2" alt="Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)">';
+                          echo '<img src="' . $mtopData2->proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id2" alt="Proof of ID /Residence (Voters/Birth/Baptismal/Marriage Cert.)">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="proof_of_id" data-mtop-id="' . $mtopData2->mtop_requirement_id . '" data-original-image="' . $mtopData2->proof_of_id_path . '"></button>';
                           echo '</div>';
                         } else {
@@ -850,7 +846,7 @@
                       <?php
                         if (isset($mtopData1->proof_of_id_path) && $mtopData1->proof_of_id_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id1" alt="Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)">';
+                          echo '<img src="' . $mtopData1->proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id1" alt="Proof of ID/Residence (Voters/Birth/Baptismal/Marriage Cert.)">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="proof_of_id" data-original-image="' . $mtopData1->proof_of_id_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
@@ -908,6 +904,58 @@
 
 <script src="public/assets/js/appointments_form_toggle2.js"></script>
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function updateDropdown(changedDropdownId) {
+      var changedDropdown = document.getElementById(changedDropdownId);
+      var oppositeDropdownId = (changedDropdownId === "tricycle_cin_number_id1") ? "tricycle_cin_number_id2" : "tricycle_cin_number_id1";
+      var oppositeDropdown = document.getElementById(oppositeDropdownId);
+
+      if (changedDropdown && oppositeDropdown) {
+        var selectedValue = changedDropdown.value;
+        var oppositeOptions = oppositeDropdown.querySelectorAll('option');
+
+        oppositeOptions.forEach(function(option) {
+          if (option.value === selectedValue) {
+            option.disabled = true;
+            option.style.display = 'none';
+            option.hidden = true;
+          } else {
+            option.disabled = false;
+            option.style.display = 'block';
+          }
+        });
+      }
+    }
+
+    function addDropdownEventListener(dropdownId) {
+      var dropdown = document.getElementById(dropdownId);
+      if (dropdown) {
+        dropdown.addEventListener('change', function() {
+          updateDropdown(dropdownId);
+        });
+      }
+    }
+
+    function addButtonEventListener(btnId, dropdownId) {
+      var button = document.getElementById(btnId);
+      var dropdown = document.getElementById(dropdownId);
+      
+      if (button && dropdown) {
+        button.addEventListener('click', function() {
+          if (dropdown.value !== null) {
+            updateDropdown(dropdownId);
+          }
+        });
+      }
+    }
+
+    addDropdownEventListener('tricycle_cin_number_id1');
+    addDropdownEventListener('tricycle_cin_number_id2');
+
+    addButtonEventListener('step2btnform1', 'tricycle_cin_number_id1');
+    addButtonEventListener('step2btnform2', 'tricycle_cin_number_id2');
+  });
+
   $(document).ready(function () {
     function updateAssessmentFee1() {
       let selectedColorCode = $("#color_code1").val();
@@ -974,17 +1022,19 @@
     const step2form1 = document.getElementById('step2form1');
     const step2form2 = document.getElementById('step2form2');
 
-    if ((step2form1.style.display === "block") || (step3form1.style.display === "block")) {
-      updateAssessmentFee1();
-      document.getElementById("assessmentFeeText2").style.display = "none";
-      document.getElementById("assessmentFeeText4").style.display = "none";
+    if (document.getElementById('assessmentFeeText') && document.getElementById('assessmentFeeText2') && document.getElementById('assessmentFeeText3') && document.getElementById('assessmentFeeText4')) {
+      if ((step2form1 && step3form1 && step2form1.style.display === "block") || (step3form1 && step3form1.style.display === "block")) {
+        updateAssessmentFee1();
+        document.getElementById("assessmentFeeText2").style.display = "none";
+        document.getElementById("assessmentFeeText4").style.display = "none";
+      }
+      
+      if ((step2form2 && step3form2 && step2form2.style.display === "block") || (step3form2 && step3form2.style.display === "block")) {
+        updateAssessmentFee2();
+        document.getElementById("assessmentFeeText").style.display = "none";
+        document.getElementById("assessmentFeeText3").style.display = "none";
+      } 
     }
-    
-    if ((step2form2.style.display === "block") || (step3form2.style.display === "block")) {
-      updateAssessmentFee2();
-      document.getElementById("assessmentFeeText").style.display = "none";
-      document.getElementById("assessmentFeeText3").style.display = "none";
-    } 
     
     // Initial hide of assessment fee containers
     $("#assessmentFeeText2, #assessmentFeeText4").hide();

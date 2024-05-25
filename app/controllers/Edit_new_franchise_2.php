@@ -290,16 +290,16 @@ class Edit_new_franchise_2
               $tricycleStatusesModel = new TricycleStatuses;
 
               $tricycleData1 = [
-                'cin_id' => $tricycleApplicationDataArray[0]->tricycle_cin_number_id,
+                'cin_id' =>  $tricycleApplicationDataArray[0]->tricycle_cin_number_id,
                 'tricycle_application_id' => $tricycleApplicationDataArray[0]->tricycle_application_id,
-                'mtop_requirements_new_franchise_id' => $mtopRequirementDataArray[0],
+                'mtop_requirements_new_franchise_id' => $mtopRequirementDataArray[0]->mtop_requirement_id,
                 'user_id' => $appointmentData->user_id,
               ];
 
               $tricycleData2 = [
-                'cin_id' => $tricycleApplicationDataArray[1]->tricycle_cin_number_id,
+                'cin_id' =>  $tricycleApplicationDataArray[1]->tricycle_cin_number_id,
                 'tricycle_application_id' => $tricycleApplicationDataArray[1]->tricycle_application_id,
-                'mtop_requirements_new_franchise_id' => $mtopRequirementDataArray[1],
+                'mtop_requirements_new_franchise_id' => $mtopRequirementDataArray[1]->mtop_requirement_id,
                 'user_id' => $appointmentData->user_id,
               ];
 
@@ -314,58 +314,60 @@ class Edit_new_franchise_2
               }
             }
 
-            $cinNumber1 = null; // Default value in case tricycle_cin_number_id is not set
+            $cinNumbers = [];
 
-            if ($tricycleApplicationDataArray[0]->tricycle_cin_number_id) {
-              $cinDataForNotifs = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $tricycleApplicationDataArray[0]->tricycle_cin_number_id]);
-
-              if ($cinDataForNotifs) {
-                $cinNumber1 = $cinDataForNotifs->cin_number;
-              } else {
-                // Handle the case where $cinDataForNotifs is false (not found in the database)
-                // You can set a default value or handle the absence of $cinDataForNotifs in a way appropriate for your application logic.
-                $cinNumber1 = null; // Or any default value you prefer
+            // Iterate through each element in the tricycleApplicationDataArray
+            foreach ($tricycleApplicationDataArray as $applicationData) {
+              $cinNumber = null;
+          
+              if ($applicationData->tricycle_cin_number_id) {
+                $cinDataForNotifs = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $applicationData->tricycle_cin_number_id]);
+                $cinNumber = $cinDataForNotifs ? $cinDataForNotifs->cin_number : null;
               }
+          
+              // Store the CIN number in the array
+              $cinNumbers[] = $cinNumber;
             }
+              
+            // Get the first two CIN numbers
+            list($cinNumber1, $cinNumber2) = array_pad($cinNumbers, 2, null);
 
-            $cinNumber2 = null; // Default value in case tricycle_cin_number_id is not set
-
-            if ($tricycleApplicationDataArray[1]->tricycle_cin_number_id) {
-              $cinDataForNotifs = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $tricycleApplicationDataArray[1]->tricycle_cin_number_id]);
-
-              if ($cinDataForNotifs) {
-                $cinNumber2 = $cinDataForNotifs->cin_number;
-              } else {
-                // Handle the case where $cinDataForNotifs is false (not found in the database)
-                // You can set a default value or handle the absence of $cinDataForNotifs in a way appropriate for your application logic.
-                $cinNumber2 = null; // Or any default value you prefer
-              }
+            if ($cinNumber1 === null) {
+              $cinNumber1 = $tricycleApplicationFormData1['tricycle_cin_number_id'];
+            } elseif ($cinNumber2 === null) {
+              $cinNumber2 = $tricycleApplicationFormData2['tricycle_cin_number_id'];
             }
-
+            
+            // Format date and time
             $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
             $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
             $rootPath = ROOT;
-            $routeArea1 = isset($tricycleApplicationFormData1['route_area']) && !empty($tricycleApplicationFormData1['route_area'])
-            ? $tricycleApplicationFormData1['route_area']
-            : (!empty($tricycleApplicationDataArray[0]->route_area) ? $tricycleApplicationDataArray[0]->route_area : '');
-
-            $routeArea2 = isset($tricycleApplicationFormData2['route_area']) && !empty($tricycleApplicationFormData2['route_area'])
-            ? $tricycleApplicationFormData2['route_area']
-            : (!empty($tricycleApplicationDataArray[1]->route_area) ? $tricycleApplicationDataArray[1]->route_area : '');       
-
+            
+            // Get route areas
+            $routeArea1 = $tricycleApplicationFormData1['route_area'] ?? $tricycleApplicationDataArray[0]->route_area ?? '';
+            $routeArea2 = $tricycleApplicationFormData2['route_area'] ?? $tricycleApplicationDataArray[1]->route_area ?? '';
+            
+            // Generate custom text messages
             $customTextMessage1 = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber1, $routeArea1);
             
             $customTextMessage2 = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber2, $routeArea2);
-
+            
             $customEmailMessage1 = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber1, $routeArea1);
-            $customRequirementMessage1 = $this->generateCustomRequirementMessage();
-
+            
             $customEmailMessage2 = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber2, $routeArea2);
-            $customRequirementMessage2 = $this->generateCustomRequirementMessage();
+            
+            
+            $customRequirementMessage = $this->generateCustomRequirementMessage();
 
-            sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationDataArray[0], $cinNumber1, $customTextMessage1, $customEmailMessage1, $customRequirementMessage1);
-
-            sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationDataArray[1], $cinNumber2, $customTextMessage2, $customEmailMessage2, $customRequirementMessage2);
+            // Send appointment notifications if the email message is not empty for the first appointment
+            if (!empty($customEmailMessage1)) {
+              sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationFormData1, $cinNumber1, $customTextMessage1, $customEmailMessage1, $customRequirementMessage);
+            }
+            
+            // Send appointment notifications if the email message is not empty for the second appointment
+            // if (!empty($customEmailMessage2)) {
+            //   sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationFormData2, $cinNumber2, $customTextMessage2, $customEmailMessage2, $customRequirementMessage);
+            // }
 
             set_flash_message("Scheduled appointment updated successfully.", "success");
             redirect('appointments');
