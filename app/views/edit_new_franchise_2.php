@@ -987,7 +987,7 @@
     } 
     
     // Initial hide of assessment fee containers
-    $(".assessmentFeeContainer2, .assessmentFeeContainer4").hide();
+    $("#assessmentFeeText2, #assessmentFeeText4").hide();
 
     let errorMessage = $(".flash-message.error");
     if (errorMessage.length > 0) {
