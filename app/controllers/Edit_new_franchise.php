@@ -324,8 +324,6 @@
       return $errors;
     }
 
-    
-
     private function formatPhoneNumber($phoneNumber) {
       return preg_replace('/[^0-9]/', '', str_replace('+63', '', $phoneNumber));
     }

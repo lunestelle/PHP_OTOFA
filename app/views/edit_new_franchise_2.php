@@ -5,23 +5,20 @@
         <div class="steps d-flex">
           <progress id="progress" value="0" max="100" class="center-progress"></progress>
           <div class="step-item">
-            <button class="step-button text-center" type="button" data-toggle="collapse"
-                data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="showStep(1)">
-                1
+            <button class="step-button text-center" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="showStep(1)">
+              1
             </button>
             <p class="step-buttons-label">Appointment Information</p>
           </div>
           <div class="step-item">
-            <button class="step-button text-center collapsed" type="button" data-toggle="collapse"
-                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" onclick="showStep(2)">
-                2
+            <button class="step-button text-center collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" onclick="showStep(2)">
+              2
             </button>
             <p class="step-buttons-label">Tricycle Application Form</p>
           </div>
           <div class="step-item">
-            <button class="step-button text-center collapsed" type="button" data-toggle="collapse"
-                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" onclick="showStep(3)">
-                3
+            <button class="step-button text-center collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" onclick="showStep(3)">
+              3
             </button>
             <p class="step-buttons-label">MTOP Requirements Images</p>
           </div>
@@ -315,7 +312,7 @@
             </button>
             <?php if (isset($tricycleApplicationData[0])): ?>
               <?php $tricycleData1 = $tricycleApplicationData[0]; ?>
-              <div class="content content-form active-content content-container mt-2 mb-3" id="step2form2">
+              <div class="content content-form active-content content-container mt-2 mb-3" id="step2form2" style="display: none;">
                 <div class="row px-3 p-3">
                   <div class="col-12 d-flex mb-2">
                     <div class="col-4 px-4">
@@ -452,17 +449,18 @@
                 
           <!-- *** STEP 3 *** -->
           <section id="step-3" style="display: none;">
+            <div class="px-3 pt-2">
+              <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
+            </div>
+
             <?php if ($userRole === 'operator'): ?>  
               <div class="row assessmentFeeContainer3">
-                <div class="col-12 mx-auto text-center mt-4">
+                <div class="col-12 mx-auto text-center mt-2">
                   <p id="assessmentFeeText3" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
                 </div>
               </div>
             <?php endif; ?>
 
-            <div class="px-3 pt-2">
-              <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
-            </div>
             <button type="button" class="collapsible fw-bold fs-5 d-flex active-button" id="step3btnform1" onclick="toggleForm('step3form1', 'step3form2')">
               <p class="fs-6">FORM I</p>
               <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
@@ -641,7 +639,7 @@
                   </div>
                   <div class="col-12 d-flex mb-3">
                     <div class="col-4 px-4">
-                      <label for="proof_of_id2" class="form-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
+                      <label for="proof_of_id2" class="form-label">Proof of ID/Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
                       <?php
                         if (isset($mtopData2->proof_of_id_path) && $mtopData2->proof_of_id_path) {
                           echo '<div class="image-container position-relative">';
@@ -680,189 +678,189 @@
                 <div class="row px-3 p-4">
                   <div class="col-12 d-flex mb-3">
                     <div class="col-4 px-4">
-                      <label for="mc_lto_certificate_of_registration" class="form-label">LTO Certificate of Registration (MC of New Unit)</label>
+                      <label for="mc_lto_certificate_of_registration1" class="form-label">LTO Certificate of Registration (MC of New Unit)</label>
                       <?php
                         if (isset($mtopData1->mc_lto_certificate_of_registration_path) && $mtopData1->mc_lto_certificate_of_registration_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->mc_lto_certificate_of_registration_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_certificate_of_registration" alt="LTO Certificate of Registration (MC of New Unit)">';
+                          echo '<img src="' . $mtopData1->mc_lto_certificate_of_registration_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_certificate_of_registration1" alt="LTO Certificate of Registration (MC of New Unit)">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_certificate_of_registration" data-original-image="' . $mtopData1->mc_lto_certificate_of_registration_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="mc_lto_certificate_of_registration" id="mc_lto_certificate_of_registration-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="mc_lto_certificate_of_registration1" id="mc_lto_certificate_of_registration1-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_mc_lto_certificate_of_registration" value="' . ($mtopData1->mc_lto_certificate_of_registration_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_mc_lto_certificate_of_registration1" value="' . ($mtopData1->mc_lto_certificate_of_registration_path ?? '') . '">';
                       ?>
                     </div>
                     <div class="col-4 px-4">
-                      <label for="mc_lto_official_receipt" class="form-label">LTO Official Receipt (MC of New Unit)</label>
+                      <label for="mc_lto_official_receipt1" class="form-label">LTO Official Receipt (MC of New Unit)</label>
                       <?php
                         if (isset($mtopData1->mc_lto_official_receipt_path) && $mtopData1->mc_lto_official_receipt_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->mc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_official_receipt" alt="LTO Official Receipt (MC of New Unit)">';
+                          echo '<img src="' . $mtopData1->mc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_official_receipt1" alt="LTO Official Receipt (MC of New Unit)">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_official_receipt" data-original-image="' . $mtopData1->mc_lto_official_receipt_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="mc_lto_official_receipt" id="mc_lto_official_receipt-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="mc_lto_official_receipt1" id="mc_lto_official_receipt1-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_mc_lto_official_receipt" value="' . ($mtopData1->mc_lto_official_receipt_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_mc_lto_official_receipt1" value="' . ($mtopData1->mc_lto_official_receipt_path ?? '') . '">';
                       ?>
                     </div>
                     <div class="col-4 px-4">
-                      <label for="mc_plate_authorization" class="form-label">Plate Authorization (MC of New Unit)</label>
+                      <label for="mc_plate_authorization1" class="form-label">Plate Authorization (MC of New Unit)</label>
                       <?php
                         if (isset($mtopData1->mc_lto_official_receipt_path) && $mtopData1->mc_lto_official_receipt_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->mc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="mc_plate_authorization" alt="Plate Authorization (MC of New Unit)">';
+                          echo '<img src="' . $mtopData1->mc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="mc_plate_authorization1" alt="Plate Authorization (MC of New Unit)">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_plate_authorization" data-original-image="' . $mtopData1->mc_lto_official_receipt_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="mc_plate_authorization" id="mc_plate_authorization-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="mc_plate_authorization1" id="mc_plate_authorization1-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_mc_plate_authorization" value="' . ($mtopData1->mc_lto_official_receipt_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_mc_plate_authorization1" value="' . ($mtopData1->mc_lto_official_receipt_path ?? '') . '">';
                       ?>
                     </div>
                   </div>
                   <div class="col-12 d-flex mb-3">
                     <div class="col-4 px-4">
-                      <label for="tc_insurance_policy" class="form-label">Insurance Policy (TC) (New Owner)</label>
+                      <label for="tc_insurance_policy1" class="form-label">Insurance Policy (TC) (New Owner)</label>
                       <?php
                         if (isset($mtopData1->tc_insurance_policy_path) && $mtopData1->tc_insurance_policy_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->tc_insurance_policy_path . '" class="img-fluid rounded fixed-height-image" id="tc_insurance_policy" alt="Insurance Policy (TC) (New Owner)">';
+                          echo '<img src="' . $mtopData1->tc_insurance_policy_path . '" class="img-fluid rounded fixed-height-image" id="tc_insurance_policy1" alt="Insurance Policy (TC) (New Owner)">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_insurance_policy" data-original-image="' . $mtopData1->tc_insurance_policy_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="tc_insurance_policy" id="tc_insurance_policy-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="tc_insurance_policy1" id="tc_insurance_policy1-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_tc_insurance_policy" value="' . ($mtopData1->tc_insurance_policy_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_tc_insurance_policy1" value="' . ($mtopData1->tc_insurance_policy_path ?? '') . '">';
                       ?>
                     </div>
                     <div class="col-4 px-4">
-                      <label for="unit_front_view_image" class="form-label">Picture of New Unit (Front View)</label>
+                      <label for="unit_front_view_image1" class="form-label">Picture of New Unit (Front View)</label>
                       <?php
                         if (isset($mtopData1->unit_front_view_image_path) && $mtopData1->unit_front_view_image_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->unit_front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_front_view_image" alt="Picture of New Unit (Front View)">';
+                          echo '<img src="' . $mtopData1->unit_front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_front_view_image1" alt="Picture of New Unit (Front View)">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_front_view_image" data-original-image="' . $mtopData1->unit_front_view_image_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="unit_front_view_image" id="unit_front_view_image-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="unit_front_view_image1" id="unit_front_view_imag1e-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_unit_front_view_image" value="' . ($mtopData1->unit_front_view_image_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_unit_front_view_image1" value="' . ($mtopData1->unit_front_view_image_path ?? '') . '">';
                       ?>
                     </div>
                     <div class="col-4 px-4">
-                      <label for="unit_side_view_image" class="form-label">Picture of New Unit (Side View)</label>
+                      <label for="unit_side_view_image1" class="form-label">Picture of New Unit (Side View)</label>
                       <?php
                         if (isset($mtopData1->unit_side_view_image_path) && $mtopData1->unit_side_view_image_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->unit_side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_side_view_image" alt="Picture of New Unit (Side View)">';
+                          echo '<img src="' . $mtopData1->unit_side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_side_view_image1" alt="Picture of New Unit (Side View)">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_side_view_image" data-original-image="' . $mtopData1->unit_side_view_image_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="unit_side_view_image" id="unit_side_view_image-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="unit_side_view_image1" id="unit_side_view_image1-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_unit_side_view_image" value="' . ($mtopData1->unit_side_view_image_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_unit_side_view_image1" value="' . ($mtopData1->unit_side_view_image_path ?? '') . '">';
                       ?>
                     </div>
                   </div>
                   <div class="col-12 d-flex mb-3">
                     <div class="col-4 px-4">
-                      <label for="sketch_location_of_garage" class="form-label">Sketch Location of Garage</label>
+                      <label for="sketch_location_of_garage1" class="form-label">Sketch Location of Garage</label>
                       <?php
                         if (isset($mtopData1->sketch_location_of_garage_path) && $mtopData1->sketch_location_of_garage_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->sketch_location_of_garage_path . '" class="img-fluid rounded fixed-height-image" id="sketch_location_of_garage" alt="Sketch Location of Garage">';
+                          echo '<img src="' . $mtopData1->sketch_location_of_garage_path . '" class="img-fluid rounded fixed-height-image" id="sketch_location_of_garage1" alt="Sketch Location of Garage">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="sketch_location_of_garage" data-original-image="' . $mtopData1->sketch_location_of_garage_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="sketch_location_of_garage" id="sketch_location_of_garage-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="sketch_location_of_garage1" id="sketch_location_of_garage1-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_sketch_location_of_garage" value="' . ($mtopData1->sketch_location_of_garage_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_sketch_location_of_garage1" value="' . ($mtopData1->sketch_location_of_garage_path ?? '') . '">';
                       ?>
                     </div>
                     <div class="col-4 px-4">
-                      <label for="affidavit_of_income_tax_return" class="form-label">Affidavit of No Income or Latest Income Tax Return</label>
+                      <label for="affidavit_of_income_tax_return1" class="form-label">Affidavit of No Income or Latest Income Tax Return</label>
                       <?php
                         if (isset($mtopData1->affidavit_of_income_tax_return_path) && $mtopData1->affidavit_of_income_tax_return_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->affidavit_of_income_tax_return_path . '" class="img-fluid rounded fixed-height-image" id="affidavit_of_income_tax_return" alt="Affidavit of No Income or Latest Income Tax Return">';
+                          echo '<img src="' . $mtopData1->affidavit_of_income_tax_return_path . '" class="img-fluid rounded fixed-height-image" id="affidavit_of_income_tax_return1" alt="Affidavit of No Income or Latest Income Tax Return">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="affidavit_of_income_tax_return" data-original-image="' . $mtopData1->affidavit_of_income_tax_return_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="affidavit_of_income_tax_return" id="affidavit_of_income_tax_return-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="affidavit_of_income_tax_return1" id="affidavit_of_income_tax_return1-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_affidavit_of_income_tax_return" value="' . ($mtopData1->affidavit_of_income_tax_return_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_affidavit_of_income_tax_return1" value="' . ($mtopData1->affidavit_of_income_tax_return_path ?? '') . '">';
                       ?>
                     </div>
                     <div class="col-4 px-4">
-                      <label for="driver_cert_safety_driving_seminar" class="form-label">Driver's Certificate of Safety Driving Seminar</label>
+                      <label for="driver_cert_safety_driving_seminar1" class="form-label">Driver's Certificate of Safety Driving Seminar</label>
                       <?php
                         if (isset($mtopData1->driver_cert_safety_driving_seminar_path) && $mtopData1->driver_cert_safety_driving_seminar_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->driver_cert_safety_driving_seminar_path . '" class="img-fluid rounded fixed-height-image" id="driver_cert_safety_driving_seminar" alt="Driver\'s Certificate of Safety Driving Seminar">';
+                          echo '<img src="' . $mtopData1->driver_cert_safety_driving_seminar_path . '" class="img-fluid rounded fixed-height-image" id="driver_cert_safety_driving_seminar1" alt="Driver\'s Certificate of Safety Driving Seminar">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="driver_cert_safety_driving_seminar" data-original-image="' . $mtopData1->driver_cert_safety_driving_seminar_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="driver_cert_safety_driving_seminar" id="driver_cert_safety_driving_seminar-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="driver_cert_safety_driving_seminar1" id="driver_cert_safety_driving_seminar1-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_driver_cert_safety_driving_seminar" value="' . ($mtopData1->driver_cert_safety_driving_seminar_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_driver_cert_safety_driving_seminar1" value="' . ($mtopData1->driver_cert_safety_driving_seminar_path ?? '') . '">';
                       ?>
                     </div>
                   </div>
                   <div class="col-12 d-flex mb-3">
                     <div class="col-4 px-4">
-                      <label for="proof_of_id" class="form-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
+                      <label for="proof_of_id" class="form-label">Proof of ID/Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
                       <?php
                         if (isset($mtopData1->proof_of_id_path) && $mtopData1->proof_of_id_path) {
                           echo '<div class="image-container position-relative">';
-                          echo '<img src="' . $mtopData1->proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id" alt="Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)">';
+                          echo '<img src="' . $mtopData1->proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id1" alt="Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)">';
                           echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="proof_of_id" data-original-image="' . $mtopData1->proof_of_id_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
                           echo '</div>';
                         } else {
                           echo '<div class="image-container">';
-                          echo '<input class="form-control" type="file" name="proof_of_id" id="proof_of_id-input" accept="image/*" required>';
+                          echo '<input class="form-control" type="file" name="proof_of_id1" id="proof_of_id1-input" accept="image/*" required>';
                           echo '</div>';
                         }
                       ?>
                       <?php
-                        echo '<input type="hidden" name="original_proof_of_id" value="' . ($mtopData1->proof_of_id_path ?? '') . '">';
+                        echo '<input type="hidden" name="original_proof_of_id1" value="' . ($mtopData1->proof_of_id_path ?? '') . '">';
                       ?>
                     </div>
                   </div>
@@ -910,71 +908,90 @@
 
 <script src="public/assets/js/appointments_form_toggle2.js"></script>
 <script>
-$(document).ready(function () {
-  function displayAssessmentFee(formId, colorCodeId, routeAreaDataAttr, containerId) {
-    let selectedColorCode = $(colorCodeId).val();
-    let selectedRouteArea = $(colorCodeId).find(":selected").data(routeAreaDataAttr);
-    $(containerId).text(assessmentFeeMessages[selectedRouteArea] || "Please select a route area to view the assessment fee.");
-  }
+  $(document).ready(function () {
+    function updateAssessmentFee1() {
+      let selectedColorCode = $("#color_code1").val();
+      let selectedRouteArea = $("#color_code1").find(":selected").data("route-area1");
+      $("#route_area1").val(selectedRouteArea);
 
-  const assessmentFeeMessages = {
-    "Free Zone / Zone 1": "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱430.00.",
-    "Free Zone & Zone 2": "The assessment fee for processing your tricycle application within the Free Zone & Zone 2 Route is ₱1,030.00.",
-    "Free Zone & Zone 3": "The assessment fee for processing your tricycle application within the Free Zone & Zone 3 Route is ₱1,030.00.",
-    "Free Zone & Zone 4": "The assessment fee for processing your tricycle application within the Free Zone & Zone 4 Route is ₱1,030.00."
-  };
+      let assessmentFeeText = "";
 
-  $("#color_code1, #color_code2").change(function () {
-    let colorCodeId = "#" + $(this).attr("id");
-    let routeAreaDataAttr = (colorCodeId === "#color_code1") ? "route-area1" : "route-area2";
-    let containerId = (colorCodeId === "#color_code1") ? "#assessmentFeeText, #assessmentFeeText3" : "#assessmentFeeText2, #assessmentFeeText4";
+      switch (selectedRouteArea) {
+        case "Free Zone / Zone 1":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱430.00.";
+          break;
+        case "Free Zone & Zone 2":
+        case "Free Zone & Zone 3":
+        case "Free Zone & Zone 4":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " Route is ₱1,030.00.";
+          break;
+        default:
+          assessmentFeeText = "Please select a route area to view the assessment fee.";
+      }
 
-    let formId = $(this).closest('form').attr('id');
-    if ($("#" + formId).css("display") !== "none") {
-      displayAssessmentFee(formId, colorCodeId, routeAreaDataAttr, containerId);
+      $("#assessmentFeeText2").text(assessmentFeeText);
+      $("#assessmentFeeText4").text(assessmentFeeText);
+    }
+
+    $("#color_code1").change(function () {
+      updateAssessmentFee1();
+    });
+
+    function updateAssessmentFee2() {
+      let selectedColorCode = $("#color_code2").val();
+      let selectedRouteArea = $("#color_code2").find(":selected").data("route-area2");
+      $("#route_area2").val(selectedRouteArea);
+
+      let assessmentFeeText = "";
+
+      switch (selectedRouteArea) {
+        case "Free Zone / Zone 1":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱430.00.";
+          break;
+        case "Free Zone & Zone 2":
+        case "Free Zone & Zone 3":
+        case "Free Zone & Zone 4":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " Route is ₱1,030.00.";
+          break;
+        default:
+          assessmentFeeText = "Please select a route area to view the assessment fee.";
+      }
+
+      $("#assessmentFeeText").text(assessmentFeeText);
+      $("#assessmentFeeText3").text(assessmentFeeText);
+    }
+
+    updateAssessmentFee2();
+
+    $("#color_code2").change(function () {
+      updateAssessmentFee2();
+    });
+
+    const step3form1 = document.getElementById('step3form1');
+    const step3form2 = document.getElementById('step3form2');
+    const step2form1 = document.getElementById('step2form1');
+    const step2form2 = document.getElementById('step2form2');
+
+    if ((step2form1.style.display === "block") || (step3form1.style.display === "block")) {
+      updateAssessmentFee1();
+      document.getElementById("assessmentFeeText2").style.display = "none";
+      document.getElementById("assessmentFeeText4").style.display = "none";
+    }
+    
+    if ((step2form2.style.display === "block") || (step3form2.style.display === "block")) {
+      updateAssessmentFee2();
+      document.getElementById("assessmentFeeText").style.display = "none";
+      document.getElementById("assessmentFeeText3").style.display = "none";
+    } 
+
+    let errorMessage = $(".flash-message.error");
+    if (errorMessage.length > 0) {
+      document.getElementById("mainAppointmentForm").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     }
   });
-
-  function displayAssessmentFeeForForm(formId, containerId, routeAreaDataAttr) {
-    if ($("#" + formId).css("display") !== "none") {
-      displayAssessmentFee(formId, "#color_code1", routeAreaDataAttr, containerId);
-    } else {
-      displayAssessmentFee(formId, "#color_code2", routeAreaDataAttr, containerId);
-    }
-  }
-
-  const step2form1 = document.getElementById('step2form1');
-  const step2form2 = document.getElementById('step2form2');
-  const step3form1 = document.getElementById('step3form1');
-  const step3form2 = document.getElementById('step3form2');
-
-  if (step3form1.style.display !== "none") {
-    displayAssessmentFeeForForm("step3form1", "#assessmentFeeText, #assessmentFeeText3", "route-area1");
-    $(".assessmentFeeContainer4").hide();
-  } else if (step3form2.style.display !== "none") {
-    displayAssessmentFeeForForm("step3form2", "#assessmentFeeText2, #assessmentFeeText4", "route-area2");
-    $(".assessmentFeeContainer3").hide();
-  }
-
-  if (step2form1.style.display !== "none") {
-    displayAssessmentFeeForForm("step2form1", "#assessmentFeeText, #assessmentFeeText3", "route-area1");
-    $(".assessmentFeeContainer2").hide();
-  } else if (step2form2.style.display !== "none") {
-    displayAssessmentFeeForForm("step2form2", "#assessmentFeeText2, #assessmentFeeText4", "route-area2");
-    $(".assessmentFeeContainer").hide();
-  }
-
-  // Scroll to the main appointment form in case of error
-  let errorMessage = $(".flash-message.error");
-  if (errorMessage.length > 0) {
-    document.getElementById("mainAppointmentForm").scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-});
-
-
 
   function showStep(step) {
     const stepButtons = document.querySelectorAll('.step-button');

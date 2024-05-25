@@ -139,20 +139,36 @@ class Edit_new_franchise_2
         'comments' => $_POST['comments'] ?? '',
       ];
 
-      $tricycleApplicationFormData = [
-        'operator_name' => $_POST['operator_name'] ?? '',
-        'tricycle_phone_number' => $_POST['tricycle_phone_number'] ?? '',
-        'address' => $_POST['address'] ?? '',
-        'mtop_no' => $_POST['mtop_no'] ?? '',
-        'route_area' => $_POST['route_area'] ?? '',
-        'color_code' => $_POST['color_code'] ?? '',
-        'make_model' => $_POST['make_model'] ?? '',
-        'make_model_expiry_date' => $_POST['make_model_expiry_date'] ?? '','make_model_year_acquired' => $_POST['make_model_year_acquired'] ?? '',
-        'motor_number' => $_POST['motor_number'] ?? '',
-        'insurer' => $_POST['insurer'] ?? '',
-        'coc_no' => $_POST['coc_no'] ?? '',
-        'coc_no_expiry_date' => $_POST['coc_no_expiry_date'] ?? '',
-        'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id'] ?? '',
+      $tricycleApplicationFormData1 = [
+        'operator_name' => $_POST['operator_name1'] ?? '',
+        'tricycle_phone_number' => $_POST['tricycle_phone_number1'] ?? '',
+        'address' => $_POST['address1'] ?? '',
+        'mtop_no' => $_POST['mtop_no1'] ?? '',
+        'route_area' => $_POST['route_area1'] ?? '',
+        'color_code' => $_POST['color_code1'] ?? '',
+        'make_model' => $_POST['make_model1'] ?? '',
+        'make_model_expiry_date' => $_POST['make_model_expiry_date1'] ?? '','make_model_year_acquired' => $_POST['make_model_year_acquired1'] ?? '',
+        'motor_number' => $_POST['motor_number1'] ?? '',
+        'insurer' => $_POST['insurer1'] ?? '',
+        'coc_no' => $_POST['coc_no1'] ?? '',
+        'coc_no_expiry_date' => $_POST['coc_no_expiry_date1'] ?? '',
+        'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id1'] ?? '',
+      ];
+
+      $tricycleApplicationFormData2 = [
+        'operator_name' => $_POST['operator_name2'] ?? '',
+        'tricycle_phone_number' => $_POST['tricycle_phone_number2'] ?? '',
+        'address' => $_POST['address2'] ?? '',
+        'mtop_no' => $_POST['mtop_no2'] ?? '',
+        'route_area' => $_POST['route_area2'] ?? '',
+        'color_code' => $_POST['color_code2'] ?? '',
+        'make_model' => $_POST['make_model2'] ?? '',
+        'make_model_expiry_date' => $_POST['make_model_expiry_date2'] ?? '','make_model_year_acquired' => $_POST['make_model_year_acquired2'] ?? '',
+        'motor_number' => $_POST['motor_number2'] ?? '',
+        'insurer' => $_POST['insurer2'] ?? '',
+        'coc_no' => $_POST['coc_no2'] ?? '',
+        'coc_no_expiry_date' => $_POST['coc_no_expiry_date2'] ?? '',
+        'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id2'] ?? '',
       ];
 
       if (isset($_POST['confirm_delete_image'])) {
@@ -179,7 +195,7 @@ class Edit_new_franchise_2
       }
       
       if (isset($_POST['update_new_franchise'])) {
-        $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers);
+        $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData1, $tricycleApplicationFormData2, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers);
 
         if (!empty($formErrors)) {
           $firstError = reset($formErrors);
@@ -197,8 +213,12 @@ class Edit_new_franchise_2
             $appointmentFormData['comments'] = '';
           }
 
-          $formattedPhoneNumber = $tricycleApplicationFormData['tricycle_phone_number'];
-          $tricycleApplicationFormData['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
+          $formattedPhoneNumber1 = $tricycleApplicationFormData1['tricycle_phone_number'];
+          $tricycleApplicationFormData1['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber1);
+
+          $formattedPhoneNumber2 = $tricycleApplicationFormData2['tricycle_phone_number'];
+          $tricycleApplicationFormData2['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber2);
+
 
           $mtopRequirementFormData = [
             'mc_lto_certificate_of_registration_path',
@@ -213,20 +233,34 @@ class Edit_new_franchise_2
             'proof_of_id_path',
           ];
 
-          $fileUploads = $this->handleFileUploads($mtopRequirementFormData);
+          $fileUploads1 = $this->handleFileUploads($mtopRequirementFormData, '1');
+          $fileUploads2 = $this->handleFileUploads($mtopRequirementFormData, '2');
 
-          if ($appointmentModel->update(['appointment_id' => $appointmentId], $appointmentFormData) && $tricycleApplicationModel->update(['appointment_id' => $appointmentId], $tricycleApplicationFormData)) {
-            if (!empty($fileUploads)) {
-              $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], $fileUploads);
+          if ($appointmentModel->update(['appointment_id' => $appointmentId], $appointmentFormData) && $tricycleApplicationModel->update(['tricycle_application_id' => $tricycleApplicationDataArray[0]->tricycle_application_id], $tricycleApplicationFormData1) && $tricycleApplicationModel->update(['tricycle_application_id' => $tricycleApplicationDataArray[1]->tricycle_application_id], $tricycleApplicationFormData2)) {
+            if (!empty($fileUploads1)) {
+              $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementDataArray[0]->mtop_requirement_id], $fileUploads1);
+            }
+            if (!empty($fileUploads2)) {
+              $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementDataArray[1]->mtop_requirement_id], $fileUploads2);
             }
 
             // Get the selected tricycle_cin_number_id
-            $selectedCinNumberId = $tricycleApplicationFormData['tricycle_cin_number_id'];
+            $selectedCinNumberId1 = $tricycleApplicationFormData1['tricycle_cin_number_id'];
+            $selectedCinNumberId2 = $tricycleApplicationFormData2['tricycle_cin_number_id'];
 
             // Check if tricycle_cin_number_id is not empty and is in the availableCinNumbers
-            if (!empty($selectedCinNumberId) && in_array($selectedCinNumberId, $availableCinNumbers)) {
+            if (!empty($selectedCinNumberId1) && in_array($selectedCinNumberId1, $availableCinNumbers)) {
               // Update the tricycle_cin_numbers table
-              $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $selectedCinNumberId], [
+              $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $selectedCinNumberId1], [
+                'is_used' => true,
+                'user_id' => $appointmentData->user_id,
+                'ownership_date' => date('Y-m-d'),
+              ]);
+            }
+
+            if (!empty($selectedCinNumberId2) && in_array($selectedCinNumberId2, $availableCinNumbers)) {
+              // Update the tricycle_cin_numbers table
+              $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $selectedCinNumberId2], [
                 'is_used' => true,
                 'user_id' => $appointmentData->user_id,
                 'ownership_date' => date('Y-m-d'),
@@ -234,10 +268,20 @@ class Edit_new_franchise_2
             }
 
             // Update the previous selected CIN number
-            if (!empty($selectedCinNumberId) && !empty($tricycleApplicationData->tricycle_cin_number_id) &&
-            $selectedCinNumberId != $tricycleApplicationData->tricycle_cin_number_id) {
+            if (!empty($selectedCinNumberId1) && !empty($tricycleApplicationDataArray[0]->tricycle_cin_number_id) &&
+            $selectedCinNumberId1 != $tricycleApplicationDataArray[0]->tricycle_cin_number_id) {
               // Update the previous tricycle_cin_numbers entry
-              $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id], [
+              $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $tricycleApplicationDataArray[0]->tricycle_cin_number_id], [
+                'is_used' => false,
+                'user_id' => null,
+                'ownership_date' => null, 
+              ]);
+            }
+
+            if (!empty($selectedCinNumberId2) && !empty($tricycleApplicationDataArray[1]->tricycle_cin_number_id) &&
+            $selectedCinNumberId2 != $tricycleApplicationDataArray[1]->tricycle_cin_number_id) {
+              // Update the previous tricycle_cin_numbers entry
+              $tricycleCinNumberModel->update(['tricycle_cin_number_id' => $tricycleApplicationDataArray[1]->tricycle_cin_number_id], [
                 'is_used' => false,
                 'user_id' => null,
                 'ownership_date' => null, 
@@ -248,45 +292,84 @@ class Edit_new_franchise_2
               $tricycleModel = new Tricycle();
               $tricycleStatusesModel = new TricycleStatuses;
 
-              $tricycleData = [
-                'cin_id' => $tricycleApplicationData->tricycle_cin_number_id,
-                'tricycle_application_id' => $tricycleApplicationData->tricycle_application_id,
-                'mtop_requirements_new_franchise_id' => $mtopRequirementId,
+              $tricycleData1 = [
+                'cin_id' => $tricycleApplicationDataArray[0]->tricycle_cin_number_id,
+                'tricycle_application_id' => $tricycleApplicationDataArray[0]->tricycle_application_id,
+                'mtop_requirements_new_franchise_id' => $mtopRequirementDataArray[0],
                 'user_id' => $appointmentData->user_id,
               ];
 
-              if ($tricycleModel->insert($tricycleData)) {
+              $tricycleData2 = [
+                'cin_id' => $tricycleApplicationDataArray[1]->tricycle_cin_number_id,
+                'tricycle_application_id' => $tricycleApplicationDataArray[1]->tricycle_application_id,
+                'mtop_requirements_new_franchise_id' => $mtopRequirementDataArray[1],
+                'user_id' => $appointmentData->user_id,
+              ];
+
+              if ($tricycleModel->insert($tricycleData1)) {
                 $tricycleId = $tricycleModel->getLastInsertedRecord()[0]->tricycle_id;
                 $tricycleStatusesModel->insert(['tricycle_id' => $tricycleId, 'user_id' => $appointmentData->user_id, 'status' => 'Active']);
+
+                if ($tricycleModel->insert($tricycleData2)) {
+                  $tricycleId2 = $tricycleModel->getLastInsertedRecord()[0]->tricycle_id;
+                  $tricycleStatusesModel->insert(['tricycle_id' => $tricycleId2, 'user_id' => $appointmentData->user_id, 'status' => 'Active']);
+                }
               }
             }
 
-            $cinNumber = null; // Default value in case tricycle_cin_number_id is not set
+            $cinNumber1 = null; // Default value in case tricycle_cin_number_id is not set
 
-            if ($tricycleApplicationData->tricycle_cin_number_id) {
-              $cinDataForNotifs = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $tricycleApplicationData->tricycle_cin_number_id]);
+            if ($tricycleApplicationDataArray[0]->tricycle_cin_number_id) {
+              $cinDataForNotifs = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $tricycleApplicationDataArray[0]->tricycle_cin_number_id]);
 
               if ($cinDataForNotifs) {
-                $cinNumber = $cinDataForNotifs->cin_number;
+                $cinNumber1 = $cinDataForNotifs->cin_number;
               } else {
                 // Handle the case where $cinDataForNotifs is false (not found in the database)
                 // You can set a default value or handle the absence of $cinDataForNotifs in a way appropriate for your application logic.
-                $cinNumber = null; // Or any default value you prefer
+                $cinNumber1 = null; // Or any default value you prefer
+              }
+            }
+
+            $cinNumber2 = null; // Default value in case tricycle_cin_number_id is not set
+
+            if ($tricycleApplicationDataArray[1]->tricycle_cin_number_id) {
+              $cinDataForNotifs = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $tricycleApplicationDataArray[1]->tricycle_cin_number_id]);
+
+              if ($cinDataForNotifs) {
+                $cinNumber2 = $cinDataForNotifs->cin_number;
+              } else {
+                // Handle the case where $cinDataForNotifs is false (not found in the database)
+                // You can set a default value or handle the absence of $cinDataForNotifs in a way appropriate for your application logic.
+                $cinNumber2 = null; // Or any default value you prefer
               }
             }
 
             $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
             $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
             $rootPath = ROOT;
-            $routeArea = isset($tricycleApplicationFormData['route_area']) && !empty($tricycleApplicationFormData['route_area'])
-            ? $tricycleApplicationFormData['route_area']
-            : (!empty($tricycleApplicationData->route_area) ? $tricycleApplicationData->route_area : '');          
+            $routeArea1 = isset($tricycleApplicationFormData1['route_area']) && !empty($tricycleApplicationFormData1['route_area'])
+            ? $tricycleApplicationFormData1['route_area']
+            : (!empty($tricycleApplicationDataArray[0]->route_area) ? $tricycleApplicationDataArray[0]->route_area : '');
 
-            $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber, $routeArea);
-            $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber, $routeArea);
-            $customRequirementMessage = $this->generateCustomRequirementMessage();
+            $routeArea2 = isset($tricycleApplicationFormData2['route_area']) && !empty($tricycleApplicationFormData2['route_area'])
+            ? $tricycleApplicationFormData2['route_area']
+            : (!empty($tricycleApplicationDataArray[1]->route_area) ? $tricycleApplicationDataArray[1]->route_area : '');       
 
-            sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationData, $cinNumber, $customTextMessage, $customEmailMessage, $customRequirementMessage);
+            $customTextMessage1 = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber1, $routeArea1);
+            
+            $customTextMessage2 = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber2, $routeArea2);
+
+            $customEmailMessage1 = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber1, $routeArea1);
+            $customRequirementMessage1 = $this->generateCustomRequirementMessage();
+
+            $customEmailMessage2 = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber2, $routeArea2);
+            $customRequirementMessage2 = $this->generateCustomRequirementMessage();
+
+            sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationDataArray[0], $cinNumber1, $customTextMessage1, $customEmailMessage1, $customRequirementMessage1);
+
+            sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationDataArray[1], $cinNumber2, $customTextMessage2, $customEmailMessage2, $customRequirementMessage2);
+
             set_flash_message("Scheduled appointment updated successfully.", "success");
             redirect('appointments');
           } else {
@@ -300,7 +383,7 @@ class Edit_new_franchise_2
     echo $this->renderView('edit_new_franchise_2', true, $data);
   }
 
-  private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers) {
+  private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData1, $tricycleApplicationFormData2, $appointmentModel, $tricycleApplicationModel,  $availableCinNumbers) {
     $errors = array();
     $appointmentErrors = $appointmentModel->updateValidation($appointmentFormData);
 
@@ -308,10 +391,14 @@ class Edit_new_franchise_2
       $errors['appointment'] = $appointmentErrors;
     }
 
-    $tricycleApplicationErrors = $tricycleApplicationModel->validate($tricycleApplicationFormData);
+    $tricycleApplicationErrors1 = $tricycleApplicationModel->validate($tricycleApplicationFormData1);
+    if (!empty($tricycleApplicationErrors1)) {
+      $errors['tricycleApplication1'] = $tricycleApplicationErrors1;
+    }
 
-    if (!empty($tricycleApplicationErrors)) {
-      $errors['tricycleApplication'] = $tricycleApplicationErrors;
+    $tricycleApplicationErrors2 = $tricycleApplicationModel->validate($tricycleApplicationFormData2);
+    if (!empty($tricycleApplicationErrors2)) {
+      $errors['tricycleApplication2'] = $tricycleApplicationErrors2;
     }
 
     // Check if the appointment status is "REJECTED"
@@ -323,12 +410,14 @@ class Edit_new_franchise_2
       }
     }
 
-  
     if ($_SESSION['USER']->role === 'admin'){
       if ($appointmentFormData['status'] === 'Completed' || $appointmentFormData['status'] === 'Approved') {
-        $cinNumber = ($tricycleApplicationFormData['tricycle_cin_number_id']);
-        if (empty($cinNumber)) {
-          $errors['tricycleApplication'][] = 'Tricycle CIN number is required and must <br> be selected from the available options to <br> update this appointment request.';
+        $cinNumber1 = ($tricycleApplicationFormData1['tricycle_cin_number_id']);
+        $cinNumber2 = ($tricycleApplicationFormData2['tricycle_cin_number_id']);
+        if (empty($cinNumber1)) {
+          $errors['tricycleApplication1'][] = 'Tricycle CIN number is required and must <br> be selected from the available options to <br> update this appointment request.';
+        } else if (empty($cinNumber2)) {
+          $errors['tricycleApplication2'][] = 'Tricycle CIN number is required and must <br> be selected from the available options to <br> update this appointment request.';
         }
       }
     }
@@ -340,19 +429,21 @@ class Edit_new_franchise_2
     return preg_replace('/[^0-9]/', '', str_replace('+63', '', $phoneNumber));
   }
 
-  private function handleFileUploads($mtopRequirementFormData)
+  private function handleFileUploads($mtopRequirementFormData, $suffix)
   {
     $uniqueId = uniqid();
     $uploadDirectory = 'public/uploads/mtop_requirements_images/' . $uniqueId;
     $fileUploads = [];
 
     foreach ($_FILES as $inputName => $file) {
-      $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-      $columnName = $inputName . '_path';
-      $targetFile = $uploadDirectory . '_' . $inputName . '.' . $extension;
+      if (strpos($inputName, $suffix) !== false) {
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $columnName = $inputName . '_path';
+        $targetFile = $uploadDirectory . '_' . $inputName . '.' . $extension;
 
-      if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-        $fileUploads[$columnName] = $targetFile;
+        if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+          $fileUploads[$columnName] = $targetFile;
+        }
       }
     }
 
