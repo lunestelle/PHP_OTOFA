@@ -14,7 +14,7 @@ class TricycleCinNumber
   protected $order_column = 'tricycle_cin_number_id';
 
   public function getUsedYears() {
-    $query = "SELECT YEAR(ownership_date) AS year, COUNT(*) AS count FROM {$this->table} WHERE is_used = 1 GROUP BY YEAR(ownership_date)";
+    $query = "SELECT YEAR(ownership_date) AS year, COUNT(DISTINCT user_id) AS count FROM {$this->table} WHERE is_used = 1 GROUP BY YEAR(ownership_date)";
     $results = $this->query($query);
 
     $formattedResults = [];
