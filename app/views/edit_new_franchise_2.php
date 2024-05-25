@@ -933,6 +933,8 @@
       $("#assessmentFeeText4").text(assessmentFeeText);
     }
 
+    updateAssessmentFee1();
+
     $("#color_code1").change(function () {
       updateAssessmentFee1();
     });
