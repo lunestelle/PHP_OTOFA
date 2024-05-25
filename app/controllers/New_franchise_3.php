@@ -172,9 +172,9 @@ class New_franchise_3
                 
                   if ($fileUploads1['success'] && $fileUploads2['success'] && $fileUploads3['success']) {
                     $mtopRequirementModel = new MtopRequirement();
-                    $mtopRequirementModel->insert($fileUploads3['data']);
                     $mtopRequirementModel->insert($fileUploads1['data']);
                     $mtopRequirementModel->insert($fileUploads2['data']);
+                    $mtopRequirementModel->insert($fileUploads3['data']);
                     set_flash_message("Appointment scheduled successfully.", "success");
                     redirect('appointments');
                   } else {
