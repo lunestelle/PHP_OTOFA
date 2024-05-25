@@ -219,28 +219,25 @@ class Edit_new_franchise_2
           $formattedPhoneNumber2 = $tricycleApplicationFormData2['tricycle_phone_number'];
           $tricycleApplicationFormData2['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber2);
 
-
           $mtopRequirementFormData = [
-            'mc_lto_certificate_of_registration_path',
-            'mc_lto_official_receipt_path',
-            'mc_plate_authorization_path',
-            'tc_insurance_policy_path',
-            'unit_front_view_image_path',
-            'unit_side_view_image_path',
-            'sketch_location_of_garage_path',
-            'affidavit_of_income_tax_return_path',
-            'driver_cert_safety_driving_seminar_path',
-            'proof_of_id_path',
+            'mc_lto_certificate_of_registration_path' => '',
+            'mc_lto_official_receipt_path' => '',
+            'mc_plate_authorization_path' => '',
+            'tc_insurance_policy_path' => '',
+            'unit_front_view_image_path' => '',
+            'unit_side_view_image_path' => '',
+            'sketch_location_of_garage_path' => '',
+            'affidavit_of_income_tax_return_path' => '',
+            'driver_cert_safety_driving_seminar_path' => '',
+            'proof_of_id_path' => '',
           ];
-
+      
           $fileUploads1 = $this->handleFileUploads($mtopRequirementFormData, '1');
           $fileUploads2 = $this->handleFileUploads($mtopRequirementFormData, '2');
 
           if ($appointmentModel->update(['appointment_id' => $appointmentId], $appointmentFormData) && $tricycleApplicationModel->update(['tricycle_application_id' => $tricycleApplicationDataArray[0]->tricycle_application_id], $tricycleApplicationFormData1) && $tricycleApplicationModel->update(['tricycle_application_id' => $tricycleApplicationDataArray[1]->tricycle_application_id], $tricycleApplicationFormData2)) {
-            if (!empty($fileUploads1)) {
+            if (!empty($fileUploads1) && !empty($fileUploads2)) {
               $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementDataArray[0]->mtop_requirement_id], $fileUploads1);
-            }
-            if (!empty($fileUploads2)) {
               $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementDataArray[1]->mtop_requirement_id], $fileUploads2);
             }
 
@@ -433,20 +430,23 @@ class Edit_new_franchise_2
   {
     $uniqueId = uniqid();
     $uploadDirectory = 'public/uploads/mtop_requirements_images/' . $uniqueId;
-    $fileUploads = [];
 
+    $fileUploads = [];
+  
     foreach ($_FILES as $inputName => $file) {
       if (strpos($inputName, $suffix) !== false) {
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $columnName = $inputName . '_path';
+        $columnName = str_replace($suffix, '', $inputName) . '_path';
         $targetFile = $uploadDirectory . '_' . $inputName . '.' . $extension;
-
+  
         if (move_uploaded_file($file['tmp_name'], $targetFile)) {
           $fileUploads[$columnName] = $targetFile;
+        } else {
+          return ['success' => false, 'error' => 'Failed to upload files. Please try again later.'];
         }
       }
     }
-
+  
     return $fileUploads;
   }
 
