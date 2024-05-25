@@ -226,59 +226,50 @@
           <h6 class="text-secondary fw-bolder">Franchise Availed</h6>
         </div>
         <div class="row">
+          <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
           <div class="col-12">
-            <div class="bg-white">
-              <h6 style="font-size: 12px; color:gray;">Allocation of Operators Who Got Franchise</h6>
-              <div class="mt-2">
-                <div id="chartContainer" style="height: 400px; width: 100%;">
-                </div>
-                <script>
-                  window.onload = function () {
-                    var dataPoints = <?php echo json_encode($data['chartData']); ?>.map(function(item, index) {
-                      return { 
-                        y: item.count, 
-                        label: item.year, 
-                        color: getRandomPastelColor(index), // Pass index to ensure different colors
-                        showInLegend: true 
-                      };
-                    });
+            <h6 style="font-size: 12px; color:gray;">Allocation of Operators Who Got Franchise</h6>
+            <div class="bg-white" style="text-align: center;">
+              <div id="chart_div" style="width: 500px; height: 400px; margin: 0 auto;"></div> 
+              <script type="text/javascript">
+                google.charts.load("current", { packages: ["corechart"] });
+                google.charts.setOnLoadCallback(drawChart);
 
-                    function getRandomPastelColor(index) {
-                      var hue = (index * 57) % 360; // Vary the hue based on the index
-                      var pastel = 'hsl(' + hue + ', 100%, 80%)';
-                      return pastel;
-                    }    
+                function drawChart() {
+                  var data = google.visualization.arrayToDataTable([
+                    ['Year', 'Count'],
+                    <?php
+                    foreach ($data['chartData'] as $item) {
+                      echo "['" . $item['year'] . "', " . $item['count'] . "],";
+                    }
+                    ?>
+                  ]);
 
-                    // Calculate total number of operators for all years
-                    var total = dataPoints.reduce((acc, dataPoint) => acc + dataPoint.y, 0);
-                    var chart = new CanvasJS.Chart("chartContainer", {
-                    animationEnabled: true,
-                      legend: {
-                        horizontalAlign: "right", // Place legend on the right
-                        verticalAlign: "center", // Place legend in the center vertically
-                        itemHeight: 36, // Set line height between data points
-                        fontSize: 24, // Set font size for legend items
-                        itemTextFormatter: function(e) {
-                          var percentage = ((e.dataPoint.y / total) * 100).toFixed(0) + "%"; // Calculate percentage
-                          return e.dataPoint.label + " (" + e.dataPoint.y + ")"; // Add total number and percentage
-                        }
-                      },
-                      data: [{
-                        type: "pie",
-                        startAngle: 240,
-                        yValueFormatString: "##0",
-                        indexLabel: "{label} - #percent%",
-                        indexLabelPlacement: "inside", // Place the data label inside the slice
-                        indexLabelFontColor: "#000", // Set font color for data label to black
-                        indexLabelFontSize: 18, // Set font size for data label
-                        showInLegend: true, // Show data label in legend
-                        dataPoints: dataPoints
-                      }]
-                    });
-                    chart.render();
+                  var options = {
+                    is3D: true,
+                    legend: {
+                      position: 'top', 
+                      alignment: 'center',
+                      textStyle: { fontSize: 16 }
+                    },
+                    chartArea: { width: '80%', height: '80%' },
+                    pieSliceText: 'percentage',
+                    slices: {
+                      0: { color: '#FF5733' },
+                      1: { color: '#33FFC1' },
+                      2: { color: '#3361FF' },
+                      3: { color: '#B033FF' },
+                      4: { color: '#FF33EA' }
+                    },
+                    pieSliceTextStyle: {
+                      fontSize: 14
+                    }
                   };
-                </script>
-              </div>
+
+                  var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                  chart.draw(data, options);
+                }
+              </script>
             </div>
           </div>
         </div>

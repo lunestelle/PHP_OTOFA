@@ -162,8 +162,13 @@
 /* --- BAR CHART --- */
 
 canvas {
-  width: 600px;
-  margin: 20px 0;
+  width: 600px !important;
+  margin: 15px 0;
+}
+
+#chartContainer {
+  width: 80% !important;
+  height: 270px !important;
 }
 
 
