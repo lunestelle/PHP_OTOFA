@@ -91,6 +91,9 @@
                     $appointmentDate = new DateTime($appointment['appointment_date']);
                     $currentDate = new DateTime();
                     $oneDayAhead = $currentDate->diff($appointmentDate)->days === 1;
+                    
+                    // Check if the appointment can be canceled
+                    $operatorCanCancel = $userRole === 'operator' && $appointment['status'] === "Pending" && !($oneDayAhead || $currentDate >= $appointmentDate);
                   ?>
                   <tr>
                     <td><?php echo $index++; ?></td>
@@ -197,7 +200,7 @@
                         ?>
                       <?php endif; ?>
 
-                      <?php if ($userRole === 'operator' && $appointment['status'] === "Pending" && !$oneDayAhead): ?>
+                      <?php if ($operatorCanCancel): ?>
                         <a href="#" class="cancel_data px-1 me-1" style="color: red;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal-<?php echo $appointment['appointment_id']; ?>">
                           <i class="fa-solid fa-times fa-xl"></i>
                         </a>
