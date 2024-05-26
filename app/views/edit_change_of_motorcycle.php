@@ -1,5 +1,4 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-
   <div class="step-buttons">
     <div class="accordion" id="accordionExample">
       <div class="row">
@@ -124,28 +123,28 @@
                   </div>
                 </div>
                 <div class="col-12 d-flex mt-3">
-                  <div class="col-4 px-5">
+                  <div class="col-4 px-4">
                     <?php if (hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                       <label for="status" class="form-label">Status</label>
                       <select class="form-control appointment-status-select fw-bold" id="status" name="status">
-                        <option value="" selected disabled>Select Appointment Status</option>
+                        <option value="" disabled>Select Appointment Status</option>
                         <?php if ($status === 'Pending'): ?>
-                          <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?> disabled>Pending</option>
+                          <option value="Pending" selected disabled>Pending</option>
                           <?php if (hasPermission('Can approve appointments', $permissions)) { ?>
-                            <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
+                            <option value="Approved">Approved</option>
                           <?php } ?>
                           <?php if (hasPermission('Can decline appointments', $permissions)) { ?>
-                            <option value="Declined" <?php echo (isset($status) && $status === 'Declined') ? 'selected' : ''; ?>>Declined</option>
+                            <option value="Declined">Declined</option>
                           <?php } ?>
                         <?php elseif ($status === "Approved"): ?>
-                          <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?> disabled>Approved</option>
+                          <option value="Approved" selected disabled>Approved</option>
                           <?php if (hasPermission('Can on process appointments', $permissions)) { ?>
-                            <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?>>On Process</option>
+                            <option value="On Process">On Process</option>
                           <?php } ?>
                         <?php elseif ($status === "On Process"): ?>
-                          <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?> disabled>On Process</option>
+                          <option value="On Process" selected disabled>On Process</option>
                           <?php if (hasPermission('Can completed appointments', $permissions)) { ?>
-                            <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                            <option value="Completed">Completed</option>
                           <?php } ?>
                         <?php endif; ?>
                       </select>
@@ -153,12 +152,30 @@
                       <input type="hidden" name="status" value="<?php echo isset($status) ? $status : ''; ?>">
                     <?php endif; ?>
                   </div>
-                  <?php if ($userRole === 'admin'): ?>
+
+                  <?php if (hasPermission('Can decline appointments', $permissions)) { ?>
                     <div class="col-8 px-5" id="rejection-comments-container" style="display: none;">
-                      <label for="comments" class="form-label">Rejection Comments</label>
+                      <label for="comments" class="form-label">Declined Reason / Comment</label>
                       <textarea class="form-control text-start" id="comments" name="comments" style="width: 580px;" rows="3"><?php echo isset($comments) ? $comments : ''; ?></textarea>
                     </div>
-                  <?php endif; ?>
+                  <?php } ?>
+                                    
+                  <script>
+                    $(document).ready(function () {
+                      function toggleCommentsVisibility() {
+                        const selectedStatus = $('#status').val();
+                        const showComments = selectedStatus === 'Declined';
+                        $('#rejection-comments-container').toggle(showComments);
+                      }
+
+                      toggleCommentsVisibility();
+
+                      // Trigger toggle when the status dropdown value changes
+                      $('#status').change(function () {
+                        toggleCommentsVisibility();
+                      });
+                    });
+                  </script>
                 </div>
               </div>
             </div>
@@ -378,7 +395,7 @@
                       if (isset($or_of_return_plate_path) && $or_of_return_plate_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $or_of_return_plate_path . '" class="img-fluid rounded fixed-height-image" id="or_of_return_plate" alt="OR of Return Plate">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="or_of_return_plate" data-original-image="' . $or_of_return_plate_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="or_of_return_plate" data-original-image="' . $or_of_return_plate_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -396,7 +413,7 @@
                       if (isset($tc_lto_certificate_of_registration_path) && $tc_lto_certificate_of_registration_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $tc_lto_certificate_of_registration_path . '" class="img-fluid rounded fixed-height-image" id="tc_lto_certificate_of_registration" alt="LTO Certificate of Registration (TC)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_lto_certificate_of_registration" data-original-image="' . $tc_lto_certificate_of_registration_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_lto_certificate_of_registration" data-original-image="' . $tc_lto_certificate_of_registration_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -414,7 +431,7 @@
                       if (isset($tc_lto_official_receipt_path) && $tc_lto_official_receipt_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $tc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="tc_lto_official_receipt" alt="LTO Official Receipt (TC)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_lto_official_receipt" data-original-image="' . $tc_lto_official_receipt_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_lto_official_receipt" data-original-image="' . $tc_lto_official_receipt_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -434,7 +451,7 @@
                       if (isset($latest_franchise_path) && $latest_franchise_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $latest_franchise_path . '" class="img-fluid rounded fixed-height-image" id="latest_franchise" alt="Latest Franchise">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="latest_franchise" data-original-image="' . $latest_franchise_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="latest_franchise" data-original-image="' . $latest_franchise_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -459,7 +476,7 @@
                       if (isset($mc_lto_certificate_of_registration_path) && $mc_lto_certificate_of_registration_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $mc_lto_certificate_of_registration_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_certificate_of_registration" alt="LTO Certificate of Registration (MC of New Unit)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_certificate_of_registration" data-original-image="' . $mc_lto_certificate_of_registration_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_certificate_of_registration" data-original-image="' . $mc_lto_certificate_of_registration_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -477,7 +494,7 @@
                       if (isset($mc_lto_official_receipt_path) && $mc_lto_official_receipt_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $mc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_official_receipt" alt="LTO Official Receipt (MC of New Unit)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_official_receipt" data-original-image="' . $mc_lto_official_receipt_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_official_receipt" data-original-image="' . $mc_lto_official_receipt_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -495,7 +512,7 @@
                       if (isset($mc_plate_authorization_path) && $mc_plate_authorization_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $mc_plate_authorization_path . '" class="img-fluid rounded fixed-height-image" id="mc_plate_authorization" alt="Plate Authorization (MC of New Unit)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_plate_authorization" data-original-image="' . $mc_plate_authorization_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_plate_authorization" data-original-image="' . $mc_plate_authorization_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -515,7 +532,7 @@
                       if (isset($tc_insurance_policy_path) && $tc_insurance_policy_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $tc_insurance_policy_path . '" class="img-fluid rounded fixed-height-image" id="tc_insurance_policy" alt="Latest Franchise">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_insurance_policy" data-original-image="' . $tc_insurance_policy_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_insurance_policy" data-original-image="' . $tc_insurance_policy_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -533,7 +550,7 @@
                       if (isset($unit_front_view_image_path) && $unit_front_view_image_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $unit_front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_front_view_image" alt="Latest Franchise">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_front_view_image" data-original-image="' . $unit_front_view_image_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_front_view_image" data-original-image="' . $unit_front_view_image_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -551,7 +568,7 @@
                       if (isset($unit_side_view_image_path) && $unit_side_view_image_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $unit_side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_side_view_image" alt="Latest Franchise">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_side_view_image" data-original-image="' . $unit_side_view_image_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_side_view_image" data-original-image="' . $unit_side_view_image_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -579,113 +596,99 @@
   </div>
 </main>
 
-<!-- Confirmation Modal -->
+<!-- Delete Image Modal -->
 <div class="modal fade" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="deleteImageModalLabel">Delete Image Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        Are you sure you want to delete this image?
-      </div>
-      <div class="modal-footer">
-        <form method="POST" action="">
-          <input type="hidden" name="image_type" id="imageTypeInput">
-          <input type="hidden" name="original_image_path" id="originalImagePathInput">
+      <form method="POST">
+        <input type="hidden" name="mtop_id" id="mtopIdInput">
+        <input type="hidden" name="image_type" id="imageTypeInput">
+        <input type="hidden" name="original_image_path" id="originalImagePathInput">
+        <div class="modal-body text-center">
+          <p class="pt-1 mt-1">Are you sure you want to delete this image?</p>
+          <img src="" id="imagePreview" style="max-width: 100%; max-height: 300px;">
+        </div>
+        <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-danger" name="confirm_delete_image">Delete</button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
 <script>
   $(document).ready(function () {
     function updateAssessmentFee() {
-      let selectedColorCode = $("#color_code").val();
-      let selectedRouteArea = $("#color_code").find(":selected").data("route-area");
-      $("#route_area").val(selectedRouteArea);
+      let $colorCode = $("#color_code");
+      if ($colorCode.length > 0) {
+        let selectedColorCode = $colorCode.val();
+        let selectedRouteArea = $colorCode.find(":selected").data("route-area");
+        $("#route_area").val(selectedRouteArea);
 
-      let assessmentFeeText = "";
+        let assessmentFeeText = "";
 
-      switch (selectedRouteArea) {
-        case "Free Zone / Zone 1":
-          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱430.00.";
-          break;
-        case "Free Zone & Zone 2":
-        case "Free Zone & Zone 3":
-        case "Free Zone & Zone 4":
-          assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " Route is ₱1,030.00.";
-          break;
-        default:
-          assessmentFeeText = "Please select a route area to view the assessment fee.";
-      }
-
-      let tricycleStatuses = <?php echo json_encode($tricycle_statuses); ?>;
-
-      let renewalNotice = tricycleStatuses.some(status => status == "Expired Renewal (1st Notice)" || status == "Expired Renewal (2nd Notice)" || status == "Expired Renewal (3rd Notice)");
-      if (renewalNotice) {
-        let penaltyFee = "";
         switch (selectedRouteArea) {
           case "Free Zone / Zone 1":
-            penaltyFee = " Additionally, there is a penalty fee of ₱122.50 for late renewal.";
+            assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱430.00.";
             break;
           case "Free Zone & Zone 2":
           case "Free Zone & Zone 3":
           case "Free Zone & Zone 4":
-            penaltyFee = " Additionally, there is a penalty fee of ₱272.50 for late renewal.";
+            assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " Route is ₱1,030.00.";
             break;
           default:
-            penaltyFee = "";
+            assessmentFeeText = "Please select a route area to view the assessment fee.";
         }
-        assessmentFeeText += " " + penaltyFee;
-      }
 
-      $("#assessmentFeeText").text(assessmentFeeText);
+        let tricycleStatuses = <?php echo json_encode($tricycle_statuses); ?>;
+
+        if (tricycleStatuses && Array.isArray(tricycleStatuses)) {
+          let renewalNotice = tricycleStatuses.some(status => status == "Expired Renewal (1st Notice)" || status == "Expired Renewal (2nd Notice)" || status == "Expired Renewal (3rd Notice)");
+          if (renewalNotice) {
+            let penaltyFee = "";
+            switch (selectedRouteArea) {
+              case "Free Zone / Zone 1":
+                penaltyFee = " Additionally, there is a penalty fee of ₱122.50 for late renewal.";
+                break;
+              case "Free Zone & Zone 2":
+              case "Free Zone & Zone 3":
+              case "Free Zone & Zone 4":
+                penaltyFee = " Additionally, there is a penalty fee of ₱272.50 for late renewal.";
+                break;
+              default:
+                penaltyFee = "";
+            }
+            assessmentFeeText += " " + penaltyFee;
+          }
+        }
+
+        $("#assessmentFeeText").text(assessmentFeeText);
+      }
     }
 
-    updateAssessmentFee();
-
-    $("#color_code").change(function () {
+    if ($("#color_code").length > 0) {
       updateAssessmentFee();
-    });
+      $("#color_code").change(function () {
+        updateAssessmentFee();
+      });
+    }
 
     let errorMessage = $(".flash-message.error");
     if (errorMessage.length > 0) {
-      document.getElementById("mainAppointmentForm").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+      let mainAppointmentForm = document.getElementById("mainAppointmentForm");
+      if (mainAppointmentForm) {
+        mainAppointmentForm.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
     }
   });
 
-  $(document).ready(function () {
-    $(".remove-image-btn").click(function () {
-      let imageType = $(this).data("image-type");
-      let originalImagePath = $(this).data("original-image");
-      
-      $("#imageTypeInput").val(imageType);
-      $("#originalImagePathInput").val(originalImagePath);
-    });
-  });
-
-  $(document).ready(function () {
-    function toggleCommentsVisibility() {
-      const selectedStatus = $('#status').val();
-      const isAdmin = <?php echo $userRole === 'admin' ? 'true' : 'false'; ?>;
-      const showComments = isAdmin && selectedStatus === 'Declined';
-      $('#rejection-comments-container').toggle(showComments);
-    }
-
-    toggleCommentsVisibility();
-
-    // Trigger toggle when the status dropdown value changes
-    $('#status').change(function () {
-      toggleCommentsVisibility();
-    });
-  });
   function showStep(step) {
     const stepButtons = document.querySelectorAll('.step-button');
     const progress = document.querySelector('#progress');
@@ -693,12 +696,21 @@
 
     // Hide all steps except the current one
     for (let i = 1; i <= 3; i++) {
-      document.getElementById('step-' + i).style.display = 'none';
+      let stepElement = document.getElementById('step-' + i);
+      if (stepElement) {
+        stepElement.style.display = 'none';
+      }
     }
-    document.getElementById('step-' + step).style.display = 'block';
+
+    let currentStepElement = document.getElementById('step-' + step);
+    if (currentStepElement) {
+      currentStepElement.style.display = 'block';
+    }
 
     // Update progress bar value based on the current step
-    progress.setAttribute('value', (step - 1) * 50);
+    if (progress) {
+      progress.setAttribute('value', (step - 1) * 50);
+    }
 
     // Remove 'active' class from all step buttons
     stepButtons.forEach((button) => {
@@ -706,41 +718,81 @@
     });
 
     // Add 'active' class to the clicked step button
-    stepButtons[step - 1].classList.add('active');
+    if (stepButtons[step - 1]) {
+      stepButtons[step - 1].classList.add('active');
+    }
 
     // Add 'done' class to previous step buttons
     for (let i = 0; i < step - 1; i++) {
-      stepButtons[i].classList.add('done');
+      if (stepButtons[i]) {
+        stepButtons[i].classList.add('done');
+      }
     }
 
     // Remove 'done' class from subsequent step buttons
     for (let i = step; i < stepButtons.length; i++) {
-      stepButtons[i].classList.remove('done');
+      if (stepButtons[i]) {
+        stepButtons[i].classList.remove('done');
+      }
     }
 
     // Scroll to the step buttons container
-    stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
+    if (stepButtonsContainer) {
+      stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
-  // Event listener for the Next button
-  document.getElementById('nextButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const nextStepButton = activeStepButton.nextElementSibling;
+  document.addEventListener('DOMContentLoaded', function() {
+    // Event listener for the Next button
+    let nextButton = document.getElementById('nextButton');
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        if (activeStepButton) {
+          const nextStepButton = activeStepButton.nextElementSibling;
+          if (nextStepButton) {
+            const nextStep = parseInt(nextStepButton.textContent);
+            showStep(nextStep);
+          }
+        }
+      });
+    }
 
-    if (nextStepButton) {
-      const nextStep = parseInt(nextStepButton.textContent);
-      showStep(nextStep);
+    // Event listener for the Previous button
+    let prevButton = document.getElementById('prevButton');
+    if (prevButton) {
+      prevButton.addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        if (activeStepButton) {
+          const prevStepButton = activeStepButton.previousElementSibling;
+          if (prevStepButton) {
+            const prevStep = parseInt(prevStepButton.textContent);
+            showStep(prevStep);
+          }
+        }
+      });
     }
   });
 
-  // Event listener for the Previous button
-  document.getElementById('prevButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const prevStepButton = activeStepButton.previousElementSibling;
+  document.addEventListener('DOMContentLoaded', function () {
+    var deleteImageModal = document.getElementById('deleteImageModal');
+    deleteImageModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget;
+      var imageType = button.getAttribute('data-image-type');
+      var originalImagePath = button.getAttribute('data-original-image');
+      var mtopId = button.getAttribute('data-mtop-id');
 
-    if (prevStepButton) {
-      const prevStep = parseInt(prevStepButton.textContent);
-      showStep(prevStep);
-    }
+      // Update the modal's hidden input values
+      var mtopIdInput = deleteImageModal.querySelector('#mtopIdInput');
+      var imageTypeInput = deleteImageModal.querySelector('#imageTypeInput');
+      var originalImagePathInput = deleteImageModal.querySelector('#originalImagePathInput');
+      mtopIdInput.value = mtopId;
+      imageTypeInput.value = imageType;
+      originalImagePathInput.value = originalImagePath;
+
+      // Update the image preview
+      var imagePreview = deleteImageModal.querySelector('#imagePreview');
+      imagePreview.src = originalImagePath;
+    });
   });
 </script>
