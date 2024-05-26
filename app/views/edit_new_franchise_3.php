@@ -116,24 +116,24 @@
                     <?php if (hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                       <label for="status" class="form-label">Status</label>
                       <select class="form-control appointment-status-select fw-bold" id="status" name="status">
-                        <option value="" selected disabled>Select Appointment Status</option>
+                        <option value="" disabled>Select Appointment Status</option>
                         <?php if ($status === 'Pending'): ?>
-                          <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?> disabled>Pending</option>
+                          <option value="Pending" selected disabled>Pending</option>
                           <?php if (hasPermission('Can approve appointments', $permissions)) { ?>
-                            <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
+                            <option value="Approved">Approved</option>
                           <?php } ?>
                           <?php if (hasPermission('Can decline appointments', $permissions)) { ?>
-                            <option value="Declined" <?php echo (isset($status) && $status === 'Declined') ? 'selected' : ''; ?>>Declined</option>
+                            <option value="Declined">Declined</option>
                           <?php } ?>
                         <?php elseif ($status === "Approved"): ?>
-                          <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?> disabled>Approved</option>
+                          <option value="Approved" selected disabled>Approved</option>
                           <?php if (hasPermission('Can on process appointments', $permissions)) { ?>
-                            <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?>>On Process</option>
+                            <option value="On Process">On Process</option>
                           <?php } ?>
                         <?php elseif ($status === "On Process"): ?>
-                          <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?> disabled>On Process</option>
+                          <option value="On Process" selected disabled>On Process</option>
                           <?php if (hasPermission('Can completed appointments', $permissions)) { ?>
-                            <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                            <option value="Completed">Completed</option>
                           <?php } ?>
                         <?php endif; ?>
                       </select>
@@ -141,12 +141,30 @@
                       <input type="hidden" name="status" value="<?php echo isset($status) ? $status : ''; ?>">
                     <?php endif; ?>
                   </div>
-                  <?php if ($userRole === 'admin'): ?>
+
+                  <?php if (hasPermission('Can decline appointments', $permissions)) { ?>
                     <div class="col-8 px-5" id="rejection-comments-container" style="display: none;">
-                      <label for="comments" class="form-label">Rejection Comments</label>
+                      <label for="comments" class="form-label">Declined Reason / Comment</label>
                       <textarea class="form-control text-start" id="comments" name="comments" style="width: 580px;" rows="3"><?php echo isset($comments) ? $comments : ''; ?></textarea>
                     </div>
-                  <?php endif; ?>
+                  <?php } ?>
+                                    
+                  <script>
+                    $(document).ready(function () {
+                      function toggleCommentsVisibility() {
+                        const selectedStatus = $('#status').val();
+                        const showComments = selectedStatus === 'Declined';
+                        $('#rejection-comments-container').toggle(showComments);
+                      }
+
+                      toggleCommentsVisibility();
+
+                      // Trigger toggle when the status dropdown value changes
+                      $('#status').change(function () {
+                        toggleCommentsVisibility();
+                      });
+                    });
+                  </script>
                 </div>
               </div>
             </div>

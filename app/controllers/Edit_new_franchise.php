@@ -169,7 +169,7 @@
           if (!empty($formErrors)) {
             $firstError = reset($formErrors);
             set_flash_message($firstError[0], "error");
-            $data = array_merge($data, $_POST);
+            // $data = array_merge($data, $_POST);
             echo $this->renderView('edit_new_franchise', true, $data);
             return;
           } else {

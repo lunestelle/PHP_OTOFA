@@ -200,7 +200,7 @@ class Edit_new_franchise_2
         if (!empty($formErrors)) {
           $firstError = reset($formErrors);
           set_flash_message($firstError[0], "error");
-          $data = array_merge($data, $_POST);
+          // $data = array_merge($data, $_POST);
           echo $this->renderView('edit_new_franchise_2', true, $data);
           return;
         } else {
@@ -384,7 +384,6 @@ class Edit_new_franchise_2
       $errors['tricycleApplication2'] = $tricycleApplicationErrors2;
     }
 
-    // Check if the appointment status is "REJECTED"
     if ($appointmentFormData['status'] === 'Declined') {
       // Require comments for declined appointments
       $comments = trim($appointmentFormData['comments']);
