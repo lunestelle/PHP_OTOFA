@@ -18,7 +18,7 @@ class New_appointment
       redirect('');
     }
 
-		$cinModel = new TricycleCinNumber();
+    $cinModel = new TricycleCinNumber();
     $data['userHasCin'] = $cinModel->getCinNumberIdByUserId($_SESSION['USER']->user_id) !== null;
 
     $data["totalAvailableCins"] = count($cinModel->getAvailableCinNumbers());
@@ -60,6 +60,16 @@ class New_appointment
       if (isset($_POST['appointmentType'])) {
         $appointmentType = $_POST['appointmentType'];
         $numberOfTricycles = $_POST['numberOfTricycles'];
+        $tricycleCin = isset($_POST['tricycleCin']) ? $_POST['tricycleCin'] : '';
+
+        // Check if tricycleCin is an array or a single value
+        if (is_array($tricycleCin)) {
+          // Convert array to comma-separated string if it's not empty
+          $tricycleCinString = !empty($tricycleCin) ? implode(',', $tricycleCin) : '';
+        } else {
+          // Use the single value directly
+          $tricycleCinString = $tricycleCin;
+        }
 
         switch ($appointmentType) {
           case 'New Franchise':
@@ -69,7 +79,6 @@ class New_appointment
           case 'Renewal of Franchise':
           case 'Change of Motorcycle':
           case 'Transfer of Ownership':
-            $tricycleCin = isset($_POST['tricycleCin']) ? $_POST['tricycleCin'] : '';
             if ($this->checkTricycleCin($tricycleCin)) {
               if ($appointmentType === 'Transfer of Ownership') {
                 $transferType = isset($_POST['transferType']) ? $_POST['transferType'] : '';
@@ -77,13 +86,14 @@ class New_appointment
                   set_flash_message("Please select a transfer type.", "error");
                   redirect('new_appointment'); // Redirect back to the appointment page
                 } elseif ($transferType == 'Transfer of Ownership from Deceased Owner' || $transferType == 'Intent of Transfer') {
-                  $this->redirectToPage('appointment_details', $appointmentType, $transferType, $tricycleCin);
+                  $this->redirectToPage('appointment_details', $appointmentType, $transferType, $tricycleCinString, $numberOfTricycles);
                 } else {
                   // If transfer type is None, redirect to transfer_of_ownership
-                  redirect('appointment_details?appointmentType=' . urlencode($appointmentType) . '&tricycleCin=' . urlencode($tricycleCin));
+                  redirect('appointment_details?appointmentType=' . urlencode($appointmentType) . '&tricycleCin=' . urlencode($tricycleCinString) . '&numberOfTricycles=' . $numberOfTricycles);
+                               
                 }
               } else {
-                redirect('appointment_details?appointmentType=' . urlencode(strtolower(str_replace(' ', '_', $appointmentType))) . '&tricycleCin=' . urlencode($tricycleCin));
+                redirect('appointment_details?appointmentType=' . urlencode(strtolower(str_replace(' ', '_', $appointmentType))) . '&tricycleCin=' . urlencode($tricycleCinString) . '&numberOfTricycles=' . $numberOfTricycles);
               }
             }
             break;
@@ -102,16 +112,16 @@ class New_appointment
 
   private function checkTricycleCin($tricycleCin)
   {
-    if (empty($tricycleCin)) {
-      set_flash_message("Please select a tricycle CIN.", "error");
-			redirect('new_appointment');
+    if (empty($tricycleCin) || (is_array($tricycleCin) && empty(array_filter($tricycleCin)))) {
+      set_flash_message("Please select at least one tricycle CIN.", "error");
+      redirect('new_appointment');
       return false;
     }
     return true;
   }
 
-  private function redirectToPage($page, $appointmentType, $transferType, $tricycleCin)
+  private function redirectToPage($page, $appointmentType, $transferType, $tricycleCin, $numberOfTricycles)
   {
-    redirect("$page?appointmentType=" . urlencode($appointmentType) . "&transferType=" . urlencode($transferType) . "&tricycleCin=" . urlencode($tricycleCin));
+    redirect("$page?appointmentType=" . urlencode($appointmentType) . "&transferType=" . urlencode($transferType) . "&tricycleCin=" . urlencode($tricycleCin) . "&numberOfTricycles=" . $numberOfTricycles);
   }
 }

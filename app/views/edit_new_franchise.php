@@ -645,7 +645,6 @@
       });
     }
 
-
     // Event listener for the Previous button
     const prevButton = document.getElementById('prevButton');
     if (prevButton) {

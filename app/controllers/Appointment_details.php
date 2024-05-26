@@ -117,12 +117,20 @@ class Appointment_details
                 $redirectURL .= "transfer_of_ownership";
               }
             } elseif ($numberOfTricycles == 2) {
-              if ($transferType == 'Intent of Transfer2') {
-                $redirectURL .= "intent_of_transfer";
+              if ($transferType == 'Intent of Transfer') {
+                $redirectURL .= "intent_of_transfer_2";
               } elseif ($transferType == 'Transfer of Ownership from Deceased Owner') {
-                $redirectURL .= "ownership_transfer_from_deceased_owner";
+                $redirectURL .= "ownership_transfer_from_deceased_owner_2";
               } else {
-                $redirectURL .= "transfer_of_ownership";
+                $redirectURL .= "transfer_of_ownership_2";
+              }
+            } elseif ($numberOfTricycles == 3) {
+              if ($transferType == 'Intent of Transfer') {
+                $redirectURL .= "intent_of_transfer_3";
+              } elseif ($transferType == 'Transfer of Ownership from Deceased Owner') {
+                $redirectURL .= "ownership_transfer_from_deceased_owner_3";
+              } else {
+                $redirectURL .= "transfer_of_ownership_3";
               }
             }
             break;

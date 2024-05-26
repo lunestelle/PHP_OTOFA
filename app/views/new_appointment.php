@@ -10,14 +10,14 @@
             <div id="newAppointmentForm">
               <form class="default-form" method="POST" action="" id="appointmentForm">
                 <!-- Appointment Type Section -->
-                <div class="content-container mt-2 mb-3" id="appointmentTypeContainer">
+                <div class="content-container mt-2 mb-3" id="appointmentTypeContainer" style="width: 600px;">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6">Select Appointment Type</h6>
                   </div>
                   <div class="row px-3 p-4">
-                    <div class="col-12 d-flex py-3 px-5">
-                      <div class="col-12 px-5">
-                        <div class="d-flex gap-5 text-center px-2">
+                    <div class="col-12 d-flex py-3 px-4">
+                      <div class="col-12 px-4">
+                        <div class="d-flex gap-5 text-center px-4">
                           <!-- Radio Buttons for Appointment Type -->
                           <div class="row-1">
                             <!-- New Franchise -->
@@ -57,14 +57,14 @@
                 <div class="content-container mt-2 mb-3" id="noOfTricyclesContainer">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6" id="tricycleHeader">Select Number of Tricycles</h6>
-                    <p class="text-muted m-2 p-1 fst-italic fw-bold" id="noOftricycleDetails" style="font-size: 13px;">Please specify the number of tricycles you want to franchise. You can select up to 3 tricycles.</p>
+                    <p class="text-muted m-2 py-2  fst-italic fw-bold" id="noOftricycleDetails" style="font-size: 13px;">Please specify the number of tricycles you want to franchise. You can select up to 3 tricycles.</p>
                   </div>
                   <div class="row px-3 p-4" id="">
                     <div class="col-12 d-flex mb- py-3">
                       <div class="col-12 px-5">
                         <div class="d-flex gap-5 text-center">
                           <div class="col-12">
-                            <input type="number" id="numberOfTricycles" name="numberOfTricycles" class="form-control w-100" min="1" max="5" required>
+                            <input type="number" id="numberOfTricycles" name="numberOfTricycles" class="form-control w-100" min="1" max="3" required>
                             <!-- Tricycle error message container -->
                             <div id="tricycleErrorMessage" class="text-danger mt-2 d-none"></div>
                           </div>
@@ -75,11 +75,11 @@
                 </div>
 
                 <!-- Transfer Type Section -->
-                <div class="content-container mt-2 mb-3" id="transferTypeContainer">
+                <div class="content-container mt-2 mb-3" id="transferTypeContainer"  style="width: 600px;">
                   <div class="bckgrnd pt-2">
                     <h6 class="text-uppercase text-center text-light fs-6">Select Transfer Type</h6>
                   </div>
-                  <div class="row px-3 p-4" id="transferTypeOptions">
+                  <div class="row px-2 p-2" id="transferTypeOptions">
                     <div class="col-12 d-flex mb- py-3">
                       <div class="col-12 px-5">
                         <div class="d-flex gap-5 text-center">
@@ -103,7 +103,7 @@
                             <?php if ($userHasCin) { ?>
                               <div class="row-2">
                                 <!-- Transfer of Ownership from Deceased Owner (if user has CIN) -->
-                                <div class="new-appointment-selection rounded-3 mb-4">
+                                <div class="new-appointment-selection rounded-3 mb-4 mx-2">
                                   <input type="radio" id="transfer_deceased" name="transferType" value="Transfer of Ownership from Deceased Owner">
                                   <label for="transfer_deceased">Transfer of Ownership <br> from Deceased Owner</label>
                                 </div>
@@ -118,9 +118,10 @@
 
                 <!-- Tricycle CIN Section (if user has CIN) -->
                 <?php if ($userHasCin) { ?>
-                  <div class="content-container mt-2 mb-3" id="tricycleCinContainer">
+                  <div class="content-container mt-2 mb-3" id="tricycleCinContainer" style="width: 600px;">
                     <div class="bckgrnd pt-2">
                       <h6 class="text-uppercase text-center text-light fs-6">Select Tricycle CIN</h6>
+                      <p id="multiSelectNote" class="text-muted m-2 py-2  fst-italic fw-bold" style="font-size: 13px; display:none;"></p>
                     </div>
                     <div class="row px-3 p-4">
                       <div class="col-12 d-flex mb- py-3">
@@ -128,11 +129,12 @@
                           <div class="d-flex gap-5 text-center">
                             <div class="col-12">
                               <div class="row-1">
-                                <select id="tricycleCin" name="tricycleCin" class="form-select w-100" style="text-align: center; font-weight: bold; width: 100 !important;">
-                                  <option value="" selected disabled>Please Select Here</option>
+                                <select id="tricycleCin" name="tricycleCin[]" class="form-select w-100" style="text-align: center; font-weight: bold; width: 100 !important;">
+                                  <option disabled>Please Select Here</option>
                                   <!-- Options will be added dynamically using JavaScript the data in here should be the data from the fetch tricycle cin numbers where dropdown should be displayed here containing the cin number -->
                                 </select>
                               </div>
+                              <div id="cinErrorMessage" class="text-danger mt-2 d-none"></div>
                             </div>
                           </div>
                         </div>
@@ -330,7 +332,7 @@
       const transferType = $("input[name='transferType']:checked").val();
       const tricycleCin = $("#tricycleCin").val();
       
-      const isSaveButtonDisabled = !appointmentType || (appointmentType === "New Franchise" && !noOfTricycle) || (appointmentType === "Transfer of Ownership" && !transferType && !noOfTricycle && !tricycleCin) || (appointmentType !== "New Franchise" && !tricycleCin && !noOfTricycle);
+      const isSaveButtonDisabled = !appointmentType || (appointmentType === "New Franchise" && !noOfTricycle) || (appointmentType === "Transfer of Ownership" && !transferType && !noOfTricycle && !tricycleCin && (tricycleCin.length == noOfTricycle)) || (appointmentType !== "New Franchise" && !tricycleCin && !noOfTricycle);
       $("#scheduleAppointmentBtn").prop("disabled", isSaveButtonDisabled);
 
       if (isSaveButtonDisabled) {
@@ -351,8 +353,8 @@
     }
 
     function hideTricycleErrorMessage() {
-        const errorMessageContainer = $("#tricycleErrorMessage");
-        errorMessageContainer.text("").addClass("d-none");
+      const errorMessageContainer = $("#tricycleErrorMessage");
+      errorMessageContainer.text("").addClass("d-none");
     }
 
     function toggleValidations() {
@@ -401,7 +403,7 @@
             if (numberOfTricycles <= 0) {
               displayTricycleErrorMessage("Error: Number of tricycles must be greater than 0");
             } else if (numberOfTricycles  > maxTricycles) {
-              displayTricycleErrorMessage("Error: Number of tricycles exceeds the allowed limits for franchising CINs");
+              displayTricycleErrorMessage("Error: The number of tricycles inputted exceeds the allowed limit of tricycle CINs an operator can own.");
             }
           }
         } else if (appointmentType === "Change of Motorcycle" || appointmentType === "Renewal of Franchise" || appointmentType === "Transfer of Ownership") {
@@ -441,7 +443,7 @@
             if (numberOfTricycles <= 0) {
               displayTricycleErrorMessage("Error: Number of tricycles must be greater than 0");
             } else if (numberOfTricycles  > maxTricycles) {
-              displayTricycleErrorMessage("Error: Number of tricycles exceeds the available CINs");
+              displayTricycleErrorMessage("Error: The number of tricycles inputted exceeds the allowed limit of tricycle CINs an operator can own.");
             }
           }
         }
@@ -590,6 +592,15 @@
       if ((appointmentType === "Change of Motorcycle" || appointmentType === "Renewal of Franchise" || appointmentType === "Transfer of Ownership") && visibleContainerId === "tricycleCinContainer") {
         toggleSaveBtn();
       }
+
+      // Toggle the save button based on the conditions
+      if (appointmentType === "Transfer of Ownership" && visibleContainerId === "tricycleCinContainer") {
+        const noOfTricycle = $("input[name='numberOfTricycles']").val();
+        const tricycleCin = $("#tricycleCin").val();
+        if (tricycleCin && tricycleCin.length == noOfTricycles) {
+          toggleSaveBtn();
+        }
+      }
     });
 
     // Event listener for input field changes
@@ -604,12 +615,89 @@
       }
     });
 
-
     $("#tricycleCin").change(toggleSections);
 
     toggleSections();
     fetchTricycleCinNumbers();
     toggleNextBtn();
     toggleSaveBtn();
+  });
+
+  $(document).ready(function () {
+    const appointmentType = $("input[name='appointmentType']:checked").val();
+    const $tricycleCin = $("#tricycleCin");
+    const $cinErrorMessage = $("#cinErrorMessage");
+    const $saveBtn = $("#scheduleAppointmentBtn");
+
+    function updateTricycleCin(numberOfTricycles) {
+      // Update the tricycle CIN select element
+      $tricycleCin.attr("multiple", numberOfTricycles > 1); // Enable multiple selections if more than 1 tricycle
+
+      // Update the multi-select note
+      if (numberOfTricycles > 1) {
+        $("#multiSelectNote").text(`Press Ctrl and select up to ${numberOfTricycles} options.`).show();
+      } else {
+        $("#multiSelectNote").hide();
+      }
+
+      const limit = numberOfTricycles;
+
+      // Remove any previous event listeners to prevent multiple alerts
+      $tricycleCin.off("change");
+
+      $tricycleCin.on("change", function () {
+        const selectedOptions = $tricycleCin.find("option:selected").not("[disabled]"); // Exclude disabled options
+
+        if (selectedOptions.length > limit) {
+          selectedOptions.last().prop("selected", false); // Deselect the last selected option
+          $cinErrorMessage.text("You can only select up to " + limit + " CIN(s).").removeClass("d-none").show();
+        } else {
+          $cinErrorMessage.hide();
+        }
+
+        // Check if the exact number of required options are selected to enable the save button
+        toggleSaveBtn(selectedOptions.length === limit);
+      });
+    }
+
+    function toggleSaveBtn(enable) {
+      if (enable) {
+        $saveBtn.removeAttr("disabled").css({
+          "color": "white",
+          "background-color": "#FF4200",
+          "border": "1px solid #FF4200",
+          "text-decoration": "none",
+          "border-radius": "10px",
+          "font-size": "12px",
+          "letter-spacing": "2px"
+        });
+      } else {
+        $saveBtn.attr("disabled", true).css({
+          "color": "#666666",
+          "background-color": "#cccccc",
+          "border": "1px solid #999999",
+          "text-decoration": "none",
+          "border-radius": "10px",
+          "font-size": "12px",
+          "letter-spacing": "2px"
+        });
+      }
+    }
+
+    // Assume you have some event or function to call updateTricycleCin with the current number of tricycles
+    $("#numberOfTricycles").on("change", function () {
+      const numberOfTricycles = parseInt($(this).val(), 10);
+      const appointmentType = $("input[name='appointmentType']:checked").val();
+      if (appointmentType === "Transfer of Ownership") {
+        updateTricycleCin(numberOfTricycles);
+        toggleSaveBtn(false); // Ensure save button is disabled initially
+      }
+    });
+
+    $("input[name='appointmentType']").on("change", function() {
+      const initialNumberOfTricycles = parseInt($("#numberOfTricycles").val(), 10);
+      updateTricycleCin(initialNumberOfTricycles);
+      toggleSaveBtn(false); // Ensure save button is disabled initially
+    });
   });
 </script>

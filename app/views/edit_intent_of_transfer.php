@@ -628,25 +628,27 @@
   </div>
 </main>
 
-<!-- Confirmation Modal -->
+<!-- Delete Image Modal -->
 <div class="modal fade" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="deleteImageModalLabel">Delete Image Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        Are you sure you want to delete this image?
-      </div>
-      <div class="modal-footer">
-        <form method="POST" action="">
-          <input type="hidden" name="image_type" id="imageTypeInput">
-          <input type="hidden" name="original_image_path" id="originalImagePathInput">
+      <form method="POST">
+        <input type="hidden" name="mtop_id" id="mtopIdInput">
+        <input type="hidden" name="image_type" id="imageTypeInput">
+        <input type="hidden" name="original_image_path" id="originalImagePathInput">
+        <div class="modal-body text-center">
+          <p class="pt-1 mt-1">Are you sure you want to delete this image?</p>
+          <img src="" id="imagePreview" style="max-width: 100%; max-height: 300px;">
+        </div>
+        <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-danger" name="confirm_delete_image">Delete</button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
