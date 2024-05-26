@@ -201,8 +201,7 @@
                       <?php endif; ?>
 
                       <?php if ($operatorCanCancel): ?>
-                        <a href="#" class="cancel_data px-1 me-1" style="color: red;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal-<?php echo $appointment['appointment_id']; ?>">
-                          <i class="fa-solid fa-times fa-xl"></i>
+                        <a href="#"  class="cancel_data px-1 me-1"  style="color: red;"  title="Cancel Appointment"  data-bs-toggle="modal"  data-bs-target="#cancelModal"  data-appointment-id="<?php echo $appointment['appointment_id']; ?>" data-appointment-name="<?php echo htmlspecialchars($appointment['name'], ENT_QUOTES, 'UTF-8'); ?>" data-appointment-date="<?php echo date('F j, Y', strtotime($appointment['appointment_date'])); ?>" data-appointment-time="<?php echo date('g:i A', strtotime($appointment['appointment_time'])); ?>"> <i class="fa-solid fa-times fa-xl"></i>
                         </a>
                       <?php endif; ?>
                     </td>
@@ -213,33 +212,34 @@
                       </td>
                     <?php endif; ?>
                   </tr>
-                  <!-- CANCEL APPOINTMENT MODAL for each appointment -->
-                  <div class="modal fade" id="cancelModal-<?php echo $appointment['appointment_id']; ?>" tabindex="-1" aria-labelledby="cancelModalLabel-<?php echo $appointment['appointment_id']; ?>" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header border-0">
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-title" id="cancelModalLabel-<?php echo $appointment['appointment_id']; ?>">
-                          <h5 class="modal-title text-center mt-2">Cancel Appointment</h5>
-                        </div>
-                        <div class="modal-body mx-2 text-center">
-                          <form id="cancelForm" action="<?php echo 'cancel_appointment?appointment_id=' . $appointment['appointment_id'] ?>" method="post">
-                            <p>Are you sure you want to cancel the appointment for <span id="appointmentName"><?php echo $appointment['name']; ?></span> on <span id="appointmentDate"><?php echo date('F j, Y', strtotime($appointment['appointment_date'])); ?></span> at <span id="appointmentTime"><?php echo date('g:i A', strtotime($appointment['appointment_time'])); ?></span>?</p>
-                            <input type="hidden" name="appointment_id" value="<?php echo $appointment['appointment_id']; ?>">
-                            <input type="hidden" name="status" value="Cancelled">
-                        </div>
-                        <div class="modal-footer border-0 mb-2">
-                          <button type="button" class="sidebar-btnContent" style="width: 100%; margin:auto; margin: 0 4px; padding: 8px;" data-bs-dismiss="modal">No, Keep Appointment</button>
-                          <button type="submit" form="cancelForm" class="cancel-btn mt-1" style="width: 100%;  margin:auto; margin: 0 4px; padding: 8px;" id="cancelAppointmentModalButton" name="cancelAppointmentModalButton">Yes, Cancel Appointment</button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 <?php endforeach; ?>
               </tbody>
             </table>
+
+            <!-- CANCEL APPOINTMENT MODAL for each appointment -->
+            <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-title" id="cancelModalLabel">
+                    <h5 class="modal-title text-center mt-2">Cancel Appointment</h5>
+                  </div>
+                  <form id="cancelForm" action="cancel_appointment" method="post">
+                    <div class="modal-body mx-2 text-center">
+                      <p>Are you sure you want to cancel the appointment for <span id="appointmentName"></span> on <span id="appointmentDate"></span> at <span id="appointmentTime"></span>?</p>
+                      <input type="hidden" name="appointment_id" id="modalAppointmentId">
+                      <input type="hidden" name="status" value="Cancelled">
+                    </div>
+                    <div class="modal-footer border-0 mb-2">
+                      <button type="button" class="sidebar-btnContent" style="width: 100%; margin:auto; margin: 0 4px; padding: 8px;" data-bs-dismiss="modal">No, Keep Appointment</button>
+                      <button type="submit" name="cancelAppointmentModalButton" class="cancel-btn mt-1" style="width: 100%;  margin:auto; margin: 0 4px; padding: 8px;">Yes, Cancel Appointment</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -341,6 +341,31 @@
 
       // Redirect to the final URL
       window.location.href = finalUrl;
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const cancelButtons = document.querySelectorAll('.cancel_data');
+    
+    cancelButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const appointmentId = this.getAttribute('data-appointment-id');
+        const appointmentName = this.getAttribute('data-appointment-name');
+        const appointmentDate = this.getAttribute('data-appointment-date');
+        const appointmentTime = this.getAttribute('data-appointment-time');
+        
+        const modalAppointmentId = document.getElementById('modalAppointmentId');
+        const appointmentNameElem = document.getElementById('appointmentName');
+        const appointmentDateElem = document.getElementById('appointmentDate');
+        const appointmentTimeElem = document.getElementById('appointmentTime');
+
+        if (modalAppointmentId && appointmentNameElem && appointmentDateElem && appointmentTimeElem) {
+          modalAppointmentId.value = appointmentId;
+          appointmentNameElem.textContent = appointmentName;
+          appointmentDateElem.textContent = appointmentDate;
+          appointmentTimeElem.textContent = appointmentTime;
+        }
+      });
     });
   });
 </script>
