@@ -328,46 +328,30 @@ class Edit_new_franchise_2
               // Store the CIN number in the array
               $cinNumbers[] = $cinNumber;
             }
-              
-            // Get the first two CIN numbers
+            
+            // Get the first three CIN numbers
             list($cinNumber1, $cinNumber2) = array_pad($cinNumbers, 2, null);
-
+            
             if ($cinNumber1 === null) {
               $cinNumber1 = $tricycleApplicationFormData1['tricycle_cin_number_id'];
-            } elseif ($cinNumber2 === null) {
+            }
+            if ($cinNumber2 === null) {
               $cinNumber2 = $tricycleApplicationFormData2['tricycle_cin_number_id'];
             }
-            
+
             // Format date and time
             $formattedDate = date('F j, Y', strtotime($appointmentFormData['appointment_date']));
             $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
             $rootPath = ROOT;
             
-            // Get route areas
-            $routeArea1 = $tricycleApplicationFormData1['route_area'] ?? $tricycleApplicationDataArray[0]->route_area ?? '';
-            $routeArea2 = $tricycleApplicationFormData2['route_area'] ?? $tricycleApplicationDataArray[1]->route_area ?? '';
-            
             // Generate custom text messages
-            $customTextMessage1 = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber1, $routeArea1);
+            $customTextMessage = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, [$cinNumber1, $cinNumber2]);
             
-            $customTextMessage2 = $this->generateCustomTextMessage($appointmentFormData['name'], $appointmentFormData['appointment_type'], $formattedDate, $formattedTime, $rootPath, $cinNumber2, $routeArea2);
-            
-            $customEmailMessage1 = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber1, $routeArea1);
-            
-            $customEmailMessage2 = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], $cinNumber2, $routeArea2);
-            
+            $customEmailMessage = $this->generateCustomEmailMessage($formattedDate, $formattedTime, $appointmentFormData['appointment_type'], [$cinNumber1, $cinNumber2]);
             
             $customRequirementMessage = $this->generateCustomRequirementMessage();
-
-            // Send appointment notifications if the email message is not empty for the first appointment
-            if (!empty($customEmailMessage1)) {
-              sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationFormData1, $cinNumber1, $customTextMessage1, $customEmailMessage1, $customRequirementMessage);
-            }
             
-            // Send appointment notifications if the email message is not empty for the second appointment
-            // if (!empty($customEmailMessage2)) {
-            //   sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationFormData2, $cinNumber2, $customTextMessage2, $customEmailMessage2, $customRequirementMessage);
-            // }
+            sendAppointmentNotifications($appointmentFormData, $data, $tricycleApplicationFormData1, [$cinNumber1, $cinNumber2], $customTextMessage, $customEmailMessage, $customRequirementMessage);
 
             set_flash_message("Scheduled appointment updated successfully.", "success");
             redirect('appointments');
@@ -452,60 +436,70 @@ class Edit_new_franchise_2
     return $fileUploads;
   }
 
-  private function generateCustomTextMessage($name, $appointment_type, $formattedDate, $formattedTime, $rootPath, $cinNumber, $routeArea)
+  private function generateCustomTextMessage($name, $appointment_type, $formattedDate, $formattedTime, $rootPath, $cinNumbers)
   {
-    $feeMessage = "";
-    if (!empty($routeArea)) {
-      $feeMessage = $this->generateFeeMessage($routeArea);
-    }
-
-    $message = "Hello {$name},\n\nCongratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\n";
-
+    $feeMessage = $this->generateFeeMessage($cinNumbers);
+  
+    $message = "Hello {$name},\n\nCongratulations! Your {$appointment_type} appointment for tricycle CIN #" . implode(', #', $cinNumbers) . " has been successfully approved for {$formattedDate} at {$formattedTime}. We look forward to welcoming you.\n\n";
+  
     if (!empty($feeMessage)) {
-      $message .= "To ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
+      $message .= "To ensure a smooth process, kindly be informed that a processing fee " . $feeMessage . " and please bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
     } else {
       $message .= "To ensure a smooth process, please bring the original documents corresponding to the uploaded images on the Mtop Requirements Images form. Below is a list of requirements for New Franchise.\n";
     }
-
+  
     $message .= $this->generateRequirementList();
     $message .= "\nFor more details, please check your appointment details on our website: {$rootPath}";
-
+  
     return $message;
   }
-
-  private function generateCustomEmailMessage($formattedDate, $formattedTime, $appointment_type, $cinNumber, $routeArea)
+  
+  private function generateCustomEmailMessage($formattedDate, $formattedTime, $appointment_type, $cinNumbers)
   {
-    $feeMessage = "";
-    if (!empty($routeArea)){
-      $feeMessage = $this->generateFeeMessage($routeArea);
-    }
-
-    $message = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your {$appointment_type} appointment for tricycle CIN #{$cinNumber} has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
-
+    $feeMessage = $this->generateFeeMessage($cinNumbers);
+  
+    $message = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Congratulations! Your {$appointment_type} appointment for tricycle CIN #" . implode(', #', $cinNumbers) . " has been successfully approved for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong>. We look forward to welcoming you.</div>\n";
+  
     if (!empty($feeMessage)) {
-      $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly {$feeMessage} bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for New Franchise. </div>";
+      $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, kindly be informed that a processing fee " . $feeMessage . " and please bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for New Franchise. </div>";
     } else {
       $message .= "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>To ensure a smooth process, please bring the original documents corresponding to the uploaded images on the MTOP Requirements Images form. Below is a list of requirements for New Franchise. </div>";
     }
-
+  
     return $message;
   }
-
-  private function generateFeeMessage($routeArea)
+  
+  private function generateFeeMessage($cinNumbers)
   {
-    $fee = ($routeArea === 'Free Zone / Zone 1') ? '430.00' : '1,030.00';
-    $feeMessage = "be informed that a processing fee of &#8369;{$fee} is required for your appointment and please";
+    $fees = [];
+    $totalFee = 0; // Initialize total fee
+    foreach ($cinNumbers as $cinNumber) {
+      $routeArea = $this->getRouteAreaByCin($cinNumber);
+      $fee = ($routeArea === 'Free Zone / Zone 1') ? 43000 : 103000; // Represent fees in cents to avoid float precision issues
+      $totalFee += $fee; // Add fee to total
+      $fees[] = "for CIN #{$cinNumber} of ₱" . number_format($fee / 100, 2); // Format fee for display
+    }
 
-    return $feeMessage;
+    $feeMessage = implode(', ', $fees);
+    $totalFeeInPeso = number_format($totalFee / 100, 2); // Convert total fee back to peso format
+    return "{$feeMessage} with a total of ₱{$totalFeeInPeso} is required for your appointment and please";
   }
-
+  
   private function generateCustomRequirementMessage()
   {
     return "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin:0;'>" . $this->generateRequirementList() . "</div>";
   }
-
+  
   private function generateRequirementList()
   {
     return "1. LTO Certificate of Registration (MC of New Unit) (2 copies)<br>2. LTO Official Receipt (MC of New Unit) (2 copies)<br>3. Plate authorization (MC of New Unit) (2 copies)<br>4. Insurance Policy (TC) (New Owner) (2 copies)<br>5. Voters ID or Birth Certificate or Baptismal Certificate or Marriage Certificate or Brgy proof of residence (2 copies)<br>6. Sketch Location of Garage (2 copies)<br>7. Affidavit of No Income Or Latest Income Tax Return (2 copies)<br>8. Picture of New Unit (Front view & Side view) (2 copies)<br>9. Driver's Certificate of Safety Driving Seminar (2 copies)<br>10. Brown long envelope (1 pc.)";
+  }
+  
+  private function getRouteAreaByCin($cinNumber)
+  {
+    $tricycleApplicationModel = new TricycleApplication();
+    $appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
+    $cinData = $tricycleApplicationModel->first(['tricycle_cin_number_id' => $cinNumber, 'appointment_id' => $appointmentId]);
+    return $cinData ? $cinData->route_area : null;
   }
 }

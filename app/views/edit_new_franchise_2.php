@@ -1110,6 +1110,17 @@
         }
       });
     }
+
+    // Update active state of forms when step buttons are clicked
+    const stepButtons = document.querySelectorAll('.step-button');
+    if (stepButtons) {
+      stepButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const step = parseInt(button.textContent);
+          showStep(step);
+        });
+      });
+    }
   });
 
   document.addEventListener('DOMContentLoaded', function () {
