@@ -1,5 +1,4 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
-
   <div class="step-buttons">
     <div class="accordion" id="accordionExample">
       <div class="row">
@@ -124,28 +123,28 @@
                   </div>
                 </div>
                 <div class="col-12 d-flex mt-3">
-                  <div class="col-4 px-5">
+                  <div class="col-4 px-4">
                     <?php if (hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                       <label for="status" class="form-label">Status</label>
                       <select class="form-control appointment-status-select fw-bold" id="status" name="status">
-                        <option value="" selected disabled>Select Appointment Status</option>
+                        <option value="" disabled>Select Appointment Status</option>
                         <?php if ($status === 'Pending'): ?>
-                          <option value="Pending" <?php echo (isset($status) && $status === 'Pending') ? 'selected' : ''; ?> disabled>Pending</option>
+                          <option value="Pending" selected disabled>Pending</option>
                           <?php if (hasPermission('Can approve appointments', $permissions)) { ?>
-                            <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?>>Approved</option>
+                            <option value="Approved">Approved</option>
                           <?php } ?>
                           <?php if (hasPermission('Can decline appointments', $permissions)) { ?>
-                            <option value="Declined" <?php echo (isset($status) && $status === 'Declined') ? 'selected' : ''; ?>>Declined</option>
+                            <option value="Declined">Declined</option>
                           <?php } ?>
                         <?php elseif ($status === "Approved"): ?>
-                          <option value="Approved" <?php echo (isset($status) && $status === 'Approved') ? 'selected' : ''; ?> disabled>Approved</option>
+                          <option value="Approved" selected disabled>Approved</option>
                           <?php if (hasPermission('Can on process appointments', $permissions)) { ?>
-                            <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?>>On Process</option>
+                            <option value="On Process">On Process</option>
                           <?php } ?>
                         <?php elseif ($status === "On Process"): ?>
-                          <option value="On Process" <?php echo (isset($status) && $status === 'On Process') ? 'selected' : ''; ?> disabled>On Process</option>
+                          <option value="On Process" selected disabled>On Process</option>
                           <?php if (hasPermission('Can completed appointments', $permissions)) { ?>
-                            <option value="Completed" <?php echo (isset($status) && $status === 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                            <option value="Completed">Completed</option>
                           <?php } ?>
                         <?php endif; ?>
                       </select>
@@ -153,12 +152,30 @@
                       <input type="hidden" name="status" value="<?php echo isset($status) ? $status : ''; ?>">
                     <?php endif; ?>
                   </div>
-                  <?php if ($userRole === 'admin'): ?>
+
+                  <?php if (hasPermission('Can decline appointments', $permissions)) { ?>
                     <div class="col-8 px-5" id="rejection-comments-container" style="display: none;">
-                      <label for="comments" class="form-label">Rejection Comments</label>
+                      <label for="comments" class="form-label">Declined Reason / Comment</label>
                       <textarea class="form-control text-start" id="comments" name="comments" style="width: 580px;" rows="3"><?php echo isset($comments) ? $comments : ''; ?></textarea>
                     </div>
-                  <?php endif; ?>
+                  <?php } ?>
+                                    
+                  <script>
+                    $(document).ready(function () {
+                      function toggleCommentsVisibility() {
+                        const selectedStatus = $('#status').val();
+                        const showComments = selectedStatus === 'Declined';
+                        $('#rejection-comments-container').toggle(showComments);
+                      }
+
+                      toggleCommentsVisibility();
+
+                      // Trigger toggle when the status dropdown value changes
+                      $('#status').change(function () {
+                        toggleCommentsVisibility();
+                      });
+                    });
+                  </script>
                 </div>
               </div>
             </div>
@@ -372,7 +389,7 @@
                       if (isset($tc_lto_certificate_of_registration_path) && $tc_lto_certificate_of_registration_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $tc_lto_certificate_of_registration_path . '" class="img-fluid rounded fixed-height-image" id="tc_lto_certificate_of_registration" alt="LTO Certificate of Registration (TC)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_lto_certificate_of_registration" data-original-image="' . $tc_lto_certificate_of_registration_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_lto_certificate_of_registration" data-original-image="' . $tc_lto_certificate_of_registration_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -390,7 +407,7 @@
                       if (isset($tc_lto_official_receipt_path) && $tc_lto_official_receipt_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $tc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="tc_lto_official_receipt" alt="LTO Official Receipt (TC)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_lto_official_receipt" data-original-image="' . $tc_lto_official_receipt_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_lto_official_receipt" data-original-image="' . $tc_lto_official_receipt_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -408,7 +425,7 @@
                       if (isset($tc_plate_authorization_path) && $tc_plate_authorization_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $tc_plate_authorization_path . '" class="img-fluid rounded fixed-height-image" id="tc_plate_authorization" alt="Plate Authorization (TC) (If no Plate Number)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_plate_authorization" data-original-image="' . $tc_plate_authorization_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_plate_authorization" data-original-image="' . $tc_plate_authorization_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -428,7 +445,7 @@
                       if (isset($tc_renewed_insurance_policy_path) && $tc_renewed_insurance_policy_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $tc_renewed_insurance_policy_path . '" class="img-fluid rounded fixed-height-image" id="tc_renewed_insurance_policy" alt="Renewed Insurance Policy (TC)">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_renewed_insurance_policy" data-original-image="' . $tc_renewed_insurance_policy_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_renewed_insurance_policy" data-original-image="' . $tc_renewed_insurance_policy_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -446,7 +463,7 @@
                       if (isset($latest_franchise_path) && $latest_franchise_path) {
                         echo '<div class="image-container position-relative">';
                         echo '<img src="' . $latest_franchise_path . '" class="img-fluid rounded fixed-height-image" id="latest_franchise" alt="Latest Franchise">';
-                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="latest_franchise" data-original-image="' . $latest_franchise_path . '"></button>';
+                        echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="latest_franchise" data-original-image="' . $latest_franchise_path . '" data-mtop-id="' . $mtop_requirement_id . '"></button>';
                         echo '</div>';
                       } else {
                         echo '<div class="image-container">';
@@ -473,25 +490,27 @@
   </div>
 </main>
 
-<!-- Confirmation Modal -->
+<!-- Delete Image Modal -->
 <div class="modal fade" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="deleteImageModalLabel">Delete Image Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        Are you sure you want to delete this image?
-      </div>
-      <div class="modal-footer">
-        <form method="POST" action="">
-          <input type="hidden" name="image_type" id="imageTypeInput">
-          <input type="hidden" name="original_image_path" id="originalImagePathInput">
+      <form method="POST">
+        <input type="hidden" name="mtop_id" id="mtopIdInput">
+        <input type="hidden" name="image_type" id="imageTypeInput">
+        <input type="hidden" name="original_image_path" id="originalImagePathInput">
+        <div class="modal-body text-center">
+          <p class="pt-1 mt-1">Are you sure you want to delete this image?</p>
+          <img src="" id="imagePreview" style="max-width: 100%; max-height: 300px;">
+        </div>
+        <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-danger" name="confirm_delete_image">Delete</button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -556,32 +575,6 @@
     }
   });
 
-  $(document).ready(function () {
-    $(".remove-image-btn").click(function () {
-      let imageType = $(this).data("image-type");
-      let originalImagePath = $(this).data("original-image");
-      
-      $("#imageTypeInput").val(imageType);
-      $("#originalImagePathInput").val(originalImagePath);
-    });
-  });
-
-  $(document).ready(function () {
-    function toggleCommentsVisibility() {
-      const selectedStatus = $('#status').val();
-      const isAdmin = <?php echo $userRole === 'admin' ? 'true' : 'false'; ?>;
-      const showComments = isAdmin && selectedStatus === 'Declined';
-      $('#rejection-comments-container').toggle(showComments);
-    }
-
-    toggleCommentsVisibility();
-
-    // Trigger toggle when the status dropdown value changes
-    $('#status').change(function () {
-      toggleCommentsVisibility();
-    });
-  });
-
   function showStep(step) {
     const stepButtons = document.querySelectorAll('.step-button');
     const progress = document.querySelector('#progress');
@@ -615,28 +608,58 @@
     }
 
     // Scroll to the step buttons container
-    stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
+    if (stepButtonsContainer) {
+      stepButtonsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
-  // Event listener for the Next button
-  document.getElementById('nextButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const nextStepButton = activeStepButton.nextElementSibling;
+  document.addEventListener('DOMContentLoaded', function() {
+    // Event listener for the Next button
+    const nextButton = document.getElementById('nextButton');
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        const nextStepButton = activeStepButton.nextElementSibling;
+        if (nextStepButton) {
+          const nextStep = parseInt(nextStepButton.textContent);
+          showStep(nextStep);
+        }
+      });
+    }
 
-    if (nextStepButton) {
-      const nextStep = parseInt(nextStepButton.textContent);
-      showStep(nextStep);
+    // Event listener for the Previous button
+    const prevButton = document.getElementById('prevButton');
+    if (prevButton) {
+      prevButton.addEventListener('click', () => {
+        const activeStepButton = document.querySelector('.step-button.active');
+        const prevStepButton = activeStepButton.previousElementSibling;
+        if (prevStepButton) {
+          const prevStep = parseInt(prevStepButton.textContent);
+          showStep(prevStep);
+        }
+      });
     }
   });
 
-  // Event listener for the Previous button
-  document.getElementById('prevButton').addEventListener('click', () => {
-    const activeStepButton = document.querySelector('.step-button.active');
-    const prevStepButton = activeStepButton.previousElementSibling;
+  document.addEventListener('DOMContentLoaded', function () {
+    var deleteImageModal = document.getElementById('deleteImageModal');
+    deleteImageModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget;
+      var imageType = button.getAttribute('data-image-type');
+      var originalImagePath = button.getAttribute('data-original-image');
+      var mtopId = button.getAttribute('data-mtop-id');
 
-    if (prevStepButton) {
-      const prevStep = parseInt(prevStepButton.textContent);
-      showStep(prevStep);
-    }
+      // Update the modal's hidden input values
+      var mtopIdInput = deleteImageModal.querySelector('#mtopIdInput');
+      var imageTypeInput = deleteImageModal.querySelector('#imageTypeInput');
+      var originalImagePathInput = deleteImageModal.querySelector('#originalImagePathInput');
+      mtopIdInput.value = mtopId;
+      imageTypeInput.value = imageType;
+      originalImagePathInput.value = originalImagePath;
+
+      // Update the image preview
+      var imagePreview = deleteImageModal.querySelector('#imagePreview');
+      imagePreview.src = originalImagePath;
+    });
   });
 </script>

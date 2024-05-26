@@ -120,6 +120,7 @@ class Edit_renewal_of_franchise
       'driver_license_no' => $driver_license_no,
       'driver_license_expiry_date' => $driver_license_expiry_date,
       'tricycle_statuses' => $statuses,
+      'mtop_requirement_id' => $mtopRequirementId,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -159,15 +160,15 @@ class Edit_renewal_of_franchise
       ];
 
       if (isset($_POST['confirm_delete_image'])) {
+        $mtopRequirementId = $_POST['mtop_id'];
         $imageType = $_POST['image_type'];
-        $imagePathColumn = "{$imageType}_path";
+        $originalImagePath = $_POST['original_image_path'];
         
-        // Check if the file exists before attempting to delete
-        if (file_exists($_POST['original_image_path'])) {
-          $deleted = unlink($_POST['original_image_path']);
+        if (file_exists($originalImagePath)) {
+          $deleted = unlink($originalImagePath);
           
-          // Update the database column with an empty value if deletion was successful
           if ($deleted) {
+            $imagePathColumn = $imageType . '_path';
             $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], [$imagePathColumn => null]);
             set_flash_message("Image deleted successfully.", "success");
             redirect('edit_renewal_of_franchise?appointment_id=' . $appointmentId);
@@ -187,7 +188,7 @@ class Edit_renewal_of_franchise
         if (!empty($formErrors)) {
           $firstError = reset($formErrors);
           set_flash_message($firstError[0], "error");
-          $data = array_merge($data, $_POST);
+          // $data = array_merge($data, $_POST);
           echo $this->renderView('edit_renewal_of_franchise', true, $data);
           return;
         } else {
@@ -302,7 +303,7 @@ class Edit_renewal_of_franchise
 
     if (!empty($tricycleApplicationFormData['tricycle_cin_number_id'])) {
       $cinId = $tricycleApplicationFormData['tricycle_cin_number_id'];
-      $appointmentId = $appointmentData->appointment_id;
+      $appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
       $appointmentType = $appointmentFormData['appointment_type'];
       $currentYear = date('Y');
       $statuses = ['Approved', 'Pending', 'On Process'];
