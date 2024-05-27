@@ -56,52 +56,55 @@
         <div class="content-3 content-form-3 active-content content-container mt-2 mb-3" id="step3form1">
           <div class="row px-3 p-2 justify-content-center">
             <div class="col-12 d-flex mb-2">
-              <div class="col-4 px-4">
-                <label for="mc_lto_certificate_of_registration1" class="form-label appointment-label">LTO Certificate of Registration (MC of New Unit)</label>
-                <input type="file"  id="mc_lto_certificate_of_registration1" name="mc_lto_certificate_of_registration1" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="mc_lto_certificate_of_registration2" class="form-label">LTO Certificate of Registration (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_lto_certificate_of_registration2" name="mc_lto_certificate_of_registration2" accept="image/*" required/>
               </div>
-
-              <div class="col-4 px-4">
-                <label for="mc_lto_official_receipt1" class="form-label appointment-label">LTO Official Receipt (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_lto_official_receipt1" name="mc_lto_official_receipt1" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="mc_lto_official_receipt2" class="form-label">LTO Official Receipt (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_lto_official_receipt2" name="mc_lto_official_receipt2" accept="image/*" required/>
               </div>
-              <div class="col-4 px-4">
-                <label for="mc_plate_authorization1" class="form-label appointment-label">Plate Authorization (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_plate_authorization1" name="mc_plate_authorization1" accept="image/*" required/>
-              </div>
-            </div>
-            <div class="col-12 d-flex mb-2">
-              <div class="col-4 px-4 mt-3">
-                <label for="tc_insurance_policy1" class="form-label appointment-label">Insurance Policy (TC) (New Owner)</label>
-                <input type="file" class="form-control" id="tc_insurance_policy1" name="tc_insurance_policy1" accept="image/*" required/>
-              </div>
-              <div class="col-4 px-4 mt-3">
-                <label for="unit_front_view_image1" class="form-label appointment-label">Picture of New Unit (Front View)</label>
-                <input type="file" class="form-control" id="unit_front_view_image1" name="unit_front_view_image1" accept="image/*" required/>
-              </div>
-              <div class="col-4 px-4 mt-3">
-                <label for="unit_side_view_image1" class="form-label appointment-label">Picture of New Unit (Side View)</label>
-                <input type="file" class="form-control" id="unit_side_view_image1" name="unit_side_view_image1" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="mc_plate_authorization2" class="form-label">Plate Authorization (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_plate_authorization2" name="mc_plate_authorization2" accept="image/*" required/>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
-              <div class="col-4 px-4 mt-3 tricycle-fields">
-                <label for="sketch_location_of_garage1" class="form-label appointment-label">Sketch Location of Garage</label>
-                <input type="file" class="form-control" id="sketch_location_of_garage1" name="sketch_location_of_garage1" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="tc_insurance_policy2" class="form-label">Insurance Policy (TC) (New Owner)</label>
+                <input type="file" class="form-control" id="tc_insurance_policy2" name="tc_insurance_policy2" accept="image/*" required/>
               </div>
-              <div class="col-4 px-4 mt-3 tricycle-fields">
-                <label for="affidavit_of_income_tax_return1" class="form-label appointment-label">Affidavit of No Income or Latest Income Tax Return</label>
-                <input type="file" class="form-control" id="affidavit_of_income_tax_return1" name="affidavit_of_income_tax_return1" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="unit_front_view_image2" class="form-label">Picture of New Unit (Front View)</label>
+                <input type="file" class="form-control" id="unit_front_view_image2" name="unit_front_view_image2" accept="image/*" required/>
               </div>
-              <div class="col-4 px-4 mt-3 tricycle-fields">
-                <label for="driver_cert_safety_driving_seminar1" class="form-label appointment-label">Driver's Certificate of Safety Driving Seminar</label>
-                <input type="file" class="form-control" id="driver_cert_safety_driving_seminar1" name="driver_cert_safety_driving_seminar1" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="unit_side_view_image2" class="form-label">Picture of New Unit (Side View)</label>
+                <input type="file" class="form-control" id="unit_side_view_image2" name="unit_side_view_image2" accept="image/*" required/>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
-              <div class="col-4 pb-4 px-4 mt-3 tricycle-fields">
-                <label for="proof_of_id1" class="form-label appointment-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
-                <input type="file" class="form-control" id="proof_of_id1" name="proof_of_id1" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="sketch_location_of_garage2" class="form-label">Sketch Location of Garage</label>
+                <input type="file" class="form-control" id="sketch_location_of_garage2" name="sketch_location_of_garage2" accept="image/*" required/>
+              </div>
+              <div class="text-center col-4 px-4">
+                <label for="latest_franchise2" class="form-label">Latest Franchise</label>
+                <input type="file" class="form-control" id="latest_franchise2" name="latest_franchise2" accept="image/*" required/>
+              </div>
+              <div class="text-center col-4 px-4">
+                <label for="driver_cert_safety_driving_seminar2" class="form-label">Driver's Certificate of Safety Driving Seminar</label>
+                <input type="file" class="form-control" id="driver_cert_safety_driving_seminar2" name="driver_cert_safety_driving_seminar2" accept="image/*" required/>
+              </div>
+            </div>
+            <div class="col-12 d-flex">
+              <div class="text-center col-4 px-4">
+                <label for="proof_of_id2" class="form-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
+                <input type="file" class="form-control" id="proof_of_id2" name="proof_of_id2" accept="image/*" required/>
+              </div>
+              <div class="text-center col-4 px-4">
+                <label for="affidavit_of_income_tax_return2" class="form-label">Affidavit of No Income <br> or Latest Income Tax Return</label>
+                <input type="file" class="form-control" id="affidavit_of_income_tax_return2" name="affidavit_of_income_tax_return2" accept="image/*" required/>
               </div>
             </div>
           </div>
@@ -121,51 +124,55 @@
         <div class="content-3 content-form-3 content-container mt-2 mb-3" id="step3form2"  style="display:none;">
           <div class="row px-3 p-2 justify-content-center">
             <div class="col-12 d-flex mb-2">
-              <div class="col-4 px-4">
-                <label for="mc_lto_certificate_of_registration2" class="form-label appointment-label">LTO Certificate of Registration (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_lto_certificate_of_registration2" name="mc_lto_certificate_of_registration2" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="mc_lto_certificate_of_registration1" class="form-label">LTO Certificate of Registration (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_lto_certificate_of_registration1" name="mc_lto_certificate_of_registration1" accept="image/*" required/>
               </div>
-              <div class="col-4 px-4">
-                <label for="mc_lto_official_receipt2" class="form-label appointment-label">LTO Official Receipt (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_lto_official_receipt2" name="mc_lto_official_receipt2" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="mc_lto_official_receipt1" class="form-label">LTO Official Receipt (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_lto_official_receipt1" name="mc_lto_official_receipt1" accept="image/*" required/>
               </div>
-              <div class="col-4 px-4">
-                <label for="mc_plate_authorization2" class="form-label appointment-label">Plate Authorization (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_plate_authorization2" name="mc_plate_authorization2" accept="image/*" required/>
-              </div>
-            </div>
-            <div class="col-12 d-flex mb-2">
-              <div class="col-4 px-4 mt-3">
-                <label for="tc_insurance_policy2" class="form-label appointment-label">Insurance Policy (TC) (New Owner)</label>
-                <input type="file" class="form-control" id="tc_insurance_policy2" name="tc_insurance_policy2" accept="image/*" required/>
-              </div>
-              <div class="col-4 px-4 mt-3">
-                <label for="unit_front_view_image2" class="form-label appointment-label">Picture of New Unit (Front View)</label>
-                <input type="file" class="form-control" id="unit_front_view_image2" name="unit_front_view_image2" accept="image/*" required/>
-              </div>
-              <div class="col-4 px-4 mt-3">
-                <label for="unit_side_view_image2" class="form-label appointment-label">Picture of New Unit (Side View)</label>
-                <input type="file" class="form-control" id="unit_side_view_image2" name="unit_side_view_image2" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="mc_plate_authorization1" class="form-label">Plate Authorization (MC of New Unit)</label>
+                <input type="file" class="form-control" id="mc_plate_authorization1" name="mc_plate_authorization1" accept="image/*" required/>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
-              <div class="col-4 px-4 mt-3 tricycle-fields">
-                <label for="sketch_location_of_garage2" class="form-label appointment-label">Sketch Location of Garage</label>
-                <input type="file" class="form-control" id="sketch_location_of_garage2" name="sketch_location_of_garage2" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="tc_insurance_policy1" class="form-label">Insurance Policy (TC) (New Owner)</label>
+                <input type="file" class="form-control" id="tc_insurance_policy1" name="tc_insurance_policy1" accept="image/*" required/>
               </div>
-              <div class="col-4 px-4 mt-3 tricycle-fields">
-                <label for="affidavit_of_income_tax_return2" class="form-label appointment-label">Affidavit of No Income or Latest Income Tax Return</label>
-                <input type="file" class="form-control" id="affidavit_of_income_tax_return2" name="affidavit_of_income_tax_return2" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="unit_front_view_image1" class="form-label">Picture of New Unit (Front View)</label>
+                <input type="file" class="form-control" id="unit_front_view_image1" name="unit_front_view_image1" accept="image/*" required/>
               </div>
-              <div class="col-4 px-4 mt-3 tricycle-fields">
-                <label for="driver_cert_safety_driving_seminar2" class="form-label appointment-label">Driver's Certificate of Safety Driving Seminar</label>
-                <input type="file" class="form-control" id="driver_cert_safety_driving_seminar2" name="driver_cert_safety_driving_seminar2" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="unit_side_view_image1" class="form-label">Picture of New Unit (Side View)</label>
+                <input type="file" class="form-control" id="unit_side_view_image1" name="unit_side_view_image1" accept="image/*" required/>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
-              <div class="col-4 pb-4 px-4 mt-3 tricycle-fields">
-                <label for="proof_of_id2" class="form-label appointment-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
-                <input type="file" class="form-control" id="proof_of_id2" name="proof_of_id2" accept="image/*" required/>
+              <div class="text-center col-4 px-4">
+                <label for="sketch_location_of_garage1" class="form-label">Sketch Location of Garage</label>
+                <input type="file" class="form-control" id="sketch_location_of_garage1" name="sketch_location_of_garage1" accept="image/*" required/>
+              </div>
+              <div class="text-center col-4 px-4">
+                <label for="latest_franchise1" class="form-label">Latest Franchise</label>
+                <input type="file" class="form-control" id="latest_franchise1" name="latest_franchise1" accept="image/*" required/>
+              </div>
+              <div class="text-center col-4 px-4">
+                <label for="driver_cert_safety_driving_seminar1" class="form-label">Driver's Certificate of Safety Driving Seminar</label>
+                <input type="file" class="form-control" id="driver_cert_safety_driving_seminar1" name="driver_cert_safety_driving_seminar1" accept="image/*" required/>
+              </div>
+            </div>
+            <div class="col-12 d-flex">
+              <div class="text-center col-4 px-4">
+                <label for="proof_of_id1" class="form-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
+                <input type="file" class="form-control" id="proof_of_id1" name="proof_of_id1" accept="image/*" required/>
+              </div>
+              <div class="text-center col-4 px-4">
+                <label for="affidavit_of_income_tax_return1" class="form-label">Affidavit of No Income <br> or Latest Income Tax Return</label>
+                <input type="file" class="form-control" id="affidavit_of_income_tax_return1" name="affidavit_of_income_tax_return1" accept="image/*" required/>
               </div>
             </div>
           </div>
@@ -191,135 +198,96 @@
         <p class="fs-6">FORM I</p>
         <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
       </button>
-      
-      <div class="content content-form active-content content-container mt-2 mb-3" id="step2form1">
-        <div class="row px-3 p-3">
-          <div class="col-12 d-flex mb-2">
-            <div class="col-4 px-5">
-              <label for="operator_name" class="form-label">Name of Operator</label>
-              <div class="input-group">
-                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name" name="operator_name" value="<?php echo isset($_POST['operator_name']) ? $_POST['operator_name'] : $fullName; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile." readonly>
-                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile.">
-                  <i class="fa-solid fa-info-circle"></i>
-                </span>
-              </div>
-            </div>
-            <div class="col-4 px-5">
-              <label for="tricycle_phone_number" class="form-label">Phone Number</label>
-              <div class="input-group">
-                <span class="input-group-text">+63</span>
-                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number" name="tricycle_phone_number" placeholder="e.g., 9123456789" value="<?php echo isset($_POST['tricycle_phone_number']) ? $_POST['tricycle_phone_number'] : $userPhoneNo; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
-                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                  <i class="fa-solid fa-info-circle"></i>
-                </span>
-              </div>
-            </div>
-            <div class="col-4 px-5">
-              <label for="address" class="form-label">Address</label>
-              <div class="input-group">
-                <input type="text" class="form-control" style="cursor: pointer;" id="address" name="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : $userAddress; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
-                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                  <i class="fa-solid fa-info-circle"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 d-flex mb-2">
-            <div class="col-4 px-5">
-              <label for="mtop_no" class="form-label">MTOP Number</label>
-              <input type="text" class="form-control" id="mtop_no" name="mtop_no" value="<?= isset($_POST['mtop_no']) ? $_POST['mtop_no'] : $existingTricycleApplicationData->mtop_no; ?>" min="0" required>
-            </div>
-            <div class="col-4 px-5">
-              <label for="color_code" class="form-label">Color Code</label>
-              <select class="form-control" id="color_code" name="color_code" required>
-                <option selected disabled>Please Select Here</option>
-                <option value="Red" data-route-area="Free Zone / Zone 1" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Red') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Red') ? 'selected' : ''); ?>>Red</option>
-                <option value="Blue" data-route-area="Free Zone & Zone 2" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Blue') ? 'selected' : ''); ?>>Blue</option>
-                <option value="Yellow" data-route-area="Free Zone & Zone 3" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Yellow') ? 'selected' : ''); ?>>Yellow</option>
-                <option value="Green" data-route-area="Free Zone & Zone 4" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Green') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Green') ? 'selected' : ''); ?>>Green</option>
-              </select>
-            </div>
-            <div class="col-4 px-5">
-              <label for="route_area" class="form-label">Route Area</label>
-              <div class="input-group">
-                <input type="text" class="form-control" id="route_area" name="route_area" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?= (isset($_POST['route_area']) ? $_POST['route_area'] : ($existingTricycleApplicationData->route_area ?? '')); ?>" readonly required>
-                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                  <i class="fa-solid fa-info-circle"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 d-flex mb-5">
-            <div class="col-4 px-5">
-              <label for="make_model" class="form-label">Make Model</label>
-              <input type="text" class="form-control" id="make_model" name="make_model" value="<?= (isset($_POST['make_model']) ? $_POST['make_model'] : ($existingTricycleApplicationData->make_model ?? '')); ?>" required>
-            </div>
-            <div class="col-4 px-5">
-              <label for="make_model_year_acquired" class="form-label">Model Year Acquired</label>
-              <input type="text" class="form-control text-uppercase" id="make_model_year_acquired" name="make_model_year_acquired" value="<?= (isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ($existingTricycleApplicationData->make_model_year_acquired ?? '')); ?>" required>
-            </div>
-            <div class="col-4 px-5">
-              <label for="make_model_expiry_date" class="form-label">Model Expiry Date</label>
-              <input type="date" class="form-control text-uppercase" id="make_model_expiry_date" name="make_model_expiry_date" value="<?= (isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ($existingTricycleApplicationData->make_model_expiry_date ?? '')); ?>" required>
-            </div>
-          </div>
-
-          <div class="col-12 d-flex mb-2">
-            <div class="col-4 px-5">
-              <label for="motor_number" class="form-label">Motor Number</label>
-              <input type="text" class="form-control" id="motor_number" name="motor_number" value="<?= (isset($_POST['motor_number']) ? $_POST['motor_number'] : ($existingTricycleApplicationData->motor_number ?? '')); ?>" min="0" required>
-            </div>
-            <div class="col-4 px-5">
-              <label for="insurer" class="form-label">Insurer</label>
-              <input type="text" class="form-control" id="insurer" name="insurer" value="<?= (isset($_POST['insurer']) ? $_POST['insurer'] : ($existingTricycleApplicationData->insurer ?? '')); ?>" required>
-            </div>
-            <?php if (!empty($cin_number)): ?>
+      <?php if (isset($tricycleCinData[1])): ?>
+        <?php $tricycleCinData2 = $tricycleCinData[1]; ?>
+        <div class="content content-form active-content content-container mt-2 mb-3" id="step2form1">
+          <div class="row px-3 p-3">
+            <div class="col-12 d-flex mb-2">
               <div class="col-4 px-5">
-                <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>                          
+                <label for="operator_name2" class="form-label">Name of Operator</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="<?= $cin_number ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name2" name="operator_name2" value="<?php echo isset($_POST['operator_name']) ? $_POST['operator_name'] : $fullName; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile." readonly>
+                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile.">
+                    <i class="fa-solid fa-info-circle"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="col-4 px-5">
+                <label for="tricycle_phone_number2" class="form-label">Phone Number</label>
+                <div class="input-group">
+                  <span class="input-group-text">+63</span>
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number2" name="tricycle_phone_number2" placeholder="e.g., 9123456789" value="<?php echo isset($_POST['tricycle_phone_number']) ? $_POST['tricycle_phone_number'] : $userPhoneNo; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
                 </div>
               </div>
-            <?php else: ?>
               <div class="col-4 px-5">
-                <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                <label for="address2" class="form-label">Address</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" style="cursor: pointer;" id="address2" name="address2" value="<?php echo isset($_POST['address']) ? $_POST['address'] : $userAddress; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
+                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                    <i class="fa-solid fa-info-circle"></i>
+                  </span>
+                </div>
               </div>
-            <?php endif; ?>
-          </div>
-
-          <div class="col-12 d-flex mb-5">
-            <div class="col-4 px-5">
-              <label for="coc_no" class="form-label">C.O.C Number</label>
-              <input type="text" class="form-control" id="coc_no" name="coc_no" value="<?= (isset($existingTricycleApplicationData->coc_no) ? $existingTricycleApplicationData->coc_no : (isset($_POST['coc_no']) ? $_POST['coc_no'] : '')); ?>" min="0" required>
             </div>
-            <div class="col-4 px-5">
-              <label for="coc_no_expiry_date" class="form-label">C.O.C Expiry Date</label>
-              <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?= (isset($existingTricycleApplicationData->coc_no_expiry_date) ? $existingTricycleApplicationData->coc_no_expiry_date : (isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : '')); ?>" required>
+
+            <div class="col-12 d-flex mb-2">
+              <div class="col-4 px-5">
+                <label for="mtop_no2" class="form-label">MTOP Number</label>
+                <input type="text" class="form-control" id="mtop_no2" name="mtop_no2" value="<?= isset($_POST['mtop_no']) ? $_POST['mtop_no'] : $tricycleCinData2['existingTricycleApplicationData']->mtop_no; ?>" min="0" required>
+              </div>
+              <div class="col-4 px-5">
+                <label for="color_code2" class="form-label">Color Code</label>
+                <select class="form-control" id="color_code2" name="color_code2" required>
+                  <option selected disabled>Please Select Here</option>
+                  <option value="Red" data-route-area2="Free Zone / Zone 2" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Red') ? 'selected' : (($tricycleCinData2['existingTricycleApplicationData']->color_code == 'Red') ? 'selected' : ''); ?>>Red</option>
+                  <option value="Blue" data-route-area2="Free Zone & Zone 2" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue') ? 'selected' : (($tricycleCinData2['existingTricycleApplicationData']->color_code == 'Blue') ? 'selected' : ''); ?>>Blue</option>
+                  <option value="Yellow" data-route-area2="Free Zone & Zone 3" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow') ? 'selected' : (($tricycleCinData2['existingTricycleApplicationData']->color_code == 'Yellow') ? 'selected' : ''); ?>>Yellow</option>
+                  <option value="Green" data-route-area2="Free Zone & Zone 4" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Green') ? 'selected' : (($tricycleCinData2['existingTricycleApplicationData']->color_code == 'Green') ? 'selected' : ''); ?>>Green</option>
+                </select>
+              </div>
+              <div class="col-4 px-5">
+                <label for="route_area2" class="form-label">Route Area</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="route_area2" name="route_area2" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?= (isset($_POST['route_area']) ? $_POST['route_area'] : ($tricycleCinData2['existingTricycleApplicationData']->route_area ?? '')); ?>" readonly required>
+                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                    <i class="fa-solid fa-info-circle"></i>
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="col-12 d-flex mb-2">
-            <?php if (!empty($cin_number)): ?>
+            <div class="col-12 d-flex mb-5">
               <div class="col-4 px-5">
-                <label for="lto_cr_no" class="form-label">LTO CR Number</label>
-                <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?= (isset($existingTricycleApplicationData->lto_cr_no) ? $existingTricycleApplicationData->lto_cr_no : (isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : '')); ?>" required>
+                <label for="make_model2" class="form-label">Make Model</label>
+                <input type="text" class="form-control" id="make_model2" name="make_model2" value="<?= (isset($_POST['make_model']) ? $_POST['make_model'] : ($tricycleCinData2['existingTricycleApplicationData']->make_model ?? '')); ?>" required>
               </div>
               <div class="col-4 px-5">
-                <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                <input type="text" class="form-control text-uppercase" id="lto_or_no" name="lto_or_no" value="<?= (isset($existingTricycleApplicationData->lto_or_no) ? $existingTricycleApplicationData->lto_or_no : (isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : '')); ?>" required>
+                <label for="make_model_year_acquired2" class="form-label">Model Year Acquired</label>
+                <input type="text" class="form-control text-uppercase" id="make_model_year_acquired2" name="make_model_year_acquired2" value="<?= (isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ($tricycleCinData2['existingTricycleApplicationData']->make_model_year_acquired ?? '')); ?>" required>
               </div>
+              <div class="col-4 px-5">
+                <label for="make_model_expiry_date2" class="form-label">Model Expiry Date</label>
+                <input type="date" class="form-control text-uppercase" id="make_model_expiry_date2" name="make_model_expiry_date2" value="<?= (isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ($tricycleCinData2['existingTricycleApplicationData']->make_model_expiry_date ?? '')); ?>" required>
+              </div>
+            </div>
 
-              <?php if (!empty($driverData)): ?>
+            <div class="col-12 d-flex mb-2">
+              <div class="col-4 px-5">
+                <label for="motor_number2" class="form-label">Motor Number</label>
+                <input type="text" class="form-control" id="motor_number2" name="motor_number2" value="<?= (isset($_POST['motor_number']) ? $_POST['motor_number'] : ($tricycleCinData2['existingTricycleApplicationData']->motor_number ?? '')); ?>" min="0" required>
+              </div>
+              <div class="col-4 px-5">
+                <label for="insurer2" class="form-label">Insurer</label>
+                <input type="text" class="form-control" id="insurer2" name="insurer2" value="<?= (isset($_POST['insurer']) ? $_POST['insurer'] : ($tricycleCinData2['existingTricycleApplicationData']->insurer ?? '')); ?>" required>
+              </div>
+              <?php if (!empty($tricycleCinData2['cin_number'])): ?>
                 <div class="col-4 px-5">
-                  <label for="driver_id" class="form-label">Name of Driver</label>
+                  <label for="tricycle_cin_number_id2" class="form-label">Tricycle CIN</label>                          
                   <div class="input-group">
-                    <input type="text" class="form-control" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
+                    <input type="text" class="form-control" id="tricycle_cin_number_id2" name="tricycle_cin_number_id2" value="<?= $tricycleCinData2['cin_number'] ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
                     <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                       <i class="fa-solid fa-info-circle"></i>
                     </span>
@@ -327,64 +295,108 @@
                 </div>
               <?php else: ?>
                 <div class="col-4 px-5">
-                  <label for="driver_id" class="form-label">Name of Driver</label>
+                  <label for="tricycle_cin_number_id2" class="form-label">Tricycle CIN</label>
+                  <input type="text" class="form-control" id="tricycle_cin_number_id2" name="tricycle_cin_number_id2" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                </div>
+              <?php endif; ?>
+
+            </div>
+
+            <div class="col-12 d-flex mb-5">
+              <div class="col-4 px-5">
+                <label for="coc_no2" class="form-label">C.O.C Number</label>
+                <input type="text" class="form-control" id="coc_no2" name="coc_no2" value="<?= (isset($tricycleCinData2['existingTricycleApplicationData']->coc_no) ? $tricycleCinData2['existingTricycleApplicationData']->coc_no : (isset($_POST['coc_no']) ? $_POST['coc_no'] : '')); ?>" min="0" required>
+              </div>
+              <div class="col-4 px-5">
+                <label for="coc_no_expiry_date2" class="form-label">C.O.C Expiry Date</label>
+                <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date2" name="coc_no_expiry_date2" value="<?= (isset($tricycleCinData2['existingTricycleApplicationData']->coc_no_expiry_date) ? $tricycleCinData2['existingTricycleApplicationData']->coc_no_expiry_date : (isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : '')); ?>" required>
+              </div>
+            </div>
+
+            <div class="col-12 d-flex mb-2">
+              <?php if (!empty($tricycleCinData2['cin_number'])): ?>
+                <div class="col-4 px-5">
+                  <label for="lto_cr_no2" class="form-label">LTO CR Number</label>
+                  <input type="text" class="form-control" id="lto_cr_no2" name="lto_cr_no2" value="<?= (isset($tricycleCinData2['existingTricycleApplicationData']->lto_cr_no) ? $tricycleCinData2['existingTricycleApplicationData']->lto_cr_no : (isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : '')); ?>" required>
+                </div>
+                <div class="col-4 px-5">
+                  <label for="lto_or_no2" class="form-label">LTO OR Number</label>
+                  <input type="text" class="form-control text-uppercase" id="lto_or_no2" name="lto_or_no2" value="<?= (isset($tricycleCinData2['existingTricycleApplicationData']->lto_or_no) ? $tricycleCinData2['existingTricycleApplicationData']->lto_or_no : (isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : '')); ?>" required>
+                </div>
+
+                <?php if (!empty($tricycleCinData2['driverData'][0])): ?>
+                  <?php $driver = $tricycleCinData2['driverData'][0]; ?>
+                  <div class="col-4 px-5">
+                    <label for="driver_id1" class="form-label">Name of Driver</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="driver_id1" name="driver_id1" value="<?= $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
+                      <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                        <i class="fa-solid fa-info-circle"></i>
+                      </span>
+                    </div>
+                  </div>
+                <?php else: ?>
+                  <div class="col-4 px-5">
+                    <label for="driver_id1" class="form-label">Name of Driver</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="driver_id1" name="driver_id1" value="Selected Tricycle CIN has no driver." data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly required>
+                      <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                        <i class="fa-solid fa-info-circle"></i>
+                      </span>
+                    </div>
+                  </div>
+                <?php endif; ?>
+              <?php else: ?>
+                <div class="col-4 px-5">
+                  <label for="lto_cr_no2" class="form-label">LTO CR Number</label>
+                  <input type="text" class="form-control" id="lto_cr_no2" name="lto_cr_no2" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
+                </div>
+                <div class="col-4 px-5">
+                  <label for="lto_or_no2" class="form-label">LTO OR Number</label>
+                  <input type="date" class="form-control text-uppercase" id="lto_or_no2" name="lto_or_no2" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
+                </div>
+                <div class="col-4 px-5">
+                  <label for="driver_id2" class="form-label">Name of Driver</label>
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="driver_id2" name="driver_id2" value="" data-toggle="tooltip" data-bs-placement="top" title="No tricycle drivers are currently available for selection." readonly disabled>
+                </div>
+              <?php endif; ?>
+            </div>
+
+            <div class="col-12 d-flex mb-2">
+              <?php if (!empty($tricycleCinData2['driverData'][0])): ?>
+                <?php $driver = $tricycleCinData2['driverData'][0]; ?>
+                <div class="col-4 px-5">
+                  <label for="driver_license_no1" class="form-label">Driver License Number</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly required>
+                    <input type="text" class="form-control" id="driver_license_no1" name="driver_license_no1" value="<?= $driver->license_no ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
                     <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                       <i class="fa-solid fa-info-circle"></i>
                     </span>
                   </div>
                 </div>
+                <div class="col-4 px-5">
+                  <label for="driver_license_expiry_date1" class="form-label">License Expiry Date</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="driver_license_expiry_date1" name="driver_license_expiry_date1" value="<?= $driver->license_expiry_date ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date" readonly required>
+                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                      <i class="fa-solid fa-info-circle"></i>
+                    </span>
+                  </div>
+                </div>
+              <?php else: ?>
+                <div class="col-4 px-5">
+                  <label for="driver_license_no1" class="form-label">Driver License Number</label>
+                  <input type="text" class="form-control" id="driver_license_no1" name="driver_license_no1" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
+                </div>
+                <div class="col-4 px-5">
+                  <label for="driver_license_expiry_date1" class="form-label">License Expiry Date</label>
+                  <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date1" name="driver_license_expiry_date1" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
+                </div>
               <?php endif; ?>
-            <?php else: ?>
-              <div class="col-4 px-5">
-                <label for="lto_cr_no" class="form-label">LTO CR Number</label>
-                <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
-              </div>
-              <div class="col-4 px-5">
-                <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                <input type="date" class="form-control text-uppercase" id="lto_or_no" name="lto_or_no" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
-              </div>
-              <div class="col-4 px-5">
-                <label for="driver_id" class="form-label">Name of Driver</label>
-                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name" name="operator_name" value="" data-toggle="tooltip" data-bs-placement="top" title="No tricycle drivers are currently available for selection." readonly disabled>
-              </div>
-            <?php endif; ?>
-          </div>
-
-          <div class="col-12 d-flex mb-2">
-            <?php if (!empty($driverData)): ?>
-              <div class="col-4 px-5">
-                <label for="driver_license_no" class="form-label">Driver License Number</label>
-                <div class="input-group">
-                  <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?= $driver_license_no ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
-                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                    <i class="fa-solid fa-info-circle"></i>
-                  </span>
-                </div>
-              </div>
-              <div class="col-4 px-5">
-                <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
-                <div class="input-group">
-                  <input type="text" class="form-control" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?= $driver_license_expiry_date ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date" readonly required>
-                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                    <i class="fa-solid fa-info-circle"></i>
-                  </span>
-                </div>
-              </div>
-            <?php else: ?>
-              <div class="col-4 px-5">
-                <label for="driver_license_no" class="form-label">Driver License Number</label>
-                <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
-              </div>
-              <div class="col-4 px-5">
-                <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
-                <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
-              </div>
-            <?php endif; ?>
+            </div>
           </div>
         </div>
-      </div>
+      <?php endif; ?>
 
       <?php if ($userRole === 'operator'): ?>  
         <div class="row assessmentFeeContainer2">
@@ -397,134 +409,96 @@
         <p class="fs-6">FORM II</p>
         <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
       </button>
-      <div class="content content-form content-container mt-2 mb-3" id="step2form2"  style="display:none;">
-        <div class="row px-3 p-3">
-          <div class="col-12 d-flex mb-2">
-            <div class="col-4 px-5">
-              <label for="operator_name" class="form-label">Name of Operator</label>
-              <div class="input-group">
-                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name" name="operator_name" value="<?php echo isset($_POST['operator_name']) ? $_POST['operator_name'] : $fullName; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile." readonly>
-                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile.">
-                  <i class="fa-solid fa-info-circle"></i>
-                </span>
-              </div>
-            </div>
-            <div class="col-4 px-5">
-              <label for="tricycle_phone_number" class="form-label">Phone Number</label>
-              <div class="input-group">
-                <span class="input-group-text">+63</span>
-                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number" name="tricycle_phone_number" placeholder="e.g., 9123456789" value="<?php echo isset($_POST['tricycle_phone_number']) ? $_POST['tricycle_phone_number'] : $userPhoneNo; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
-                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                  <i class="fa-solid fa-info-circle"></i>
-                </span>
-              </div>
-            </div>
-            <div class="col-4 px-5">
-              <label for="address" class="form-label">Address</label>
-              <div class="input-group">
-                <input type="text" class="form-control" style="cursor: pointer;" id="address" name="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : $userAddress; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
-                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                  <i class="fa-solid fa-info-circle"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 d-flex mb-2">
-            <div class="col-4 px-5">
-              <label for="mtop_no" class="form-label">MTOP Number</label>
-              <input type="text" class="form-control" id="mtop_no" name="mtop_no" value="<?= isset($_POST['mtop_no']) ? $_POST['mtop_no'] : $existingTricycleApplicationData->mtop_no; ?>" min="0" required>
-            </div>
-            <div class="col-4 px-5">
-              <label for="color_code" class="form-label">Color Code</label>
-              <select class="form-control" id="color_code" name="color_code" required>
-                <option selected disabled>Please Select Here</option>
-                <option value="Red" data-route-area="Free Zone / Zone 1" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Red') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Red') ? 'selected' : ''); ?>>Red</option>
-                <option value="Blue" data-route-area="Free Zone & Zone 2" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Blue') ? 'selected' : ''); ?>>Blue</option>
-                <option value="Yellow" data-route-area="Free Zone & Zone 3" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Yellow') ? 'selected' : ''); ?>>Yellow</option>
-                <option value="Green" data-route-area="Free Zone & Zone 4" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Green') ? 'selected' : (($existingTricycleApplicationData->color_code == 'Green') ? 'selected' : ''); ?>>Green</option>
-              </select>
-            </div>
-            <div class="col-4 px-5">
-              <label for="route_area" class="form-label">Route Area</label>
-              <div class="input-group">
-                <input type="text" class="form-control" id="route_area" name="route_area" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?= (isset($_POST['route_area']) ? $_POST['route_area'] : ($existingTricycleApplicationData->route_area ?? '')); ?>" readonly required>
-                <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                  <i class="fa-solid fa-info-circle"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 d-flex mb-5">
-            <div class="col-4 px-5">
-              <label for="make_model" class="form-label">Make Model</label>
-              <input type="text" class="form-control" id="make_model" name="make_model" value="<?= (isset($_POST['make_model']) ? $_POST['make_model'] : ($existingTricycleApplicationData->make_model ?? '')); ?>" required>
-            </div>
-            <div class="col-4 px-5">
-              <label for="make_model_year_acquired" class="form-label">Model Year Acquired</label>
-              <input type="text" class="form-control text-uppercase" id="make_model_year_acquired" name="make_model_year_acquired" value="<?= (isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ($existingTricycleApplicationData->make_model_year_acquired ?? '')); ?>" required>
-            </div>
-            <div class="col-4 px-5">
-              <label for="make_model_expiry_date" class="form-label">Model Expiry Date</label>
-              <input type="date" class="form-control text-uppercase" id="make_model_expiry_date" name="make_model_expiry_date" value="<?= (isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ($existingTricycleApplicationData->make_model_expiry_date ?? '')); ?>" required>
-            </div>
-          </div>
-
-          <div class="col-12 d-flex mb-2">
-            <div class="col-4 px-5">
-              <label for="motor_number" class="form-label">Motor Number</label>
-              <input type="text" class="form-control" id="motor_number" name="motor_number" value="<?= (isset($_POST['motor_number']) ? $_POST['motor_number'] : ($existingTricycleApplicationData->motor_number ?? '')); ?>" min="0" required>
-            </div>
-            <div class="col-4 px-5">
-              <label for="insurer" class="form-label">Insurer</label>
-              <input type="text" class="form-control" id="insurer" name="insurer" value="<?= (isset($_POST['insurer']) ? $_POST['insurer'] : ($existingTricycleApplicationData->insurer ?? '')); ?>" required>
-            </div>
-            <?php if (!empty($cin_number)): ?>
+      <?php if (isset($tricycleCinData[0])): ?>
+        <?php $tricycleCinData1 = $tricycleCinData[0]; ?>
+        <div class="content content-form content-container mt-2 mb-3" id="step2form2"  style="display:none;">
+          <div class="row px-3 p-3">
+            <div class="col-12 d-flex mb-2">
               <div class="col-4 px-5">
-                <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>                          
+                <label for="operator_name1" class="form-label">Name of Operator</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="<?= $cin_number ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name1" name="operator_name1" value="<?php echo isset($_POST['operator_name']) ? $_POST['operator_name'] : $fullName; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile." readonly>
+                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile.">
+                    <i class="fa-solid fa-info-circle"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="col-4 px-5">
+                <label for="tricycle_phone_number1" class="form-label">Phone Number</label>
+                <div class="input-group">
+                  <span class="input-group-text">+63</span>
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number1" name="tricycle_phone_number1" placeholder="e.g., 9123456789" value="<?php echo isset($_POST['tricycle_phone_number']) ? $_POST['tricycle_phone_number'] : $userPhoneNo; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
                 </div>
               </div>
-            <?php else: ?>
               <div class="col-4 px-5">
-                <label for="tricycle_cin_number_id" class="form-label">Tricycle CIN</label>
-                <input type="text" class="form-control" id="tricycle_cin_number_id" name="tricycle_cin_number_id" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                <label for="address1" class="form-label">Address</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" style="cursor: pointer;" id="address1" name="address1" value="<?php echo isset($_POST['address']) ? $_POST['address'] : $userAddress; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
+                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                    <i class="fa-solid fa-info-circle"></i>
+                  </span>
+                </div>
               </div>
-            <?php endif; ?>
-          </div>
-
-          <div class="col-12 d-flex mb-5">
-            <div class="col-4 px-5">
-              <label for="coc_no" class="form-label">C.O.C Number</label>
-              <input type="text" class="form-control" id="coc_no" name="coc_no" value="<?= (isset($existingTricycleApplicationData->coc_no) ? $existingTricycleApplicationData->coc_no : (isset($_POST['coc_no']) ? $_POST['coc_no'] : '')); ?>" min="0" required>
             </div>
-            <div class="col-4 px-5">
-              <label for="coc_no_expiry_date" class="form-label">C.O.C Expiry Date</label>
-              <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date" name="coc_no_expiry_date" value="<?= (isset($existingTricycleApplicationData->coc_no_expiry_date) ? $existingTricycleApplicationData->coc_no_expiry_date : (isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : '')); ?>" required>
+
+            <div class="col-12 d-flex mb-2">
+              <div class="col-4 px-5">
+                <label for="mtop_no1" class="form-label">MTOP Number</label>
+                <input type="text" class="form-control" id="mtop_no1" name="mtop_no1" value="<?= isset($_POST['mtop_no']) ? $_POST['mtop_no'] : $tricycleCinData1['existingTricycleApplicationData']->mtop_no; ?>" min="0" required>
+              </div>
+              <div class="col-4 px-5">
+                <label for="color_code1" class="form-label">Color Code</label>
+                <select class="form-control" id="color_code1" name="color_code1" required>
+                  <option selected disabled>Please Select Here</option>
+                  <option value="Red" data-route-area1="Free Zone / Zone 1" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Red') ? 'selected' : (($tricycleCinData1['existingTricycleApplicationData']->color_code == 'Red') ? 'selected' : ''); ?>>Red</option>
+                  <option value="Blue" data-route-area1="Free Zone & Zone 1" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue') ? 'selected' : (($tricycleCinData1['existingTricycleApplicationData']->color_code == 'Blue') ? 'selected' : ''); ?>>Blue</option>
+                  <option value="Yellow" data-route-area1="Free Zone & Zone 3" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow') ? 'selected' : (($tricycleCinData1['existingTricycleApplicationData']->color_code == 'Yellow') ? 'selected' : ''); ?>>Yellow</option>
+                  <option value="Green" data-route-area1="Free Zone & Zone 4" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Green') ? 'selected' : (($tricycleCinData1['existingTricycleApplicationData']->color_code == 'Green') ? 'selected' : ''); ?>>Green</option>
+                </select>
+              </div>
+              <div class="col-4 px-5">
+                <label for="route_area1" class="form-label">Route Area</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="route_area1" name="route_area1" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?= (isset($_POST['route_area']) ? $_POST['route_area'] : ($tricycleCinData1['existingTricycleApplicationData']->route_area ?? '')); ?>" readonly required>
+                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                    <i class="fa-solid fa-info-circle"></i>
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="col-12 d-flex mb-2">
-            <?php if (!empty($cin_number)): ?>
+            <div class="col-12 d-flex mb-5">
               <div class="col-4 px-5">
-                <label for="lto_cr_no" class="form-label">LTO CR Number</label>
-                <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="<?= (isset($existingTricycleApplicationData->lto_cr_no) ? $existingTricycleApplicationData->lto_cr_no : (isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : '')); ?>" required>
+                <label for="make_model1" class="form-label">Make Model</label>
+                <input type="text" class="form-control" id="make_model1" name="make_model1" value="<?= (isset($_POST['make_model']) ? $_POST['make_model'] : ($tricycleCinData1['existingTricycleApplicationData']->make_model ?? '')); ?>" required>
               </div>
               <div class="col-4 px-5">
-                <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                <input type="text" class="form-control text-uppercase" id="lto_or_no" name="lto_or_no" value="<?= (isset($existingTricycleApplicationData->lto_or_no) ? $existingTricycleApplicationData->lto_or_no : (isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : '')); ?>" required>
+                <label for="make_model_year_acquired1" class="form-label">Model Year Acquired</label>
+                <input type="text" class="form-control text-uppercase" id="make_model_year_acquired1" name="make_model_year_acquired1" value="<?= (isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ($tricycleCinData1['existingTricycleApplicationData']->make_model_year_acquired ?? '')); ?>" required>
               </div>
+              <div class="col-4 px-5">
+                <label for="make_model_expiry_date1" class="form-label">Model Expiry Date</label>
+                <input type="date" class="form-control text-uppercase" id="make_model_expiry_date1" name="make_model_expiry_date1" value="<?= (isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ($tricycleCinData1['existingTricycleApplicationData']->make_model_expiry_date ?? '')); ?>" required>
+              </div>
+            </div>
 
-              <?php if (!empty($driverData)): ?>
+            <div class="col-12 d-flex mb-2">
+              <div class="col-4 px-5">
+                <label for="motor_number1" class="form-label">Motor Number</label>
+                <input type="text" class="form-control" id="motor_number1" name="motor_number1" value="<?= (isset($_POST['motor_number']) ? $_POST['motor_number'] : ($tricycleCinData1['existingTricycleApplicationData']->motor_number ?? '')); ?>" min="0" required>
+              </div>
+              <div class="col-4 px-5">
+                <label for="insurer1" class="form-label">Insurer</label>
+                <input type="text" class="form-control" id="insurer1" name="insurer1" value="<?= (isset($_POST['insurer']) ? $_POST['insurer'] : ($tricycleCinData1['existingTricycleApplicationData']->insurer ?? '')); ?>" required>
+              </div>
+              <?php if (!empty($tricycleCinData1['cin_number'])): ?>
                 <div class="col-4 px-5">
-                  <label for="driver_id" class="form-label">Name of Driver</label>
+                  <label for="tricycle_cin_number_id1" class="form-label">Tricycle CIN</label>                          
                   <div class="input-group">
-                    <input type="text" class="form-control" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
+                    <input type="text" class="form-control" id="tricycle_cin_number_id1" name="tricycle_cin_number_id1" value="<?= $tricycleCinData1['cin_number'] ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
                     <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                       <i class="fa-solid fa-info-circle"></i>
                     </span>
@@ -532,64 +506,108 @@
                 </div>
               <?php else: ?>
                 <div class="col-4 px-5">
-                  <label for="driver_id" class="form-label">Name of Driver</label>
+                  <label for="tricycle_cin_number_id1" class="form-label">Tricycle CIN</label>
+                  <input type="text" class="form-control" id="tricycle_cin_number_id1" name="tricycle_cin_number_id1" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
+                </div>
+              <?php endif; ?>
+            </div>
+
+            <div class="col-12 d-flex mb-5">
+              <div class="col-4 px-5">
+                <label for="coc_no1" class="form-label">C.O.C Number</label>
+                <input type="text" class="form-control" id="coc_no1" name="coc_no1" value="<?= (isset($tricycleCinData1['existingTricycleApplicationData']->coc_no) ? $tricycleCinData1['existingTricycleApplicationData']->coc_no : (isset($_POST['coc_no']) ? $_POST['coc_no'] : '')); ?>" min="0" required>
+              </div>
+              <div class="col-4 px-5">
+                <label for="coc_no_expiry_date1" class="form-label">C.O.C Expiry Date</label>
+                <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date1" name="coc_no_expiry_date1" value="<?= (isset($tricycleCinData1['existingTricycleApplicationData']->coc_no_expiry_date) ? $tricycleCinData1['existingTricycleApplicationData']->coc_no_expiry_date : (isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : '')); ?>" required>
+              </div>
+            </div>
+
+            <div class="col-12 d-flex mb-2">
+              <?php if (!empty($tricycleCinData1['cin_number'])): ?>
+                <div class="col-4 px-5">
+                  <label for="lto_cr_no1" class="form-label">LTO CR Number</label>
+                  <input type="text" class="form-control" id="lto_cr_no1" name="lto_cr_no1" value="<?= (isset($tricycleCinData1['existingTricycleApplicationData']->lto_cr_no) ? $tricycleCinData1['existingTricycleApplicationData']->lto_cr_no : (isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : '')); ?>" required>
+                </div>
+                <div class="col-4 px-5">
+                  <label for="lto_or_no1" class="form-label">LTO OR Number</label>
+                  <input type="text" class="form-control text-uppercase" id="lto_or_no1" name="lto_or_no1" value="<?= (isset($tricycleCinData1['existingTricycleApplicationData']->lto_or_no) ? $tricycleCinData1['existingTricycleApplicationData']->lto_or_no : (isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : '')); ?>" required>
+                </div>
+
+                <?php if (!empty($tricycleCinData1['driverData'][0])): ?>
+                  <?php $driver = $tricycleCinData1['driverData'][0]; ?>
+                  <div class="col-4 px-5">
+                    <label for="driver_id1" class="form-label">Name of Driver</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="driver_id1" name="driver_id1" value="<?= $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
+                      <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                        <i class="fa-solid fa-info-circle"></i>
+                      </span>
+                    </div>
+                  </div>
+                <?php else: ?>
+                  <div class="col-4 px-5">
+                    <label for="driver_id1" class="form-label">Name of Driver</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="driver_id1" name="driver_id1" value="Selected Tricycle CIN has no driver." data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly required>
+                      <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                        <i class="fa-solid fa-info-circle"></i>
+                      </span>
+                    </div>
+                  </div>
+                <?php endif; ?>
+              <?php else: ?>
+                <div class="col-4 px-5">
+                  <label for="lto_cr_no1" class="form-label">LTO CR Number</label>
+                  <input type="text" class="form-control" id="lto_cr_no1" name="lto_cr_no1" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
+                </div>
+                <div class="col-4 px-5">
+                  <label for="lto_or_no1" class="form-label">LTO OR Number</label>
+                  <input type="date" class="form-control text-uppercase" id="lto_or_no1" name="lto_or_no1" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
+                </div>
+                <div class="col-4 px-5">
+                  <label for="driver_id1" class="form-label">Name of Driver</label>
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="driver_id1" name="driver_id1" value="" data-toggle="tooltip" data-bs-placement="top" title="No tricycle drivers are currently available for selection." readonly disabled>
+                </div>
+              <?php endif; ?>
+            </div>
+
+            <div class="col-12 d-flex mb-2">
+              <?php if (!empty($tricycleCinData1['driverData'][0])): ?>
+                <?php $driver = $tricycleCinData1['driverData'][0]; ?>
+                <div class="col-4 px-5">
+                  <label for="driver_license_no1" class="form-label">Driver License Number</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" id="driver_id" name="driver_id" value="<?= $driver_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly required>
+                    <input type="text" class="form-control" id="driver_license_no1" name="driver_license_no1" value="<?= $driver->license_no ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
                     <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                       <i class="fa-solid fa-info-circle"></i>
                     </span>
                   </div>
                 </div>
+                <div class="col-4 px-5">
+                  <label for="driver_license_expiry_date1" class="form-label">License Expiry Date</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="driver_license_expiry_date1" name="driver_license_expiry_date1" value="<?= $driver->license_expiry_date ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date" readonly required>
+                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                      <i class="fa-solid fa-info-circle"></i>
+                    </span>
+                  </div>
+                </div>
+              <?php else: ?>
+                <div class="col-4 px-5">
+                  <label for="driver_license_no1" class="form-label">Driver License Number</label>
+                  <input type="text" class="form-control" id="driver_license_no1" name="driver_license_no1" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
+                </div>
+                <div class="col-4 px-5">
+                  <label for="driver_license_expiry_date1" class="form-label">License Expiry Date</label>
+                  <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date1" name="driver_license_expiry_date1" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
+                </div>
               <?php endif; ?>
-            <?php else: ?>
-              <div class="col-4 px-5">
-                <label for="lto_cr_no" class="form-label">LTO CR Number</label>
-                <input type="text" class="form-control" id="lto_cr_no" name="lto_cr_no" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
-              </div>
-              <div class="col-4 px-5">
-                <label for="lto_or_no" class="form-label">LTO OR Number</label>
-                <input type="date" class="form-control text-uppercase" id="lto_or_no" name="lto_or_no" value="" data-toggle="tooltip" data-bs-placement="top" title="No Tricycle CIN has been selected." readonly disabled>
-              </div>
-              <div class="col-4 px-5">
-                <label for="driver_id" class="form-label">Name of Driver</label>
-                <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name" name="operator_name" value="" data-toggle="tooltip" data-bs-placement="top" title="No tricycle drivers are currently available for selection." readonly disabled>
-              </div>
-            <?php endif; ?>
-          </div>
-
-          <div class="col-12 d-flex mb-2">
-            <?php if (!empty($driverData)): ?>
-              <div class="col-4 px-5">
-                <label for="driver_license_no" class="form-label">Driver License Number</label>
-                <div class="input-group">
-                  <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="<?= $driver_license_no ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
-                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                    <i class="fa-solid fa-info-circle"></i>
-                  </span>
-                </div>
-              </div>
-              <div class="col-4 px-5">
-                <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
-                <div class="input-group">
-                  <input type="text" class="form-control" id="driver_license_expiry_date" name="driver_license_expiry_date" value="<?= $driver_license_expiry_date ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date" readonly required>
-                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                    <i class="fa-solid fa-info-circle"></i>
-                  </span>
-                </div>
-              </div>
-            <?php else: ?>
-              <div class="col-4 px-5">
-                <label for="driver_license_no" class="form-label">Driver License Number</label>
-                <input type="text" class="form-control" id="driver_license_no" name="driver_license_no" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
-              </div>
-              <div class="col-4 px-5">
-                <label for="driver_license_expiry_date" class="form-label">License Expiry Date</label>
-                <input type="date" class="form-control text-uppercase" id="driver_license_expiry_date" name="driver_license_expiry_date" value="" data-toggle="tooltip" data-bs-placement="top" title="Selected Tricycle CIN has no driver." readonly disabled>
-              </div>
-            <?php endif; ?>
+            </div>
           </div>
         </div>
-      </div>
+      <?php endif; ?>
+
 
       <div class="mt-3">
         <button type="button" class="sidebar-btnContent-1 text-start" onclick="showStep(1)">Previous</button>
@@ -691,67 +709,88 @@
 <script src="public/assets/js/appointments_form_toggle2.js"></script>
 <script>
   $(document).ready(function () {
-    // Function to toggle the visibility of assessment fee container
-    function toggleAssessmentFeeContainer(assessmentFeeText, assessmentFeeContainer) {
-      if (assessmentFeeText.trim() === "") {
-        $(assessmentFeeContainer).hide();
-      } else {
-        $(assessmentFeeContainer).show();
-      }
-    }
+    function updateAssessmentFee1() {
+      let selectedColorCode = $("#color_code1").val();
+      let selectedRouteArea = $("#color_code1").find(":selected").data("route-area1");
+      $("#route_area1").val(selectedRouteArea);
 
-    $("#color_code, #color_code2").change(function () {
-      let selectedColorCode = $(this).val();
-      let selectedRouteArea = $(this).find(":selected").data("route-area") || 
-                              $(this).find(":selected").data("route-area2")
-
-      // Determine which assessmentFeeText and assessmentFeeContainer to update based on the element ID
-      let assessmentFeeTextSelector = "";
-      let assessmentFeeContainer = "";
-      let routeAreaSelector = "";
-      
-      switch ($(this).attr("id")) {
-        case "color_code":
-          assessmentFeeTextSelector = "#assessmentFeeText, #assessmentFeeText3";
-          assessmentFeeContainer = ".assessmentFeeContainer, .assessmentFeeContainer3";
-          routeAreaSelector = "#route_area";
-          break;
-        case "color_code2":
-          assessmentFeeTextSelector = "#assessmentFeeText2, #assessmentFeeText4";
-          assessmentFeeContainer = ".assessmentFeeContainer2, .assessmentFeeContainer4";
-          routeAreaSelector = "#route_area2";
-          break;
-      }
-
-      // Update the corresponding route_area field
-      $(routeAreaSelector).val(selectedRouteArea);
-
-      // Update assessment fee text based on the selected route area
       let assessmentFeeText = "";
+
       switch (selectedRouteArea) {
         case "Free Zone / Zone 1":
-          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 route is ₱430.00.";
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱430.00.";
           break;
         case "Free Zone & Zone 2":
         case "Free Zone & Zone 3":
         case "Free Zone & Zone 4":
-          assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " route is ₱1,030.00.";
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " Route is ₱1,030.00.";
           break;
         default:
           assessmentFeeText = "Please select a route area to view the assessment fee.";
       }
 
-      // Display the assessment fee text
-      $(assessmentFeeTextSelector).text(assessmentFeeText);
+      $("#assessmentFeeText2").text(assessmentFeeText);
+      $("#assessmentFeeText4").text(assessmentFeeText);
+    }
 
-      // Toggle visibility of assessment fee container
-      toggleAssessmentFeeContainer(assessmentFeeText, assessmentFeeContainer);
+    updateAssessmentFee1();
+
+    $("#color_code1").change(function () {
+      updateAssessmentFee1();
     });
 
-    // Initial hide of assessment fee containers
-    $(".assessmentFeeContainer, .assessmentFeeContainer2, .assessmentFeeContainer3, .assessmentFeeContainer4").hide();
+    function updateAssessmentFee2() {
+      let selectedColorCode = $("#color_code2").val();
+      let selectedRouteArea = $("#color_code2").find(":selected").data("route-area2");
+      $("#route_area2").val(selectedRouteArea);
 
-    // Scroll to the main appointment form in case of error
+      let assessmentFeeText = "";
+
+      switch (selectedRouteArea) {
+        case "Free Zone / Zone 1":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the Free Zone or Zone 1 Route is ₱430.00.";
+          break;
+        case "Free Zone & Zone 2":
+        case "Free Zone & Zone 3":
+        case "Free Zone & Zone 4":
+          assessmentFeeText = "The assessment fee for processing your tricycle application within the " + selectedRouteArea + " Route is ₱1,030.00.";
+          break;
+        default:
+          assessmentFeeText = "Please select a route area to view the assessment fee.";
+      }
+
+      $("#assessmentFeeText").text(assessmentFeeText);
+      $("#assessmentFeeText3").text(assessmentFeeText);
+    }
+
+    updateAssessmentFee2();
+
+    $("#color_code2").change(function () {
+      updateAssessmentFee2();
+    });
+
+    const step3form1 = document.getElementById('step3form1');
+    const step3form2 = document.getElementById('step3form2');
+    const step2form1 = document.getElementById('step2form1');
+    const step2form2 = document.getElementById('step2form2');
+
+    if (document.getElementById('assessmentFeeText') && document.getElementById('assessmentFeeText2') && document.getElementById('assessmentFeeText3') && document.getElementById('assessmentFeeText4')) {
+      if ((step2form1 && step3form1 && step2form1.style.display === "block") || (step3form1 && step3form1.style.display === "block")) {
+        updateAssessmentFee1();
+        document.getElementById("assessmentFeeText2").style.display = "none";
+        document.getElementById("assessmentFeeText4").style.display = "none";
+      }
+      
+      if ((step2form2 && step3form2 && step2form2.style.display === "block") || (step3form2 && step3form2.style.display === "block")) {
+        updateAssessmentFee2();
+        document.getElementById("assessmentFeeText").style.display = "none";
+        document.getElementById("assessmentFeeText3").style.display = "none";
+      } 
+    }
+    
+    // Initial hide of assessment fee containers
+    $("#assessmentFeeText2, #assessmentFeeText4").hide();
+
     let errorMessage = $(".flash-message.error");
     if (errorMessage.length > 0) {
       document.getElementById("mainAppointmentForm").scrollIntoView({

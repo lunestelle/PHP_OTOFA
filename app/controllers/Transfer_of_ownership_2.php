@@ -30,25 +30,40 @@ class Transfer_of_ownership_2
     $tricycleApplicationModel = new TricycleApplication();
     $mtopRequirementModel = new MtopRequirement();
 
-    $cinData = $tricycleCinModel->first(['cin_number' => $tricycleCin]);
-    $existingTricycleData = $tricycleModel->first(['cin_id' => $cinData->tricycle_cin_number_id]);
+    $tricycleCinData = [];
 
-    $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
-    $data['driverData'] = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
-    
-    $data['existingTricycleApplicationData'] = $tricycleApplicationModel->first(['tricycle_application_id' => $existingTricycleData->tricycle_application_id]);
-    $data['cin_number'] = $cinData->cin_number;
+    foreach ($tricycleCinArray as $cin) {
+      $cinData = $tricycleCinModel->first(['cin_number' => $cin]);
+      if ($cinData) {
+        $existingTricycleData = $tricycleModel->first(['cin_id' => $cinData->tricycle_cin_number_id]);
 
-    if (!empty($data['driverData'])) {
-      $driver = $data['driverData'][0];
-      $data['driver_name'] = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
-      $data['driver_license_no'] = $driver->license_no;
-      $data['driver_license_expiry_date'] = $driver->license_expiry_date;
-    } else {
-      $data['driver_name'] = 'Selected CIN has no driver';
-      $data['driver_license_no'] = '';
-      $data['driver_license_expiry_date'] = '';
+        $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
+        $driverData = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
+
+        $existingTricycleApplicationData = $tricycleApplicationModel->first(['tricycle_application_id' => $existingTricycleData->tricycle_application_id]);
+
+        $cinInfo = [
+          'cin_number' => $cinData->cin_number,
+          'existingTricycleApplicationData' => $existingTricycleApplicationData,
+          'driverData' => $driverData,
+        ];
+
+        if (!empty($driverData)) {
+          $driver = $driverData[0];
+          $cinInfo['driver_name'] = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
+          $cinInfo['driver_license_no'] = $driver->license_no;
+          $cinInfo['driver_license_expiry_date'] = $driver->license_expiry_date;
+        } else {
+          $cinInfo['driver_name'] = 'Selected CIN has no driver';
+          $cinInfo['driver_license_no'] = '';
+          $cinInfo['driver_license_expiry_date'] = '';
+        }
+
+        $tricycleCinData[] = $cinInfo;
+      }
     }
+
+    $data['tricycleCinData'] = $tricycleCinData;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['schedule_appointment'])) {
       $appointmentFormData = [
@@ -63,33 +78,54 @@ class Transfer_of_ownership_2
         'user_id' => $_SESSION['USER']->user_id,
       ];
 
-      $tricycleApplicationFormData = [
-        'operator_name' => $_POST['operator_name'] ?? '',
-        'tricycle_phone_number' => $_POST['tricycle_phone_number'] ?? '',
-        'address' => $_POST['address'] ?? '',
-        'mtop_no' => $_POST['mtop_no'] ?? '',
-        'route_area' => $_POST['route_area'] ?? '',
-        'color_code' => $_POST['color_code'] ?? '',
-        'make_model' => $_POST['make_model'] ?? '',
-        'make_model_expiry_date' => $_POST['make_model_expiry_date'] ?? '','make_model_year_acquired' => $_POST['make_model_year_acquired'] ?? '',
-        'motor_number' => $_POST['motor_number'] ?? '',
-        'insurer' => $_POST['insurer'] ?? '',
-        'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id'] ?? '',
-        'coc_no' => $_POST['coc_no'] ?? '',
-        'coc_no_expiry_date' => $_POST['coc_no_expiry_date'] ?? '',
-        'driver_id' => $_POST['driver_id'] ?? '',
-        'lto_cr_no' => $_POST['lto_cr_no'] ?? '',
-        'lto_or_no' => $_POST['lto_or_no'] ?? '',
-        'driver_license_no' => $_POST['driver_license_no'] ?? '',
-        'driver_license_expiry_date' => $_POST['driver_license_expiry_date'] ?? '',
+      $tricycleApplicationFormData1 = [
+        'operator_name' => $_POST['operator_name1'] ?? '',
+        'tricycle_phone_number' => $_POST['tricycle_phone_number1'] ?? '',
+        'address' => $_POST['address1'] ?? '',
+        'mtop_no' => $_POST['mtop_no1'] ?? '',
+        'route_area' => $_POST['route_area1'] ?? '',
+        'color_code' => $_POST['color_code1'] ?? '',
+        'make_model' => $_POST['make_model1'] ?? '',
+        'make_model_expiry_date' => $_POST['make_model_expiry_date1'] ?? '','make_model_year_acquired' => $_POST['make_model_year_acquired1'] ?? '',
+        'motor_number' => $_POST['motor_number1'] ?? '',
+        'insurer' => $_POST['insurer1'] ?? '',
+        'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id1'] ?? '',
+        'coc_no' => $_POST['coc_no1'] ?? '',
+        'coc_no_expiry_date' => $_POST['coc_no_expiry_date1'] ?? '',
+        'driver_id' => $_POST['driver_id1'] ?? '',
+        'lto_cr_no' => $_POST['lto_cr_no1'] ?? '',
+        'lto_or_no' => $_POST['lto_or_no1'] ?? '',
+        'driver_license_no' => $_POST['driver_license_no1'] ?? '',
+        'driver_license_expiry_date' => $_POST['driver_license_expiry_date1'] ?? '',
       ];
 
-      $formErrors = $this->validateFormFields($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel);
+      $tricycleApplicationFormData2 = [
+        'operator_name' => $_POST['operator_name2'] ?? '',
+        'tricycle_phone_number' => $_POST['tricycle_phone_number2'] ?? '',
+        'address' => $_POST['address2'] ?? '',
+        'mtop_no' => $_POST['mtop_no2'] ?? '',
+        'route_area' => $_POST['route_area2'] ?? '',
+        'color_code' => $_POST['color_code2'] ?? '',
+        'make_model' => $_POST['make_model2'] ?? '',
+        'make_model_expiry_date' => $_POST['make_model_expiry_date2'] ?? '','make_model_year_acquired' => $_POST['make_model_year_acquired2'] ?? '',
+        'motor_number' => $_POST['motor_number2'] ?? '',
+        'insurer' => $_POST['insurer2'] ?? '',
+        'tricycle_cin_number_id' => $_POST['tricycle_cin_number_id2'] ?? '',
+        'coc_no' => $_POST['coc_no2'] ?? '',
+        'coc_no_expiry_date' => $_POST['coc_no_expiry_date2'] ?? '',
+        'driver_id' => $_POST['driver_id2'] ?? '',
+        'lto_cr_no' => $_POST['lto_cr_no2'] ?? '',
+        'lto_or_no' => $_POST['lto_or_no2'] ?? '',
+        'driver_license_no' => $_POST['driver_license_no2'] ?? '',
+        'driver_license_expiry_date' => $_POST['driver_license_expiry_date2'] ?? '',
+      ];
+
+      $formErrors = $this->validateFormFields($appointmentFormData, $tricycleApplicationFormData1, $tricycleApplicationFormData2, $appointmentModel, $tricycleApplicationModel);
 
       if (!empty($formErrors)) {
         $firstError = reset($formErrors);
         set_flash_message($firstError[0], "error");
-        $data = array_merge($data, $_POST);
+        // $data = array_merge($data, $_POST);
         echo $this->renderView('transfer_of_ownership_2', true, $data);
         return;
       } else {
@@ -98,47 +134,84 @@ class Transfer_of_ownership_2
 
         if ($appointmentModel->insert($appointmentFormData)) {
           $appointmentLastId = $appointmentModel->getLastInsertedRecord()[0]->appointment_id;
-          $tricycleApplicationFormData['appointment_id'] = $appointmentLastId;
+          $tricycleApplicationFormData1['appointment_id'] = $appointmentLastId;
+          $tricycleApplicationFormData2['appointment_id'] = $appointmentLastId;
 
-          $formattedPhoneNumber = $tricycleApplicationFormData['tricycle_phone_number'];
-          $tricycleApplicationFormData['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
+          $formattedPhoneNumber1 = $tricycleApplicationFormData1['tricycle_phone_number'];
+          $tricycleApplicationFormData1['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber1);
 
-          if ($tricycleApplicationModel->insert($tricycleApplicationFormData)) {
-            $tricycleApplicationLastId = $tricycleApplicationModel->getLastInsertedRecord()[0]->tricycle_application_id;
+          $formattedPhoneNumber2 = $tricycleApplicationFormData2['tricycle_phone_number'];
+          $tricycleApplicationFormData2['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber2);
 
-            $mtopRequirementFormData = [
-              'appointment_id' => $appointmentLastId,
-              'tricycle_application_id' => $tricycleApplicationLastId,
-              'mc_lto_certificate_of_registration_path' => '',
-              'mc_lto_official_receipt_path' => '',
-              'mc_plate_authorization_path' => '',
-              'tc_insurance_policy_path' => '',
-              'latest_franchise_path' => '',
-              'proof_of_id_path' => '',
-              'sketch_location_of_garage_path' => '',
-              'affidavit_of_income_tax_return_path' => '',
-              'unit_front_view_image_path' => '',
-              'unit_side_view_image_path' => '',
-              'driver_cert_safety_driving_seminar_path' => '',
-            ];
+          if ($tricycleApplicationModel->insert($tricycleApplicationFormData1)) {
+            $tricycleApplicationLastId1 = $tricycleApplicationModel->getLastInsertedRecord()[0]->tricycle_application_id;
 
-            $fileUploads = $this->handleFileUploads($mtopRequirementFormData);
+            if ($tricycleApplicationModel->insert($tricycleApplicationFormData2)) {
+              $tricycleApplicationLastId2 = $tricycleApplicationModel->getLastInsertedRecord()[0]->tricycle_application_id;
 
-            if ($fileUploads['success']) {
-              $mtopRequirementModel = new MtopRequirement();
-              $mtopRequirementModel->insert($fileUploads['data']);
+              $mtopRequirementFormData1 = [
+                'appointment_id' => $appointmentLastId,
+                'tricycle_application_id' => $tricycleApplicationLastId1,
+                'mc_lto_certificate_of_registration_path' => '',
+                'mc_lto_official_receipt_path' => '',
+                'mc_plate_authorization_path' => '',
+                'tc_insurance_policy_path' => '',
+                'latest_franchise_path' => '',
+                'proof_of_id_path' => '',
+                'sketch_location_of_garage_path' => '',
+                'affidavit_of_income_tax_return_path' => '',
+                'unit_front_view_image_path' => '',
+                'unit_side_view_image_path' => '',
+                'driver_cert_safety_driving_seminar_path' => '',
+              ];
 
-              set_flash_message("Appointment scheduled successfully.", "success");
-              redirect('appointments');
+              $mtopRequirementFormData2 = [
+                'appointment_id' => $appointmentLastId,
+                'tricycle_application_id' => $tricycleApplicationLastId2,
+                'mc_lto_certificate_of_registration_path' => '',
+                'mc_lto_official_receipt_path' => '',
+                'mc_plate_authorization_path' => '',
+                'tc_insurance_policy_path' => '',
+                'latest_franchise_path' => '',
+                'proof_of_id_path' => '',
+                'sketch_location_of_garage_path' => '',
+                'affidavit_of_income_tax_return_path' => '',
+                'unit_front_view_image_path' => '',
+                'unit_side_view_image_path' => '',
+                'driver_cert_safety_driving_seminar_path' => '',
+              ];
+  
+              $fileUploads1 = $this->handleFileUploads($mtopRequirementFormData1, '1');
+              $fileUploads2 = $this->handleFileUploads($mtopRequirementFormData2, '2');
+  
+              if ($fileUploads1['success'] && $fileUploads2['success']) {
+                $mtopRequirementModel = new MtopRequirement();
+                $mtopRequirementModel->insert($fileUploads1['data']);
+                $mtopRequirementModel->insert($fileUploads2['data']);
+  
+                set_flash_message("Appointment scheduled successfully.", "success");
+                redirect('appointments');
+              } else {
+                $appointmentModel->delete(['appointment_id' => $appointmentLastId]);
+                $tricycleApplicationModel->delete(['tricycle_application_id' => $tricycleApplicationLastId1]);
+                $tricycleApplicationModel->delete(['tricycle_application_id' => $tricycleApplicationLastId2]);
+                set_flash_message("Failed to schedule appointment. Please try again later.", "error");
+                redirect('appointments');
+              }
             } else {
               $appointmentModel->delete(['appointment_id' => $appointmentLastId]);
-              $tricycleApplicationModel->delete(['tricycle_application_id' => $tricycleApplicationLastId]);
+              $tricycleApplicationModel->delete(['tricycle_application_id' => $tricycleApplicationLastId1]);
               set_flash_message("Failed to schedule appointment. Please try again later.", "error");
               redirect('appointments');
             }
+
+
+          } else {
+            $appointmentModel->delete(['appointment_id' => $appointmentLastId]);
+            set_flash_message("Failed to schedule appointment. Please try again later.", "error");
+            redirect('appointments');
           }
         } else {
-          $appointmentModel->delete(['appointment_id' => $appointmentLastId]);
           set_flash_message("Failed to schedule appointment. Please try again later.", "error");
           redirect('appointments');
         }
@@ -148,7 +221,7 @@ class Transfer_of_ownership_2
     echo $this->renderView('transfer_of_ownership_2', true, $data);
   }
 
-  private function validateFormFields($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel)
+  private function validateFormFields($appointmentFormData, $tricycleApplicationFormData1, $tricycleApplicationFormData2, $appointmentModel, $tricycleApplicationModel)
   {
     $errors = array();
 
@@ -157,17 +230,17 @@ class Transfer_of_ownership_2
       $errors['appointment'] = $appointmentErrors;
     }
 
-    $tricycleApplicationErrors = $tricycleApplicationModel->validate($tricycleApplicationFormData);
-    if (!empty($tricycleApplicationErrors)) {
-      $errors['tricycleApplication'] = $tricycleApplicationErrors;
+    $tricycleApplicationErrors1 = $tricycleApplicationModel->validate($tricycleApplicationFormData1);
+    if (!empty($tricycleApplicationErrors1)) {
+      $errors['tricycleApplication1'] = $tricycleApplicationErrors1;
     }
 
-    if (empty($tricycleApplicationFormData['tricycle_cin_number_id'])) {
-      $errors['tricycleApplication'][] = 'Tricycle CIN is required';
+    if (empty($tricycleApplicationFormData1['tricycle_cin_number_id'])) {
+      $errors['tricycleApplication1'][] = 'Tricycle CIN is required';
     }
 
-    if (!empty($tricycleApplicationFormData['tricycle_cin_number_id'])) {
-      $cinId = $tricycleApplicationFormData['tricycle_cin_number_id'];
+    if (!empty($tricycleApplicationFormData1['tricycle_cin_number_id'])) {
+      $cinId = $tricycleApplicationFormData1['tricycle_cin_number_id'];
       $userId =  $appointmentFormData['user_id'];
       $appointmentType = $appointmentFormData['appointment_type'];
       $currentYear = date('Y');
@@ -211,41 +284,108 @@ class Transfer_of_ownership_2
               $type = $appointmentResult[0]->appointment_type;
               $appointmentStatus = $appointmentResult[0]->status;
               $appointmentDate = date('F j, Y', strtotime($appointmentResult[0]->appointment_date));
-              $errors['tricycleApplication'][] = "There is an existing $type appointment for this tricycle CIN #$cinNumber with appointment <br> status '$appointmentStatus' and appointment date on $appointmentDate.";
+              $errors['tricycleApplication1'][] = "There is an existing $type appointment for this tricycle CIN #$cinNumber with appointment <br> status '$appointmentStatus' and appointment date on $appointmentDate.";
           }
       }
     }
 
-    if (!empty($tricycleApplicationFormData['driver_id'])) {
-      if (empty($tricycleApplicationFormData['driver_license_no'])) {
-        $errors['tricycleApplication'][] = 'Driver License Number is required';
-      } elseif (empty($tricycleApplicationFormData['driver_license_expiry_date'])) {
-        $errors['tricycleApplication'][] = 'Driver License Expiry Date is required';
+    if (!empty($tricycleApplicationFormData1['driver_id'])) {
+      if (empty($tricycleApplicationFormData1['driver_license_no'])) {
+        $errors['tricycleApplication1'][] = 'Driver License Number is required';
+      } elseif (empty($tricycleApplicationFormData1['driver_license_expiry_date'])) {
+        $errors['tricycleApplication1'][] = 'Driver License Expiry Date is required';
       }
-    } elseif (empty($tricycleApplicationFormData['driver_id'])) {
-      $errors['tricycleApplication'][] = 'Driver Name is required';
+    } 
+
+    $tricycleApplicationErrors2 = $tricycleApplicationModel->validate($tricycleApplicationFormData2);
+    if (!empty($tricycleApplicationErrors2)) {
+      $errors['tricycleApplication2'] = $tricycleApplicationErrors2;
+    }
+
+    if (empty($tricycleApplicationFormData2['tricycle_cin_number_id'])) {
+      $errors['tricycleApplication2'][] = 'Tricycle CIN is required';
+    }
+
+    if (!empty($tricycleApplicationFormData2['tricycle_cin_number_id'])) {
+      $cinId = $tricycleApplicationFormData2['tricycle_cin_number_id'];
+      $userId =  $appointmentFormData['user_id'];
+      $appointmentType = $appointmentFormData['appointment_type'];
+      $currentYear = date('Y');
+      $statuses = ['Approved', 'Pending', 'On Process'];
+  
+      $statusPlaceholders = implode(',', array_fill(0, count($statuses), '?'));
+  
+      $query = "SELECT COUNT(*) AS appointment_count 
+                FROM appointments 
+                INNER JOIN tricycle_applications 
+                ON appointments.appointment_id = tricycle_applications.appointment_id 
+                WHERE tricycle_applications.tricycle_cin_number_id = ? 
+                AND YEAR(appointments.appointment_date) = ? 
+                AND appointments.status IN ($statusPlaceholders)";
+  
+      $params = array_merge([$cinId, $currentYear], $statuses);
+  
+      $result = $appointmentModel->query($query, $params);
+  
+      if (!empty($result) && $result[0]->appointment_count > 0) {
+          $query = "SELECT appointments.status, appointments.appointment_date, appointments.appointment_type 
+                    FROM appointments 
+                    INNER JOIN tricycle_applications 
+                    ON appointments.appointment_id = tricycle_applications.appointment_id 
+                    WHERE tricycle_applications.tricycle_cin_number_id = ? 
+                    AND YEAR(appointments.appointment_date) = ? 
+                    AND appointments.appointment_type = ? 
+                    AND appointments.user_id != ? 
+                    AND appointments.status IN ($statusPlaceholders)";
+  
+          $params = array_merge([$cinId, $currentYear, $appointmentType, $userId], $statuses);
+  
+          $appointmentResult = $appointmentModel->query($query, $params);
+  
+          if (!empty($appointmentResult) && isset($appointmentResult[0])) {
+              $tricycleCinModel = new TricycleCinNumber();
+              $cinDataValidation = $tricycleCinModel->first(['tricycle_cin_number_id' => $cinId]);
+  
+              // Check if the CIN belongs to the same owner as in the first appointment record
+              $cinNumber = $cinDataValidation->cin_number;
+              $type = $appointmentResult[0]->appointment_type;
+              $appointmentStatus = $appointmentResult[0]->status;
+              $appointmentDate = date('F j, Y', strtotime($appointmentResult[0]->appointment_date));
+              $errors['tricycleApplication2'][] = "There is an existing $type appointment for this tricycle CIN #$cinNumber with appointment <br> status '$appointmentStatus' and appointment date on $appointmentDate.";
+          }
+      }
+    }
+
+    if (!empty($tricycleApplicationFormData2['driver_id'])) {
+      if (empty($tricycleApplicationFormData2['driver_license_no'])) {
+        $errors['tricycleApplication2'][] = 'Driver License Number is required';
+      } elseif (empty($tricycleApplicationFormData2['driver_license_expiry_date'])) {
+        $errors['tricycleApplication2'][] = 'Driver License Expiry Date is required';
+      }
     }
 
     return $errors;
   }
 
-  private function handleFileUploads($mtopRequirementFormData)
+  private function handleFileUploads($mtopRequirementFormData, $suffix)
   {
     $uniqueId = uniqid();
     $uploadDirectory = 'public/uploads/mtop_requirements_images/' . $uniqueId;
-
-      foreach ($_FILES as $inputName => $file) {
+  
+    foreach ($_FILES as $inputName => $file) {
+      if (strpos($inputName, $suffix) !== false) {
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $columnName = $inputName . '_path';
+        $columnName = str_replace($suffix, '', $inputName) . '_path';
         $targetFile = $uploadDirectory . '_' . $inputName . '.' . $extension;
-
+  
         if (move_uploaded_file($file['tmp_name'], $targetFile)) {
           $mtopRequirementFormData[$columnName] = $targetFile;
         } else {
           return ['success' => false, 'error' => 'Failed to upload files. Please try again later.'];
         }
       }
-
+    }
+  
     return ['success' => true, 'data' => $mtopRequirementFormData];
   }
 }

@@ -175,7 +175,7 @@
 
           <!-- *** STEP 2 *** -->
           <section id="step-2" style="display: none;">
-          <?php if ($userRole === 'operator'): ?>  
+            <?php if ($userRole === 'operator'): ?>  
               <div class="row assessmentFeeContainer">
                 <div class="col-12 mx-auto text-center mt-4">
                   <p id="assessmentFeeText" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
