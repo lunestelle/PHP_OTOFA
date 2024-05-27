@@ -1,6 +1,6 @@
 <?php
 
-class Edit_transfer_of_ownership
+class Edit_transfer_of_ownership_2
 {
   use Controller;
 
@@ -31,6 +31,7 @@ class Edit_transfer_of_ownership
     $appointmentModel = new Appointment();
     $tricycleApplicationModel = new TricycleApplication();
     $tricycleCinNumberModel = new TricycleCinNumber();
+    $mtopRequirementModel = new MtopRequirement();
 
     $appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
     $appointmentData = $appointmentModel->first(['appointment_id' => $appointmentId]);
@@ -39,30 +40,66 @@ class Edit_transfer_of_ownership
       set_flash_message("Appointment not found.", "error");
       redirect('appointments');
     }
-    
-    $tricycleApplicationData = $tricycleApplicationModel->first(['appointment_id' => $appointmentId]);
-    $selectedUserId = $appointmentData->user_id;
-    $selectedCinNumber = $tricycleApplicationData->tricycle_cin_number_id;
-    $cinData = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumber]);
-
-    $query = "SELECT drivers.* FROM drivers JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id AND driver_statuses.status = 'Active'";
-    $driverData = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
 
     $data = []; 
-    if (!empty($driverData)) {
-      $driver = $driverData[0];
-      $driver_name = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
-      $driver_license_no = $driver->license_no;
-      $driver_license_expiry_date = $driver->license_expiry_date;
-    } else {
-      $driver_name = 'Selected CIN has no driver';
-      $driver_license_no = '';
-      $driver_license_expiry_date = '';
+
+    $tricycleApplicationData = $tricycleApplicationModel->where(['appointment_id' => $appointmentId]);
+    
+    $tricycleApplicationDataArray = [];
+    foreach ($tricycleApplicationData as $key => $data) {
+      $tricycleApplicationDataArray[$key] = $data;
     }
     
-    $mtopRequirementModel = new MtopRequirement();
-    $mtopRequirementData = $mtopRequirementModel->first(['appointment_id' => $appointmentId]);
-    $mtopRequirementId = $mtopRequirementData->mtop_requirement_id;
+    if (count($tricycleApplicationDataArray) > 1) {
+      foreach ($tricycleApplicationDataArray as $key => $data) {
+        $tricycleApplicationDataArray[$key] = $data;
+      }
+    } else {
+      $tricycleApplicationData = reset($tricycleApplicationDataArray);
+    }
+
+    $tricycleApplicationDataWithDriver = [];
+
+    foreach ($tricycleApplicationData as $tricycleData) {
+        $selectedUserId = $appointmentData->user_id;
+        $selectedCinNumber = $tricycleData->tricycle_cin_number_id;
+        $cinData = $tricycleCinNumberModel->first(['tricycle_cin_number_id' => $selectedCinNumber]);
+    
+        $query = "SELECT drivers.* FROM drivers 
+                  JOIN driver_statuses ON drivers.driver_id = driver_statuses.driver_id 
+                  WHERE drivers.tricycle_cin_number_id = :tricycle_cin_id 
+                  AND driver_statuses.status = 'Active'";
+        $driverData = $driverModel->query($query, [':tricycle_cin_id' => $cinData->tricycle_cin_number_id]);
+    
+        if (!empty($driverData)) {
+            $driver = $driverData[0];
+            $driver_name = $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name;
+            $driver_license_no = $driver->license_no;
+            $driver_license_expiry_date = $driver->license_expiry_date;
+        } else {
+            $driver_name = 'Selected CIN has no driver';
+            $driver_license_no = '';
+            $driver_license_expiry_date = '';
+        }
+    
+        // Add the tricycle application data along with driver information to the array
+        $tricycleApplicationDataWithDriver[] = [
+            'tricycle_data' => $tricycleData,
+            'cin_number' => $cinData->cin_number,
+            'driver_name' => $driver_name,
+            'driver_license_no' => $driver_license_no,
+            'driver_license_expiry_date' => $driver_license_expiry_date,
+        ];
+    }
+    
+    $mtopRequirementDataArray = $mtopRequirementModel->where(['appointment_id' => $appointmentId]);
+    if (count($mtopRequirementDataArray) > 1) {
+      foreach ($mtopRequirementDataArray as $key => $data) {
+        $mtopRequirementDataArray[$key] = $data;
+      }
+    } else {
+      $mtopRequirementDataArray = reset($mtopRequirementDataArray);
+    }
 
     $data = [
       'name' => $appointmentData->name,
@@ -74,39 +111,9 @@ class Edit_transfer_of_ownership
       'appointment_time' => $appointmentData->appointment_time,
       'status' => $appointmentData->status,
       'comments' => $appointmentData->comments,
-      'operator_name' => $tricycleApplicationData->operator_name,
-      'tricycle_phone_number' => $this->formatPhoneNumber($tricycleApplicationData->tricycle_phone_number),
-      'address' => $tricycleApplicationData->address,
-      'mtop_no' => $tricycleApplicationData->mtop_no,
-      'color_code' => $tricycleApplicationData->color_code,
-      'route_area' => $tricycleApplicationData->route_area,
-      'make_model' => $tricycleApplicationData->make_model,
-      'make_model_expiry_date' => $tricycleApplicationData->make_model_expiry_date,  
-      'make_model_year_acquired' => $tricycleApplicationData->make_model_year_acquired,
-      'motor_number' => $tricycleApplicationData->motor_number,
-      'insurer' => $tricycleApplicationData->insurer,
-      'coc_no' => $tricycleApplicationData->coc_no,
-      'coc_no_expiry_date' => $tricycleApplicationData->coc_no_expiry_date,
-      'driver_id' => $tricycleApplicationData->driver_id,
-      'lto_cr_no' => $tricycleApplicationData->lto_cr_no,
-      'lto_or_no' => $tricycleApplicationData->lto_or_no,
-      'driver_license_no' => $tricycleApplicationData->driver_license_no,'driver_license_expiry_date' => $tricycleApplicationData->driver_license_expiry_date,
-      'mc_lto_certificate_of_registration_path' => $mtopRequirementData->mc_lto_certificate_of_registration_path,
-      'mc_lto_official_receipt_path' => $mtopRequirementData->mc_lto_official_receipt_path,
-      'mc_plate_authorization_path' => $mtopRequirementData->mc_plate_authorization_path,
-      'tc_insurance_policy_path' => $mtopRequirementData->tc_insurance_policy_path,
-      'latest_franchise_path' => $mtopRequirementData->latest_franchise_path,
-      'proof_of_id_path' => $mtopRequirementData->proof_of_id_path,
-      'sketch_location_of_garage_path' => $mtopRequirementData->sketch_location_of_garage_path,
-      'affidavit_of_income_tax_return_path' => $mtopRequirementData->affidavit_of_income_tax_return_path,
-      'unit_front_view_image_path' => $mtopRequirementData->unit_front_view_image_path,
-      'unit_side_view_image_path' => $mtopRequirementData->unit_side_view_image_path,
-      'driver_cert_safety_driving_seminar_path' => $mtopRequirementData->driver_cert_safety_driving_seminar_path,
-      'cin_number' => $cinData->cin_number,
-      'driverData' => $driverData,
-      'driver_name' => $driver_name,
-      'driver_license_no' => $driver_license_no,
-      'driver_license_expiry_date' => $driver_license_expiry_date,
+      'tricycleApplicationDataWithDriver' => $tricycleApplicationDataWithDriver,
+      'tricycleApplicationData' => $tricycleApplicationDataArray,
+      'mtopRequirementData' => $mtopRequirementDataArray,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -158,25 +165,25 @@ class Edit_transfer_of_ownership
           if ($deleted) {
             $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], [$imagePathColumn => null]);
             set_flash_message("Image deleted successfully.", "success");
-            redirect('edit_transfer_of_ownership?appointment_id=' . $appointmentId);
+            redirect('edit_transfer_of_ownership_2?appointment_id=' . $appointmentId);
           } else {
             set_flash_message("Failed to delete the image.", "error");
-            redirect('edit_transfer_of_ownership?appointment_id=' . $appointmentId);
+            redirect('edit_transfer_of_ownership_2?appointment_id=' . $appointmentId);
           }
         } else {
           set_flash_message("File not found. Image may have been deleted already.", "error");
-          redirect('edit_transfer_of_ownership?appointment_id=' . $appointmentId);
+          redirect('edit_transfer_of_ownership_2?appointment_id=' . $appointmentId);
         }
       }
 
-      if (isset($_POST['update_transfer_of_ownership'])) {
+      if (isset($_POST['update_transfer_of_ownership_2'])) {
         $formErrors = $this->validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel);
 
         if (!empty($formErrors)) {
           $firstError = reset($formErrors);
           set_flash_message($firstError[0], "error");
           $data = array_merge($data, $_POST);
-          echo $this->renderView('edit_transfer_of_ownership', true, $data);
+          echo $this->renderView('edit_transfer_of_ownership_2', true, $data);
           return;
         } else {
           $formattedPhoneNumber = $appointmentFormData['phone_number'];
@@ -254,7 +261,7 @@ class Edit_transfer_of_ownership
         }
       }
     }
-    echo $this->renderView('edit_transfer_of_ownership', true, $data);
+    echo $this->renderView('edit_transfer_of_ownership_2', true, $data);
   }
 
   private function validateAppointmentAndTricycleFormData($appointmentFormData, $tricycleApplicationFormData, $appointmentModel, $tricycleApplicationModel) {

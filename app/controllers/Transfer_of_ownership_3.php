@@ -157,6 +157,7 @@ class Transfer_of_ownership_3
           $appointmentLastId = $appointmentModel->getLastInsertedRecord()[0]->appointment_id;
           $tricycleApplicationFormData1['appointment_id'] = $appointmentLastId;
           $tricycleApplicationFormData2['appointment_id'] = $appointmentLastId;
+          $tricycleApplicationFormData3['appointment_id'] = $appointmentLastId;
 
           $formattedPhoneNumber1 = $tricycleApplicationFormData1['tricycle_phone_number'];
           $tricycleApplicationFormData1['tricycle_phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber1);
