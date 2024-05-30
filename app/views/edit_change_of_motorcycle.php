@@ -123,7 +123,7 @@
                   </div>
                 </div>
                 <div class="col-12 d-flex mt-3">
-                  <div class="col-4 px-4">
+                  <div class="col-4 px-5">
                     <?php if (hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                       <label for="status" class="form-label">Status</label>
                       <select class="form-control appointment-status-select fw-bold" id="status" name="status">
