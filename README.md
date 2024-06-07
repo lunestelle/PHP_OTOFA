@@ -1,4 +1,4 @@
-# OTOFA - Tricycle Franchise Appointment System
+# OTOFA - Ormoc Tricycle Online Franchise Appointment
 
 ## Description
 
@@ -46,23 +46,23 @@ OTOFA is a web-based management system designed for tricycle franchise appointme
         ```ini
         ;extension=gd
         ```
-     Change it to:
+     	Change it to:
    
-     ```ini
-     extension=gd
-     ```
+     	```ini
+     	extension=gd
+     	```
 
    2. **Increase the Maximum File Uploads Limit and Update the Post Max Size and Upload File Size Settings:**
       - To handle larger file uploads, especially if your system involves multiple files being uploaded simultaneously, you need to increase the maximum file upload limit and update the post max size and upload file size settings. Update the following lines in your `php.ini` file:
 
-   ```ini
-   max_file_uploads = 100
-   post_max_size = 100M
-   upload_max_filesize = 80M
-   ```
+        ```ini
+        max_file_uploads = 100
+        post_max_size = 100M
+        upload_max_filesize = 80M
+        ```
 
    3. **Restart Web Server:**
-      - After making these changes, save the `php.ini` file and close your text editor.
+      - Save the `php.ini` file and close your text editor after making these changes.
       - Restart your web server to apply the changes. The command to restart your server depends on the software you are using.
 9. **Open the browser and navigate to localhost**
    
