@@ -1,0 +1,408 @@
+/* -- MANAGE TRICYCLES (NEW PAGE)  */
+.form-control {
+    font-size: 13px !important;
+    text-align: center;
+  }
+  
+  .btn-submit {
+    position: relative;
+    top: 35px;
+    right: -20px;
+  }
+  
+  .btn-submit-driver {
+    position: relative;
+    top: 75px;
+    right: -28px;
+  }
+  
+  .content-container {
+    border-radius: 10px;
+    border: 1px solid #d8d8d8c9;
+    background: #FFF;
+    box-shadow: -1px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  }
+  
+  .input-group {
+    display: flex;
+    flex-wrap: wrap;
+    width: 230px;
+  }
+  
+  .input-group .input-group-text {
+    width: fit-content;
+    padding: 4px 12px;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    background-color: #ffb498;
+    border: solid 1px rgba(168, 166, 166, 1);
+    font-size: 13px;
+  }
+  
+  .form-label {
+    font-size: 13px;
+  }
+  
+  option {
+    background-color: white !important;
+    padding: 10px !important; 
+  }
+  
+  .form-control {
+    width: 230px;
+    border-radius: 7px;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    border-color: rgba(168, 166, 166, 1);
+    border-width: 1px;
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 1);
+    text-transform: capitalize;
+  }
+  
+  select.form-control:focus {
+    background-color: #ffdbcead;
+    box-shadow: none;
+    border-color: #ff723fcc;
+    outline: none;
+  }
+  
+  select.form-control:hover {
+    background-color: #ffdbcead;
+    box-shadow: none;
+    border-color: #ff723fcc;
+    outline: none;
+  }
+  
+  input[type="date"]:focus,
+  input[type="text"]:focus,
+  input[type="time"]:focus,
+  input[type="number"]:focus,
+  input[type="date"]:hover,
+  input[type="text"]:hover,
+  input[type="time"]:hover,
+  input[type="number"]:hover {
+    background-color: #ffdbcead;
+    box-shadow: none;
+    border-color: #ff936b9c;
+  }
+  
+  input[type=file] {
+    font-size: 13px;
+    width: 300px;
+    height: 70px;
+    border-radius: 10px;
+    border: 2px dashed #f3906c;
+    background: rgba(240, 95, 43, 0.171);
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  }
+  
+  input[type=file]:hover {
+    border: 2px dashed #da4914ad;
+    background: rgba(255, 68, 0, 0.226);
+  
+  }
+  
+  input[type=file]:focus {
+    border: 2px dashed #FF713F;
+    background: rgba(255, 66, 0, 0.20);
+    box-shadow: 0px 2px 4px 0px rgba(173, 66, 4, 0.486);
+  }
+  
+  input[type=file]::file-selector-button {
+    margin: 10px;
+    background-color: #FF4200;
+    margin-right: 20px;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 10px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+  }
+  
+  input[type=file]::file-selector-button:hover,
+  input[type=file]::file-selector-button:focus {
+    background-color: #ffffff;
+    color: #FF4200;
+  }
+  
+  @media screen and (min-width: 1024px) and (max-width: 1200px) {
+    .form-control {
+      width: 150px;
+    }
+  
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      width: 150px;
+    }
+  
+    input[type=file] {
+      font-size: 12px;
+      width: 250px;
+    }
+  
+    input[type=number] {
+      font-size: 12px;
+      width: 250px;
+    }
+  
+    #rateAction {
+      width: 170px;
+    }
+  
+    thead, th, tr {
+      font-size: 11px;
+    }
+  }
+  
+  @media screen and (min-width: 1201px) and (max-width: 1800px) {
+    .form-control {
+      width: 170px;
+    }
+  
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      width: 170px;
+    }
+  
+    input[type=file] {
+      font-size: 12px;
+      width: 500px;
+      height: 60px;
+    }
+  
+    input[type=number] {
+      font-size: 12px;
+      width: 270px;
+    }
+  }
+  
+  
+  /* -- NEW TARIPA -- */
+  
+  #rateAction:hover,
+  #rateAction:focus {
+    background-color: #ffdbcead;
+    box-shadow: none;
+    border-color: #ff936b9c;
+  }
+  
+  input[type=number] {
+    width: 300px;
+  }
+  
+  #rateAction {
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    border-color: rgba(168, 166, 166, 1);
+    border-width: 1px;
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 1);
+    height: 36px;
+  }
+  
+  @media screen and (min-width: 1024px) and (max-width: 1315px) {
+    .form-control {
+      width: 170px;
+    }
+  
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      width: 170px;
+    }
+  
+    input[type=number] {
+      width: 170px;
+    }
+  
+    #rateAction {
+      width: 170px;
+    }
+  }
+  
+  .nav-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    min-height: 45px !important;
+    box-shadow: 2px 3px #00000009;
+  }
+  
+  /* --- NEW APPOINTMENT --- */
+  
+  .new-appointment-btn {
+    position: relative;
+    top: 100;
+  }
+  
+  .bckgrnd {
+    background-color: #f25939;
+    height: 35px;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  /* Justify content evenly within the row */
+  .justify-content-evenly {
+    justify-content: space-evenly !important;
+  }
+  
+  #color_code option {
+    padding: 5px;
+  }
+  
+  .new-appointment-selection input {
+    display: none;
+  }
+  
+  .new-appointment-selection label {
+    cursor: pointer;
+    padding: 10px 15px;
+    display: block;
+    background-color: #EBB803;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    margin-bottom: 8px;
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out; /* Add transition for smooth effect */
+  }
+  
+  .new-appointment-selection:hover label {
+    background-color: #ff4400;
+    color: white;
+  }
+  
+  .new-appointment-selection input:checked + label {
+    box-shadow: none;
+    background-color: #ff4400;
+    color: white;
+  }
+  
+  .appointment-label {
+    color: rgb(100, 100, 100);
+  }
+  
+  .new-appointment-selection input:disabled + label {
+    color: #666666 !important;
+    background-color: #cccccc !important;
+    border-color: #999999 !important; 
+    font-weight: bolder !important;
+  }
+  
+  /* --- SELECTION OF DATE AND SLOT --- */
+  
+  .new-appointment-slot-selection input {
+    display: none;
+  }
+  
+  .new-appointment-slot-selection label {
+    cursor: pointer;
+    padding: 10px 15px;
+    display: block;
+    background-color: #3cc1ff;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    color: rgb(0, 0, 0);
+    font-weight: 400;
+    font-size: 13px;
+    box-shadow: 2px 4px 8px rgb(122, 122, 122);
+    transition: background-color 0.2s ease-in-out; /* Add transition for smooth effect */
+  }
+  
+  .new-appointment-slot-selection:hover label {
+    background-color: #0066ff;
+    box-shadow: none;
+    color: white;
+  }
+  
+  .new-appointment-slot-selection input:checked + label {
+    box-shadow: none;
+    background-color: #ff4400;
+    color: white;
+  }
+  
+  /* --- STEPS BUTTON --- */
+  
+  .step-buttons {
+    max-width: 75%;
+    margin: 0 auto;
+  }
+  
+  .steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    position: relative;
+  }
+  
+  .step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 30%;
+    margin-bottom: 1rem;
+  }
+  
+  .step-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgb(179, 179, 179);
+    transition: background-color 0.4s ease;
+    font-weight: 700;
+    color:  rgb(0, 138, 46);
+  }
+  
+  .step-button[aria-expanded="true"],
+  .step-button.active {
+    background-color: rgb(0, 138, 46);
+    color: #fff;
+    border: 1px solid rgb(182, 182, 182);
+  }
+  
+  .done {
+    background-color: rgb(0, 138, 46);
+    color: #fff;
+    border: 1px solid rgb(156, 156, 156);
+    box-shadow: 2px 4px 6px slategray;
+  }
+  
+  .center-progress {
+    width: 50%;
+    margin: auto; 
+    display: block;
+  }
+  
+  #progress {
+    -webkit-appearance: none;
+    position: absolute;
+    width: 70%;
+    z-index: -1;
+    height: 10px;
+    margin-left: 150px;
+    margin-bottom: 18px;
+  }
+  
+  #progress::-webkit-progress-value {
+    background-color: rgba(0, 138, 46, 0.267);
+    transition: width 0.5s ease; 
+  }
+  
+  #progress::-webkit-progress-bar {
+    background-color: #f3f3f3;
+  }
+  
+  /* -- STEP BUTTONS LABEL */
+  .step-buttons-label {
+    position: absolute;
+    top: 60px;
+    font-size: 13px;
+    color: #999999;
+  }

@@ -72,11 +72,11 @@
         <?php } ?>
       </div>
     </div>
+    <div class="col-12 text-uppercase">
+      <h6 class="text-secondary fw-bolder">Tricycle's Zone</h6>
+    </div>
     <div class="row">
       <div class="col-lg-6">
-        <div class="col-12 text-uppercase">
-          <h6 class="text-secondary fw-bolder">Tricycle's Zone</h6>
-        </div>
         <div class="row">
           <div class="col-12">
             <div class="d-block container-code mt-3 color-code-container animate">
@@ -110,6 +110,14 @@
                   </div>
                 </div>
               </a>
+            </div>
+          </div>
+        </div>
+      </div>  
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-12">
+            <div class="d-block container-code color-code-container animate">
               <a href="yellow_trike_info" class="text-decoration-none color-code-container custom-tooltip-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to see more">
                 <div class="color-code-yellow d-flex mt-3">
                   <div class="col-2">
@@ -144,69 +152,125 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-6 mt-4">
         <div class="col-12 text-uppercase">
           <h6 class="text-secondary fw-bolder">Taripa</h6>
         </div>
         <div class="row">
           <div class="col-12">
             <div class="bg-white">
-              <div class="mt-2">
-                <h6>Fare Rate (<?php $minYear = min($data['years']); $maxYear = max($data['years']); echo $minYear == $maxYear ? $minYear : $minYear . '-' . $maxYear; ?>)</h6>
-                <canvas id="myChart"></canvas>
-                <script>
-                  let phpData = <?php echo $data['ratesByYear']; ?>;
-                  let regularData = [];
-                  let discountedData = [];
-                  let years = <?php echo json_encode($data['years']); ?>;
+              <div>
+                <h6 style="font-size: 12px; color:gray;">Fare Rate (<?php $minYear = min($data['years']); $maxYear = max($data['years']); echo $minYear == $maxYear ? $minYear : $minYear . '-' . $maxYear; ?>)</h6>
+                <div id="myChart" style="width: 500px; height: 350px; cursor: pointer;"></div>
+                <script type="text/javascript">
+                  google.charts.load('current', {packages: ['corechart', 'bar']});
+                  google.charts.setOnLoadCallback(drawChart);
 
-                  years.forEach(function (year) {
-                    regularData.push(phpData[year][1]['regular_fare']);
-                    discountedData.push(phpData[year][1]['discounted_fare']);
-                  });
+                  function drawChart() {
+                    let phpData = <?php echo $data['ratesByYear']; ?>;
+                    let years = <?php echo json_encode($data['years']); ?>;
+                    let data = new google.visualization.DataTable();
+                    
+                    data.addColumn('string', 'Year');
+                    data.addColumn('number', 'Regular Fare');
+                    data.addColumn('number', 'Discounted Fare');
 
-                  let ctx = document.getElementById('myChart').getContext('2d');
-                  let myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                      labels: years,
-                      datasets: [
-                        {
-                          label: 'Regular Fare',
-                          data: regularData,
-                          borderColor: 'rgba(75, 192, 192, 1)',
-                          borderWidth: 2,
-                          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                          fill: false,
-                        },
-                        {
-                          label: 'Discounted Fare',
-                          data: discountedData,
-                          borderColor: 'rgba(255, 99, 132, 1)',
-                          borderWidth: 2,
-                          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                          fill: false,
-                        },
-                      ],
-                    },
-                    options: {
-                      scales: {
-                        y: {
-                          beginAtZero: true,
-                          title: {
-                            display: true,
-                            text: 'Fare Rate (₱)'
-                          }
-                        },
-                        x: {
-                          title: {
-                            display: true,
-                            text: 'Year'
-                          }
-                        }
+                    years.forEach(function (year) {
+                      data.addRow([
+                        year, 
+                        parseFloat(phpData[year][1]['regular_fare']), 
+                        parseFloat(phpData[year][1]['discounted_fare'])
+                      ]);
+                    });
+
+                    let options = {
+                      is3D: true,
+                      width: 500,
+                      height: 350, 
+                      chart: {
+                        title: '',
+                      },
+                      hAxis: {
+                        title: 'Year',
+                      },
+                      vAxis: {
+                        title: 'Fare Rate (₱)',
+                        minValue: 0
+                      },
+                      legend: {
+                        position: 'top',
+                        alignment: 'center',
+                        textStyle: { fontSize: 14 }
+                      },
+                      seriesType: 'bars',
+                      series: {
+                        0: {color: '#4BC0C0'},
+                        1: {color: '#FF6384'}
                       }
-                    }
-                  });
+                    };
+
+                    let chart = new google.visualization.ComboChart(document.getElementById('myChart'));
+                    chart.draw(data, options);
+                  }
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mt-4">
+        <div class="col-12 text-uppercase">
+          <h6 class="text-secondary fw-bolder">Franchise Availed</h6>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="bg-white">
+              <h6 style="font-size: 12px; color:gray;">Allocation of Operators Who Got Franchise</h6>
+              <div class="mt-2">
+                <div id="chartContainer"  style="width: 500px; height: 400px; cursor: pointer;"></div>
+                <script>
+                  google.charts.load('current', {'packages':['corechart']});
+                  google.charts.setOnLoadCallback(drawChart);
+
+                  function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                      ['Year', 'Count'],
+                      <?php
+                      foreach ($data['chartData'] as $item) {
+                        echo "['" . $item['year'] . "', " . $item['count'] . "],";
+                      }
+                      ?>
+                    ]);
+
+                    var options = {
+                      // is3D: true,
+                      legend: {
+                        position: 'top',
+                        alignment: 'center',
+                        textStyle: {
+                          fontSize: 14
+                        }
+                      },
+                      width: 500,
+                      height: 400,
+                      pieSliceText: 'percentage',
+                      slices: {
+                        0: { color: '#FF5733' },
+                        1: { color: '#33FFC1' },
+                        2: { color: '#3361FF' },
+                        3: { color: '#B033FF' },
+                        4: { color: '#FF33EA' }
+                      },
+                      // Increased font size for labels
+                      pieSliceTextStyle: {
+                        fontSize: 16,
+                        bold: true
+                      }
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('chartContainer'));
+                    chart.draw(data, options);
+                  }
                 </script>
               </div>
             </div>

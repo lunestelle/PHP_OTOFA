@@ -11,7 +11,7 @@ class Cancel_appointment
       redirect('');
     }
 
-    $appointment_id = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
+    $appointment_id = $_POST['appointment_id'];
     $appointmentModel = new Appointment();
     $appointment = $appointmentModel->first(['appointment_id' => $appointment_id]);
 

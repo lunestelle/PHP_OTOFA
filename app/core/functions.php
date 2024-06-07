@@ -10,6 +10,7 @@ use Infobip\Configuration;
 use Infobip\Model\SmsAdvancedTextualRequest;
 use Infobip\Model\SmsDestination;
 use Infobip\Model\SmsTextualMessage;
+use Infobip\ApiException;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -161,13 +162,11 @@ function hasStatusToUpdate($statuses) {
 
 function sendSms($phoneNumber, $message)
 {
-	$infobipBaseUrl = "https://dk2ldr.api.infobip.com";
-	$infobipApiKey = "0aa57b4957d90ef24189830ed3d99fc1-43a40241-4c0d-426b-b27a-dc26a287849b";
 
-	// $infobipBaseUrl = "https://z1qe53.api.infobip.com";
-	// $infobipApiKey = "1a8624a577800d51f67b31bee7263d4f-13f19992-622f-4830-a87f-f5774d62cb89";
-
-	$infobipConfiguration = new Configuration(host: $infobipBaseUrl, apiKey: $infobipApiKey);
+	$infobipConfiguration = new Configuration(
+	    host: 'https://dk2ldr.api.infobip.com',
+	    apiKey: '0aa57b4957d90ef24189830ed3d99fc1-43a40241-4c0d-426b-b27a-dc26a287849b'
+	);
 	$infobipSmsApi = new SmsApi(config: $infobipConfiguration);
 	$infobipDestination = new SmsDestination(to: $phoneNumber);
 	$infobipMessage = new SmsTextualMessage(
@@ -237,7 +236,7 @@ function sendEmail($to, $subject, $body)
 		$mailerLocal->SMTPSecure = 'ssl';
 		$mailerLocal->SMTPAuth = true;
 		$mailerLocal->Username = 'sakaycle@gmail.com';
-		$mailerLocal->Password = 'nigelusqovmnfjuo';
+		$mailerLocal->Password = 'hjhvxjbbxrmvxjkl';
 
 		$mailerLocal->setFrom('sakaycle@gmail.com', 'OTOFA');
 		$mailerLocal->addAddress($to);
@@ -281,6 +280,21 @@ function sendAppointmentNotifications($appointmentFormData, $data, $tricycleAppl
   $formattedTime = date('h:i A', strtotime($appointmentFormData['appointment_time']));
   $rootPath = ROOT;
 
+	// Check if the CIN numbers are provided as an array
+	if (is_array($cinNumber)) {
+		$cinNumberString = 'CIN ';
+		$cinCount = count($cinNumber);
+		foreach ($cinNumber as $key => $cin) {
+			if ($key == $cinCount - 1 && $cinCount > 1) {
+				$cinNumberString .= "and #{$cin}";
+			} else {
+				$cinNumberString .= "#{$cin}, ";
+			}
+		}
+	} else {
+		$cinNumberString = "CIN #{$cinNumber}";
+	}
+
 	if ($status === 'Approved') {
     $message = $customTextMessage;
     $subject = "Appointment Approved";
@@ -313,12 +327,12 @@ function sendAppointmentNotifications($appointmentFormData, $data, $tricycleAppl
 
 		sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
-	} elseif ($status === 'Rejected') {
-		$message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for {$appointmentFormData['appointment_type']} appointment for tricycle CIN #{$cinNumber} on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
+	} elseif ($status === 'Declined') {
+		$message = "Hello {$appointmentFormData['name']},\n\nWe regret to inform you that your request for {$appointmentFormData['appointment_type']} appointment for tricycle {$cinNumberString} on {$formattedDate} at {$formattedTime} cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. Additionally, please review the feedback or comment section on the website for more details about your appointment: {$rootPath}.\n\nThank you for your understanding and cooperation.";
 
-		$subject = "Appointment Rejected";
+		$subject = "Appointment Declined";
 		$user = "Hello {$appointmentFormData['name']},";
-		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We regret to inform you that your request for {$appointmentFormData['appointment_type']} appointment for tricycle CIN #{$cinNumber} on <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out by replying to this email. Additionally, please review the feedback or comment section on the website for more details about your appointment by clicking the button below.</div>";
+		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We regret to inform you that your request for {$appointmentFormData['appointment_type']} appointment for tricycle {$cinNumberString} on <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> cannot be approved as some required documents are either missing or outdated. To finalize your appointment, please ensure that all necessary documents are current. If you have any questions or need assistance in updating your information, do not hesitate to reach out by replying to this email. Additionally, please review the feedback or comment section on the website for more details about your appointment by clicking the button below.</div>";
 		$buttonLink = "$rootPath";
 		$subMessage = "Thank you for your understanding and cooperation.";
 	
@@ -335,11 +349,11 @@ function sendAppointmentNotifications($appointmentFormData, $data, $tricycleAppl
 		sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	} elseif ($status === 'On Process') {
-		$message = "Hello {$appointmentFormData['name']},\n\nWe wanted to inform you that we have received your requirements of your {$appointmentFormData['name']} appointment with tricycle CIN #{$cinNumber} and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion.\n\nThank you for your understanding and cooperation.\n\nFor more details, please check your appointment details on our website by clicking the link: {$rootPath}.";
+		$message = "Hello {$appointmentFormData['name']},\n\nWe wanted to inform you that we have received your requirements of your {$appointmentFormData['name']} appointment with tricycle {$cinNumberString} and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion.\n\nThank you for your understanding and cooperation.\n\nFor more details, please check your appointment details on our website by clicking the link: {$rootPath}.";
 
 		$subject = "Appointment On Process";
 		$user = "Hello {$appointmentFormData['name']},";
-		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We wanted to inform you that we have received your requirement of your {$appointmentFormData['name']} appointment with tricycle CIN #{$cinNumber} and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion. 
+		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We wanted to inform you that we have received your requirement of your {$appointmentFormData['name']} appointment with tricycle {$cinNumberString} and it's currently undergoing processing. Our team is actively engaged in assessing the details provided. We aim to complete this assessment within the expected timeframe and will notify you promptly upon its successful completion. 
 		</div>";
 		$buttonLink = "$rootPath";
 		$subMessage = "Thank you for your understanding and cooperation.";
@@ -357,11 +371,11 @@ function sendAppointmentNotifications($appointmentFormData, $data, $tricycleAppl
 		sendSms($phoneNumber, $message);
 		sendEmail($email, $subject, $templateContent);
 	} elseif ($status === 'Completed') {
-		$message = "Hello {$appointmentFormData['name']},\n\nWe are pleased to inform you that your {$appointmentFormData['name']} appointment for tricycle CIN #{$cinNumber} scheduled for {$formattedDate} at {$formattedTime} has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the link below to visit our website.\n\nThank you for choosing our services.\n\n {$rootPath}";
+		$message = "Hello {$appointmentFormData['name']},\n\nWe are pleased to inform you that your {$appointmentFormData['name']} appointment for tricycle {$cinNumberString} scheduled for {$formattedDate} at {$formattedTime} has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the link below to visit our website.\n\nThank you for choosing our services.\n\n {$rootPath}";
 
 		$subject = "Appointment Completed";
 		$user = "Hello {$appointmentFormData['name']},";
-		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We are pleased to inform you that your {$appointmentFormData['name']} appointment for tricycle CIN #{$cinNumber} scheduled for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.</div>";
+		$emailMessage = "<div style='text-align: justify; color:#455056; font-size:15px;line-height:24px; margin-top:10px;'>We are pleased to inform you that your {$appointmentFormData['name']} appointment for tricycle {$cinNumberString} scheduled for <strong>{$formattedDate}</strong> at <strong>{$formattedTime}</strong> has been successfully completed. You can now obtain a copy of the processed papers at our Transportation Development Franchising and Regulatory Office (TDFRO) in Ormoc City Hall. For additional information and updates, please click the button below to visit our website.</div>";
 		$buttonLink = "$rootPath";
 		$subMessage = "Thank you for choosing our services.";
 	
@@ -416,4 +430,18 @@ function downloadCsv($data, $filename)
 	fclose($output);
 
 	exit();
+}
+
+function hasPermission($permission, $userPermissions) {
+	return in_array($permission, $userPermissions);
+}
+
+function hasAnyPermission($requiredPermissions, $userPermissions) {
+  foreach ($requiredPermissions as $requiredPermission) {
+    // Check if the user has the current required permission
+    if (in_array($requiredPermission, $userPermissions)) {
+      return true;
+    }
+  }
+  return false;
 }

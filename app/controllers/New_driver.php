@@ -12,7 +12,7 @@ class New_driver
 		}
 
     $tricycleCinModel = new TricycleCinNumber();
-		$driverModel = new Driver();
+	$driverModel = new Driver();
     $tricycleCinNumbers = $tricycleCinModel->where(['user_id' => $_SESSION['USER']->user_id]);
 
 		// Get tricycle plate CIN numbers owned by the current user

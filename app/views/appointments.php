@@ -9,13 +9,15 @@
           <div class="col-12">
             <div class="mt-3">
               <form method="post" action="">
-                <button type="submit" name="newAppointment" class="text-uppercase sidebar-btnContent new-button">New</button>
+                <button type="submit" name="newAppointment" class="text-uppercase sidebar-btnContent mt-1 new-button">New</button>
               </form>
             </div>
             <?php if (!empty($appointments)): ?>
               <div class="mt-3 text-end">
                 <form method="post" action="">
-                  <button type="submit" id="exportCsv" name="exportCsv" class="export-btn-operator">Export as CSV</button>
+                  <button type="submit" id="exportCsv" name="exportCsv" style="border: none; background: none; padding: 0; margin: 0;">
+                    <img src="public/assets/images/export-csv.png" style="height: 38px; width: 40px; position: absolute; top: 5px; right: 100px;" alt="export file">
+                  </button>
                 </form>
               </div>
             <?php endif; ?>
@@ -25,7 +27,9 @@
             <?php if (!empty($appointments)): ?>
               <div class="mt-3 text-end">
                 <form method="post" action="">
-                  <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
+                  <button type="submit" id="exportCsv" name="exportCsv" style="border: none; background: none; padding: 0; margin: 0;">
+                    <img src="public/assets/images/export-csv.png" style="height: 38px; width: 40px; position: absolute; top: 5px; right: 35px;" alt="export file">
+                  </button>
                 </form>
               </div>
             <?php endif; ?>
@@ -50,7 +54,7 @@
                   <option value="all" <?php echo ($statusFilter === 'all') ? 'selected' : ''; ?>>All</option>
                   <option value="Pending" <?php echo ($statusFilter === 'Pending') ? 'selected' : ''; ?>>Pending</option>
                   <option value="Approved" <?php echo ($statusFilter === 'Approved') ? 'selected' : ''; ?>>Approved</option>
-                  <option value="Rejected" <?php echo ($statusFilter === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                  <option value="Declined" <?php echo ($statusFilter === 'Declined') ? 'selected' : ''; ?>>Declined</option>
                   <option value="On Process" <?php echo ($statusFilter === 'On Process') ? 'selected' : ''; ?>>On Process</option>
                   <option value="Completed" <?php echo ($statusFilter === 'Completed') ? 'selected' : ''; ?>>Completed</option>
                 </select>
@@ -87,6 +91,9 @@
                     $appointmentDate = new DateTime($appointment['appointment_date']);
                     $currentDate = new DateTime();
                     $oneDayAhead = $currentDate->diff($appointmentDate)->days === 1;
+                    
+                    // Check if the appointment can be canceled
+                    $operatorCanCancel = $userRole === 'operator' && $appointment['status'] === "Pending" && !($oneDayAhead || $currentDate >= $appointmentDate);
                   ?>
                   <tr>
                     <td><?php echo $index++; ?></td>
@@ -105,8 +112,8 @@
                           case 'Pending':
                             $badgeColor = 'bg-dark'; // Green color for pending
                             break;
-                          case 'Rejected':
-                            $badgeColor = 'bg-danger'; // Red color for rejected
+                          case 'Declined':
+                            $badgeColor = 'bg-danger'; // Red color for declined
                             break;
                           case 'Completed':
                             $badgeColor = 'bg-warning text-dark'; // Blue color for completed
@@ -126,56 +133,85 @@
                       <span class="badge status-badge text-uppercase p-1 <?php echo $badgeColor; ?>"><?php echo $status; ?></span>
                     </td>
                     <td>
-                      <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
+                      <a href="<?php echo ('view_appointment?appointment_id=') . $appointment['appointment_id']; ?>" class="view_data px-1 me-1 view-btn" title="View Appointment Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
                       <?php if ($userRole === 'operator' && $appointment['status'] === "Pending"): ?>
                         <?php
                           $editUrl = '';
+                          $tricycleApplicationModel = new TricycleApplication();
+                          $tricycleApplicationData = $tricycleApplicationModel->where(['appointment_id' => $appointment['appointment_id']]);
+                          $dataCount = count($tricycleApplicationData);
 
                           if ($appointment['appointment_type'] === 'New Franchise') {
+                            if ($dataCount == 1) {
                               $editUrl = 'edit_new_franchise';
+                            } elseif ($dataCount == 2) {
+                              $editUrl = 'edit_new_franchise_2';
+                            } elseif ($dataCount == 3) {
+                              $editUrl = 'edit_new_franchise_3';
+                            }
                           } elseif ($appointment['appointment_type'] === 'Renewal of Franchise') {
                               $editUrl = 'edit_renewal_of_franchise';
                           } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
                               $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
-                              if ($appointment['transfer_type'] === 'None') {
-                                  $editUrl = 'edit_transfer_of_ownership';
-                              } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
-                                  $editUrl = 'edit_intent_of_transfer';
-                              } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
-                                  $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                            if ($appointment['transfer_type'] === 'None') {
+                              if ($dataCount == 1) {
+                                $editUrl = 'edit_transfer_of_ownership';
+                              } elseif ($dataCount == 2) {
+                                $editUrl = 'edit_transfer_of_ownership_2';
+                              } elseif ($dataCount == 3) {
+                                $editUrl = 'edit_transfer_of_ownership_3';
                               }
+                            } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
+                              $editUrl = 'edit_intent_of_transfer';
+                            } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
+                              $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                            }
                           }
 
-                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1 edit-btn" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
                         ?>
-                      <?php elseif ($userRole === 'admin' && ($appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process")): ?>
+                      <?php elseif (($appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process") && hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                         <?php
                           $editUrl = '';
+                          $tricycleApplicationModel = new TricycleApplication();
+                          $tricycleApplicationData = $tricycleApplicationModel->where(['appointment_id' => $appointment['appointment_id']]);
+                          $dataCount = count($tricycleApplicationData);
 
                           if ($appointment['appointment_type'] === 'New Franchise') {
+                            if ($dataCount == 1) {
                               $editUrl = 'edit_new_franchise';
+                            } elseif ($dataCount == 2) {
+                              $editUrl = 'edit_new_franchise_2';
+                            } elseif ($dataCount == 3) {
+                              $editUrl = 'edit_new_franchise_3';
+                            }
                           } elseif ($appointment['appointment_type'] === 'Renewal of Franchise') {
-                              $editUrl = 'edit_renewal_of_franchise';
+                            $editUrl = 'edit_renewal_of_franchise';
                           } elseif ($appointment['appointment_type'] === 'Change of Motorcycle') {
-                              $editUrl = 'edit_change_of_motorcycle';
+                            $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
-                              if ($appointment['transfer_type'] === 'None') {
-                                  $editUrl = 'edit_transfer_of_ownership';
-                              } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
-                                  $editUrl = 'edit_intent_of_transfer';
-                              } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
-                                  $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                            if ($appointment['transfer_type'] === 'None') {
+                              if ($dataCount == 1) {
+                                $editUrl = 'edit_transfer_of_ownership';
+                              } elseif ($dataCount == 2) {
+                                $editUrl = 'edit_transfer_of_ownership_2';
+                              } elseif ($dataCount == 3) {
+                                $editUrl = 'edit_transfer_of_ownership_3';
                               }
+                            } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
+                              $editUrl = 'edit_intent_of_transfer';
+                            } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {
+                              $editUrl = 'edit_ownership_transfer_from_deceased_owner';
+                            }
                           }
 
-                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1" style="color: #ff6c36;" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
+                          echo '<a href="' . $editUrl . '?appointment_id=' . $appointment['appointment_id'] . '" class="edit_data px-1 me-1 edit-btn" title="Edit Appointment"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>';
                         ?>
                       <?php endif; ?>
 
-                      <?php if ($userRole === 'operator' && $appointment['status'] === "Pending" && !$oneDayAhead): ?>
-                        <a href="#" class="cancel_data px-1 me-1" style="color: red;" title="Cancel Appointment" data-bs-toggle="modal" data-bs-target="#cancelModal-<?php echo $appointment['appointment_id']; ?>">
-                          <i class="fa-solid fa-times fa-xl"></i>
+                      <?php if ($operatorCanCancel): ?>
+                        <a href="#"  class="cancel_data px-1 me-1"  style="color: red;"  title="Cancel Appointment"  data-bs-toggle="modal"  data-bs-target="#cancelModal"  data-appointment-id="<?php echo $appointment['appointment_id']; ?>" data-appointment-name="<?php echo htmlspecialchars($appointment['name'], ENT_QUOTES, 'UTF-8'); ?>" data-appointment-date="<?php echo date('F j, Y', strtotime($appointment['appointment_date'])); ?>" data-appointment-time="<?php echo date('g:i A', strtotime($appointment['appointment_time'])); ?>"> <i class="fa-solid fa-times fa-xl"></i>
                         </a>
                       <?php endif; ?>
                     </td>
@@ -186,33 +222,34 @@
                       </td>
                     <?php endif; ?>
                   </tr>
-                  <!-- CANCEL APPOINTMENT MODAL for each appointment -->
-                  <div class="modal fade" id="cancelModal-<?php echo $appointment['appointment_id']; ?>" tabindex="-1" aria-labelledby="cancelModalLabel-<?php echo $appointment['appointment_id']; ?>" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header border-0">
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-title" id="cancelModalLabel-<?php echo $appointment['appointment_id']; ?>">
-                          <h5 class="modal-title text-center mt-2">Cancel Appointment</h5>
-                        </div>
-                        <div class="modal-body mx-2 text-center">
-                          <form id="cancelForm" action="<?php echo 'cancel_appointment?appointment_id=' . $appointment['appointment_id'] ?>" method="post">
-                            <p>Are you sure you want to cancel the appointment for <span id="appointmentName"><?php echo $appointment['name']; ?></span> on <span id="appointmentDate"><?php echo date('F j, Y', strtotime($appointment['appointment_date'])); ?></span> at <span id="appointmentTime"><?php echo date('g:i A', strtotime($appointment['appointment_time'])); ?></span>?</p>
-                            <input type="hidden" name="appointment_id" value="<?php echo $appointment['appointment_id']; ?>">
-                            <input type="hidden" name="status" value="Cancelled">
-                        </div>
-                        <div class="modal-footer border-0 mb-2">
-                          <button type="button" class="sidebar-btnContent" style="width: 100%; margin:auto; margin: 0 4px; padding: 8px;" data-bs-dismiss="modal">No, Keep Appointment</button>
-                          <button type="submit" form="cancelForm" class="cancel-btn mt-1" style="width: 100%;  margin:auto; margin: 0 4px; padding: 8px;" id="cancelAppointmentModalButton" name="cancelAppointmentModalButton">Yes, Cancel Appointment</button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 <?php endforeach; ?>
               </tbody>
             </table>
+
+            <!-- CANCEL APPOINTMENT MODAL for each appointment -->
+            <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-title" id="cancelModalLabel">
+                    <h5 class="modal-title text-center mt-2">Cancel Appointment</h5>
+                  </div>
+                  <form id="cancelForm" action="cancel_appointment" method="post">
+                    <div class="modal-body mx-2 text-center">
+                      <p>Are you sure you want to cancel the appointment for <span id="appointmentName"></span> on <span id="appointmentDate"></span> at <span id="appointmentTime"></span>?</p>
+                      <input type="hidden" name="appointment_id" id="modalAppointmentId">
+                      <input type="hidden" name="status" value="Cancelled">
+                    </div>
+                    <div class="modal-footer border-0 mb-2">
+                      <button type="button" class="sidebar-btnContent" style="width: 100%; margin:auto; margin: 0 4px; padding: 8px;" data-bs-dismiss="modal">No, Keep Appointment</button>
+                      <button type="submit" name="cancelAppointmentModalButton" class="cancel-btn mt-1" style="width: 100%;  margin:auto; margin: 0 4px; padding: 8px;">Yes, Cancel Appointment</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -314,6 +351,31 @@
 
       // Redirect to the final URL
       window.location.href = finalUrl;
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const cancelButtons = document.querySelectorAll('.cancel_data');
+    
+    cancelButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const appointmentId = this.getAttribute('data-appointment-id');
+        const appointmentName = this.getAttribute('data-appointment-name');
+        const appointmentDate = this.getAttribute('data-appointment-date');
+        const appointmentTime = this.getAttribute('data-appointment-time');
+        
+        const modalAppointmentId = document.getElementById('modalAppointmentId');
+        const appointmentNameElem = document.getElementById('appointmentName');
+        const appointmentDateElem = document.getElementById('appointmentDate');
+        const appointmentTimeElem = document.getElementById('appointmentTime');
+
+        if (modalAppointmentId && appointmentNameElem && appointmentDateElem && appointmentTimeElem) {
+          modalAppointmentId.value = appointmentId;
+          appointmentNameElem.textContent = appointmentName;
+          appointmentDateElem.textContent = appointmentDate;
+          appointmentTimeElem.textContent = appointmentTime;
+        }
+      });
     });
   });
 </script>

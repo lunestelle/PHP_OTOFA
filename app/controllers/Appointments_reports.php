@@ -11,6 +11,18 @@ class Appointments_reports
       redirect('');
     }
 
+    // Define the required permissions for accessing the edit user page
+    $requiredPermissions = [
+      "Can view appointments reports"
+    ];
+
+    // Check if the logged-in user has any of the required permissions
+    $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+    if (!hasAnyPermission($requiredPermissions, $userPermissions)) {
+      set_flash_message("Access denied. You don't have the required permissions.", "error");
+      redirect('');
+    }
+
     $appointmentModel = new Appointment();
     $userModel = new User();
 
@@ -40,7 +52,7 @@ class Appointments_reports
           'pending_appointments' => $report->pending_appointments,
           'completed_appointments' => $report->completed_appointments,
           'approved_appointments' => $report->approved_appointments,
-          'rejected_appointments' => $report->rejected_appointments,
+          'declined_appointments' => $report->declined_appointments,
           'on_process_appointments' => $report->on_process_appointments,
           'year' => $report->year,
         ];
@@ -56,7 +68,7 @@ class Appointments_reports
         $csvData[] = ['Appointments Reports for the Year ' . $selectedYear];
       }
   
-      $csvData[] = ['Operator\'s Name', 'Phone Number', 'Total Appointments', 'Pending Appointments', 'Completed Appointments', 'Approved Appointments', 'Rejected Appointments', 'On Process Appointments'];
+      $csvData[] = ['Operator\'s Name', 'Phone Number', 'Total Appointments', 'Pending Appointments', 'Completed Appointments', 'Approved Appointments', 'Declined Appointments', 'On Process Appointments'];
   
       // Add "Appointment Year" column header only if the filter is 'all'
       if ($selectedYear == 'all') {
@@ -71,7 +83,7 @@ class Appointments_reports
           $report->pending_appointments,
           $report->completed_appointments,
           $report->approved_appointments,
-          $report->rejected_appointments,
+          $report->declined_appointments,
           $report->on_process_appointments,
         ];
 

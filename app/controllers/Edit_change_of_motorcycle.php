@@ -11,6 +11,22 @@ class Edit_change_of_motorcycle
       redirect('');
     }
 
+    // Define the required permissions for accessing the edit user page
+    $requiredPermissions = [
+      "Can approve appointments",
+      "Can decline appointments",
+      "Can on process appointments",
+      "Can completed appointments"
+    ];
+
+    // Check if the logged-in user has the required permissions, unless they are an operator
+    $userPermissions = isset($_SESSION['USER']->permissions) ? explode(', ', $_SESSION['USER']->permissions) : [];
+    $userRole = isset($_SESSION['USER']->role) ? $_SESSION['USER']->role : '';
+    if (!hasAnyPermission($requiredPermissions, $userPermissions) && $userRole !== 'operator') {
+      set_flash_message("Access denied. You don't have the required permissions.", "error");
+      redirect('');
+    }
+
     $driverModel = new Driver();
     $appointmentModel = new Appointment();
     $tricycleApplicationModel = new TricycleApplication();
@@ -109,6 +125,7 @@ class Edit_change_of_motorcycle
       'driver_license_no' => $driver_license_no,
       'driver_license_expiry_date' => $driver_license_expiry_date,
       'tricycle_statuses' => $statuses,
+      'mtop_requirement_id' => $mtopRequirementId,
     ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -148,15 +165,15 @@ class Edit_change_of_motorcycle
       ];
 
       if (isset($_POST['confirm_delete_image'])) {
+        $mtopRequirementId = $_POST['mtop_id'];
         $imageType = $_POST['image_type'];
-        $imagePathColumn = "{$imageType}_path";
+        $originalImagePath = $_POST['original_image_path'];
         
-        // Check if the file exists before attempting to delete
-        if (file_exists($_POST['original_image_path'])) {
-          $deleted = unlink($_POST['original_image_path']);
-          
-          // Update the database column with an empty value if deletion was successful
+        if (file_exists($originalImagePath)) {
+          $deleted = unlink($originalImagePath);
+
           if ($deleted) {
+            $imagePathColumn = $imageType . '_path';
             $mtopRequirementModel->update(['mtop_requirement_id' => $mtopRequirementId], [$imagePathColumn => null]);
             set_flash_message("Image deleted successfully.", "success");
             redirect('edit_change_of_motorcycle?appointment_id=' . $appointmentId);
@@ -176,7 +193,7 @@ class Edit_change_of_motorcycle
         if (!empty($formErrors)) {
           $firstError = reset($formErrors);
           set_flash_message($firstError[0], "error");
-          $data = array_merge($data, $_POST);
+          // $data = array_merge($data, $_POST);
           echo $this->renderView('edit_change_of_motorcycle', true, $data);
           return;
         } else {
@@ -184,8 +201,8 @@ class Edit_change_of_motorcycle
           $appointmentFormData['phone_number'] = '+63' . preg_replace('/[^0-9]/', '', $formattedPhoneNumber);
 
           // Check if the appointment status is "REJECTED"
-          if ($_POST['status'] != 'Rejected') {
-            // Update comments to empty for rejected appointments
+          if ($_POST['status'] != 'Declined') {
+            // Update comments to empty for declined appointments
             $appointmentFormData['comments'] = '';
           }
 
@@ -229,7 +246,10 @@ class Edit_change_of_motorcycle
                 ];
       
                 if ($tricycleModel->update(['tricycle_id' => $tricycleData->tricycle_id], $tricycleUpdateData)) {
-                  $tricycleStatusesModel->deleteStatus($tricycleData->tricycle_id, $appointmentData->user_id, "Change Motor Required");
+                  $statusesToDelete = ["Change Motor Required", "Expired Motor (1st Notice)", "Expired Motor (2nd Notice)", "Expired Motor (3rd Notice)"];
+                  foreach ($statusesToDelete as $statusToDelete) {
+                    $tricycleStatusesModel->deleteStatus($tricycleData->tricycle_id, $appointmentData->user_id, $statusToDelete);
+                  }
                 }
               }
             }
@@ -274,11 +294,11 @@ class Edit_change_of_motorcycle
     }
 
     // Check if the appointment status is "REJECTED"
-    if ($appointmentFormData['status'] === 'Rejected') {
-      // Require comments for rejected appointments
+    if ($appointmentFormData['status'] === 'Declined') {
+      // Require comments for declined appointments
       $comments = trim($appointmentFormData['comments']);
       if (empty($comments)) {
-        $errors['appointment'][] = 'Comments are required for rejected appointments.';
+        $errors['appointment'][] = 'Comments are required for declined appointments.';
       }
     }
     
@@ -288,7 +308,7 @@ class Edit_change_of_motorcycle
 
     if (!empty($tricycleApplicationFormData['tricycle_cin_number_id'])) {
       $cinId = $tricycleApplicationFormData['tricycle_cin_number_id'];
-      $appointmentId = $appointmentData->appointment_id;
+      $appointmentId = isset($_GET['appointment_id']) ? $_GET['appointment_id'] : null;
       $appointmentType = $appointmentFormData['appointment_type'];
       $currentYear = date('Y');
       $statuses = ['Approved', 'Pending', 'On Process'];

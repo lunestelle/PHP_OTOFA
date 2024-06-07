@@ -51,13 +51,17 @@ class View_tricycle
       set_flash_message("Tricycle not found.", "error");
     } elseif (!$tricycleApplicationData) {
       set_flash_message("Tricycle application data not found.", "error");
-    } elseif (!$tricycleCinData) {
-      set_flash_message("Tricycle CIN data not found.", "error");
+    // } elseif (!$tricycleCinData) {
+    //   set_flash_message("Tricycle CIN data not found.", "error");
     } elseif (!$appointmentData) {
       set_flash_message("Appointment data not found.", "error");
     }
 
-    if (!$tricycleData || !$tricycleApplicationData || !$tricycleCinData || !$appointmentData) {
+    // if (!$tricycleData || !$tricycleApplicationData || !$tricycleCinData || !$appointmentData) {
+    //   redirect('tricycles');
+    // }
+
+    if (!$tricycleData || !$tricycleApplicationData || !$appointmentData) {
       redirect('tricycles');
     }
 

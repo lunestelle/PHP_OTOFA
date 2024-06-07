@@ -10,6 +10,13 @@ class Change_of_motorcycle
       set_flash_message("Oops! You need to be logged <br> in to view this page.", "error");
       redirect('');
     }
+    
+    // Check if the user has the "admin" role
+    $userRole = $_SESSION['USER']->role;
+    if ($userRole !== 'operator') {
+      set_flash_message("Access denied. You don't have the required role to access this page.", "error");
+      redirect('');
+    }
 
     $data = [];
 

@@ -39,7 +39,10 @@ if ($userRole === 'operator') {
     'user_id' => $_SESSION['USER']->user_id,
     'status' => 'pending'
   ]) : 0;
-} elseif ($userRole === 'admin') {
+
+  // Get the count of all pending appointments for admin or operator that have permissions
+  $pendingAdminAppointmentsCount = method_exists($appointmentModel, 'count') ? $appointmentModel->count(['status' => 'pending']) : 0;
+} elseif ($userRole === 'admin' || $userRole === 'personnel') {
   // Get the count of all pending appointments for admin
   $pendingAppointmentsCount = method_exists($appointmentModel, 'count') ? $appointmentModel->count(['status' => 'pending']) : 0;
 }
@@ -98,12 +101,86 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js" integrity="sha512-5g2Nj3mqLOgClHi20oat1COW7jWvf7SyqnvwWUsMDwhjHeqeTl0C+uzjucLweruQxHbhDwiPLXlm8HBO0011pA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  
   <!-- FullCalendar.io JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
 </head>
 <style>
+   .collapsible {
+    cursor: pointer;
+    padding: 5px 15px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    box-shadow: 2px 4px 8px gray;
+    text-align: left;
+    outline: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #8dd06c;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+
+  .collapsible:hover {
+    border: 1px solid #8dd06c;
+    background-color: white;
+  }
+
+  .collapsible.active {
+    background-color: #008A2E !important;
+    color: white !important;
+  }
+
+  .collapsible-active-button {
+    background-color: #008A2E !important;
+    color: white !important;
+  }
+
+  .collapsible-inactive-button {
+    background-color: #8dd06c;
+    color: black;
+  }
+
+  .collapsible i {
+    margin-left: auto;
+  }
+
+  .collapsible p {
+    margin: 0;
+  }
+
+  .collapsible .icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+
+  .content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+  }
+  .content-form:first-child {
+    display: block;
+  }
+
+  .active-content {
+    display: block;
+  }
+
+  .collapsible-active {
+    background-color: #008A2E;
+    color: white;
+  }
+
+  /* --------------------------------------------- */
+
   .pop_msg {
     font-size: 9px !important;
     letter-spacing: 0.8px !important;
@@ -231,60 +308,185 @@ $usedCINs = $tricycleModel->where(['is_used' => true]);
                   </li>
                 <?php } ?>
                 <li class="nav-item">
-                  <a class="nav-link text-white" href="appointments">
-                    <i class="fa-solid fa-calendar-days"></i>
-                    <span class="ms-2">Appointments</span>
-                    <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge ms-auto " . ($isCurrentPageAppointments ? 'bg-warning' : 'bg-danger') . "'>$pendingAppointmentsCount</span>"; } ?>
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link text-white" href="taripa"><i class="fa-solid fa-peso-sign"></i><span class="ms-2">Taripa</span></a>
                 </li>
-              <?php } elseif ($userRole === 'admin') { ?>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="inquiries">
-                    <i class="fas fa-envelope"></i>
-                    <span class="ms-2">Inquiries</span>
-                    <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge ms-auto " . ($isCurrentPageInquiries ? 'bg-warning' : 'bg-danger') . "'>$unreadInquiriesCount</span>"; } ?>
+
+                <!-- OPTIONAL IF OPERATOR HAVE THE PERMISSIONS -->
+                <?php if (hasPermission('Can create and edit users', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="users">
+                      <i class="fas fa-users"></i>
+                      <span class="ms-2">Users</span>
+                    </a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can view and respond to inquiries', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="inquiries">
+                      <i class="fas fa-envelope"></i>
+                      <span class="ms-2">Inquiries</span>
+                      <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge ms-auto " . ($isCurrentPageInquiries ? 'bg-warning' : 'bg-danger') . "'>$unreadInquiriesCount</span>"; } ?>
+                    </a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can view list of operators', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can view and update tricycle statuses', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
+                  </li>
+                <?php } ?>
+                <?php
+                  // Check if the user has at least one of the specified permissions
+                  if (hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)) {
+                ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="appointments">
+                      <i class="fa-solid fa-calendar-days me-2"></i>
+                      <span>Appointment Approval</span>                    
+                      <?php if ($pendingAdminAppointmentsCount > 0) { echo "<span class='badge ms-auto p-1 count-badge " . ($isCurrentPageAppointments ? 'bg-warning' : 'bg-danger') . "'>$pendingAdminAppointmentsCount</span>"; } ?>
+                    </a>
+                  </li>
+                <?php } else { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="appointments">
+                      <i class="fa-solid fa-calendar-days"></i>
+                      <span class="ms-2">Appointments</span>
+                      <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge ms-auto " . ($isCurrentPageAppointments ? 'bg-warning' : 'bg-danger') . "'>$pendingAppointmentsCount</span>"; } ?>
+                    </a>
+                  </li>
+                <?php }?>
+                <?php if (hasPermission('Can view taripas', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="taripa"><i class="fa-solid fa-peso-sign"></i><span class="ms-2">Taripa</span></a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can view maintenance tracker', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="maintenance_tracker"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Tracker</span></a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can manage CIN (Increase or Decrease)', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="cin_management"><i class="fas fa-cogs"></i><span class="ms-2">CIN Management</span>
                   </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="appointments">
-                    <i class="fa-solid fa-calendar-days me-2"></i>
-                    <span>Appointment Approval</span>                    
-                    <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge ms-auto p-1 " . ($isCurrentPageAppointments ? 'bg-warning' : 'bg-danger') . "'>$pendingAppointmentsCount</span>"; } ?>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="taripa"><i class="fa-solid fa-peso-sign"></i><span class="ms-2">Taripa</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-white" href="maintenance_tracker"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Tracker</span></a>
-                </li>
-                <li class="nav-item" id="maintenanceDropdown">
-                  <a class="nav-link text-white d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-file text-white"></i><span class="ms-2 text-white">Reports</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
-                  <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-warning <?php if ($current_page_is_maintenance) echo 'show'; ?>">
-                  <div>
-                      <li class="nav-item mt-2 pt-1 px-2">
-                        <a class="nav-link text-white fw-bold reports" style="font-size: 11px;" href="appointments_reports">Appointments Reports</a>
-                      </li>
-                      <li class="nav-item mb-2 pb-1 px-2">
-                        <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="tricycles_reports">Tricycles Reports</a>
-                      </li>
-                     <?php if (!empty($usedCINs)) { ?>
+                  </li>
+                <?php } ?>
+                <?php
+                  // Check if the user has at least one of the specified permissions
+                  if (hasAnyPermission(['Can view appointments reports', 'Can view tricycles reports', 'Can view cin reports'], $permissions)) {
+                ?>
+                  <li class="nav-item" id="maintenanceDropdown">
+                    <a class="nav-link text-white d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-file text-white"></i><span class="ms-2 text-white">Reports</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
+                    <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-warning <?php if ($current_page_is_maintenance) echo 'show'; ?>">
+                    <div>
+                      <?php if (hasPermission('Can view appointments reports', $permissions)) { ?>
+                        <li class="nav-item mt-2 pt-1 px-2 mb-1">
+                          <a class="nav-link text-white fw-bold reports" style="font-size: 11px;" href="appointments_reports">Appointments Reports</a>
+                        </li>
+                      <?php } ?>
+                      <?php if (hasPermission('Can view tricycles reports', $permissions)) { ?>
+                        <li class="nav-item pb-1 px-2">
+                          <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="tricycles_reports">Tricycles Reports</a>
+                        </li>
+                      <?php } ?>
+                      <?php if (!empty($usedCINs) && hasPermission('Can view cin reports', $permissions)) { ?>
                         <li class="nav-item mb-2 pb-1 px-2">
                           <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="cin_reports">CIN Reports</a>
                         </li>
                       <?php } ?>
-                  </div>
-                  </ul>     
-                </li>
+                    </div>
+                    </ul>     
+                  </li>
+                <?php } ?>
+
+              <!-- add condition of permissions here that user will be able to access a certain page when they have permissions for it -->
+              <?php } elseif ($userRole === 'admin' || $userRole === 'personnel') { ?>
+                <?php if (hasPermission('Can create and edit users', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="users">
+                      <i class="fas fa-users"></i>
+                      <span class="ms-2">Users</span>
+                    </a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can view and respond to inquiries', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="inquiries">
+                      <i class="fas fa-envelope"></i>
+                      <span class="ms-2">Inquiries</span>
+                      <?php if ($unreadInquiriesCount > 0) { echo "<span class='badge count-badge ms-auto " . ($isCurrentPageInquiries ? 'count-badge' : 'count-badge') . "'>$unreadInquiriesCount</span>"; } ?>
+                    </a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can view list of operators', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="operators"><i class="fa-regular fa-id-card"></i><span class="ms-2">Operators</span></a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can view and update tricycle statuses', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="tricycles"><i class="fa-solid fa-truck-pickup"></i><span class="ms-2">Tricycles</span></a>
+                  </li>
+                <?php } ?>
+                <?php
+                  // Check if the user has at least one of the specified permissions
+                  if (hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)) {
+                ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="appointments">
+                      <i class="fa-solid fa-calendar-days me-2"></i>
+                      <span>Appointment Approval</span>                    
+                      <?php if ($pendingAppointmentsCount > 0) { echo "<span class='badge count-badge ms-auto p-1 " . ($isCurrentPageAppointments ? 'count-badge' : 'count-badge') . "'>$pendingAppointmentsCount</span>"; } ?>
+                    </a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can view taripas', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="taripa"><i class="fa-solid fa-peso-sign"></i><span class="ms-2">Taripa</span></a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can view maintenance tracker', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="maintenance_tracker"><i class="fa-solid fa-screwdriver-wrench"></i><span class="ms-2">Maintenance Tracker</span></a>
+                  </li>
+                <?php } ?>
+                <?php if (hasPermission('Can manage CIN (Increase or Decrease)', $permissions)) { ?>
+                  <li class="nav-item">
+                    <a class="nav-link text-white" href="cin_management"><i class="fas fa-cogs"></i><span class="ms-2">CIN Management</span>
+                  </a>
+                  </li>
+                <?php } ?>
+                <?php
+                  // Check if the user has at least one of the specified permissions
+                  if (hasAnyPermission(['Can view appointments reports', 'Can view tricycles reports', 'Can view cin reports'], $permissions)) {
+                ?>
+                  <li class="nav-item" id="maintenanceDropdown">
+                    <a class="nav-link text-white d-flex" href="#" data-bs-toggle="collapse" data-bs-target="#maintenanceSubMenu" aria-expanded="false" aria-controls="maintenanceSubMenu"><i class="fa-solid fa-file text-white"></i><span class="ms-2 text-white">Reports</span><i id="maintenanceIcon" class="fa-solid fa-angle-right fa-xs maintenance-fa" style="color: #ffffff;"></i></a>
+                    <ul id="maintenanceSubMenu" class="nav flex-column ms-4 collapse rounded bg-warning <?php if ($current_page_is_maintenance) echo 'show'; ?>">
+                    <div>
+                      <?php if (hasPermission('Can view appointments reports', $permissions)) { ?>
+                        <li class="nav-item mt-2 pt-1 px-2 mb-1">
+                          <a class="nav-link text-white fw-bold reports" style="font-size: 11px;" href="appointments_reports">Appointments Reports</a>
+                        </li>
+                      <?php } ?>
+                      <?php if (hasPermission('Can view tricycles reports', $permissions)) { ?>
+                        <li class="nav-item pb-1 px-2">
+                          <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="tricycles_reports">Tricycles Reports</a>
+                        </li>
+                      <?php } ?>
+                      <?php if (!empty($usedCINs) && hasPermission('Can view cin reports', $permissions)) { ?>
+                        <li class="nav-item mb-2 pb-1 px-2">
+                          <a class="nav-link text-white fw-bold" style="font-size: 11px; margin-bottom: 5px;" href="cin_reports">CIN Reports</a>
+                        </li>
+                      <?php } ?>
+                    </div>
+                    </ul>     
+                  </li>
+                <?php } ?>
               <?php } ?>
             </ul><br><br>
           </nav>

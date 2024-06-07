@@ -9,7 +9,9 @@
           <?php if (!empty($tricycles)): ?>
             <div class="mt-3 text-end">
               <form method="post" action="">
-                <button type="submit" id="exportCsv" name="exportCsv" class="export-btn">Export as CSV</button>
+                <button type="submit" id="exportCsv" name="exportCsv" style="border: none; background: none; padding: 0; margin: 0;">
+                  <img src="public/assets/images/export-csv.png" style="height: 38px; width: 40px; position: absolute; top: 5px; right: 35px;" alt="export file">
+                </button>
               </form>
             </div>
           <?php endif; ?>
@@ -54,16 +56,16 @@
                   <th scope="col" class="text-center">Route Area</td>
                   <th scope="col" class="text-center">Status</th>
                   <th scope="col" class="text-center">Actions</th>
-                  <?php if ($userRole === 'admin'): ?>
+                  <?php if (hasPermission('Can view and update tricycle statuses', $permissions)) { ?>
                     <th scope="col" class="text-center px-5">Update</th>
-                  <?php endif; ?>
+                  <?php } ?>
                 </tr>
               </thead>
               <tbody class="text-center text-capitalize">
                 <?php foreach ($tricycles as $tricycle): ?>
                   <tr>
                   <td><?php echo $index++; ?></td>
-                  <td><?php echo $tricycle['cin']; ?></td>
+                  <td><?php echo $tricycle['tricycle_application_data']->tricycle_cin_number_id; ?></td>
                   <td><?php echo $tricycle['operator_name']; ?></td>
                   <td><?php echo $tricycle['tricycle_application_data']->make_model; ?></td>
                   <td><?php echo $tricycle['tricycle_application_data']->motor_number; ?></td>
@@ -81,7 +83,7 @@
                   <td>
                     <a href="./view_tricycle?tricycle_id=<?php echo $tricycle['tricycle_id']; ?>" class="view_data px-1 me-1" style="color: #0766AD;" title="View Tricycle Details"><i class="fa-solid fa-file-lines fa-xl"></i></a>
                   </td>
-                  <?php if ($userRole === 'admin'): ?>
+                  <?php if (hasPermission('Can view and update tricycle statuses', $permissions)) { ?>
                     <td>
                       <?php if (hasStatusToUpdate($tricycle['statuses'])): ?>
                         <button type="button" class="update-status-btn" data-bs-toggle="modal" data-bs-target="#exampleModal-<?php echo $tricycle['tricycle_id']; ?>">
@@ -89,7 +91,7 @@
                         </button>
                       <?php endif; ?>
                     </td>
-                  <?php endif; ?>
+                  <?php } ?>
                 </tr>
                 <!-- UPDATE STATUS MODAL -->
                 <div class="modal fade" id="exampleModal-<?php echo $tricycle['tricycle_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
