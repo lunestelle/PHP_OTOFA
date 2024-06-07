@@ -174,12 +174,11 @@
                       <?php elseif (($appointment['status'] === "Pending" || $appointment['status'] === "Approved" || $appointment['status'] === "On Process") && hasAnyPermission(['Can approve appointments', 'Can decline appointments', 'Can on process appointments', 'Can completed appointments'], $permissions)): ?>
                         <?php
                           $editUrl = '';
+                          $tricycleApplicationModel = new TricycleApplication();
+                          $tricycleApplicationData = $tricycleApplicationModel->where(['appointment_id' => $appointment['appointment_id']]);
+                          $dataCount = count($tricycleApplicationData);
 
                           if ($appointment['appointment_type'] === 'New Franchise') {
-                            $tricycleApplicationModel = new TricycleApplication();
-                            $tricycleApplicationData = $tricycleApplicationModel->where(['appointment_id' => $appointment['appointment_id']]);
-                            $dataCount = count($tricycleApplicationData);
-                
                             if ($dataCount == 1) {
                               $editUrl = 'edit_new_franchise';
                             } elseif ($dataCount == 2) {
@@ -193,7 +192,13 @@
                             $editUrl = 'edit_change_of_motorcycle';
                           } elseif ($appointment['appointment_type'] === 'Transfer of Ownership') {
                             if ($appointment['transfer_type'] === 'None') {
-                              $editUrl = 'edit_transfer_of_ownership';
+                              if ($dataCount == 1) {
+                                $editUrl = 'edit_transfer_of_ownership';
+                              } elseif ($dataCount == 2) {
+                                $editUrl = 'edit_transfer_of_ownership_2';
+                              } elseif ($dataCount == 3) {
+                                $editUrl = 'edit_transfer_of_ownership_3';
+                              }
                             } elseif ($appointment['transfer_type'] === 'Intent of Transfer') {
                               $editUrl = 'edit_intent_of_transfer';
                             } elseif ($appointment['transfer_type'] === 'Transfer of Ownership from Deceased Owner') {

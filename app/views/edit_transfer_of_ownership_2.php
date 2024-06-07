@@ -36,152 +36,467 @@
   <form class="default-form" method="POST" action="" enctype="multipart/form-data" id="appointmentForm">
     <!-- *** STEP 3 *** -->
     <section id="step-3" style="display: none;">
-      <div class="col-lg-12">
-        <div class="px-3 pt-1 mt-3">
-          <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
-        </div>
+      <div class="px-3 pt-2">
+        <p class="text-muted fw-bold fst-italic"><span class="text-danger">Note: </span>Please make sure the images are clear and upload all the necessary requirements.</p>
+      </div>
 
-        <?php if ($userRole === 'operator'): ?>  
-          <div class="row assessmentFeeContainer3">
-            <div class="col-12 mx-auto text-center mt-2">
-              <p id="assessmentFeeText3" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
-            </div>
+      <?php if ($userRole === 'operator'): ?>  
+        <div class="row assessmentFeeContainer3">
+          <div class="col-12 mx-auto text-center mt-2">
+            <p id="assessmentFeeText3" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
           </div>
-        <?php endif; ?>
+        </div>
+      <?php endif; ?>
 
-        <button type="button" class="collapsible fw-bold fs-5 d-flex active-button" id="step3btnform1" onclick="toggleForm('step3form1', 'step3form2')">
-          <p class="fs-6">FORM I</p>
-          <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
-        </button>
-        <div class="content-3 content-form-3 active-content content-container mt-2 mb-3" id="step3form1">
-          <div class="row px-3 p-2 justify-content-center">
+      <button type="button" class="collapsible fw-bold fs-5 d-flex active-button" id="step3btnform1" onclick="toggleForm('step3form1', 'step3form2')">
+        <p class="fs-6">FORM I</p>
+        <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
+      </button>
+      <?php if (isset($mtopRequirementData[1])): ?>
+        <?php $mtopData2 = $mtopRequirementData[1]; ?>
+        <div class="content-3 content-form-3 content-container mt-2 mb-3" id="step3form1">
+          <div class="row px-3 p-4">
             <div class="col-12 d-flex mb-2">
               <div class="text-center col-4 px-4">
                 <label for="mc_lto_certificate_of_registration2" class="form-label">LTO Certificate of Registration (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_lto_certificate_of_registration2" name="mc_lto_certificate_of_registration2" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData2->mc_lto_certificate_of_registration_path) && $mtopData2->mc_lto_certificate_of_registration_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->mc_lto_certificate_of_registration_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_certificate_of_registration2" alt="LTO Certificate of Registration (MC of New Unit)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_certificate_of_registration" data-original-image="' . $mtopData2->mc_lto_certificate_of_registration_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="mc_lto_certificate_of_registration2" id="mc_lto_certificate_of_registration2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_mc_lto_certificate_of_registration2" value="' . ($mtopData2->mc_lto_certificate_of_registration_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="mc_lto_official_receipt2" class="form-label">LTO Official Receipt (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_lto_official_receipt2" name="mc_lto_official_receipt2" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData2->mc_lto_official_receipt_path) && $mtopData2->mc_lto_official_receipt_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->mc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_official_receipt2" alt="LTO Official Receipt (MC of New Unit)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_official_receipt" data-original-image="' . $mtopData2->mc_lto_official_receipt_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="mc_lto_official_receipt2" id="mc_lto_official_receipt2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_mc_lto_official_receipt2" value="' . ($mtopData2->mc_lto_official_receipt_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="mc_plate_authorization2" class="form-label">Plate Authorization (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_plate_authorization2" name="mc_plate_authorization2" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData2->mc_plate_authorization_path) && $mtopData2->mc_plate_authorization_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->mc_plate_authorization_path . '" class="img-fluid rounded fixed-height-image" id="mc_plate_authorization2" alt="Plate Authorization (MC of New Unit)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_plate_authorization" data-original-image="' . $mtopData2->mc_plate_authorization_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="mc_plate_authorization2" id="mc_plate_authorization2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_mc_plate_authorization2" value="' . ($mtopData2->mc_plate_authorization_path ?? '') . '">';
+                ?>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
               <div class="text-center col-4 px-4">
                 <label for="tc_insurance_policy2" class="form-label">Insurance Policy (TC) (New Owner)</label>
-                <input type="file" class="form-control" id="tc_insurance_policy2" name="tc_insurance_policy2" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData2->tc_insurance_policy_path) && $mtopData2->tc_insurance_policy_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->tc_insurance_policy_path . '" class="img-fluid rounded fixed-height-image" id="tc_insurance_policy2" alt="Insurance Policy (TC) (New Owner)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_insurance_policy" data-original-image="' . $mtopData2->tc_insurance_policy_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="tc_insurance_policy2" id="tc_insurance_policy2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_tc_insurance_policy2" value="' . ($mtopData2->tc_insurance_policy_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="unit_front_view_image2" class="form-label">Picture of New Unit (Front View)</label>
-                <input type="file" class="form-control" id="unit_front_view_image2" name="unit_front_view_image2" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData2->unit_front_view_image_path) && $mtopData2->unit_front_view_image_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->unit_front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_front_view_image2" alt="Picture of New Unit (Front View)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_front_view_image" data-original-image="' . $mtopData2->unit_front_view_image_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="unit_front_view_image2" id="unit_unit_front_view_image2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_unit_front_view_image2" value="' . ($mtopData2->unit_front_view_image_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="unit_side_view_image2" class="form-label">Picture of New Unit (Side View)</label>
-                <input type="file" class="form-control" id="unit_side_view_image2" name="unit_side_view_image2" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData2->unit_side_view_image_path) && $mtopData2->unit_side_view_image_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->unit_side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_side_view_image2" alt="Picture of New Unit (Side View)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_side_view_image" data-original-image="' . $mtopData2->unit_side_view_image_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="unit_side_view_image2" id="unit_side_view_image2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_unit_side_view_image2" value="' . ($mtopData2->unit_side_view_image_path ?? '') . '">';
+                ?>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
               <div class="text-center col-4 px-4">
                 <label for="sketch_location_of_garage2" class="form-label">Sketch Location of Garage</label>
-                <input type="file" class="form-control" id="sketch_location_of_garage2" name="sketch_location_of_garage2" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData2->sketch_location_of_garage_path) && $mtopData2->sketch_location_of_garage_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->sketch_location_of_garage_path . '" class="img-fluid rounded fixed-height-image" id="sketch_location_of_garage2" alt="Sketch Location of Garage">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="sketch_location_of_garage" data-original-image="' . $mtopData2->sketch_location_of_garage_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="sketch_location_of_garage2" id="sketch_location_of_garage2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_sketch_location_of_garage2" value="' . ($mtopData2->sketch_location_of_garage_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
-                <label for="latest_franchise2" class="form-label">Latest Franchise</label>
-                <input type="file" class="form-control" id="latest_franchise2" name="latest_franchise2" accept="image/*" required/>
+                <label for="affidavit_of_income_tax_return2" class="form-label">Affidavit of No Income or Latest Income Tax Return</label>
+                <?php
+                  if (isset($mtopData2->affidavit_of_income_tax_return_path) && $mtopData2->affidavit_of_income_tax_return_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->affidavit_of_income_tax_return_path . '" class="img-fluid rounded fixed-height-image" id="affidavit_of_income_tax_return2" alt="Affidavit of No Income or Latest Income Tax Return">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="affidavit_of_income_tax_return" data-original-image="' . $mtopData2->affidavit_of_income_tax_return_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="affidavit_of_income_tax_return2" id="affidavit_of_income_tax_return2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_affidavit_of_income_tax_return2" value="' . ($mtopData2->affidavit_of_income_tax_return_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="driver_cert_safety_driving_seminar2" class="form-label">Driver's Certificate of Safety Driving Seminar</label>
-                <input type="file" class="form-control" id="driver_cert_safety_driving_seminar2" name="driver_cert_safety_driving_seminar2" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData2->driver_cert_safety_driving_seminar_path) && $mtopData2->driver_cert_safety_driving_seminar_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->driver_cert_safety_driving_seminar_path . '" class="img-fluid rounded fixed-height-image" id="driver_cert_safety_driving_seminar2" alt="Driver\'s Certificate of Safety Driving Seminar">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="driver_cert_safety_driving_seminar" data-original-image="' . $mtopData2->driver_cert_safety_driving_seminar_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="driver_cert_safety_driving_seminar2" id="driver_cert_safety_driving_seminar2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_driver_cert_safety_driving_seminar2" value="' . ($mtopData2->driver_cert_safety_driving_seminar_path ?? '') . '">';
+                ?>
               </div>
             </div>
-            <div class="col-12 d-flex">
+            <div class="col-12 d-flex mb-2">
               <div class="text-center col-4 px-4">
                 <label for="proof_of_id2" class="form-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
-                <input type="file" class="form-control" id="proof_of_id2" name="proof_of_id2" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData2->proof_of_id_path) && $mtopData2->proof_of_id_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id2" alt="Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="proof_of_id" data-original-image="' . $mtopData2->proof_of_id_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="proof_of_id2" id="proof_of_id2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_proof_of_id2" value="' . ($mtopData2->proof_of_id_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
-                <label for="affidavit_of_income_tax_return2" class="form-label">Affidavit of No Income <br> or Latest Income Tax Return</label>
-                <input type="file" class="form-control" id="affidavit_of_income_tax_return2" name="affidavit_of_income_tax_return2" accept="image/*" required/>
+                <label for="latest_franchise2" class="form-label">Latest Franchise</label>
+                <?php
+                  if (isset($mtopData2->latest_franchise_path) && $mtopData2->latest_franchise_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData2->latest_franchise_path . '" class="img-fluid rounded fixed-height-image" id="latest_franchise2" alt="Latest Franchise">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="latest_franchise" data-original-image="' . $mtopData2->latest_franchise_path . '" data-mtop-id="' . $mtopData2->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="latest_franchise2" id="latest_franchise2-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_latest_franchise2" value="' . ($mtopData2->latest_franchise_path ?? '') . '">';
+                ?>
               </div>
             </div>
           </div>
         </div>
+      <?php endif; ?>
 
-        <?php if ($userRole === 'operator'): ?>  
-          <div class="row assessmentFeeContainer4">
-            <div class="col-12 mx-auto text-center mt-4">
-              <p id="assessmentFeeText4" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
-            </div>
+      <?php if ($userRole === 'operator'): ?>  
+        <div class="row assessmentFeeContainer4">
+          <div class="col-12 mx-auto text-center mt-4">
+            <p id="assessmentFeeText4" class="text-muted fw-bold fst-italic" style="padding: 10px; border: 1px solid #ff8356; background-color: #fff9ea; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);"></p>
           </div>
-        <?php endif; ?>
-        <button type="button" class="collapsible fw-bold fs-5 d-flex" id="step3btnform2" onclick="toggleForm('step3form2', 'step3form1')" style="display:none;">
-          <p class="fs-6">FORM II</p>
-          <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
-        </button>
-        <div class="content-3 content-form-3 content-container mt-2 mb-3" id="step3form2"  style="display:none;">
-          <div class="row px-3 p-2 justify-content-center">
+        </div>
+      <?php endif; ?>
+
+      <button type="button" class="collapsible fw-bold fs-5 d-flex" type="button" id="step3btnform2" onclick="toggleForm('step3form2', 'step3form1')" style="display:none;">
+        <p class="fs-6">FORM II</p>
+        <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
+      </button>
+      <?php if (isset($mtopRequirementData[0])): ?>
+        <?php $mtopData1 = $mtopRequirementData[0]; ?>
+        <div class="content-3 content-form-3 active-content content-container mt-2 mb-3" id="step3form2" style="display:none;">
+        <div class="content-3 content-form-3 content-container mt-2 mb-3" id="step3form1">
+          <div class="row px-3 p-4">
             <div class="col-12 d-flex mb-2">
               <div class="text-center col-4 px-4">
                 <label for="mc_lto_certificate_of_registration1" class="form-label">LTO Certificate of Registration (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_lto_certificate_of_registration1" name="mc_lto_certificate_of_registration1" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData1->mc_lto_certificate_of_registration_path) && $mtopData1->mc_lto_certificate_of_registration_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->mc_lto_certificate_of_registration_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_certificate_of_registration1" alt="LTO Certificate of Registration (MC of New Unit)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_certificate_of_registration" data-original-image="' . $mtopData1->mc_lto_certificate_of_registration_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="mc_lto_certificate_of_registration1" id="mc_lto_certificate_of_registration1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_mc_lto_certificate_of_registration1" value="' . ($mtopData1->mc_lto_certificate_of_registration_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="mc_lto_official_receipt1" class="form-label">LTO Official Receipt (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_lto_official_receipt1" name="mc_lto_official_receipt1" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData1->mc_lto_official_receipt_path) && $mtopData1->mc_lto_official_receipt_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->mc_lto_official_receipt_path . '" class="img-fluid rounded fixed-height-image" id="mc_lto_official_receipt1" alt="LTO Official Receipt (MC of New Unit)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_lto_official_receipt" data-original-image="' . $mtopData1->mc_lto_official_receipt_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="mc_lto_official_receipt1" id="mc_lto_official_receipt1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_mc_lto_official_receipt1" value="' . ($mtopData1->mc_lto_official_receipt_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="mc_plate_authorization1" class="form-label">Plate Authorization (MC of New Unit)</label>
-                <input type="file" class="form-control" id="mc_plate_authorization1" name="mc_plate_authorization1" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData1->mc_plate_authorization_path) && $mtopData1->mc_plate_authorization_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->mc_plate_authorization_path . '" class="img-fluid rounded fixed-height-image" id="mc_plate_authorization1" alt="Plate Authorization (MC of New Unit)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="mc_plate_authorization" data-original-image="' . $mtopData1->mc_plate_authorization_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="mc_plate_authorization1" id="mc_plate_authorization1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_mc_plate_authorization1" value="' . ($mtopData1->mc_plate_authorization_path ?? '') . '">';
+                ?>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
               <div class="text-center col-4 px-4">
                 <label for="tc_insurance_policy1" class="form-label">Insurance Policy (TC) (New Owner)</label>
-                <input type="file" class="form-control" id="tc_insurance_policy1" name="tc_insurance_policy1" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData1->tc_insurance_policy_path) && $mtopData1->tc_insurance_policy_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->tc_insurance_policy_path . '" class="img-fluid rounded fixed-height-image" id="tc_insurance_policy1" alt="Insurance Policy (TC) (New Owner)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="tc_insurance_policy" data-original-image="' . $mtopData1->tc_insurance_policy_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="tc_insurance_policy1" id="tc_insurance_policy1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_tc_insurance_policy1" value="' . ($mtopData1->tc_insurance_policy_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="unit_front_view_image1" class="form-label">Picture of New Unit (Front View)</label>
-                <input type="file" class="form-control" id="unit_front_view_image1" name="unit_front_view_image1" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData1->unit_front_view_image_path) && $mtopData1->unit_front_view_image_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->unit_front_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_front_view_image1" alt="Picture of New Unit (Front View)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_front_view_image" data-original-image="' . $mtopData1->unit_front_view_image_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="unit_front_view_image1" id="unit_unit_front_view_image1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_unit_front_view_image1" value="' . ($mtopData1->unit_front_view_image_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="unit_side_view_image1" class="form-label">Picture of New Unit (Side View)</label>
-                <input type="file" class="form-control" id="unit_side_view_image1" name="unit_side_view_image1" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData1->unit_side_view_image_path) && $mtopData1->unit_side_view_image_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->unit_side_view_image_path . '" class="img-fluid rounded fixed-height-image" id="unit_side_view_image1" alt="Picture of New Unit (Side View)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="unit_side_view_image" data-original-image="' . $mtopData1->unit_side_view_image_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="unit_side_view_image1" id="unit_side_view_image1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_unit_side_view_image1" value="' . ($mtopData1->unit_side_view_image_path ?? '') . '">';
+                ?>
               </div>
             </div>
             <div class="col-12 d-flex mb-2">
               <div class="text-center col-4 px-4">
                 <label for="sketch_location_of_garage1" class="form-label">Sketch Location of Garage</label>
-                <input type="file" class="form-control" id="sketch_location_of_garage1" name="sketch_location_of_garage1" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData1->sketch_location_of_garage_path) && $mtopData1->sketch_location_of_garage_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->sketch_location_of_garage_path . '" class="img-fluid rounded fixed-height-image" id="sketch_location_of_garage1" alt="Sketch Location of Garage">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="sketch_location_of_garage" data-original-image="' . $mtopData1->sketch_location_of_garage_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="sketch_location_of_garage1" id="sketch_location_of_garage1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_sketch_location_of_garage1" value="' . ($mtopData1->sketch_location_of_garage_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
-                <label for="latest_franchise1" class="form-label">Latest Franchise</label>
-                <input type="file" class="form-control" id="latest_franchise1" name="latest_franchise1" accept="image/*" required/>
+                <label for="affidavit_of_income_tax_return1" class="form-label">Affidavit of No Income or Latest Income Tax Return</label>
+                <?php
+                  if (isset($mtopData1->affidavit_of_income_tax_return_path) && $mtopData1->affidavit_of_income_tax_return_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->affidavit_of_income_tax_return_path . '" class="img-fluid rounded fixed-height-image" id="affidavit_of_income_tax_return1" alt="Affidavit of No Income or Latest Income Tax Return">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="affidavit_of_income_tax_return" data-original-image="' . $mtopData1->affidavit_of_income_tax_return_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="affidavit_of_income_tax_return1" id="affidavit_of_income_tax_return1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_affidavit_of_income_tax_return1" value="' . ($mtopData1->affidavit_of_income_tax_return_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
                 <label for="driver_cert_safety_driving_seminar1" class="form-label">Driver's Certificate of Safety Driving Seminar</label>
-                <input type="file" class="form-control" id="driver_cert_safety_driving_seminar1" name="driver_cert_safety_driving_seminar1" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData1->driver_cert_safety_driving_seminar_path) && $mtopData1->driver_cert_safety_driving_seminar_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->driver_cert_safety_driving_seminar_path . '" class="img-fluid rounded fixed-height-image" id="driver_cert_safety_driving_seminar1" alt="Driver\'s Certificate of Safety Driving Seminar">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="driver_cert_safety_driving_seminar" data-original-image="' . $mtopData1->driver_cert_safety_driving_seminar_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="driver_cert_safety_driving_seminar1" id="driver_cert_safety_driving_seminar1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_driver_cert_safety_driving_seminar1" value="' . ($mtopData1->driver_cert_safety_driving_seminar_path ?? '') . '">';
+                ?>
               </div>
             </div>
-            <div class="col-12 d-flex">
+            <div class="col-12 d-flex mb-2">
               <div class="text-center col-4 px-4">
                 <label for="proof_of_id1" class="form-label">Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)</label>
-                <input type="file" class="form-control" id="proof_of_id1" name="proof_of_id1" accept="image/*" required/>
+                <?php
+                  if (isset($mtopData1->proof_of_id_path) && $mtopData1->proof_of_id_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->proof_of_id_path . '" class="img-fluid rounded fixed-height-image" id="proof_of_id1" alt="Proof of ID /Residence <br> (Voters/Birth/Baptismal/Marriage Cert.)">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="proof_of_id" data-original-image="' . $mtopData1->proof_of_id_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="proof_of_id1" id="proof_of_id1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_proof_of_id1" value="' . ($mtopData1->proof_of_id_path ?? '') . '">';
+                ?>
               </div>
               <div class="text-center col-4 px-4">
-                <label for="affidavit_of_income_tax_return1" class="form-label">Affidavit of No Income <br> or Latest Income Tax Return</label>
-                <input type="file" class="form-control" id="affidavit_of_income_tax_return1" name="affidavit_of_income_tax_return1" accept="image/*" required/>
+                <label for="latest_franchise1" class="form-label">Latest Franchise</label>
+                <?php
+                  if (isset($mtopData1->latest_franchise_path) && $mtopData1->latest_franchise_path) {
+                    echo '<div class="image-container position-relative">';
+                    echo '<img src="' . $mtopData1->latest_franchise_path . '" class="img-fluid rounded fixed-height-image" id="latest_franchise1" alt="Latest Franchise">';
+                    echo '<button type="button" class="btn-close position-absolute top-0 end-0 m-2 remove-image-btn" data-bs-toggle="modal" data-bs-target="#deleteImageModal" data-image-type="latest_franchise" data-original-image="' . $mtopData1->latest_franchise_path . '" data-mtop-id="' . $mtopData1->mtop_requirement_id . '"></button>';
+                    echo '</div>';
+                  } else {
+                    echo '<div class="image-container">';
+                    echo '<input class="form-control" type="file" name="latest_franchise1" id="latest_franchise1-input" accept="image/*" required>';
+                    echo '</div>';
+                  }
+                ?>
+                <?php
+                  echo '<input type="hidden" name="original_latest_franchise1" value="' . ($mtopData1->latest_franchise_path ?? '') . '">';
+                ?>
               </div>
             </div>
           </div>
         </div>
+      <?php endif; ?>
 
-        <div class="my-3 mt-3">
-          <button type="button" class="text-start sidebar-btnContent-1" onclick="showStep(2)">Previous</button>
-          <button type="submit" class="text-end sidebar-btnContent" name="schedule_appointment" id="scheduleAppointmentBtn">Schedule Appointment</button>
-        </div>
+      <div class="mt-3">
+        <button type="button" class="sidebar-btnContent-1 text-start" onclick="showStep(2)">Previous</button>
+        <button type="submit" class="sidebar-btnContent" name="update_transfer_of_ownership" id="update_transfer_of_ownership">Update</button>
+        <a href="./appointments" class="cancel-btn">Cancel</a>
       </div>
     </section>
 
@@ -199,14 +514,14 @@
         <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
       </button>
       <?php if (isset($tricycleApplicationData[1])): ?>
-        <?php $tricycleApplicationData2 = $tricycleApplicationData[1]; ?>
+        <?php $tricycleData2 = $tricycleApplicationData[1]; ?>
         <div class="content content-form active-content content-container mt-2 mb-3" id="step2form1">
           <div class="row px-3 p-3">
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-5">
                 <label for="operator_name2" class="form-label">Name of Operator</label>
                 <div class="input-group">
-                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name2" name="operator_name2" value="<?php echo isset($_POST['operator_name']) ? $_POST['operator_name'] : $fullName; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile." readonly>
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name2" name="operator_name2" value="<?php echo isset($tricycleData2->operator_name) ? $tricycleData2->operator_name : ''; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile." readonly>
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
@@ -216,7 +531,7 @@
                 <label for="tricycle_phone_number2" class="form-label">Phone Number</label>
                 <div class="input-group">
                   <span class="input-group-text">+63</span>
-                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number2" name="tricycle_phone_number2" placeholder="e.g., 9123456789" value="<?php echo isset($_POST['tricycle_phone_number']) ? $_POST['tricycle_phone_number'] : $userPhoneNo; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number2" name="tricycle_phone_number2" placeholder="e.g., 9123456789" value="<?php echo isset($tricycleData2->tricycle_phone_number) ? $tricycleData2->tricycle_phone_number : ''; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
@@ -225,7 +540,7 @@
               <div class="col-4 px-5">
                 <label for="address2" class="form-label">Address</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" style="cursor: pointer;" id="address2" name="address2" value="<?php echo isset($_POST['address']) ? $_POST['address'] : $userAddress; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
+                  <input type="text" class="form-control" style="cursor: pointer;" id="address2" name="address2" value="<?php echo isset($tricycleData2->address) ? $tricycleData2->address : ''; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
@@ -236,22 +551,22 @@
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-5">
                 <label for="mtop_no2" class="form-label">MTOP Number</label>
-                <input type="text" class="form-control" id="mtop_no2" name="mtop_no2" value="<?= isset($_POST['mtop_no']) ? $_POST['mtop_no'] : $tricycleApplicationData2->mtop_no; ?>" min="0" required>
+                <input type="text" class="form-control" id="mtop_no2" name="mtop_no2" value="<?php echo isset($tricycleData2->mtop_no) ? $tricycleData2->mtop_no : ''; ?>" min="0" required>
               </div>
               <div class="col-4 px-5">
                 <label for="color_code2" class="form-label">Color Code</label>
                 <select class="form-control" id="color_code2" name="color_code2" required>
                   <option selected disabled>Please Select Here</option>
-                  <option value="Red" data-route-area2="Free Zone / Zone 2" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Red') ? 'selected' : (($tricycleApplicationData2->color_code == 'Red') ? 'selected' : ''); ?>>Red</option>
-                  <option value="Blue" data-route-area2="Free Zone & Zone 2" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue') ? 'selected' : (($tricycleApplicationData2->color_code == 'Blue') ? 'selected' : ''); ?>>Blue</option>
-                  <option value="Yellow" data-route-area2="Free Zone & Zone 3" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow') ? 'selected' : (($tricycleApplicationData2->color_code == 'Yellow') ? 'selected' : ''); ?>>Yellow</option>
-                  <option value="Green" data-route-area2="Free Zone & Zone 4" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Green') ? 'selected' : (($tricycleApplicationData2->color_code == 'Green') ? 'selected' : ''); ?>>Green</option>
+                  <option value="Red" data-route-area2="Free Zone / Zone 1" <?php echo (isset($tricycleData2->color_code) && $tricycleData2->color_code == 'Red' ? 'selected' : ''); ?>>Red</option>
+                  <option value="Blue" data-route-area2="Free Zone & Zone 2" <?php echo (isset($tricycleData2->color_code) && $tricycleData2->color_code == 'Blue' ? 'selected' : ''); ?>>Blue</option>
+                  <option value="Yellow" data-route-area2="Free Zone & Zone 3" <?php echo (isset($tricycleData2->color_code) && $tricycleData2->color_code == 'Yellow' ? 'selected' : ''); ?>>Yellow</option>
+                  <option value="Green" data-route-area2="Free Zone & Zone 4" <?php echo (isset($tricycleData2->color_code) && $tricycleData2->color_code == 'Green' ? 'selected' : ''); ?>>Green</option>
                 </select>
               </div>
               <div class="col-4 px-5">
                 <label for="route_area2" class="form-label">Route Area</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="route_area2" name="route_area2" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?= (isset($_POST['route_area']) ? $_POST['route_area'] : ($tricycleApplicationData2->route_area ?? '')); ?>" readonly required>
+                  <input type="text" class="form-control" id="route_area2" name="route_area2" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?php echo isset($tricycleData2->route_area) ? $tricycleData2->route_area : ''; ?>" readonly required>
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
@@ -262,36 +577,36 @@
             <div class="col-12 d-flex mb-5">
               <div class="col-4 px-5">
                 <label for="make_model2" class="form-label">Make Model</label>
-                <input type="text" class="form-control" id="make_model2" name="make_model2" value="<?= (isset($_POST['make_model']) ? $_POST['make_model'] : ($tricycleApplicationData2->make_model ?? '')); ?>" required>
+                <input type="text" class="form-control" id="make_model2" name="make_model2"  value="<?php echo isset($tricycleData2->make_model) ? $tricycleData2->make_model : ''; ?>" required>
               </div>
               <div class="col-4 px-5">
                 <label for="make_model_year_acquired2" class="form-label">Model Year Acquired</label>
-                <input type="text" class="form-control text-uppercase" id="make_model_year_acquired2" name="make_model_year_acquired2" value="<?= (isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ($tricycleApplicationData2->make_model_year_acquired ?? '')); ?>" required>
+                <input type="text" class="form-control text-uppercase" id="make_model_year_acquired2" name="make_model_year_acquired2" value="<?php echo isset($tricycleData2->make_model_year_acquired) ? $tricycleData2->make_model_year_acquired : ''; ?>" required>
               </div>
               <div class="col-4 px-5">
                 <label for="make_model_expiry_date2" class="form-label">Model Expiry Date</label>
-                <input type="date" class="form-control text-uppercase" id="make_model_expiry_date2" name="make_model_expiry_date2" value="<?= (isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ($tricycleApplicationData2->make_model_expiry_date ?? '')); ?>" required>
+                <input type="date" class="form-control text-uppercase" id="make_model_expiry_date2" name="make_model_expiry_date2" value="<?php echo isset($tricycleData2->make_model_expiry_date) ? $tricycleData2->make_model_expiry_date : ''; ?>" required>
               </div>
             </div>
 
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-5">
                 <label for="motor_number2" class="form-label">Motor Number</label>
-                <input type="text" class="form-control" id="motor_number2" name="motor_number2" value="<?= (isset($_POST['motor_number']) ? $_POST['motor_number'] : ($tricycleApplicationData2->motor_number ?? '')); ?>" min="0" required>
+                <input type="text" class="form-control" id="motor_number2" name="motor_number2" value="<?php echo isset($tricycleData2->motor_number) ? $tricycleData2->motor_number : ''; ?>" min="0" required>
               </div>
               <div class="col-4 px-5">
                 <label for="insurer2" class="form-label">Insurer</label>
-                <input type="text" class="form-control" id="insurer2" name="insurer2" value="<?= (isset($_POST['insurer']) ? $_POST['insurer'] : ($tricycleApplicationData2->insurer ?? '')); ?>" required>
+                <input type="text" class="form-control" id="insurer2" name="insurer2" value="<?php echo isset($tricycleData2->insurer) ? $tricycleData2->insurer : ''; ?>" required>
               </div>
-              <?php if (!empty($tricycleApplicationData2['cin_number'])): ?>
+              <?php if (!empty($tricycleData2->tricycle_cin_number_id)): ?>
                 <div class="col-4 px-5">
                   <label for="tricycle_cin_number_id2" class="form-label">Tricycle CIN</label>                          
                   <div class="input-group">
-                    <input type="text" class="form-control" id="tricycle_cin_number_id2" name="tricycle_cin_number_id2" value="<?= $tricycleApplicationData2['cin_number'] ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
-                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                      <i class="fa-solid fa-info-circle"></i>
-                    </span>
-                  </div>
+                  <input type="text" class="form-control" id="tricycle_cin_number_id2" name="tricycle_cin_number_id2" value="<?= $tricycleData2->tricycle_cin_number_id ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
+                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                    <i class="fa-solid fa-info-circle"></i>
+                  </span>
+                </div>
                 </div>
               <?php else: ?>
                 <div class="col-4 px-5">
@@ -299,37 +614,36 @@
                   <input type="text" class="form-control" id="tricycle_cin_number_id2" name="tricycle_cin_number_id2" value="" data-toggle="tooltip" data-bs-placement="top" title="No available Tricycle CIN numbers." readonly disabled>
                 </div>
               <?php endif; ?>
-
             </div>
 
             <div class="col-12 d-flex mb-5">
               <div class="col-4 px-5">
                 <label for="coc_no2" class="form-label">C.O.C Number</label>
-                <input type="text" class="form-control" id="coc_no2" name="coc_no2" value="<?= (isset($tricycleApplicationData2->coc_no) ? $tricycleApplicationData2->coc_no : (isset($_POST['coc_no']) ? $_POST['coc_no'] : '')); ?>" min="0" required>
+                <input type="text" class="form-control" id="coc_no2" name="coc_no2" value="<?php echo isset($tricycleData2->coc_no) ? $tricycleData2->coc_no : ''; ?>" min="0" required>
               </div>
               <div class="col-4 px-5">
                 <label for="coc_no_expiry_date2" class="form-label">C.O.C Expiry Date</label>
-                <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date2" name="coc_no_expiry_date2" value="<?= (isset($tricycleApplicationData2->coc_no_expiry_date) ? $tricycleApplicationData2->coc_no_expiry_date : (isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : '')); ?>" required>
+                <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date2" name="coc_no_expiry_date2" value="<?php echo isset($tricycleData2->coc_no_expiry_date) ? $tricycleData2->coc_no_expiry_date : ''; ?>" required>
               </div>
             </div>
 
             <div class="col-12 d-flex mb-2">
-              <?php if (!empty($tricycleApplicationData2['cin_number'])): ?>
+              <?php if (!empty($tricycleData2->tricycle_cin_number_id)): ?>
                 <div class="col-4 px-5">
                   <label for="lto_cr_no2" class="form-label">LTO CR Number</label>
-                  <input type="text" class="form-control" id="lto_cr_no2" name="lto_cr_no2" value="<?= (isset($tricycleApplicationData2->lto_cr_no) ? $tricycleApplicationData2->lto_cr_no : (isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : '')); ?>" required>
+                  <input type="text" class="form-control" id="lto_cr_no2" name="lto_cr_no2" value="<?php echo isset($tricycleData2->lto_cr_no) ? $tricycleData2->lto_cr_no : ''; ?>" required>
                 </div>
                 <div class="col-4 px-5">
                   <label for="lto_or_no2" class="form-label">LTO OR Number</label>
-                  <input type="text" class="form-control text-uppercase" id="lto_or_no2" name="lto_or_no2" value="<?= (isset($tricycleApplicationData2->lto_or_no) ? $tricycleApplicationData2->lto_or_no : (isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : '')); ?>" required>
+                  <input type="text" class="form-control text-uppercase" id="lto_or_no2" name="lto_or_no2" value="<?php echo isset($tricycleData2->lto_or_no) ? $tricycleData2->lto_or_no : ''; ?>" required>
                 </div>
 
-                <?php if (!empty($tricycleApplicationData2['driverData'][0])): ?>
-                  <?php $driver = $tricycleApplicationData2['driverData'][0]; ?>
+                <?php if (!empty($driverDataArray)): ?>
+                  <?php $driver = $driverDataArray[1]; ?>
                   <div class="col-4 px-5">
                     <label for="driver_id1" class="form-label">Name of Driver</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" id="driver_id1" name="driver_id1" value="<?= $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
+                      <input type="text" class="form-control" id="driver_id1" name="driver_id1" value=" <?= $driver['driver_name']; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
                       <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                         <i class="fa-solid fa-info-circle"></i>
                       </span>
@@ -363,12 +677,12 @@
             </div>
 
             <div class="col-12 d-flex mb-2">
-              <?php if (!empty($tricycleApplicationData2['driverData'][0])): ?>
-                <?php $driver = $tricycleApplicationData2['driverData'][0]; ?>
+              <?php if (!empty($driverDataArray)): ?>
+                <?php $driver = $driverDataArray[1]; ?>
                 <div class="col-4 px-5">
                   <label for="driver_license_no1" class="form-label">Driver License Number</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" id="driver_license_no1" name="driver_license_no1" value="<?= $driver->license_no ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
+                    <input type="text" class="form-control" id="driver_license_no1" name="driver_license_no1" value="<?= $driver['driver_license_no']; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
                     <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                       <i class="fa-solid fa-info-circle"></i>
                     </span>
@@ -377,7 +691,7 @@
                 <div class="col-4 px-5">
                   <label for="driver_license_expiry_date1" class="form-label">License Expiry Date</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" id="driver_license_expiry_date1" name="driver_license_expiry_date1" value="<?= $driver->license_expiry_date ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date" readonly required>
+                    <input type="text" class="form-control" id="driver_license_expiry_date1" name="driver_license_expiry_date1"  value="<?= $driver['driver_license_expiry_date']; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date" readonly required>
                     <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                       <i class="fa-solid fa-info-circle"></i>
                     </span>
@@ -410,14 +724,14 @@
         <span class="float-right"><i class="fa-solid fa-circle-chevron-down"></i></span>
       </button>
       <?php if (isset($tricycleApplicationData[0])): ?>
-        <?php $tricycleApplicationData1 = $tricycleApplicationData[0]; ?>
-        <div class="content content-form content-container mt-2 mb-3" id="step2form2"  style="display:none;">
+        <?php $tricycleData1 = $tricycleApplicationData[0]; ?>
+        <div class="content content-form active-content content-container mt-2 mb-3" id="step2form1" style="display: none;">
           <div class="row px-3 p-3">
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-5">
                 <label for="operator_name1" class="form-label">Name of Operator</label>
                 <div class="input-group">
-                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name1" name="operator_name1" value="<?php echo isset($_POST['operator_name']) ? $_POST['operator_name'] : $fullName; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile." readonly>
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="operator_name1" name="operator_name1" value="<?php echo isset($tricycleData1->operator_name) ? $tricycleData1->operator_name : ''; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile." readonly>
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Default operator name. This field is read-only. To update, please go to Manage Profile.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
@@ -427,7 +741,7 @@
                 <label for="tricycle_phone_number1" class="form-label">Phone Number</label>
                 <div class="input-group">
                   <span class="input-group-text">+63</span>
-                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number1" name="tricycle_phone_number1" placeholder="e.g., 9123456789" value="<?php echo isset($_POST['tricycle_phone_number']) ? $_POST['tricycle_phone_number'] : $userPhoneNo; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
+                  <input type="text" class="form-control phone-no" style="cursor: pointer;" id="tricycle_phone_number1" name="tricycle_phone_number1" placeholder="e.g., 9123456789" value="<?php echo isset($tricycleData1->tricycle_phone_number) ? $tricycleData1->tricycle_phone_number : ''; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default phone number. This field is read-only. To update, please go to Manage Profile.">
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
@@ -436,7 +750,7 @@
               <div class="col-4 px-5">
                 <label for="address1" class="form-label">Address</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" style="cursor: pointer;" id="address1" name="address1" value="<?php echo isset($_POST['address']) ? $_POST['address'] : $userAddress; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
+                  <input type="text" class="form-control" style="cursor: pointer;" id="address1" name="address1" value="<?php echo isset($tricycleData1->address) ? $tricycleData1->address : ''; ?>" required readonly data-toggle="tooltip" data-bs-placement="top" title="Default address. This field is read-only. To update, please go to Manage Profile.">
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
@@ -447,22 +761,22 @@
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-5">
                 <label for="mtop_no1" class="form-label">MTOP Number</label>
-                <input type="text" class="form-control" id="mtop_no1" name="mtop_no1" value="<?= isset($_POST['mtop_no']) ? $_POST['mtop_no'] : $tricycleApplicationData1->mtop_no; ?>" min="0" required>
+                <input type="text" class="form-control" id="mtop_no1" name="mtop_no1" value="<?php echo isset($tricycleData1->mtop_no) ? $tricycleData1->mtop_no : ''; ?>" min="0" required>
               </div>
               <div class="col-4 px-5">
                 <label for="color_code1" class="form-label">Color Code</label>
                 <select class="form-control" id="color_code1" name="color_code1" required>
                   <option selected disabled>Please Select Here</option>
-                  <option value="Red" data-route-area1="Free Zone / Zone 1" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Red') ? 'selected' : (($tricycleApplicationData1->color_code == 'Red') ? 'selected' : ''); ?>>Red</option>
-                  <option value="Blue" data-route-area1="Free Zone & Zone 1" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Blue') ? 'selected' : (($tricycleApplicationData1->color_code == 'Blue') ? 'selected' : ''); ?>>Blue</option>
-                  <option value="Yellow" data-route-area1="Free Zone & Zone 3" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Yellow') ? 'selected' : (($tricycleApplicationData1->color_code == 'Yellow') ? 'selected' : ''); ?>>Yellow</option>
-                  <option value="Green" data-route-area1="Free Zone & Zone 4" <?= (isset($_POST['color_code']) && $_POST['color_code'] == 'Green') ? 'selected' : (($tricycleApplicationData1->color_code == 'Green') ? 'selected' : ''); ?>>Green</option>
+                  <option value="Red" data-route-area2="Free Zone / Zone 1" <?php echo (isset($tricycleData1->color_code) && $tricycleData1->color_code == 'Red' ? 'selected' : ''); ?>>Red</option>
+                  <option value="Blue" data-route-area2="Free Zone & Zone 1" <?php echo (isset($tricycleData1->color_code) && $tricycleData1->color_code == 'Blue' ? 'selected' : ''); ?>>Blue</option>
+                  <option value="Yellow" data-route-area2="Free Zone & Zone 3" <?php echo (isset($tricycleData1->color_code) && $tricycleData1->color_code == 'Yellow' ? 'selected' : ''); ?>>Yellow</option>
+                  <option value="Green" data-route-area2="Free Zone & Zone 4" <?php echo (isset($tricycleData1->color_code) && $tricycleData1->color_code == 'Green' ? 'selected' : ''); ?>>Green</option>
                 </select>
               </div>
               <div class="col-4 px-5">
                 <label for="route_area1" class="form-label">Route Area</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="route_area1" name="route_area1" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?= (isset($_POST['route_area']) ? $_POST['route_area'] : ($tricycleApplicationData1->route_area ?? '')); ?>" readonly required>
+                  <input type="text" class="form-control" id="route_area1" name="route_area1" style="cursor:pointer;" placeholder="Select Color Code First" data-toggle="tooltip" data-bs-placement="top" title="Please choose a Color Code to determine the Route Area for the tricycle. This field is read-only." value="<?php echo isset($tricycleData1->route_area) ? $tricycleData1->route_area : ''; ?>" readonly required>
                   <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                     <i class="fa-solid fa-info-circle"></i>
                   </span>
@@ -473,36 +787,36 @@
             <div class="col-12 d-flex mb-5">
               <div class="col-4 px-5">
                 <label for="make_model1" class="form-label">Make Model</label>
-                <input type="text" class="form-control" id="make_model1" name="make_model1" value="<?= (isset($_POST['make_model']) ? $_POST['make_model'] : ($tricycleApplicationData1->make_model ?? '')); ?>" required>
+                <input type="text" class="form-control" id="make_model1" name="make_model1"  value="<?php echo isset($tricycleData1->make_model) ? $tricycleData1->make_model : ''; ?>" required>
               </div>
               <div class="col-4 px-5">
                 <label for="make_model_year_acquired1" class="form-label">Model Year Acquired</label>
-                <input type="text" class="form-control text-uppercase" id="make_model_year_acquired1" name="make_model_year_acquired1" value="<?= (isset($_POST['make_model_year_acquired']) ? $_POST['make_model_year_acquired'] : ($tricycleApplicationData1->make_model_year_acquired ?? '')); ?>" required>
+                <input type="text" class="form-control text-uppercase" id="make_model_year_acquired1" name="make_model_year_acquired1" value="<?php echo isset($tricycleData1->make_model_year_acquired) ? $tricycleData1->make_model_year_acquired : ''; ?>" required>
               </div>
               <div class="col-4 px-5">
                 <label for="make_model_expiry_date1" class="form-label">Model Expiry Date</label>
-                <input type="date" class="form-control text-uppercase" id="make_model_expiry_date1" name="make_model_expiry_date1" value="<?= (isset($_POST['make_model_expiry_date']) ? $_POST['make_model_expiry_date'] : ($tricycleApplicationData1->make_model_expiry_date ?? '')); ?>" required>
+                <input type="date" class="form-control text-uppercase" id="make_model_expiry_date1" name="make_model_expiry_date1" value="<?php echo isset($tricycleData1->make_model_expiry_date) ? $tricycleData1->make_model_expiry_date : ''; ?>" required>
               </div>
             </div>
 
             <div class="col-12 d-flex mb-2">
               <div class="col-4 px-5">
                 <label for="motor_number1" class="form-label">Motor Number</label>
-                <input type="text" class="form-control" id="motor_number1" name="motor_number1" value="<?= (isset($_POST['motor_number']) ? $_POST['motor_number'] : ($tricycleApplicationData1->motor_number ?? '')); ?>" min="0" required>
+                <input type="text" class="form-control" id="motor_number1" name="motor_number1" value="<?php echo isset($tricycleData1->motor_number) ? $tricycleData1->motor_number : ''; ?>" min="0" required>
               </div>
               <div class="col-4 px-5">
                 <label for="insurer1" class="form-label">Insurer</label>
-                <input type="text" class="form-control" id="insurer1" name="insurer1" value="<?= (isset($_POST['insurer']) ? $_POST['insurer'] : ($tricycleApplicationData1->insurer ?? '')); ?>" required>
+                <input type="text" class="form-control" id="insurer1" name="insurer1" value="<?php echo isset($tricycleData1->insurer) ? $tricycleData1->insurer : ''; ?>" required>
               </div>
-              <?php if (!empty($tricycleApplicationData1['cin_number'])): ?>
+              <?php if (!empty($tricycleData1->tricycle_cin_number_id)): ?>
                 <div class="col-4 px-5">
                   <label for="tricycle_cin_number_id1" class="form-label">Tricycle CIN</label>                          
                   <div class="input-group">
-                    <input type="text" class="form-control" id="tricycle_cin_number_id1" name="tricycle_cin_number_id1" value="<?= $tricycleApplicationData1['cin_number'] ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
-                    <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
-                      <i class="fa-solid fa-info-circle"></i>
-                    </span>
-                  </div>
+                  <input type="text" class="form-control" id="tricycle_cin_number_id1" name="tricycle_cin_number_id1" value="<?= $tricycleData1->tricycle_cin_number_id ?>" data-toggle="tooltip" data-bs-placement="top" title="Default tricycle CIN." readonly required>
+                  <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
+                    <i class="fa-solid fa-info-circle"></i>
+                  </span>
+                </div>
                 </div>
               <?php else: ?>
                 <div class="col-4 px-5">
@@ -515,31 +829,31 @@
             <div class="col-12 d-flex mb-5">
               <div class="col-4 px-5">
                 <label for="coc_no1" class="form-label">C.O.C Number</label>
-                <input type="text" class="form-control" id="coc_no1" name="coc_no1" value="<?= (isset($tricycleApplicationData1->coc_no) ? $tricycleApplicationData1->coc_no : (isset($_POST['coc_no']) ? $_POST['coc_no'] : '')); ?>" min="0" required>
+                <input type="text" class="form-control" id="coc_no1" name="coc_no1" value="<?php echo isset($tricycleData1->coc_no) ? $tricycleData1->coc_no : ''; ?>" min="0" required>
               </div>
               <div class="col-4 px-5">
                 <label for="coc_no_expiry_date1" class="form-label">C.O.C Expiry Date</label>
-                <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date1" name="coc_no_expiry_date1" value="<?= (isset($tricycleApplicationData1->coc_no_expiry_date) ? $tricycleApplicationData1->coc_no_expiry_date : (isset($_POST['coc_no_expiry_date']) ? $_POST['coc_no_expiry_date'] : '')); ?>" required>
+                <input type="date" class="form-control text-uppercase" id="coc_no_expiry_date1" name="coc_no_expiry_date1" value="<?php echo isset($tricycleData1->coc_no_expiry_date) ? $tricycleData1->coc_no_expiry_date : ''; ?>" required>
               </div>
             </div>
 
             <div class="col-12 d-flex mb-2">
-              <?php if (!empty($tricycleApplicationData1['cin_number'])): ?>
+              <?php if (!empty($tricycleData1->tricycle_cin_number_id)): ?>
                 <div class="col-4 px-5">
                   <label for="lto_cr_no1" class="form-label">LTO CR Number</label>
-                  <input type="text" class="form-control" id="lto_cr_no1" name="lto_cr_no1" value="<?= (isset($tricycleApplicationData1->lto_cr_no) ? $tricycleApplicationData1->lto_cr_no : (isset($_POST['lto_cr_no']) ? $_POST['lto_cr_no'] : '')); ?>" required>
+                  <input type="text" class="form-control" id="lto_cr_no1" name="lto_cr_no1" value="<?php echo isset($tricycleData1->lto_cr_no) ? $tricycleData1->lto_cr_no : ''; ?>" required>
                 </div>
                 <div class="col-4 px-5">
                   <label for="lto_or_no1" class="form-label">LTO OR Number</label>
-                  <input type="text" class="form-control text-uppercase" id="lto_or_no1" name="lto_or_no1" value="<?= (isset($tricycleApplicationData1->lto_or_no) ? $tricycleApplicationData1->lto_or_no : (isset($_POST['lto_or_no']) ? $_POST['lto_or_no'] : '')); ?>" required>
+                  <input type="text" class="form-control text-uppercase" id="lto_or_no1" name="lto_or_no1" value="<?php echo isset($tricycleData1->lto_or_no) ? $tricycleData1->lto_or_no : ''; ?>" required>
                 </div>
 
-                <?php if (!empty($tricycleApplicationData1['driverData'][0])): ?>
-                  <?php $driver = $tricycleApplicationData1['driverData'][0]; ?>
+                <?php if (!empty($driverDataArray)): ?>
+                  <?php $driver = $driverDataArray[0]; ?>
                   <div class="col-4 px-5">
                     <label for="driver_id1" class="form-label">Name of Driver</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" id="driver_id1" name="driver_id1" value="<?= $driver->first_name . ' ' . $driver->middle_name . ' ' . $driver->last_name ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
+                      <input type="text" class="form-control" id="driver_id1" name="driver_id1" value=" <?= $driver['driver_name']; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver Name." readonly required>
                       <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                         <i class="fa-solid fa-info-circle"></i>
                       </span>
@@ -573,12 +887,12 @@
             </div>
 
             <div class="col-12 d-flex mb-2">
-              <?php if (!empty($tricycleApplicationData1['driverData'][0])): ?>
-                <?php $driver = $tricycleApplicationData1['driverData'][0]; ?>
+              <?php if (!empty($driverDataArray)): ?>
+                <?php $driver = $driverDataArray[0]; ?>
                 <div class="col-4 px-5">
                   <label for="driver_license_no1" class="form-label">Driver License Number</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" id="driver_license_no1" name="driver_license_no1" value="<?= $driver->license_no ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
+                    <input type="text" class="form-control" id="driver_license_no1" name="driver_license_no1" value="<?= $driver['driver_license_no']; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License No." readonly required>
                     <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                       <i class="fa-solid fa-info-circle"></i>
                     </span>
@@ -587,7 +901,7 @@
                 <div class="col-4 px-5">
                   <label for="driver_license_expiry_date1" class="form-label">License Expiry Date</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" id="driver_license_expiry_date1" name="driver_license_expiry_date1" value="<?= $driver->license_expiry_date ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date" readonly required>
+                    <input type="text" class="form-control" id="driver_license_expiry_date1" name="driver_license_expiry_date1"  value="<?= $driver['driver_license_expiry_date']; ?>" data-toggle="tooltip" data-bs-placement="top" title="Default Driver License Expiry Date" readonly required>
                     <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="This field is read-only.">
                       <i class="fa-solid fa-info-circle"></i>
                     </span>
@@ -607,7 +921,6 @@
           </div>
         </div>
       <?php endif; ?>
-
 
       <div class="mt-3">
         <button type="button" class="sidebar-btnContent-1 text-start" onclick="showStep(1)">Previous</button>
@@ -764,8 +1077,85 @@
     </section>
   </form>
 </main>
+
+<!-- Delete Image Modal -->
+<div class="modal fade" id="deleteImageModal" tabindex="-1" aria-labelledby="deleteImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteImageModalLabel">Delete Image Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST">
+        <input type="hidden" name="mtop_id" id="mtopIdInput">
+        <input type="hidden" name="image_type" id="imageTypeInput">
+        <input type="hidden" name="original_image_path" id="originalImagePathInput">
+        <div class="modal-body text-center">
+          <p class="pt-1 mt-1">Are you sure you want to delete this image?</p>
+          <img src="" id="imagePreview" style="max-width: 100%; max-height: 300px;">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger" name="confirm_delete_image">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <script src="public/assets/js/appointments_form_toggle2.js"></script>
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function updateDropdown(changedDropdownId) {
+      var changedDropdown = document.getElementById(changedDropdownId);
+      var oppositeDropdownId = (changedDropdownId === "tricycle_cin_number_id1") ? "tricycle_cin_number_id2" : "tricycle_cin_number_id1";
+      var oppositeDropdown = document.getElementById(oppositeDropdownId);
+
+      if (changedDropdown && oppositeDropdown) {
+        var selectedValue = changedDropdown.value;
+        var oppositeOptions = oppositeDropdown.querySelectorAll('option');
+
+        oppositeOptions.forEach(function(option) {
+          if (option.value === selectedValue) {
+            option.disabled = true;
+            option.style.display = 'none';
+            option.hidden = true;
+          } else {
+            option.disabled = false;
+            option.style.display = 'block';
+          }
+        });
+      }
+    }
+
+    function addDropdownEventListener(dropdownId) {
+      var dropdown = document.getElementById(dropdownId);
+      if (dropdown) {
+        dropdown.addEventListener('change', function() {
+          updateDropdown(dropdownId);
+        });
+      }
+    }
+
+    function addButtonEventListener(btnId, dropdownId) {
+      var button = document.getElementById(btnId);
+      var dropdown = document.getElementById(dropdownId);
+      
+      if (button && dropdown) {
+        button.addEventListener('click', function() {
+          if (dropdown.value !== null) {
+            updateDropdown(dropdownId);
+          }
+        });
+      }
+    }
+
+    addDropdownEventListener('tricycle_cin_number_id1');
+    addDropdownEventListener('tricycle_cin_number_id2');
+
+    addButtonEventListener('step2btnform1', 'tricycle_cin_number_id1');
+    addButtonEventListener('step2btnform2', 'tricycle_cin_number_id2');
+  });
+
   $(document).ready(function () {
     function updateAssessmentFee1() {
       let selectedColorCode = $("#color_code1").val();
@@ -931,5 +1321,27 @@
         });
       });
     }
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var deleteImageModal = document.getElementById('deleteImageModal');
+    deleteImageModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget;
+      var imageType = button.getAttribute('data-image-type');
+      var originalImagePath = button.getAttribute('data-original-image');
+      var mtopId = button.getAttribute('data-mtop-id');
+
+      // Update the modal's hidden input values
+      var mtopIdInput = deleteImageModal.querySelector('#mtopIdInput');
+      var imageTypeInput = deleteImageModal.querySelector('#imageTypeInput');
+      var originalImagePathInput = deleteImageModal.querySelector('#originalImagePathInput');
+      mtopIdInput.value = mtopId;
+      imageTypeInput.value = imageType;
+      originalImagePathInput.value = originalImagePath;
+
+      // Update the image preview
+      var imagePreview = deleteImageModal.querySelector('#imagePreview');
+      imagePreview.src = originalImagePath;
+    });
   });
 </script>

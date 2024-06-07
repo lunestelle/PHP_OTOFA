@@ -22,13 +22,19 @@
                           <div class="row-1">
                             <!-- New Franchise -->
                             <div class="new-appointment-selection rounded-3 mb-4">
-                              <input type="radio" id="newFranchise" name="appointmentType" value="New Franchise" <?php echo ($data['userHasCin'] && !$data['allCinNumbersUsed']) ? '' : 'disabled'; ?>>
+                              <input type="radio" id="newFranchise" name="appointmentType" value="New Franchise" 
+                                <?php echo (!$data['allCinNumbersUsed'] && $data['tricycleCount'] < 3) ? '' : 'disabled'; ?>>
                               <label for="newFranchise">New Franchise</label>
                             </div>
                             <!-- Renewal of Franchise (if user has CIN) -->
                             <?php if ($userHasCin) { ?>
                               <div class="new-appointment-selection rounded-3">
                                 <input type="radio" id="renewalFranchise" name="appointmentType" value="Renewal of Franchise" <?php echo $userHasRenewalStatus ? '' : 'disabled'; ?>>
+                                <label for="renewalFranchise">Renewal of Franchise</label>
+                              </div>
+                            <?php } else { ?>
+                              <div class="new-appointment-selection rounded-3">
+                                <input type="radio" id="renewalFranchise" name="appointmentType" value="Renewal of Franchise" disabled>
                                 <label for="renewalFranchise">Renewal of Franchise</label>
                               </div>
                             <?php } ?>
@@ -43,6 +49,16 @@
                               <!-- Transfer of Ownership -->
                               <div class="new-appointment-selection rounded-3">
                                 <input type="radio" id="transferOwnership" name="appointmentType" value="Transfer of Ownership">
+                                <label for="transferOwnership">Transfer of Ownership</label>
+                              </div>
+                            <?php } else { ?>
+                              <div class="new-appointment-selection rounded-3 mb-4">
+                                <input type="radio" id="changeMotorcycle" name="appointmentType" value="Change of Motorcycle" disabled>
+                                <label for="changeMotorcycle">Change of Motorcycle</label>
+                              </div>
+                              <!-- Transfer of Ownership -->
+                              <div class="new-appointment-selection rounded-3">
+                                <input type="radio" id="transferOwnership" name="appointmentType" value="Transfer of Ownership" disabled>
                                 <label for="transferOwnership">Transfer of Ownership</label>
                               </div>
                             <?php } ?>
@@ -361,8 +377,12 @@
       const visibleContainerId = $(".content-container:visible").attr("id");
       const appointmentType = $("input[name='appointmentType']:checked").val();
       const numberOfTricycles = parseInt($("#numberOfTricycles").val().trim());
-      const maxTricycles = parseInt($("#numberOfTricycles").attr("max"));
-      const minTricycles = parseInt($("#numberOfTricycles").attr("min"));
+      // const maxTricycles = parseInt($("#numberOfTricycles").attr("max"));
+      // const minTricycles = parseInt($("#numberOfTricycles").attr("min"));
+
+      const maxTricyclesAllowed = 3; // The maximum number of tricycles an operator can own
+      const currentTricyclesOwned = <?php echo $data['tricycleCount']; ?>;  
+      const maxTricycles = maxTricyclesAllowed - currentTricyclesOwned;
 
       // Check if the visible container is noOfTricyclesContainer
       if (visibleContainerId === "noOfTricyclesContainer") {
@@ -402,8 +422,12 @@
             
             if (numberOfTricycles <= 0) {
               displayTricycleErrorMessage("Error: Number of tricycles must be greater than 0");
-            } else if (numberOfTricycles  > maxTricycles) {
+            } else if (numberOfTricycles > maxTricyclesAllowed) {
               displayTricycleErrorMessage("Error: The number of tricycles inputted exceeds the allowed limit of tricycle CINs an operator can own.");
+            } else if (numberOfTricycles + currentTricyclesOwned > maxTricyclesAllowed) {
+              displayTricycleErrorMessage(`Error: You can only own up to ${maxTricyclesAllowed} tricycles in total. You already own ${currentTricyclesOwned}.`);
+            } else if (numberOfTricycles > maxTricycles) {
+              displayTricycleErrorMessage(`Error: You can add up to ${maxTricycles} more tricycles.`);
             }
           }
         } else if (appointmentType === "Change of Motorcycle" || appointmentType === "Renewal of Franchise" || appointmentType === "Transfer of Ownership") {
@@ -427,7 +451,7 @@
             hideTricycleErrorMessage();
           }
 
-          if (numberOfTricycles > 0 && numberOfTricycles <= maxTricycles) {
+          if (numberOfTricycles > 0 && numberOfTricycles <= maxTricyclesAllowed && numberOfTricycles <= currentTricyclesOwned) {
             // Number of tricycles is within the limit, enable nextBtn
             $("#nextBtn").prop("disabled", false).removeClass("d-none").removeAttr("style");
             hideTricycleErrorMessage(); // Hide any existing error message
@@ -442,8 +466,10 @@
 
             if (numberOfTricycles <= 0) {
               displayTricycleErrorMessage("Error: Number of tricycles must be greater than 0");
-            } else if (numberOfTricycles  > maxTricycles) {
+            } else if (numberOfTricycles > maxTricyclesAllowed) {
               displayTricycleErrorMessage("Error: The number of tricycles inputted exceeds the allowed limit of tricycle CINs an operator can own.");
+            } else if (numberOfTricycles > currentTricyclesOwned) {
+              displayTricycleErrorMessage(`Error: You can only transfer ownership of up to ${currentTricyclesOwned} tricycle CINs, as that is the total number of tricycles you currently own.`);
             }
           }
         }
@@ -466,6 +492,9 @@
       const transferType = $("input[name='transferType']:checked").val();
       const tricycleCin = $("#tricycleCin").val();
       const noOfTricycle = $("input[name='numberOfTricycles']").val();
+      const maxTricyclesAllowed = 3; // The maximum number of tricycles an operator can own
+      const currentTricyclesOwned = <?php echo $data['tricycleCount']; ?>;  
+      const maxTricycles = maxTricyclesAllowed - currentTricyclesOwned;
 
       $("#" + visibleContainerId).hide();
 
@@ -474,7 +503,7 @@
         if (appointmentType === "New Franchise") {
           $("#noOfTricyclesContainer, #prevBtn, #scheduleAppointmentBtn").show();
           $("#tricycleHeader").text(`Select Number of Tricycles for the ${appointmentType}`);
-          $("#noOftricycleDetails").text("Please specify the number of tricycles you want to franchise. Currently, there are " + availableCinCount + " available CINs for franchising. You can franchise up to 3 CINs.");
+          $("#noOftricycleDetails").text("Please specify the number of tricycles you want to franchise. Currently, there are " + availableCinCount + " available CINs for franchising. You can franchise up to" + maxTricycles + " CINs.");
           $("#nextBtn, #cancelBtn").hide();
 
           if (availableCinCount >= 5) {

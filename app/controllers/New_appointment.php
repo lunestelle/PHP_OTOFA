@@ -27,6 +27,11 @@ class New_appointment
     $allCinNumbersUsed = empty($cinModel->getAvailableCinNumbers());
     $data['allCinNumbersUsed'] = $allCinNumbersUsed;
 
+    // Count the number of tricycles owned by the user with is_used = 1
+    $tricycleCountQuery = "SELECT COUNT(*) as count FROM tricycle_cin_numbers WHERE user_id = :user_id AND is_used = 1";
+    $tricycleCountResult = $cinModel->query($tricycleCountQuery, ['user_id' => $_SESSION['USER']->user_id]);
+    $data['tricycleCount'] = $tricycleCountResult[0]->count;
+
     $tricycleStatusModel = new TricycleStatuses();
     $userTricycleStatuses = $tricycleStatusModel->where(["user_id" => $_SESSION['USER']->user_id]);
     $statuses = [];
