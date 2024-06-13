@@ -68,9 +68,9 @@ class Change_motor_automation
 
     $subject = "Change Motor Reminder";
 
-    $customTextMessage = "Hello {$userName},\n\nYour tricycle CIN #$cinNumber is due for a change of motor which is expiring on $expiryDate. Kindly set an appointment through Sakaycle before the deadline to facilitate the process and avoid any inconveniences. \n\nTo ensure a smooth process, please prepare for the requirements in advance.\n\nYour prompt attention to this matter is greatly appreciated. Thank you for your cooperation.\nFor more details, please check our website by clicking the link: {$rootPath}.\n";
+    $customTextMessage = "Hello {$userName},\n\nYour tricycle CIN #$cinNumber is due for a change of motor which is expiring on $expiryDate. Kindly set an appointment through Otofa before the deadline to facilitate the process and avoid any inconveniences. \n\nTo ensure a smooth process, please prepare for the requirements in advance.\n\nYour prompt attention to this matter is greatly appreciated. Thank you for your cooperation.\nFor more details, please check our website by clicking the link: {$rootPath}.\n";
 
-    $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your tricycle CIN #$cinNumber is due for a change of motor which is expiring on $expiryDate. Kindly set an appointment through Sakaycle before the deadline to facilitate the process and avoid any inconveniences. To ensure a smooth process, please prepare for the requirements in advance. Your prompt attention to this matter is greatly appreciated. Thank you for your cooperation.</div>";
+    $customEmailMessage = "<div style='text-align: justify;margin-top:10px; color:#455056; font-size:15px; line-height:24px;'>Your tricycle CIN #$cinNumber is due for a change of motor which is expiring on $expiryDate. Kindly set an appointment through Otofa before the deadline to facilitate the process and avoid any inconveniences. To ensure a smooth process, please prepare for the requirements in advance. Your prompt attention to this matter is greatly appreciated. Thank you for your cooperation.</div>";
 
     systemNotifications($phoneNumber, $userName, $email, $subject, $customTextMessage, $customEmailMessage);
   }

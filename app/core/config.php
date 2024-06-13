@@ -2,13 +2,13 @@
 
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	/** Database configuration **/
-	define('DB_NAME', 'sakaycle');
+	define('DB_NAME', 'otofa');
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');
 	define('DB_PASS', '');
 	define('DB_DRIVER', 'mysql');
 
-	define('ROOT', 'http://localhost/PHP_Sakaycle');
+	define('ROOT', 'http://localhost/PHP_Otofa');
 } else {
 	/** Database configuration **/
 	define('DB_NAME', 'otofa'); 
